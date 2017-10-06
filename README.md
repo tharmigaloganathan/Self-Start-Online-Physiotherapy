@@ -2,7 +2,7 @@ Ademidun Hart & Co.
 =================
 
 
-![](https://github.com/UWOECE-SE-Classes/Ademidun-Hart_Co/blob/master/Ademidun%20Hart%20%26%20Co.jpg)
+![](https://github.com/UWOECE-SE-Classes/Ademidun-Hart-Co/blob/master/Ademidun%20Hart%20%26%20Co.jpg)
 
 
 “Self Start” for Marcotte Physiotherapy
