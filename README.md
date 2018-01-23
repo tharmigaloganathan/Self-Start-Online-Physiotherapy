@@ -22,3 +22,5 @@ Ademidun Hart & Co.
 |Zhong Bo (Leo) Zhang	|leo.zhang724@gmail.com	|647-887-0678|
 |Zi Cong (Brian) He	|brian.zc.he@gmail.com	|416-937-4642|
 |Nicholas Vukelic	|nickvuk@live.com	|647-521-7282|
+|Tharmiga Loganathan |tloganat@uwo.ca|647-233-5579|
+
