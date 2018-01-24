@@ -51,7 +51,7 @@ module.exports = function (router){
     })
 
     //put route
-    router.put('/recommendation', function (req, res) {
+    router.put('/recommendation/:recommendationID', function (req, res) {
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
         } else if (!(req.body.decision)) {
@@ -77,4 +77,28 @@ module.exports = function (router){
             })
         }
     })
+
+    //delete route
+    router.delete('/recommendation/:recommendationID', function (req, res) {
+        if (!(req.params.recommendationID)) {
+            res.json({success: false, message: 'id was not provided'});
+        } else {
+            Recommendation.findOne({recommendationID: req.params.recommendationID}, function (err, recommendation) {
+                if (err) {
+                    res.json({success: false, message: err});
+                } else {
+                    recommendation.remove(function (err) {
+                        if (err){
+                            res.json({success: false, message: err});
+                        } else {
+                            res.json({success: true, message: 'recommendation deleted!'});
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+
+
 }
