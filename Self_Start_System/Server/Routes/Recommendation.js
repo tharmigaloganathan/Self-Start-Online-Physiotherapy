@@ -1,8 +1,8 @@
-const Recommendation = require('../models/recommendation');
+const Recommendation = require('../Models/Recommendation');
 
 module.exports = function (router){
 
-    //get route
+    //get specific recommendation
     router.get('/recommendation/:recommendationID', function (req, res) {
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
@@ -14,7 +14,7 @@ module.exports = function (router){
                     //return recommendation object
                     res.json({
                         success: true,
-                        message: 'Success!',
+                        message: ('Success! Retrieved recoomendation with id ' + recomendationID),
                         recommendation: recommendation
                     })
                 }
@@ -22,7 +22,23 @@ module.exports = function (router){
         }
     })
 
-    //post route
+    //get all recommendations
+    router.get('/recommendation', function (req, res) {
+        Recommendation.find({}, function (err, recommendations) {
+            if (err) {
+                res.json({success: false, message: err});
+            } else {
+                //return all recommendations
+                res.json({
+                    success: true,
+                    message: 'Success! Retrieved all recommendations',
+                    recommendations: recommendations
+                })
+            }
+        })
+    })
+
+    //post a recommendation
     router.post('/recommendation', function (req, res) {
         if (!req.body.recommendationID){
             res.json({success: false, message: "No recommendationID detected."});
@@ -50,7 +66,7 @@ module.exports = function (router){
         }
     })
 
-    //put route
+    //change decision and time stamp of recommendation
     router.put('/recommendation/:recommendationID', function (req, res) {
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
@@ -78,7 +94,7 @@ module.exports = function (router){
         }
     })
 
-    //delete route
+    //delete recommendation
     router.delete('/recommendation/:recommendationID', function (req, res) {
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
@@ -98,7 +114,4 @@ module.exports = function (router){
             })
         }
     })
-
-
-
 }
