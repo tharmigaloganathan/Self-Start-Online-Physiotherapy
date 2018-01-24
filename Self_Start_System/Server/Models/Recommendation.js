@@ -3,7 +3,7 @@ var recommendationSchema = mongoose.Schema(
 	{
 		timeStamp: Date,
 		decision: String,
-		treatments: [{type: mongoose.Schema.ObjectId, ref 'Treatments'}] 
+		treatment: {type: mongoose.Schema.ObjectId, ref 'Treatments'} 
 	}
 );
 
