@@ -1,4 +1,4 @@
-const Exercises = require('../Models/Treatment');
+const Exercises = require('../Models/Exercise');
 
 module.exports = function (router){
 
@@ -116,7 +116,7 @@ module.exports = function (router){
                         //update with new frequency
                         exercises.frequency = req.body.frequency;
                     }
-                    
+
                     if (req.body.duration) {
                         //update with new duration
                         exercises.duration = req.body.duration;

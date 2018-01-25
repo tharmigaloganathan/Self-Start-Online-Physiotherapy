@@ -18,5 +18,5 @@ var patientProfileSchema = mongoose.Schema(
         appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}],
     }
 );
-var PatientProfile = mongoose.model('PatientProfile', patientProfileSchema);
-exports.Model = PatientProfile;
+var PatientProfiles = mongoose.model('PatientProfile', patientProfileSchema);
+exports.Model = PatientProfiles;

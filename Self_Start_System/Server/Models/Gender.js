@@ -5,5 +5,5 @@ var genderSchema = mongoose.Schema(
         patientProfile: [{type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}],
     }
 );
-var Gender = mongoose.model('Gender', genderSchema);
-exports.Model = Gender;
+var Genders = mongoose.model('Gender', genderSchema);
+exports.Model = Genders;

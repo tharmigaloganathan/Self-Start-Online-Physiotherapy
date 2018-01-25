@@ -15,5 +15,5 @@ var exercisesSchema = mongoose.Schema(
 	}
 );
 
-var Exercises = mongoose.model('Exercises', exercisesSchema);
+var Exercises = mongoose.model('Exercise', exercisesSchema);
 exports.Model = Exercises;

@@ -6,5 +6,5 @@ var countrySchema = mongoose.Schema(
         province: [{type: mongoose.Schema.ObjectId, ref: 'Province'}]
     }
 );
-var Country = mongoose.model('Country', countrySchema);
-exports.Model = Country;
+var Countries = mongoose.model('Country', countrySchema);
+exports.Model = Countries;

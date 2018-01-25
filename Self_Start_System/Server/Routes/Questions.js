@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Questions = require('../models/Questions');
+var Questions = require('../models/Question');
 
 router.route('/')
     .post(function (request, response) {
@@ -77,7 +77,7 @@ router.route('/:question_id')
         if (!req.params.question_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Questions.Model.findById({req.params.question_id}, function (err, question) {
+            Questions.Model.findById(req.params.question_id, function (err, question) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

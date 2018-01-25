@@ -11,5 +11,5 @@ var physiotherapistSchema = mongoose.Schema(
 	}
 );
 
-var Physiotherapist = mongoose.model('Physiotherapist', physiotherapistSchema);
-exports.Model = Physiotherapist;
+var Physiotherapists = mongoose.model('Physiotherapist', physiotherapistSchema);
+exports.Model = Physiotherapists;

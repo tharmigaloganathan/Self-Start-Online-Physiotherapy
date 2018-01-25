@@ -1,4 +1,4 @@
-const Appointment = require('../Models/Appointment');
+const Appointments = require('../Models/Appointment');
 
 module.exports = function (router){
 

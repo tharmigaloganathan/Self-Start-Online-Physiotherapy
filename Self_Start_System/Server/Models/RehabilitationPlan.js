@@ -12,6 +12,5 @@ var rehabilitationPlansSchema = mongoose.Schema(
 	}
 );
 
-var RehabilitationPlans = mongoose.model('RehabilitationPlans', rehabilitationPlansSchema);
+var RehabilitationPlans = mongoose.model('RehabilitationPlan', rehabilitationPlansSchema);
 exports.Model = RehabilitationPlans;
-

@@ -9,5 +9,5 @@ var userAccountSchema = mongoose.Schema(
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}
     }
 );
-var UserAccount = mongoose.model('UserAccount', userAccountSchema);
-exports.Model = UserAccount;
+var UserAccounts = mongoose.model('UserAccount', userAccountSchema);
+exports.Model = UserAccounts;

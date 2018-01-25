@@ -9,5 +9,5 @@ var formsSchema = mongoose.Schema(
     }
 );
 
-var Forms = mongoose.model('Forms', formsSchema);
+var Forms = mongoose.model('Form', formsSchema);
 exports.Model = Forms;
