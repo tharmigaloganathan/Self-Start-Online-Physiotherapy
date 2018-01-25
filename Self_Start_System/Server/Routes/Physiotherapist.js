@@ -90,43 +90,36 @@ module.exports = function (router){
                     if (req.body.familyName) {
                         //update with new familyName
                         physiotherapist.familyName = req.body.familyName;
-                        res.json({success: true, message: 'updated familyName'});
                     }
 
                     if (req.body.givenName) {
                         //update with new givenName
                         physiotherapist.givenName = req.body.givenName;
-                        res.json({success: true, message: 'updated givenName'});
                     }
 
                     if (req.body.email) {
                         //update with new email
                         physiotherapist.email = req.body.email;
-                        res.json({success: true, message: 'updated email'});
                     }
 
                     if (req.body.dateHired) {
                         //update with new dateHired
                         physiotherapist.dateHired = req.body.dateHired;
-                        res.json({success: true, message: 'updated dateHired'});
                     }
                     
                     if (req.body.dateFinished) {
                         //update with new dateFinished
                         physiotherapist.dateFinished = req.body.dateFinished;
-                        res.json({success: true, message: 'updated dateFinished'});
                     }
 
                     if (req.body.treatments) {
                         //update with new treatments
                         physiotherapist.treatments = req.body.treatments;
-                        res.json({success: true, message: 'updated treatments'});
                     }
 
                     if (req.body.userAccount) {
                         //update with new treatments
                         physiotherapist.userAccount = req.body.userAccount;
-                        res.json({success: true, message: 'updated userAccount'});
                     }
 
                     //save changes

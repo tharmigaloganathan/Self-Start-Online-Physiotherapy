@@ -49,7 +49,11 @@ module.exports = function (router){
             //create a new treatment instance to be saved
             var treatment = new Treatments({
                 treatmentID: req.body.treatmentID,
-                dateAssign: req.body.dateAssign
+                dateAssign: req.body.dateAssign,
+                physiotherapist: req.body.physiotherapist,
+                patient: req.body.patient,
+                rehabilitationPlan: req.body.rehabilitationPlan,
+                recommendations: req.body.recommendations
             });
 
             //save it
@@ -63,19 +67,40 @@ module.exports = function (router){
         }
     })
 
-    //change dateFinished for treatment
+    //update treatment
     router.put('/treatment/:treatmentID', function (req, res) {
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
-        } else if (!(req.body.dateFinished)) {
-            res.json({success: false, message: 'no new dateFinished detected'});
         } else {
             Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    //update with new dateFinished
-                    treatment.dateFinished = req.body.dateFinished;
+                    
+                    if (req.body.dateAssign) {
+                        //update with new dateAssign
+                        treatment.dateAssign= req.body.dateAssign;
+                    }
+
+                    if (req.body.physiotherapist) {
+                        //update with new physiotherapist
+                        treatment.physiotherapist= req.body.physiotherapist;
+                    }
+
+                    if (req.body.patient) {
+                        //update with new patient
+                        treatment.patient= req.body.patient;
+                    }
+                    
+                    if (req.body.rehabilitationPlan) {
+                        //update with new rehabilitationPlan
+                        treatment.rehabilitationPlan = req.body.rehabilitationPlan;
+                    }
+
+                    if (req.body.recommendations) {
+                        //update with new recommendations
+                        treatment.recommendations= req.body.recommendations;
+                    }
 
                     //save changes
                     treatment.save(function (err){

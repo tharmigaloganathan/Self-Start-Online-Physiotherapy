@@ -82,19 +82,16 @@ module.exports = function (router){
                     if (req.body.timeStamp) {
                         //update with new timeStamp
                         recommendation.timeStamp = req.body.timeStamp;
-                        res.json({success: true, message: 'updated timeStamp'});
                     }
 
                     if (req.body.decision) {
                         //update with new decision
                         recommendation.decision = req.body.decision;
-                        res.json({success: true, message: 'updated decision'});
                     }
 
                     if (req.body.treatment) {
                         //update with new treatment
                         recommendation.treatment = req.body.treatment;
-                        res.json({success: true, message: 'updated treatment'});
                     }
 
                     //save changes
