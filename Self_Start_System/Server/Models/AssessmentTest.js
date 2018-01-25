@@ -4,9 +4,9 @@ var assessmentTestsSchema = mongoose.Schema(
         name: String,
         description: String,
         authorName: String,
-        recommendation: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}],
+        recommendations: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}],
         form: {type: mongoose.Schema.ObjectId, ref: 'Forms'},
-        testResult: [{type: mongoose.Schema.ObjectId, ref: ('TestResult')}],
+        testResults: [{type: mongoose.Schema.ObjectId, ref: ('TestResult')}],
         rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: 'RehabilitationPlans'}
     }
 );

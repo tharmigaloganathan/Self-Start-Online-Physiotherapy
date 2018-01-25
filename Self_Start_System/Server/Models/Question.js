@@ -5,7 +5,7 @@ var questionsSchema = mongoose.Schema(
         helpDescription: String,
         order: Number,
         questionType: {type: mongoose.Schema.ObjectId, ref: ('QuestionType')},
-        form: {type: mongoose.Schema.ObjectId, ref: 'Forms'}
+        form: {type: mongoose.Schema.ObjectId, ref: 'Form'}
     }
 );
 

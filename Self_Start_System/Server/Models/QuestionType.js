@@ -2,7 +2,7 @@ var mongoose = require ('mongoose');
 var questionTypeSchema = mongoose.Schema(
     {
         name: String,
-        questions: [{type: mongoose.Schema.ObjectId, ref: 'Questions'}]
+        questions: [{type: mongoose.Schema.ObjectId, ref: 'Question'}]
     }
 );
 
