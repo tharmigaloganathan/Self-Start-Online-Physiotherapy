@@ -14,7 +14,7 @@ module.exports = function (router){
                     //return recommendation object
                     res.json({
                         success: true,
-                        message: ('Success! Retrieved recommendation with id ' + recommendationID),
+                        message: ('Success! Retrieved recommendation with id ' + req.params.recommendationID),
                         recommendation: recommendation
                     })
                 }

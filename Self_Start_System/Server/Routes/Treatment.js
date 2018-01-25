@@ -1,0 +1,113 @@
+const Treatment = require('../Models/Treatment');
+
+module.exports = function (router){
+
+    //get specific treatment
+    router.get('/treatment/:treatmentID', function (req, res) {
+        if (!(req.params.treatmentID)) {
+            res.json({success: false, message: 'id was not provided'});
+        } else {
+            Treatment.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+                if (err) {
+                    res.json({success: false, message: err});
+                } else {
+                    //return treatment object
+                    res.json({
+                        success: true,
+                        message: ('Success! Retrieved treatment with id ' + treatmentID),
+                        treatment: treatment
+                    })
+                }
+            })
+        }
+    })
+
+    //get all treatments
+    router.get('/treatment', function (req, res) {
+        Treatment.find({}, function (err, treatments) {
+            if (err) {
+                res.json({success: false, message: err});
+            } else {
+                //return all treatments
+                res.json({
+                    success: true,
+                    message: 'Success! Retrieved all treatments',
+                    treatments: treatments
+                })
+            }
+        })
+    })
+
+    //post a treatment
+    router.post('/treatment', function (req, res) {
+        if (!req.body.treatmentID){
+            res.json({success: false, message: "No treatmentID detected."});
+        } else if (!req.body.dateAssign){
+            res.json({success: false, message: "No dateAssign detected."});
+        }  else {
+
+            //create a new treatment instance to be saved
+            var treatment = new Treatment({
+                treatmentID: req.body.treatmentID,
+                dateAssign: req.body.dateAssign,
+            });
+
+            //save it
+            treatment.save(function (err) {
+                if (err) {
+                    res.json({success: false, message: err});
+                } else {
+                    res.json({success: true, message: "treatment saved!"});
+                }
+            })
+        }
+    })
+
+    //change dateFinished for treatment
+    router.put('/treatment/:treatmentID', function (req, res) {
+        if (!(req.params.treatmentID)) {
+            res.json({success: false, message: 'id was not provided'});
+        } else if (!(req.body.dateFinished)) {
+            res.json({success: false, message: 'no new dateFinished detected'});
+        } else {
+            Treatment.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+                if (err) {
+                    res.json({success: false, message: err});
+                } else {
+                    //update with new dateFinished
+                    treatment.dateFinished = req.body.dateFinished;
+
+                    //save changes
+                    treatment.save(function (err){
+                        if (err){
+                            res.json({ success: false, message: err });
+                        } else {
+                            res.json({success: true, message: 'changes to treatment saved!'});
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+    //delete treatment
+    router.delete('/treatment/:treatmentID', function (req, res) {
+        if (!(req.params.treatmentID)) {
+            res.json({success: false, message: 'id was not provided'});
+        } else {
+            Treatment.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+                if (err) {
+                    res.json({success: false, message: err});
+                } else {
+                    treatment.remove(function (err) {
+                        if (err){
+                            res.json({success: false, message: err});
+                        } else {
+                            res.json({success: true, message: 'treatment deleted!'});
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
