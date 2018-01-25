@@ -14,21 +14,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Recommendation.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Recommendation.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server/Routes/Recommendation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+            <state relative-caret-position="346">
+              <caret line="133" column="18" lean-forward="false" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Physiotherapist.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Physiotherapist.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/Routes/Physiotherapist.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="74">
-              <caret line="127" column="47" lean-forward="true" selection-start-line="127" selection-start-column="47" selection-end-line="127" selection-end-column="47" />
+            <state relative-caret-position="229">
+              <caret line="161" column="14" lean-forward="true" selection-start-line="161" selection-start-column="14" selection-end-line="161" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -37,8 +37,8 @@
       <file leaf-file-name="Treatments.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/Routes/Treatments.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-480">
-              <caret line="55" column="34" lean-forward="true" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
+            <state relative-caret-position="357">
+              <caret line="112" column="0" lean-forward="true" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -60,23 +60,26 @@
       <find>decision</find>
       <find>physiotherapist</find>
       <find>Treatments</find>
+      <find>givenName</find>
+      <find>timeStamp</find>
     </findStrings>
     <replaceStrings>
       <replace>Physiotherapist</replace>
       <replace>physiotherapist</replace>
       <replace>dateFinished</replace>
-      <replace>treatment</replace>
       <replace>Treatment</replace>
       <replace>dateHired</replace>
+      <replace>treatments</replace>
+      <replace>treatment</replace>
     </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Server/Routes/Recommendation.js" />
         <option value="$PROJECT_DIR$/Server/Routes/Treatment.js" />
-        <option value="$PROJECT_DIR$/Server/Routes/Treatments.js" />
+        <option value="$PROJECT_DIR$/Server/Routes/Recommendation.js" />
         <option value="$PROJECT_DIR$/Server/Routes/Physiotherapist.js" />
+        <option value="$PROJECT_DIR$/Server/Routes/Treatments.js" />
       </list>
     </option>
   </component>
@@ -87,7 +90,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="262" />
+    <option name="x" value="18" />
     <option name="y" value="23" />
     <option name="width" value="1366" />
     <option name="height" value="820" />
@@ -170,15 +173,15 @@
       <updated>1516829731073</updated>
       <workItem from="1516829732347" duration="3375000" />
       <workItem from="1516835297672" duration="1347000" />
-      <workItem from="1516846018418" duration="1687000" />
+      <workItem from="1516846018418" duration="3169000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6409000" />
+    <option name="totallyTimeSpent" value="7891000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="262" y="23" width="1366" height="820" extended-state="0" />
+    <frame x="18" y="23" width="1366" height="820" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.014350453" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -244,14 +247,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/Routes/Recommendation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Server/Routes/Treatment.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -260,18 +255,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/Routes/Treatments.js">
+    <entry file="file://$PROJECT_DIR$/Server/Routes/Physiotherapist.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <caret line="55" column="34" lean-forward="true" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
+        <state relative-caret-position="229">
+          <caret line="161" column="14" lean-forward="true" selection-start-line="161" selection-start-column="14" selection-end-line="161" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/Routes/Physiotherapist.js">
+    <entry file="file://$PROJECT_DIR$/Server/Routes/Treatments.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="127" column="47" lean-forward="true" selection-start-line="127" selection-start-column="47" selection-end-line="127" selection-end-column="47" />
+        <state relative-caret-position="357">
+          <caret line="112" column="0" lean-forward="true" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/Routes/Recommendation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="133" column="18" lean-forward="false" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="18" />
           <folding />
         </state>
       </provider>

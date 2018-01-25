@@ -61,7 +61,8 @@ module.exports = function (router){
                 email: req.body.email,
                 dateHired: req.body.dateHired,
                 dateFinished: null, //not known yet at time of registration
-                treatments: req.body.treatments
+                treatments: req.body.treatments,
+                userAccount: req.body.userAccount
 
             });
 
@@ -122,6 +123,12 @@ module.exports = function (router){
                         res.json({success: true, message: 'updated treatments'});
                     }
 
+                    if (req.body.userAccount) {
+                        //update with new treatments
+                        physiotherapist.userAccount = req.body.userAccount;
+                        res.json({success: true, message: 'updated userAccount'});
+                    }
+
                     //save changes
                     physiotherapist.save(function (err){
                         if (err){
@@ -155,4 +162,6 @@ module.exports = function (router){
             })
         }
     })
+
+    return router;
 }
