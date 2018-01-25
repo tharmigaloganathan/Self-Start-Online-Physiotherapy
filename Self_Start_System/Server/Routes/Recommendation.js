@@ -14,7 +14,7 @@ module.exports = function (router){
                     //return recommendation object
                     res.json({
                         success: true,
-                        message: ('Success! Retrieved recoomendation with id ' + recomendationID),
+                        message: ('Success! Retrieved recommendation with id ' + req.params.recommendationID),
                         recommendation: recommendation
                     })
                 }
@@ -46,13 +46,16 @@ module.exports = function (router){
             res.json({success: false, message: "No time stamp detected."});
         } else if (!req.body.decision) {
             res.json({success: false, message: "No decision detected."});
-        } else {
+        } else if (!req.body.treatment) {
+            res.json({success: false, message: "No treatment detected."});
+        }else {
 
             //create a new recommendation instance to be saved
             var recommendation = new Recommendation({
                 recommendationID: req.body.recommendationID,
                 timeStamp: req.body.timeStamp,
-                decision: req.body.decision
+                decision: req.body.decision,
+                treatment: req.body.treatment
             });
 
             //save it
@@ -70,16 +73,26 @@ module.exports = function (router){
     router.put('/recommendation/:recommendationID', function (req, res) {
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
-        } else if (!(req.body.decision)) {
-            res.json({success: false, message: 'no new decision detected'});
-        } else {
+        }  else {
                 Recommendation.findOne({recommendationID: req.params.recommendationID}, function (err, recommendation) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    //update to new decision and time stamp
-                    recommendation.timeStamp = req.body.timeStamp;
-                    recommendation.decision = req.body.decision;
+                    
+                    if (req.body.timeStamp) {
+                        //update with new timeStamp
+                        recommendation.timeStamp = req.body.timeStamp;
+                    }
+
+                    if (req.body.decision) {
+                        //update with new decision
+                        recommendation.decision = req.body.decision;
+                    }
+
+                    if (req.body.treatment) {
+                        //update with new treatment
+                        recommendation.treatment = req.body.treatment;
+                    }
 
                     //save changes
                     recommendation.save(function (err){
@@ -114,4 +127,6 @@ module.exports = function (router){
             })
         }
     })
+
+    return router;
 }
