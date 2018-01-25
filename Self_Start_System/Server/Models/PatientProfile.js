@@ -12,14 +12,13 @@ var patientProfileSchema = mongoose.Schema(
         healthCardNumber: String,
         occupation: String,
         others: String,
-
         account: {type: mongoose.Schema.ObjectId, ref: 'UserAccount'},
         payments: [{type: mongoose.Schema.ObjectId, ref: 'Payment'}],
         country: {type: mongoose.Schema.ObjectId, ref: 'Country'},
         province: {type: mongoose.Schema.ObjectId, ref: 'Province'},
         city: {type: mongoose.Schema.ObjectId, ref: 'City'},
         gender: {type: mongoose.Schema.ObjectId, ref: 'Gender'},
-        appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}],
+        appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}]
     }
 );
 var PatientProfiles = mongoose.model('PatientProfile', patientProfileSchema);

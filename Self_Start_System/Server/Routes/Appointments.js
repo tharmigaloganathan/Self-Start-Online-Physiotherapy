@@ -1,9 +1,9 @@
-const Appointments = require('../Models/Appointment');
+const Appointment = require('../Models/');
 
 module.exports = function (router){
 
     //get specific Appointment
-    router.get('/appointment/:appointmentID', function (req, res) {
+    router.get('/:appointmentID', function (req, res) {
         if (!(req.params.appointmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -23,7 +23,7 @@ module.exports = function (router){
     });
 
     //get all appointments
-    router.get('/appointment', function (req, res) {
+    router.get('/', function (req, res) {
         Appointment.find({}, function (err, appointments) {
             if (err) {
                 res.json({success: false, message: err});
@@ -39,7 +39,7 @@ module.exports = function (router){
     });
 
     //post a appointment
-    router.post('/appointment', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.appointmentID){
             res.json({success: false, message: "No appointmentID detected."});
         } else if (!req.body.date){
@@ -70,7 +70,7 @@ module.exports = function (router){
     });
 
     //change decision and time stamp of appointment
-    router.put('/appointment/:appointmentID', function (req, res) {
+    router.put('/:appointmentID', function (req, res) {
         if (!req.body.appointmentID){
             res.json({success: false, message: "No appointmentID detected."});
         } else if (!req.body.date){
@@ -103,7 +103,7 @@ module.exports = function (router){
     });
 
     //delete appointment
-    router.delete('/appointment/:appointmentID', function (req, res) {
+    router.delete('/:appointmentID', function (req, res) {
         if (!(req.params.appointmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -122,4 +122,6 @@ module.exports = function (router){
             })
         }
     })
+
+    return router;
 };
