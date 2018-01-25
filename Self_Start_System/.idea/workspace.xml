@@ -14,10 +14,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Recommendation.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Recommendation.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/Routes/Recommendation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
+            <state relative-caret-position="1260">
               <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
               <folding />
             </state>
@@ -27,8 +27,18 @@
       <file leaf-file-name="Physiotherapist.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/Routes/Physiotherapist.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-304">
-              <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+            <state relative-caret-position="315">
+              <caret line="21" column="9" lean-forward="true" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Excercises.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Server/Routes/Excercises.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1208">
+              <caret line="144" column="36" lean-forward="true" selection-start-line="144" selection-start-column="36" selection-end-line="144" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -37,8 +47,8 @@
       <file leaf-file-name="Treatments.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Server/Routes/Treatments.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-53">
-              <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+            <state relative-caret-position="90">
+              <caret line="6" column="20" lean-forward="true" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -59,10 +69,11 @@
       <find>Physiotherapist</find>
       <find>decision</find>
       <find>physiotherapist</find>
-      <find>Treatments</find>
       <find>givenName</find>
       <find>timeStamp</find>
       <find>patient</find>
+      <find>Treatments</find>
+      <find>description</find>
     </findStrings>
     <replaceStrings>
       <replace>Physiotherapist</replace>
@@ -73,15 +84,23 @@
       <replace>treatments</replace>
       <replace>treatment</replace>
       <replace>recommendations</replace>
+      <replace>Exercises</replace>
+      <replace>objectives</replace>
+      <replace>duration</replace>
+      <replace>multimediaURL</replace>
+      <replace>location</replace>
+      <replace>frequency</replace>
+      <replace>targetDate</replace>
     </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Server/Routes/Treatment.js" />
-        <option value="$PROJECT_DIR$/Server/Routes/Treatments.js" />
-        <option value="$PROJECT_DIR$/Server/Routes/Physiotherapist.js" />
         <option value="$PROJECT_DIR$/Server/Routes/Recommendation.js" />
+        <option value="$PROJECT_DIR$/Server/Routes/Physiotherapist.js" />
+        <option value="$PROJECT_DIR$/Server/Routes/Treatments.js" />
+        <option value="$PROJECT_DIR$/Server/Routes/Excercises.js" />
       </list>
     </option>
   </component>
@@ -175,18 +194,18 @@
       <updated>1516829731073</updated>
       <workItem from="1516829732347" duration="3375000" />
       <workItem from="1516835297672" duration="1347000" />
-      <workItem from="1516846018418" duration="3636000" />
+      <workItem from="1516846018418" duration="4392000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8358000" />
+    <option name="totallyTimeSpent" value="9114000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="18" y="23" width="1366" height="820" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.014350453" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15785499" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -257,26 +276,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Server/Routes/Recommendation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Server/Routes/Treatments.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-53">
-          <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+        <state relative-caret-position="90">
+          <caret line="6" column="20" lean-forward="true" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/Routes/Physiotherapist.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-304">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+        <state relative-caret-position="315">
+          <caret line="21" column="9" lean-forward="true" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/Routes/Recommendation.js">
+    <entry file="file://$PROJECT_DIR$/Server/Routes/Excercises.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+        <state relative-caret-position="1208">
+          <caret line="144" column="36" lean-forward="true" selection-start-line="144" selection-start-column="36" selection-end-line="144" selection-end-column="36" />
           <folding />
         </state>
       </provider>

@@ -14,7 +14,7 @@ module.exports = function (router){
                     //return physiotherapist object
                     res.json({
                         success: true,
-                        message: ('Success! Retrieved physiotherapist with id ' + physiotherapistID),
+                        message: ('Success! Retrieved physiotherapist with id ' + req.params.physiotherapistID),
                         physiotherapist: physiotherapist
                     })
                 }

@@ -14,7 +14,7 @@ module.exports = function (router){
                     //return treatment object
                     res.json({
                         success: true,
-                        message: ('Success! Retrieved treatment with id ' + treatmentID),
+                        message: ('Success! Retrieved treatment with id ' + req.params.treatmentID),
                         treatment: treatment
                     })
                 }
