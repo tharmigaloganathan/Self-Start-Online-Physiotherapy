@@ -1,9 +1,9 @@
-const Treatments = require('../Models/Treatment');
+const Treatments = require('../Models/Treatments');
 
 module.exports = function (router){
 
     //get specific treatment
-    router.get('/treatment/:treatmentID', function (req, res) {
+    router.get('/treatments/:treatmentID', function (req, res) {
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -23,7 +23,7 @@ module.exports = function (router){
     })
 
     //get all treatments
-    router.get('/treatment', function (req, res) {
+    router.get('/treatments', function (req, res) {
         Treatments.find({}, function (err, treatments) {
             if (err) {
                 res.json({success: false, message: err});
@@ -39,7 +39,7 @@ module.exports = function (router){
     })
 
     //post a treatment
-    router.post('/treatment', function (req, res) {
+    router.post('/treatments', function (req, res) {
         if (!req.body.treatmentID){
             res.json({success: false, message: "No treatmentID detected."});
         } else if (!req.body.dateAssign){
@@ -68,7 +68,7 @@ module.exports = function (router){
     })
 
     //update treatment
-    router.put('/treatment/:treatmentID', function (req, res) {
+    router.put('/treatments/:treatmentID', function (req, res) {
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -116,7 +116,7 @@ module.exports = function (router){
     })
 
     //delete treatment
-    router.delete('/treatment/:treatmentID', function (req, res) {
+    router.delete('/treatments/:treatmentID', function (req, res) {
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {

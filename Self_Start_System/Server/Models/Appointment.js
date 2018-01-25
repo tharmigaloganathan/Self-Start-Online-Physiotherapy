@@ -3,7 +3,7 @@ var appointmentSchema = mongoose.Schema(
     {
         date: Date,
         reason: String,
-        note: String,
+        other: String,
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}
     }
 );
