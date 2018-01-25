@@ -6,5 +6,5 @@ var questionTypeSchema = mongoose.Schema(
     }
 );
 
-var QuestionType = mongoose.model('QuestionType', questionTypeSchema);
-exports.Model = QuestionType;
+var QuestionTypes = mongoose.model('QuestionType', questionTypeSchema);
+exports.Model = QuestionTypes;

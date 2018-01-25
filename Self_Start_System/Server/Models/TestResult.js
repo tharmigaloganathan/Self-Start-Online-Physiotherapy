@@ -7,5 +7,5 @@ var testResultSchema = mongoose.Schema(
     }
 );
 
-var TestResult = mongoose.model('TestResult', testResultSchema);
-exports.Model = TestResult;
+var TestResults = mongoose.model('TestResult', testResultSchema);
+exports.Model = TestResults;
