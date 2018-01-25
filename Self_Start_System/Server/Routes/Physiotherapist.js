@@ -42,15 +42,27 @@ module.exports = function (router){
     router.post('/physiotherapist', function (req, res) {
         if (!req.body.physiotherapistID){
             res.json({success: false, message: "No physiotherapistID detected."});
+        } else if (!req.body.familyName){
+            res.json({success: false, message: "No familyName detected."});
+        } else if (!req.body.givenName){
+            res.json({success: false, message: "No givenName detected."});
+        } else if (!req.body.email){
+            res.json({success: false, message: "No email detected."});
         } else if (!req.body.dateHired){
             res.json({success: false, message: "No dateHired detected."});
-        }  else {
-
+        } else if (!req.body.treatments){
+            res.json({success: false, message: "No treatments detected."});
+        } else {
             //create a new physiotherapist instance to be saved
             var physiotherapist = new Physiotherapist({
                 physiotherapistID: req.body.physiotherapistID,
+                familyName: req.body.familyName,
+                givenName: req.body.givenName,
+                email: req.body.email,
                 dateHired: req.body.dateHired,
-                dateFinished: null //not known yet at time of registration
+                dateFinished: null, //not known yet at time of registration
+                treatments: req.body.treatments
+
             });
 
             //save it
@@ -64,19 +76,51 @@ module.exports = function (router){
         }
     })
 
-    //change dateFinished for physiotherapist
+    //change info for physiotherapist
     router.put('/physiotherapist/:physiotherapistID', function (req, res) {
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
-        } else if (!(req.body.dateFinished)) {
-            res.json({success: false, message: 'no new dateFinished detected'});
         } else {
             Physiotherapist.findOne({physiotherapistID: req.params.physiotherapistID}, function (err, physiotherapist) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    //update with new dateFinished
-                    physiotherapist.dateFinished = req.body.dateFinished;
+                    
+                    if (req.body.familyName) {
+                        //update with new familyName
+                        physiotherapist.familyName = req.body.familyName;
+                        res.json({success: true, message: 'updated familyName'});
+                    }
+
+                    if (req.body.givenName) {
+                        //update with new givenName
+                        physiotherapist.givenName = req.body.givenName;
+                        res.json({success: true, message: 'updated givenName'});
+                    }
+
+                    if (req.body.email) {
+                        //update with new email
+                        physiotherapist.email = req.body.email;
+                        res.json({success: true, message: 'updated email'});
+                    }
+
+                    if (req.body.dateHired) {
+                        //update with new dateHired
+                        physiotherapist.dateHired = req.body.dateHired;
+                        res.json({success: true, message: 'updated dateHired'});
+                    }
+                    
+                    if (req.body.dateFinished) {
+                        //update with new dateFinished
+                        physiotherapist.dateFinished = req.body.dateFinished;
+                        res.json({success: true, message: 'updated dateFinished'});
+                    }
+
+                    if (req.body.treatments) {
+                        //update with new treatments
+                        physiotherapist.treatments = req.body.treatments;
+                        res.json({success: true, message: 'updated treatments'});
+                    }
 
                     //save changes
                     physiotherapist.save(function (err){

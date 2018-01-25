@@ -1,4 +1,4 @@
-const Treatment = require('../Models/Treatment');
+const Treatments = require('../Models/Treatment');
 
 module.exports = function (router){
 
@@ -7,7 +7,7 @@ module.exports = function (router){
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Treatment.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -24,7 +24,7 @@ module.exports = function (router){
 
     //get all treatments
     router.get('/treatment', function (req, res) {
-        Treatment.find({}, function (err, treatments) {
+        Treatments.find({}, function (err, treatments) {
             if (err) {
                 res.json({success: false, message: err});
             } else {
@@ -47,9 +47,9 @@ module.exports = function (router){
         }  else {
 
             //create a new treatment instance to be saved
-            var treatment = new Treatment({
+            var treatment = new Treatments({
                 treatmentID: req.body.treatmentID,
-                dateAssign: req.body.dateAssign,
+                dateAssign: req.body.dateAssign
             });
 
             //save it
@@ -70,7 +70,7 @@ module.exports = function (router){
         } else if (!(req.body.dateFinished)) {
             res.json({success: false, message: 'no new dateFinished detected'});
         } else {
-            Treatment.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -95,7 +95,7 @@ module.exports = function (router){
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Treatment.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
