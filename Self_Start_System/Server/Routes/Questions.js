@@ -91,6 +91,6 @@ router.route('/:question_id')
                 }
             })
         }
-    })
+    });
 
 module.exports = router;

@@ -3,7 +3,7 @@ const Payment = require('../Models/Payment');
 module.exports = function (router){
 
     //get specific Payment
-    router.get('/payment/:paymentID', function (req, res) {
+    router.get('/:paymentID', function (req, res) {
         if (!(req.params.paymentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -23,7 +23,7 @@ module.exports = function (router){
     });
 
     //get all payments
-    router.get('/payment', function (req, res) {
+    router.get('/', function (req, res) {
         Payment.find({}, function (err, payments) {
             if (err) {
                 res.json({success: false, message: err});
@@ -39,7 +39,7 @@ module.exports = function (router){
     });
 
     //post a payment
-    router.post('/payment', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.paymentID){
             res.json({success: false, message: "No paymentID detected."});
         } else if (!req.body.amount) {
@@ -67,7 +67,7 @@ module.exports = function (router){
     });
 
     //change decision and time stamp of payment
-    router.put('/payment/:paymentID', function (req, res) {
+    router.put('/:paymentID', function (req, res) {
         if (!req.body.paymentID){
             res.json({success: false, message: "No paymentID detected."});
         } else if (!req.body.amount) {
@@ -97,7 +97,7 @@ module.exports = function (router){
     });
 
     //delete payment
-    router.delete('/payment/:paymentID', function (req, res) {
+    router.delete('/:paymentID', function (req, res) {
         if (!(req.params.paymentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -115,7 +115,7 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     return router;
 };

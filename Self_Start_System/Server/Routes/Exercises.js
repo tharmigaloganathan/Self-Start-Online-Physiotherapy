@@ -3,7 +3,7 @@ const Exercises = require('../Models/Exercise');
 module.exports = function (router){
 
     //get specific exercises
-    router.get('/exercises/:exercisesID', function (req, res) {
+    router.get('/:exercisesID', function (req, res) {
         if (!(req.params.exercisesID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -20,10 +20,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //get all exercisess
-    router.get('/exercises', function (req, res) {
+    router.get('/', function (req, res) {
         Exercises.find({}, function (err, exercisess) {
             if (err) {
                 res.json({success: false, message: err});
@@ -36,10 +36,10 @@ module.exports = function (router){
                 })
             }
         })
-    })
+    });
 
     //post a exercises
-    router.post('/exercises', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.exercisesID){
             res.json({success: false, message: "No exercisesID detected."});
         } else if (!req.body.dateAssign){
@@ -70,10 +70,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //update exercises
-    router.put('/exercises/:exercisesID', function (req, res) {
+    router.put('/:exercisesID', function (req, res) {
         if (!(req.params.exercisesID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -148,10 +148,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //delete exercises
-    router.delete('/exercises/:exercisesID', function (req, res) {
+    router.delete('/:exercisesID', function (req, res) {
         if (!(req.params.exercisesID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -169,7 +169,7 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     return router;
-}
+};

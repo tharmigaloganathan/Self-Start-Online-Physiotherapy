@@ -101,6 +101,6 @@ router.route('/:administrator_id')
                 }
             })
         }
-    })
+    });
 
 module.exports = router;
