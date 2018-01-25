@@ -1,7 +1,7 @@
 const City = require('../Models/City');
 
 module.exports = function (router) {
-    router.post('/city', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.cityName){
             res.json({success: false, message: "No city name detected."});
         } else {

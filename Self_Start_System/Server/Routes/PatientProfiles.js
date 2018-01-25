@@ -3,7 +3,7 @@ const PatientProfile = require('../Models/PatientProfile');
 module.exports = function (router){
 
     //get specific PatientProfile
-    router.get('/patientProfile/:patientProfileID', function (req, res) {
+    router.get('/:patientProfileID', function (req, res) {
         if (!(req.params.patientProfileID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -23,7 +23,7 @@ module.exports = function (router){
     });
 
     //get all patientProfiles
-    router.get('/patientProfile', function (req, res) {
+    router.get('/', function (req, res) {
         PatientProfile.find({}, function (err, patientProfiles) {
             if (err) {
                 res.json({success: false, message: err});
@@ -39,7 +39,7 @@ module.exports = function (router){
     });
 
     // post a patientProfile
-    router.post('/patientProfile', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.patientProfileID){
             res.json({success: false, message: "No patientProfileID detected."});
         } else if (!req.body.DOB){
@@ -82,7 +82,7 @@ module.exports = function (router){
     });
 
     //change decision and time stamp of patientProfile
-    router.put('/patientProfile/:patientProfileID', function (req, res) {
+    router.put('/:patientProfileID', function (req, res) {
         if (!req.body.patientProfileID){
             res.json({success: false, message: "No patientProfileID detected."});
         } else if (!req.body.DOB){
@@ -127,7 +127,7 @@ module.exports = function (router){
     });
 
     //delete patientProfile
-    router.delete('/patientProfile/:patientProfileID', function (req, res) {
+    router.delete('/:patientProfileID', function (req, res) {
         if (!(req.params.patientProfileID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -145,7 +145,7 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     return router;
 };

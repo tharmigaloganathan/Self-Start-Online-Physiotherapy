@@ -81,6 +81,6 @@ router.route('/:testResult_id')
                 }
             })
         }
-    })
+    });
 
 module.exports = router;

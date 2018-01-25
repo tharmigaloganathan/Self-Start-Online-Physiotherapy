@@ -3,7 +3,7 @@ const Gender = require('../Models/Gender');
 module.exports = function (router) {
 
     //get all genders
-    router.get('/gender', function (req, res) {
+    router.get('/', function (req, res) {
         Gender.find({}, function (err, genders) {
             if (err) {
                 res.json({success: false, message: err});

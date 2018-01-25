@@ -101,6 +101,6 @@ router.route('/:assessmentTest_id')
                 }
             })
         }
-    })
+    });
 
 module.exports = router;

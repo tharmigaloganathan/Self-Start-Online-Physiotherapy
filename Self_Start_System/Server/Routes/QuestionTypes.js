@@ -76,6 +76,6 @@ router.route('/:questionType_id')
                 }
             })
         }
-    })
+    });
 
 module.exports = router;
