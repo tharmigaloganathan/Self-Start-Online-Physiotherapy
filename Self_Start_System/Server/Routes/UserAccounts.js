@@ -3,7 +3,7 @@ const UserAccount = require('../Models/UserAccount');
 module.exports = function (router){
 
     //get specific UserAccount
-    router.get('/userAccount/:userAccountID', function (req, res) {
+    router.get('/:userAccountID', function (req, res) {
         if (!(req.params.userAccountID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -23,7 +23,7 @@ module.exports = function (router){
     });
 
     //get all userAccounts
-    router.get('/userAccount', function (req, res) {
+    router.get('/', function (req, res) {
         UserAccount.find({}, function (err, userAccounts) {
             if (err) {
                 res.json({success: false, message: err});
@@ -39,7 +39,7 @@ module.exports = function (router){
     });
 
     //post a userAccount
-    router.post('/userAccount', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.userAccountID){
             res.json({success: false, message: "No userAccountID detected."});
         } else if (!req.body.userAccountName) {
@@ -66,7 +66,7 @@ module.exports = function (router){
     });
 
     //change decision and time stamp of userAccount
-    router.put('/userAccount/:userAccountID', function (req, res) {
+    router.put('/:userAccountID', function (req, res) {
         if (!req.body.userAccountID){
             res.json({success: false, message: "No userAccountID detected."});
         } else if (!req.body.userAccountName) {
@@ -96,7 +96,7 @@ module.exports = function (router){
     });
 
     //delete userAccount
-    router.delete('/userAccount/:userAccountID', function (req, res) {
+    router.delete('/:userAccountID', function (req, res) {
         if (!(req.params.userAccountID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -114,7 +114,7 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     return router;
 };

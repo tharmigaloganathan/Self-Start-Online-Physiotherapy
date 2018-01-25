@@ -91,6 +91,6 @@ router.route('/:form_id')
                 }
             })
         }
-    })
+    });
 
 module.exports = router;

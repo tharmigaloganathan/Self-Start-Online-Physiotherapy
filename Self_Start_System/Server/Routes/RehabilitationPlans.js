@@ -3,7 +3,7 @@ const RehabilitationPlans = require('../Models/RehabilitationPlan');
 module.exports = function (router){
 
     //get specific rehabilitationPlans
-    router.get('/rehabilitationPlans/:rehabilitationPlansID', function (req, res) {
+    router.get('/:rehabilitationPlansID', function (req, res) {
         if (!(req.params.rehabilitationPlansID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -20,10 +20,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //get all rehabilitationPlanss
-    router.get('/rehabilitationPlans', function (req, res) {
+    router.get('/', function (req, res) {
         RehabilitationPlans.find({}, function (err, rehabilitationPlanss) {
             if (err) {
                 res.json({success: false, message: err});
@@ -36,10 +36,10 @@ module.exports = function (router){
                 })
             }
         })
-    })
+    });
 
     //post a rehabilitationPlans
-    router.post('/rehabilitationPlans', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.rehabilitationPlansID){
             res.json({success: false, message: "No rehabilitationPlansID detected."});
         } else if (!req.body.dateAssign){
@@ -68,10 +68,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //update rehabilitationPlans
-    router.put('/rehabilitationPlans/:rehabilitationPlansID', function (req, res) {
+    router.put('/:rehabilitationPlansID', function (req, res) {
         if (!(req.params.rehabilitationPlansID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -133,10 +133,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //delete rehabilitationPlans
-    router.delete('/rehabilitationPlans/:rehabilitationPlansID', function (req, res) {
+    router.delete('/:rehabilitationPlansID', function (req, res) {
         if (!(req.params.rehabilitationPlansID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -154,7 +154,7 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     return router;
-}
+};

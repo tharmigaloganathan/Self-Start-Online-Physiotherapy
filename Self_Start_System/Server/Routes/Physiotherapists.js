@@ -3,7 +3,7 @@ const Physiotherapist = require('../Models/Physiotherapist');
 module.exports = function (router){
 
     //get specific physiotherapist
-    router.get('/physiotherapist/:physiotherapistID', function (req, res) {
+    router.get('/:physiotherapistID', function (req, res) {
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -20,10 +20,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //get all physiotherapists
-    router.get('/physiotherapist', function (req, res) {
+    router.get('/', function (req, res) {
         Physiotherapist.find({}, function (err, physiotherapists) {
             if (err) {
                 res.json({success: false, message: err});
@@ -36,7 +36,7 @@ module.exports = function (router){
                 })
             }
         })
-    })
+    });
 
     //post a physiotherapist
     router.post('/', function (req, res) {
@@ -75,10 +75,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //change info for physiotherapist
-    router.put('/physiotherapist/:physiotherapistID', function (req, res) {
+    router.put('/:physiotherapistID', function (req, res) {
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -133,10 +133,10 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     //delete physiotherapist
-    router.delete('/physiotherapist/:physiotherapistID', function (req, res) {
+    router.delete('/:physiotherapistID', function (req, res) {
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
@@ -154,7 +154,7 @@ module.exports = function (router){
                 }
             })
         }
-    })
+    });
 
     return router;
-}
+};
