@@ -12,4 +12,4 @@ var assessmentTestsSchema = mongoose.Schema(
 );
 
 var AssessmentTests = mongoose.model('AssessmentTests', assessmentTestsSchema);
-exports.Model = AssessmentsTests;
+exports.Model = AssessmentTests;

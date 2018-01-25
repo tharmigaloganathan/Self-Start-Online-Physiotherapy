@@ -11,5 +11,5 @@ var administratorSchema = mongoose.Schema(
     }
 );
 
-var Administrator = mongoose.model('Administrator', administratorSchema);
-exports.Model = Administrator;
+var Administrators = mongoose.model('Administrator', administratorSchema);
+exports.Model = Administrators;
