@@ -39,7 +39,7 @@ module.exports = function (router){
     })
 
     //post a physiotherapist
-    router.post('/physiotherapist', function (req, res) {
+    router.post('/', function (req, res) {
         if (!req.body.physiotherapistID){
             res.json({success: false, message: "No physiotherapistID detected."});
         } else if (!req.body.familyName){
@@ -86,7 +86,7 @@ module.exports = function (router){
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    
+
                     if (req.body.familyName) {
                         //update with new familyName
                         physiotherapist.familyName = req.body.familyName;
@@ -106,7 +106,7 @@ module.exports = function (router){
                         //update with new dateHired
                         physiotherapist.dateHired = req.body.dateHired;
                     }
-                    
+
                     if (req.body.dateFinished) {
                         //update with new dateFinished
                         physiotherapist.dateFinished = req.body.dateFinished;

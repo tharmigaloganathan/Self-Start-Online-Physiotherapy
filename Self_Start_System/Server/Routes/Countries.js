@@ -3,7 +3,7 @@ const Country = require('../Models/Country');
 module.exports = function (router) {
 
     //get all countries
-    router.get('/country', function (req, res) {
+    router.get('/', function (req, res) {
         Country.find({}, function (err, countries) {
             if (err) {
                 res.json({success: false, message: err});
@@ -17,4 +17,6 @@ module.exports = function (router) {
             }
         })
     });
+
+    return router;
 };
