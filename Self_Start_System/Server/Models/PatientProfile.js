@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 var patientProfileSchema = mongoose.Schema(
     {
+
+        familyName: String,
+        givenName: String,
+        email: String,
         DOB: Date,
         postalCode: String,
         phone: String,
@@ -9,7 +13,7 @@ var patientProfileSchema = mongoose.Schema(
         occupation: String,
         others: String,
         account: {type: mongoose.Schema.ObjectId, ref: 'UserAccount'},
-        payments: [{type: mongoose.Schema.ObjectId, ref: 'Payments'}],
+        payments: [{type: mongoose.Schema.ObjectId, ref: 'Payment'}],
         country: {type: mongoose.Schema.ObjectId, ref: 'Country'},
         province: {type: mongoose.Schema.ObjectId, ref: 'Province'},
         city: {type: mongoose.Schema.ObjectId, ref: 'City'},
