@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 //our defined routes
 const Administrators = require('./Routes/Administrators');
-const Appointments = require('./Routes/Appointments')(router);
+// const Appointments = require('./Routes/Appointments')(router);
 const AssessmentTests = require('./Routes/AssessmentTests');
 const Cities = require('./Routes/Cities')(router);
 const Countries = require('./Routes/Countries')(router);
@@ -39,7 +39,7 @@ const UserAccounts = require('./Routes/UserAccounts')(router);
 
 //models
 app.use('/Administrators', Administrators);
-app.use('/Appointments', Appointments);
+// app.use('/Appointments', Appointments);
 app.use('/AssessmentTests', AssessmentTests);
 app.use('/Cities', Cities);
 app.use('/Countries', Countries);
