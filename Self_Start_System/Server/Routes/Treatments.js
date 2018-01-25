@@ -1,4 +1,4 @@
-const Treatments = require('../Models/Treatments');
+const Treatments = require('../Models/Treatment');
 
 module.exports = function (router){
 
@@ -76,7 +76,7 @@ module.exports = function (router){
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    
+
                     if (req.body.dateAssign) {
                         //update with new dateAssign
                         treatment.dateAssign= req.body.dateAssign;
@@ -91,7 +91,7 @@ module.exports = function (router){
                         //update with new patient
                         treatment.patient= req.body.patient;
                     }
-                    
+
                     if (req.body.rehabilitationPlan) {
                         //update with new rehabilitationPlan
                         treatment.rehabilitationPlan = req.body.rehabilitationPlan;
