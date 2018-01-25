@@ -3,8 +3,8 @@ var citySchema = mongoose.Schema(
     {
         name: String,
         patientProfile: [{type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}],
-        province: {type: mongoose.Schema.ObjectId, ref: 'Province'}       
+        province: {type: mongoose.Schema.ObjectId, ref: 'Province'}
     }
 );
-var City = mongoose.model('City', citySchema);
-exports.Model = City;
+var Cities = mongoose.model('City', citySchema);
+exports.Model = Cities;

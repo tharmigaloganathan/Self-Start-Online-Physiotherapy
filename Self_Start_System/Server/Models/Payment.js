@@ -7,5 +7,5 @@ var paymentsSchema = mongoose.Schema(
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}
     }
 );
-var Payments = mongoose.model('Payments', paymentsSchema);
+var Payments = mongoose.model('Payment', paymentsSchema);
 exports.Model = Payments;

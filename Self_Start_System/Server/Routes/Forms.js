@@ -77,7 +77,7 @@ router.route('/:form_id')
         if (!req.paramsform_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Forms.Model.findById({req.params.form_id}, function (err, form) {
+            Forms.Model.findById(req.params.form_id, function (err, form) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

@@ -1,4 +1,4 @@
-const Payment = require('../Models/Payments');
+const Payment = require('../Models/Payment');
 
 module.exports = function (router){
 

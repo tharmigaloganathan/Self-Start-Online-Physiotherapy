@@ -11,5 +11,5 @@ var assessmentTestsSchema = mongoose.Schema(
     }
 );
 
-var AssessmentTests = mongoose.model('AssessmentTests', assessmentTestsSchema);
+var AssessmentTests = mongoose.model('AssessmentTest', assessmentTestsSchema);
 exports.Model = AssessmentTests;

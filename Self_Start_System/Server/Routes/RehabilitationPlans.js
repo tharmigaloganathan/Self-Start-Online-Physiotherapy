@@ -1,4 +1,4 @@
-const RehabilitationPlans = require('../Models/Treatment');
+const RehabilitationPlans = require('../Models/RehabilitationPlan');
 
 module.exports = function (router){
 
@@ -89,7 +89,7 @@ module.exports = function (router){
                         //update with new description
                         rehabilitationPlans.description= req.body.description;
                     }
-                    
+
                     if (req.body.authorName) {
                         //update with new authorName
                         rehabilitationPlans.authorName = req.body.authorName;

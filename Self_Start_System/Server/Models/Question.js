@@ -9,5 +9,5 @@ var questionsSchema = mongoose.Schema(
     }
 );
 
-var Questions = mongoose.model('Questions', questionsSchema);
+var Questions = mongoose.model('Question', questionsSchema);
 exports.Model = Questions;

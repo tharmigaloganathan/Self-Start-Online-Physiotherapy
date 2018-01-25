@@ -87,7 +87,7 @@ router.route('/:administrator_id')
         if (!req.params.administrator_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Administrators.Model.findById({req.params.administrator_id}, function (err, administrator) {
+            Administrators.Model.findById(req.params.administrator_id, function (err, administrator) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

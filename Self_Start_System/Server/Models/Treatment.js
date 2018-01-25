@@ -9,5 +9,5 @@ var treatmentsSchema = mongoose.Schema(
 	}
 );
 
-var Treatments = mongoose.model('Treatments', treatmentsSchema);
+var Treatments = mongoose.model('Treatment', treatmentsSchema);
 exports.Model = Treatments;

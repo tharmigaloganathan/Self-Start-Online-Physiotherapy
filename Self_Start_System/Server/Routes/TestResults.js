@@ -67,7 +67,7 @@ router.route('/:testResult_id')
         if (!req.params.testResult_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            TestResults.Model.findById({req.params.testResult_id}, function (err, testResult) {
+            TestResults.Model.findById(req.params.testResult_id, function (err, testResult) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
