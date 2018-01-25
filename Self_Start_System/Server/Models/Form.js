@@ -3,9 +3,9 @@ var formsSchema = mongoose.Schema(
     {
         name: String,
         description: String,
-        questions: [{type: mongoose.Schema.ObjectId, ref: 'Questions'}],
+        questions: [{type: mongoose.Schema.ObjectId, ref: 'Question'}],
         administrator: {type: mongoose.Schema.ObjectId, ref: ('Administrator')},
-        assessmentTests: [{type: mongoose.Schema.ObjectId, ref: 'AssessmentTests'}]
+        assessmentTests: [{type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}]
     }
 );
 

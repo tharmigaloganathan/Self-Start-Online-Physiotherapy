@@ -6,12 +6,12 @@ var exercisesSchema = mongoose.Schema(
 		objectives: String,
 		authorName: String,
 		actionSteps: String,
-		location: String
+		location: String,
 		frequency: Number,
 		duration: Number,
 		targetDate: Date,
 		multimediaURL: String,
-		rehabilitationPlans: {type: mongoose.Schema.ObjectId, ref: ('RehabilitationPlans')}
+		rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: ('RehabilitationPlan')}
 	}
 );
 

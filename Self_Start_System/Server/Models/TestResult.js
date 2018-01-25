@@ -3,7 +3,7 @@ var testResultSchema = mongoose.Schema(
     {
         question: String,
         answer: String,
-        assessmentTest: {type: mongoose.Schema.ObjectId, ref: 'AssessmentTests'}
+        assessmentTest: {type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}
     }
 );
 

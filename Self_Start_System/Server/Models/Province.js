@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var provinceSchema = mongoose.Schema(
     {
         name: String,
-        patientProfile: [{type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}],
-        city: [{type: mongoose.Schema.ObjectId, ref: 'City'}],
+        patientProfiles: [{type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}],
+        cities: [{type: mongoose.Schema.ObjectId, ref: 'City'}],
         country: {type: mongoose.Schema.ObjectId, ref: 'Country'}
     }
 );
