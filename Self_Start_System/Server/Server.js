@@ -11,6 +11,12 @@ const Physiotherapist = require('./Routes/Physiotherapist')(router);
 const Recommendations = require('./Routes/Recommendation')(router);
 const RehabilitationPlans = require('./Routes/RehabilitationPlans')(router);
 const Treatments = require('./Routes/Treatments')(router);
+const Administrators = require('./Routes/Administrators')(router);
+const AssessmentTests = require('./Routes/AssessmentTests')(router);
+const Forms = require('./Routes/Forms')(router);
+const Questions = require('./Routes/Questions')(router);
+const QuestionTypes = require('./Routes/QuestionTypes')(router);
+const TestResults = require('./Routes/TestResults')(router);
 
 //express middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +28,12 @@ app.use('/Physiotherapists', Physiotherapist);
 app.use('/Recommendations', Recommendations);
 app.use('/RehabilitationPlans', RehabilitationPlans);
 app.use('/Treatments', Treatments);
-
+app.use('/Administrators', Administrators);
+app.use('/AssessmentTests', AssessmentTests);
+app.use('/Forms', Forms);
+app.use('/Questions', Questions);
+app.use('/QuestionType', QuestionTypes);
+app.use('/TestResults', TestResuts);
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -46,5 +57,3 @@ router.use(function(req, res, next) {
     console.log('Something is happening');
     next();
 });
-
-
