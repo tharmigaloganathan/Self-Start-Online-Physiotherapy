@@ -6,7 +6,8 @@ var physiotherapistSchema = mongoose.Schema(
 		email: String,
 		dateHired: Date,
 		dateFinished: Date,
-		treatments: [{type: mongoose.Schema.ObjectId, ref: 'Treatment'}]
+		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatments')}]
+		userAccount: {type mongoose.Schema.ObjectId, ref: ('UserAccount')}
 	}
 );
 
