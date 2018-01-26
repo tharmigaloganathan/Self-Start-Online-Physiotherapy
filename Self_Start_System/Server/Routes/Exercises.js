@@ -40,15 +40,32 @@ module.exports = function (router){
 
     //post a exercises
     router.post('/', function (req, res) {
-        if (!req.body.exercisesID){
-            res.json({success: false, message: "No exercisesID detected."});
-        } else if (!req.body.dateAssign){
-            res.json({success: false, message: "No dateAssign detected."});
-        }  else {
+        if (!req.body.name){
+            res.json({success: false, message: "No name detected."});
+        } else if (!req.body.description) {
+            res.json({success: false, message: "No description detected."});
+        } else if (!req.body.objectives) {
+            res.json({success: false, message: "No objectives detected."});
+        } else if (!req.body.authorName) {
+            res.json({success: false, message: "No authorName detected."});
+        } else if (!req.body.actionSteps) {
+            res.json({success: false, message: "No actionSteps detected."});
+        } else if (!req.body.location) {
+            res.json({success: false, message: "No location detected."});
+        } else if (!req.body.frequency) {
+            res.json({success: false, message: "No frequency detected."});
+        } else if (!req.body.duration) {
+            res.json({success: false, message: "No duration detected."});
+        } else if (!req.body.targetDate) {
+            res.json({success: false, message: "No targetDate detected."});
+        } else if (!req.body.multimediaURL) {
+            res.json({success: false, message: "No multimediaURL detected."});
+        } else if (!req.body.rehabilitationPlan) {
+            res.json({success: false, message: "No rehabilitationPlan detected."});
+        } else {
 
             //create a new exercises instance to be saved
             var exercises = new Exercises({
-                exercisesID: req.body.exercisesID,
                 name: req.body.name,
                 description: req.body.description,
                 objectives: req.body.objectives,
@@ -58,7 +75,7 @@ module.exports = function (router){
                 duration: req.body.duration,
                 targetDate: req.body.targetDate,
                 multimediaURL: req.body.multimediaURL,
-                rehabilitationPlans: req.body.rehabilitationPlans
+                rehabilitationPlan: req.body.rehabilitationPlan
             });
 
             //save it
@@ -77,7 +94,7 @@ module.exports = function (router){
         if (!(req.params.exercisesID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Exercises.findOne({exercisesID: req.params.exercisesID}, function (err, exercises) {
+            Exercises.Model.findById(req.params.exercisesID, function (err, exercises) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -132,9 +149,9 @@ module.exports = function (router){
                         exercises.multimediaURL = req.body.multimediaURL;
                     }
 
-                    if (req.body.rehabilitationPlans) {
+                    if (req.body.rehabilitationPlan) {
                         //update with new rehabilitationPlans
-                        exercises.rehabilitationPlans = req.body.rehabilitationPlans;
+                        exercises.rehabilitationPlan = req.body.rehabilitationPlan;
                     }
 
                     //save changes
