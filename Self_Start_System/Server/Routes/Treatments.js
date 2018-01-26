@@ -7,7 +7,7 @@ module.exports = function (router){
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findById(req.params.treatmentID, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -40,18 +40,23 @@ module.exports = function (router){
 
     //post a treatment
     router.post('/', function (req, res) {
-        if (!req.body.treatmentID){
-            res.json({success: false, message: "No treatmentID detected."});
-        } else if (!req.body.dateAssign){
+        if (!req.body.dateAssign){
             res.json({success: false, message: "No dateAssign detected."});
-        }  else {
+        } else if (!req.body.physiotherapist) {
+            res.json({success: false, message: "No physiotherapist detected."});
+        } else if (!req.body.patientProfile) {
+            res.json({success: false, message: "No patientProfile detected."});
+        } else if (!req.body.rehabilitationPlan) {
+            res.json({success: false, message: "No rehabilitationPlan detected."});
+        } else if (!req.body.recommendations) {
+            res.json({success: false, message: "No recommendations detected."});
+        } else {
 
             //create a new treatment instance to be saved
             var treatment = new Treatments({
-                treatmentID: req.body.treatmentID,
                 dateAssign: req.body.dateAssign,
                 physiotherapist: req.body.physiotherapist,
-                patient: req.body.patient,
+                patientProfile: req.body.patient,
                 rehabilitationPlan: req.body.rehabilitationPlan,
                 recommendations: req.body.recommendations
             });
@@ -72,7 +77,7 @@ module.exports = function (router){
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findById(req.params.treatmentID, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -120,7 +125,7 @@ module.exports = function (router){
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findById(req.params.treatmentID, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

@@ -7,7 +7,7 @@ module.exports = function (router){
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Physiotherapist.findOne({physiotherapistID: req.params.physiotherapistID}, function (err, physiotherapist) {
+            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -40,9 +40,7 @@ module.exports = function (router){
 
     //post a physiotherapist
     router.post('/', function (req, res) {
-        if (!req.body.physiotherapistID){
-            res.json({success: false, message: "No physiotherapistID detected."});
-        } else if (!req.body.familyName){
+        if (!req.body.familyName){
             res.json({success: false, message: "No familyName detected."});
         } else if (!req.body.givenName){
             res.json({success: false, message: "No givenName detected."});
@@ -52,10 +50,11 @@ module.exports = function (router){
             res.json({success: false, message: "No dateHired detected."});
         } else if (!req.body.treatments){
             res.json({success: false, message: "No treatments detected."});
+        } else if (!req.body.userAccount){
+            res.json({success: false, message: "No userAccount detected."});
         } else {
             //create a new physiotherapist instance to be saved
             var physiotherapist = new Physiotherapist({
-                physiotherapistID: req.body.physiotherapistID,
                 familyName: req.body.familyName,
                 givenName: req.body.givenName,
                 email: req.body.email,
@@ -82,7 +81,7 @@ module.exports = function (router){
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Physiotherapist.findOne({physiotherapistID: req.params.physiotherapistID}, function (err, physiotherapist) {
+            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -140,7 +139,7 @@ module.exports = function (router){
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Physiotherapist.findOne({physiotherapistID: req.params.physiotherapistID}, function (err, physiotherapist) {
+            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
