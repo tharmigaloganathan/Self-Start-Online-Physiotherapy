@@ -40,15 +40,26 @@ module.exports = function (router){
 
     //post a rehabilitationPlans
     router.post('/', function (req, res) {
-        if (!req.body.rehabilitationPlansID){
-            res.json({success: false, message: "No rehabilitationPlansID detected."});
-        } else if (!req.body.dateAssign){
-            res.json({success: false, message: "No dateAssign detected."});
-        }  else {
+        if (!req.body.name){
+            res.json({success: false, message: "No name detected."});
+        } else if (!req.body.description) {
+            res.json({success: false, message: "No description detected."});
+        } else if (!req.body.authorName) {
+            res.json({success: false, message: "No authorName detected."});
+        } else if (!req.body.goal) {
+            res.json({success: false, message: "No goal detected."});
+        } else if (!req.body.timeFrameToComplete) {
+            res.json({success: false, message: "No timeFrameToComplete detected."});
+        } else if (!req.body.exercises) {
+            res.json({success: false, message: "No exercises detected."});
+        } else if (!req.body.assessmentTests) {
+            res.json({success: false, message: "No name assessmentTests."});
+        } else if (!req.body.treatments) {
+            res.json({success: false, message: "No treatments detected."});
+        } else {
 
             //create a new rehabilitationPlans instance to be saved
             var rehabilitationPlans = new RehabilitationPlans({
-                rehabilitationPlansID: req.body.rehabilitationPlansID,
                 name: req.body.name,
                 description: req.body.description,
                 authorName: req.body.authorName,
@@ -75,7 +86,7 @@ module.exports = function (router){
         if (!(req.params.rehabilitationPlansID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            RehabilitationPlans.findOne({rehabilitationPlansID: req.params.rehabilitationPlansID}, function (err, rehabilitationPlans) {
+            RehabilitationPlans.Model.findById(req.params.rehabilitationPlansID, function (err, rehabilitationPlans) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
