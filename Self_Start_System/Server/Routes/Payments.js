@@ -42,6 +42,8 @@ module.exports = function (router){
     router.post('/', function (req, res) {
         if (!req.body.paymentID){
             res.json({success: false, message: "No paymentID detected."});
+        } else if (!req.body.dayTimeStamp) {
+            res.json({success: false, message: "No dayTimeStamp detected."});
         } else if (!req.body.amount) {
             res.json({success: false, message: "No amount detected."});
         } else if (!req.body.note) {
@@ -51,6 +53,7 @@ module.exports = function (router){
             //create a new payment instance to be saved
             var payment = new Payment({
                 paymentID: req.body.paymentID,
+                dayTimeStamp: req.body.dayTimeStamp,
                 amount: req.body.amount,
                 note: req.body.note
             });
@@ -72,6 +75,8 @@ module.exports = function (router){
             res.json({success: false, message: "No paymentID detected."});
         } else if (!req.body.amount) {
             res.json({success: false, message: "No amount detected."});
+        } else if (!req.body.dayTimeStamp) {
+            res.json({success: false, message: "No dayTimeStamp detected."});
         } else if (!req.body.note) {
             res.json({success: false, message: "No note detected."});
         } else {
@@ -80,6 +85,7 @@ module.exports = function (router){
                     res.json({success: false, message: err});
                 } else {
                     //update to new decision and time stamp
+                    payment.dayTimeStamp = req.body.dayTimeStamp;
                     payment.amount = req.body.amount;
                     payment.note = req.body.note;
 
