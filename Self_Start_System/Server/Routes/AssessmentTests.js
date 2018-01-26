@@ -29,7 +29,7 @@ router.route('/')
     .get(function (request, response) {
         AssessmentTests.Model.find(function (error, assessmentTest) {
             if (error) response.send(error);
-            response.json({assessmentTest: assessmentTests});
+            response.json({assessmentTest: assessmentTest});
         });
     });
 
