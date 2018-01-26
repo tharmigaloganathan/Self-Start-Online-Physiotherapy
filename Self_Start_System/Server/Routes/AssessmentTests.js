@@ -11,12 +11,12 @@ router.route('/')
             response.json({success: false, message: "No description detected."});
         } else if (!assessmentTest.authorName){
             response.json({success: false, message: "No authorName detected."});
-        } else if (!assessmentTest.recommendation){
-            response.json({success: false, message: "No recommendation detected."});
+        } else if (!assessmentTest.recommendations){
+            response.json({success: false, message: "No recommendations detected."});
         } else if (!assessmentTest.form){
             response.json({success: false, message: "No form detected."});
-        } else if (!assessmentTest.testResult){
-            response.json({success: false, message: "No testResult detected."});
+        } else if (!assessmentTest.testResults){
+            response.json({success: false, message: "No testResults detected."});
         } else if (!assessmentTest.rehabilitationPlan){
             response.json({success: false, message: "No rehabilitationPlan detected."});
         } else {
@@ -51,12 +51,12 @@ router.route('/:assessmentTest_id')
             response.json({success: false, message: "No description detected."});
         } else if (!request.body.assessmentTest.authorName){
             response.json({success: false, message: "No authorName detected."});
-        } else if (!request.body.assessmentTest.recommendation){
-            response.json({success: false, message: "No recommendation detected."});
+        } else if (!request.body.assessmentTest.recommendations){
+            response.json({success: false, message: "No recommendations detected."});
         } else if (!request.body.assessmentTest.form){
             response.json({success: false, message: "No form detected."});
-        } else if (!request.body.assessmentTest.testResult){
-            response.json({success: false, message: "No testResult detected."});
+        } else if (!request.body.assessmentTest.testResults){
+            response.json({success: false, message: "No testResults detected."});
         } else if (!request.body.assessmentTest.rehabilitationPlan){
             response.json({success: false, message: "No rehabilitationPlan detected."});
         } else {
@@ -68,9 +68,9 @@ router.route('/:assessmentTest_id')
                     assessmentTest.name = request.body.assessmentTest.name;
                     assessmentTest.description = request.body.assessmentTest.description;
                     assessmentTest.authorName = request.body.assessmentTest.authorName;
-                    assessmentTest.recommendation = request.body.assessmentTest.recommendation;
+                    assessmentTest.recommendations = request.body.assessmentTest.recommendations;
                     assessmentTest.form = request.body.assessmentTest.form;
-                    assessmentTest.testResult = request.body.assessmentTest.testResult;
+                    assessmentTest.testResults = request.body.assessmentTest.testResults;
                     assessmentTest.rehabilitationPlan = request.body.assessmentTest.rehabilitationPlan;
                     assessmentTest.save(function (error) {
                         if (error) {
