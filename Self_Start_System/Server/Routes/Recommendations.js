@@ -74,7 +74,7 @@ module.exports = function (router){
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
         }  else {
-                Recommendation.Model.findOne(req.params.recommendation_id, function (err, recommendation) {
+                Recommendation.Model.findById(req.params.recommendation_id, function (err, recommendation) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
