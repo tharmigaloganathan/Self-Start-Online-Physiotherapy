@@ -139,7 +139,7 @@ module.exports = function (router){
         if (!(req.params.physiotherapistID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Physiotherapist.findOne({physiotherapistID: req.params.physiotherapistID}, function (err, physiotherapist) {
+            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

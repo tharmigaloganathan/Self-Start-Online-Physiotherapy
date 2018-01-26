@@ -151,7 +151,7 @@ module.exports = function (router){
         if (!(req.params.rehabilitationPlansID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            RehabilitationPlans.findOne({rehabilitationPlansID: req.params.rehabilitationPlansID}, function (err, rehabilitationPlans) {
+            RehabilitationPlans.findById(req.params.rehabilitationPlansID, function (err, rehabilitationPlans) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

@@ -125,7 +125,7 @@ module.exports = function (router){
         if (!(req.params.treatmentID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Treatments.findOne({treatmentID: req.params.treatmentID}, function (err, treatment) {
+            Treatments.findById(req.params.treatmentID, function (err, treatment) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
