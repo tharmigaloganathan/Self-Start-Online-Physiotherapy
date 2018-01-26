@@ -43,13 +43,13 @@ module.exports = function (router){
         if (!req.body.dateAssign){
             res.json({success: false, message: "No dateAssign detected."});
         } else if (!req.body.physiotherapist) {
-            res.json({success: false, message: "No physiotherapist detected."})
+            res.json({success: false, message: "No physiotherapist detected."});
         } else if (!req.body.patientProfile) {
-            res.json({success: false, message: "No patientProfile detected."})
+            res.json({success: false, message: "No patientProfile detected."});
         } else if (!req.body.rehabilitationPlan) {
-            res.json({success: false, message: "No rehabilitationPlan detected."})
+            res.json({success: false, message: "No rehabilitationPlan detected."});
         } else if (!req.body.recommendations) {
-            res.json({success: false, message: "No recommendations detected."})
+            res.json({success: false, message: "No recommendations detected."});
         } else {
 
             //create a new treatment instance to be saved
