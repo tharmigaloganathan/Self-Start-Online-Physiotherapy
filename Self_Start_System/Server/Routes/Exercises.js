@@ -7,7 +7,7 @@ module.exports = function (router){
         if (!(req.params.exercisesID)) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Exercises.findOne({exercisesID: req.params.exercisesID}, function (err, exercises) {
+            Exercises.findById(req.params.exercisesID, function (err, exercises) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
