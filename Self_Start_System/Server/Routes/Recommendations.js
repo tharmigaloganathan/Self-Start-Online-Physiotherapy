@@ -40,22 +40,22 @@ module.exports = function (router){
 
     //post a recommendation
     router.post('/', function (req, res) {
-        if (!req.body.recommendationID){
-            res.json({success: false, message: "No recommendationID detected."});
-        } else if (!req.body.timeStamp){
+        if (!req.body.timeStamp){
             res.json({success: false, message: "No time stamp detected."});
         } else if (!req.body.decision) {
             res.json({success: false, message: "No decision detected."});
         } else if (!req.body.treatment) {
             res.json({success: false, message: "No treatment detected."});
-        }else {
+        } else if (!req.body.assessmentTest) {
+            res.json({success: false, message: "No assessment test detected"});
+        } else {
 
             //create a new recommendation instance to be saved
             var recommendation = new Recommendation({
-                recommendationID: req.body.recommendationID,
                 timeStamp: req.body.timeStamp,
                 decision: req.body.decision,
-                treatment: req.body.treatment
+                treatment: req.body.treatment,
+                assessmentTest: req.body.assessmentTest
             });
 
             //save it
@@ -74,11 +74,11 @@ module.exports = function (router){
         if (!(req.params.recommendationID)) {
             res.json({success: false, message: 'id was not provided'});
         }  else {
-                Recommendation.findOne({recommendationID: req.params.recommendationID}, function (err, recommendation) {
+                Recommendation.Model.findOne(req.params.recommendation_id, function (err, recommendation) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    
+
                     if (req.body.timeStamp) {
                         //update with new timeStamp
                         recommendation.timeStamp = req.body.timeStamp;
@@ -92,6 +92,11 @@ module.exports = function (router){
                     if (req.body.treatment) {
                         //update with new treatment
                         recommendation.treatment = req.body.treatment;
+                    }
+
+                    if(req.body.assessmentTest) {
+                        //update with new AssessmentTest
+                        recommendation.assessmentTest = req.body.treatment;
                     }
 
                     //save changes
