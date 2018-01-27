@@ -4,7 +4,7 @@ var recommendationSchema = mongoose.Schema(
 		timeStamp: Date,
 		decision: String,
 		treatment: {type: mongoose.Schema.ObjectId, ref: ('Treatment')},
-    assessmentTest: {type: mongoose.Schema.ObjectId, ref: ('AssessmentTest')}
+    	assessmentTest: {type: mongoose.Schema.ObjectId, ref: ('AssessmentTest')}
 	}
 );
 

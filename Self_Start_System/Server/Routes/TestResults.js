@@ -21,7 +21,7 @@ router.route('/')
     .get(function (request, response) {
         TestResults.Model.find(function (error, testResult) {
             if (error) response.send(error);
-            response.json({testResult: testResults});
+            response.json({testResult: testResult});
         });
     });
 
@@ -37,31 +37,27 @@ router.route('/:testResult_id')
         });
     })
     .put(function (request, response) {
-        if (!request.body.testResult.question){
-            response.json({success: false, message: "No question detected."});
-        } else if (!request.body.testResult.answer){
-            response.json({success: false, message: "No answer detected."});
-        } else if (!request.body.testResult.assessmentTest){
-            response.json({success: false, message: "No assessmentTest detected."});
-        } else {
-            TestResults.Model.findById(request.params.testResult_id, function (error, testResult) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
+        TestResults.Model.findById(request.params.testResult_id, function (error, testResult) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.testResult.question){
                     testResult.question = request.body.testResult.question;
+                } else if (request.body.testResult.answer){
                     testResult.answer = request.body.testResult.answer;
+                } else if (request.body.testResult.assessmentTest){
                     testResult.assessmentTest = request.body.testResult.assessmentTest;
-                    testResult.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({testResult: testResult});
-                        }
-                    });
                 }
-            });
-        }
+                testResult.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({testResult: testResult});
+                    }
+                });
+            }
+        });
     })
     .delete(function (req, res) {
         if (!req.params.testResult_id) {
