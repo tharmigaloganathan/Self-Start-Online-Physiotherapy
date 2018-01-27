@@ -41,37 +41,31 @@ router.route('/:question_id')
         });
     })
     .put(function (request, response) {
-        if (!request.body.question.questionText){
-            response.json({success: false, message: "No questionText detected."});
-        } else if (!request.body.question.helpDescription){
-            response.json({success: false, message: "No helpDescription detected."});
-        } else if (!request.body.question.order){
-            response.json({success: false, message: "No order detected."});
-        } else if (!request.body.question.questionType){
-            response.json({success: false, message: "No questionType detected."});
-        } else if (!request.body.question.form){
-            response.json({success: false, message: "No form detected."});
-        } else {
-            Questions.Model.findById(request.params.question_id, function (error, question) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
+        Questions.Model.findById(request.params.question_id, function (error, question) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.question.questionText){
                     question.questionText = request.body.question.questionText;
+                } else if (request.body.question.helpDescription){
                     question.helpDescription = request.body.question.helpDescription;
+                } else if (request.body.question.order){
                     question.order = request.body.question.order;
+                } else if (request.body.question.questionType){
                     question.questionType = request.body.question.questionType;
+                } else if (request.body.question.form){
                     question.form = request.body.question.form;
-                    question.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({question: question});
-                        }
-                    });
                 }
-            });
-        }
+                question.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({question: question});
+                    }
+                });
+            }
+        });
     })
     .delete(function (req, res) {
         if (!req.params.question_id) {

@@ -45,43 +45,35 @@ router.route('/:assessmentTest_id')
         });
     })
     .put(function (request, response) {
-        if (!request.body.assessmentTest.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!request.body.assessmentTest.description){
-            response.json({success: false, message: "No description detected."});
-        } else if (!request.body.assessmentTest.authorName){
-            response.json({success: false, message: "No authorName detected."});
-        } else if (!request.body.assessmentTest.recommendation){
-            response.json({success: false, message: "No recommendation detected."});
-        } else if (!request.body.assessmentTest.form){
-            response.json({success: false, message: "No form detected."});
-        } else if (!request.body.assessmentTest.testResult){
-            response.json({success: false, message: "No testResult detected."});
-        } else if (!request.body.assessmentTest.rehabilitationPlan){
-            response.json({success: false, message: "No rehabilitationPlan detected."});
-        } else {
-            AssessmentTests.Model.findById(request.params.assessmentTest_id, function (error, assessmentTest) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
+        AssessmentTests.Model.findById(request.params.assessmentTest_id, function (error, assessmentTest) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.assessmentTest.name){
                     assessmentTest.name = request.body.assessmentTest.name;
+                } else if (request.body.assessmentTest.description){
                     assessmentTest.description = request.body.assessmentTest.description;
+                } else if (request.body.assessmentTest.authorName){
                     assessmentTest.authorName = request.body.assessmentTest.authorName;
+                } else if (request.body.assessmentTest.recommendation){
                     assessmentTest.recommendation = request.body.assessmentTest.recommendation;
+                } else if (request.body.assessmentTest.form){
                     assessmentTest.form = request.body.assessmentTest.form;
+                } else if (request.body.assessmentTest.testResult){
                     assessmentTest.testResult = request.body.assessmentTest.testResult;
+                } else if (request.body.assessmentTest.rehabilitationPlan){
                     assessmentTest.rehabilitationPlan = request.body.assessmentTest.rehabilitationPlan;
-                    assessmentTest.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({assessmentTest: assessmentTest});
-                        }
-                    });
                 }
-            });
-        }
+                assessmentTest.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({assessmentTest: assessmentTest});
+                    }
+                });
+            }
+        });
     })
     .delete(function (req, res) {
         if (!req.params.assessmentTest_id) {

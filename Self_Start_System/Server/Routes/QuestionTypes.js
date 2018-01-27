@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var QuestionsTypes = require('../models/QuestionType');
+var QuestionTypes = require('../models/QuestionType');
 
 router.route('/')
     .post(function (request, response) {
@@ -19,7 +19,7 @@ router.route('/')
     .get(function (request, response) {
         QuestionTypes.Model.find(function (error, questionTypes) {
             if (error) response.send(error);
-            response.json({questionsType: questionsTypes});
+            response.json({questionType: questionTypes});
         });
     });
 
@@ -35,28 +35,25 @@ router.route('/:questionType_id')
         });
     })
     .put(function (request, response) {
-        if (!request.body.questionType.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!request.body.questionType.questions){
-            response.json({success: false, message: "No questions detected."});
-        } else {
-            QuestionTypes.Model.findById(request.params.questionType_id, function (error, questionType) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
+        QuestionTypes.Model.findById(request.params.questionType_id, function (error, questionType) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.questionType.name){
                     questionType.name = request.body.questionType.name;
+                } else if (request.body.questionType.questions){
                     questionType.questions = request.body.questionType.questions;
-                    questionType.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({questionType: questionType});
-                        }
-                    });
                 }
-            });
-        }
+                questionType.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({questionType: questionType});
+                    }
+                });
+            }
+        });
     })
     .delete(function (req, res) {
         if (!req.params.questionType_id) {
