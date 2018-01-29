@@ -67,7 +67,7 @@ router.route('/:recommendation_id')
         if (!req.params.recommendation_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Recommendations.Model.findById(req.params.recommendation_id function (err, recommendation) {
+            Recommendations.Model.findById(req.params.recommendation_id, function (err, recommendation) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {

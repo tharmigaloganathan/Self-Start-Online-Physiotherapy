@@ -1,9 +1,9 @@
-var expresponses = require('expresponses');
+var expresponses = require('express');
 var router = expresponses.Router();
 var Exercises = require('../models/Exercise');
 
 router.route('/')
-    .post(function (request, responseponse) {
+    .post(function (request, response) {
         var exercise = new Exercises.Model(request.body.exercise);
         if (!exercise.name){
             response.json({success: false, message: "No name detected."});
@@ -29,33 +29,33 @@ router.route('/')
             response.json({success: false, message: "No rehabilitationPlan detected."});
         } else {
             exercise.save(function (error) {
-                if (error) responseponse.send(error);
-                responseponse.json({exercise: exercise});
+                if (error) response.send(error);
+                response.json({exercise: exercise});
             });
         }
     })
-    .get(function (request, responseponse) {
+    .get(function (request, response) {
         Exercises.Model.find(function (error, exercises) {
-            if (error) responseponse.send(error);
-            responseponse.json({hysiotherapists: exercise});
+            if (error) response.send(error);
+            response.json({hysiotherapists: exercise});
         });
     });
 
 router.route('/exercise_id')
-    .get(function (request, responseponse) {
+    .get(function (request, response) {
         Exercises.Model.findById(request.params.exercise_id, function (error, exercise) {
             if (error) {
-                responseponse.send({error: error});
+                response.send({error: error});
             }
             else {
-                responseponse.json({exercise: exercise});
+                response.json({exercise: exercise});
             }
         });
     })
-    .put(function (request, responseponse) {
+    .put(function (request, response) {
         Exercises.Model.findById(request.params.exercise_id, function (error, exercise) {
             if (error) {
-                responseponse.send({error: error});
+                response.send({error: error});
             }
             else {
                 if (request.body.exercise.name){
@@ -83,9 +83,9 @@ router.route('/exercise_id')
                 }
                 exercise.save(function (error) {
                     if (error) {
-                        responseponse.send({error: error});
+                        response.send({error: error});
                     } else {
-                        responseponse.json({exercise: exercise});
+                        response.json({exercise: exercise});
                     }
                 });
             }
