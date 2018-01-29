@@ -1,22 +1,13 @@
-const Province = require('../Models/Province');
+var express = require('express');
+var router = express.Router();
+var Province = require('../models/Province');
 
-module.exports = function (router) {
-
-    //get all provinces
-    router.get('/', function (req, res) {
-        Province.find({}, function (err, provinces) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all provinces
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all provinces',
-                    provinces: provinces
-                })
-            }
-        })
+router.route('/')
+    .get(function (request, response) {
+        Province.Model.find(function (error, province) {
+            if (error) response.send(error);
+            response.json({province: province});
+        });
     });
 
-    return router;
-};
+module.exports = router;

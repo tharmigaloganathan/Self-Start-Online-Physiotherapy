@@ -1,22 +1,13 @@
-const Country = require('../Models/Country');
+var express = require('express');
+var router = express.Router();
+var Country = require('../models/Country');
 
-module.exports = function (router) {
-
-    //get all countries
-    router.get('/', function (req, res) {
-        Country.find({}, function (err, countries) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all countries
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all countries',
-                    countries: countries
-                })
-            }
-        })
+router.route('/')
+    .get(function (request, response) {
+        Country.Model.find(function (error, country) {
+            if (error) response.send(error);
+            response.json({country: country});
+        });
     });
 
-    return router;
-};
+module.exports = router;

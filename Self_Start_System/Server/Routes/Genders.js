@@ -1,22 +1,13 @@
-const Gender = require('../Models/Gender');
+var express = require('express');
+var router = express.Router();
+var Gender = require('../models/Gender');
 
-module.exports = function (router) {
-
-    //get all genders
-    router.get('/', function (req, res) {
-        Gender.find({}, function (err, genders) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all genders
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all genders',
-                    genders: genders
-                })
-            }
-        })
+router.route('/')
+    .get(function (request, response) {
+        Gender.Model.find(function (error, gender) {
+            if (error) response.send(error);
+            response.json({gender: gender});
+        });
     });
 
-    return router;
-};
+module.exports = router;
