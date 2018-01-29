@@ -31,7 +31,7 @@ router.route('/')
     .get(function (request, response) {
         RehabilitationPlans.Model.find(function (error, rehabilitationPlans) {
             if (error) response.send(error);
-            response.json({rehabilitationPlan: rehabilitationPlan});
+            response.json({rehabilitationPlan: rehabilitationPlans});
         });
     });
 
