@@ -1,106 +1,77 @@
-const UserAccount = require('../Models/UserAccount');
+var express = require('express');
+var router = express.Router();
+var UserAccount = require('../models/UserAccount');
 
-module.exports = function (router){
-
-    //get specific UserAccount
-    router.get('/:userAccountID', function (req, res) {
-        if (!(req.params.userAccountID)) {
-            res.json({success: false, message: 'id was not provided'});
+router.route('/')
+    .post(function (request, response) {
+        var userAccount = new UserAccount.Model(request.body.userAccount);
+        if (!userAccount.userAccountName){
+            response.json({success: false, message: "No userAccountName detected."});
+        } else if (!userAccount.encryptedPassword){
+            response.json({success: false, message: "No encryptedPassword detected."});
+        } else if (!userAccount.administrator){
+            response.json({success: false, message: "No administrator detected."});
+        } else if (!userAccount.physiotherapist){
+            response.json({success: false, message: "No physiotherapist detected."});
+        } else if (!userAccount.patientProfile){
+            response.json({success: false, message: "No patientProfile detected."});
         } else {
-            UserAccount.findOne({userAccountID: req.params.userAccountID}, function (err, userAccount) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    //return userAccount object
-                    res.json({
-                        success: true,
-                        message: ('Success! Retrieved userAccount with id ' + req.params.userAccountID),
-                        userAccount: userAccount
-                    })
-                }
-            })
-        }
-    });
-
-    //get all userAccounts
-    router.get('/', function (req, res) {
-        UserAccount.find({}, function (err, userAccounts) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all userAccounts
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all userAccounts',
-                    userAccounts: userAccounts
-                })
-            }
-        })
-    });
-
-    //post a userAccount
-    router.post('/', function (req, res) {
-        if (!req.body.userAccountID){
-            res.json({success: false, message: "No userAccountID detected."});
-        } else if (!req.body.userAccountName) {
-            res.json({success: false, message: "No userAccountName detected."});
-        } else if (!req.body.encryptedPassword) {
-            res.json({success: false, message: "No encryptedPassword detected."});
-        } else {
-
-            //create a new userAccount instance to be saved
-            var userAccount = new UserAccount({
-                encryptedPassword: req.body.encryptedPassword,
-                userAccountName: req.body.userAccountName
+            userAccount.save(function (error) {
+                if (error) response.send(error);
+                response.json({userAccount: userAccount});
             });
-
-            //save it
-            userAccount.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "UserAccount saved!"});
-                }
-            })
         }
+    })
+    .get(function (request, response) {
+        UserAccount.Model.find(function (error, userAccounts) {
+            if (error) response.send(error);
+            response.json({userAccount: userAccounts});
+        });
     });
 
-    //change decision and time stamp of userAccount
-    router.put('/:userAccountID', function (req, res) {
-        if (!req.body.userAccountID){
-            res.json({success: false, message: "No userAccountID detected."});
-        } else if (!req.body.userAccountName) {
-            res.json({success: false, message: "No userAccountName detected."});
-        } else if (!req.body.encryptedPassword) {
-            res.json({success: false, message: "No encryptedPassword detected."});
-        } else {
-            UserAccount.findOne({userAccountID: req.params.userAccountID}, function (err, userAccount) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    //update to new decision and time stamp
-                    userAccount.userAccountName = req.body.userAccountName;
-                    userAccount.encryptedPassword = req.body.encryptedPassword;
-
-                    //save changes
-                    userAccount.save(function (err){
-                        if (err){
-                            res.json({ success: false, message: err });
-                        } else {
-                            res.json({success: true, message: 'changes to userAccount saved!'});
-                        }
-                    })
+router.route('/:userAccount_id')
+    .get(function (request, response) {
+        UserAccount.Model.findById(request.params.userAccount_id, function (error, userAccount) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                response.json({userAccount: userAccount});
+            }
+        });
+    })
+    .put(function (request, response) {
+        UserAccount.Model.findById(request.params.userAccount_id, function (error, userAccount) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.userAccount.userAccountName){
+                    userAccount.userAccountName = request.body.userAccount.userAccountName;
+                } else if (request.body.userAccount.encryptedPassword){
+                    userAccount.encryptedPassword = request.body.userAccount.encryptedPassword;
+                } else if (request.body.userAccount.administrator){
+                    userAccount.administrator = request.body.userAccount.administrator;
+                } else if (request.body.userAccount.physiotherapist){
+                    userAccount.physiotherapist = request.body.userAccount.physiotherapist;
+                } else if (request.body.userAccount.patientProfile){
+                    userAccount.patientProfile = request.body.userAccount.patientProfile;
                 }
-            })
-        }
-    });
-
-    //delete userAccount
-    router.delete('/:userAccountID', function (req, res) {
-        if (!(req.params.userAccountID)) {
+                userAccount.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({userAccount: userAccount});
+                    }
+                });
+            }
+        });
+    })
+    .delete(function (req, res) {
+        if (!req.params.userAccount_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            UserAccount.findOne({userAccountID: req.params.userAccountID}, function (err, userAccount) {
+            UserAccount.Model.findById(req.params.userAccount_id, function (err, userAccount) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -108,7 +79,7 @@ module.exports = function (router){
                         if (err){
                             res.json({success: false, message: err});
                         } else {
-                            res.json({success: true, message: 'userAccount deleted!'});
+                            res.json({success: true, message: 'form deleted!'});
                         }
                     })
                 }
@@ -116,5 +87,4 @@ module.exports = function (router){
         }
     });
 
-    return router;
-};
+module.exports = router;

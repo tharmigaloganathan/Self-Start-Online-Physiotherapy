@@ -1,26 +1,22 @@
-const City = require('../Models/City');
+var express = require('express');
+var router = express.Router();
+var City = require('../models/City');
 
-module.exports = function (router) {
-    router.post('/', function (req, res) {
-        if (!req.body.cityName){
-            res.json({success: false, message: "No city name detected."});
+router.route('/')
+    .post(function (request, response) {
+        var city = new City.Model(request.body.city);
+        if (!city.name){
+            response.json({success: false, message: "No cityName detected."});
+        } else if (!city.patientProfiles){
+            response.json({success: false, message: "No patientProfiles detected."});
+        } else if (!city.province){
+            response.json({success: false, message: "No province detected."});
         } else {
-
-            //create a new patientProfile instance to be saved
-            var city = new City({
-                name: req.body.cityName
+            city.save(function (error) {
+                if (error) response.send(error);
+                response.json({city: city});
             });
-
-            //save it
-            city.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "city saved!"});
-                }
-            })
         }
     });
 
-    return router;
-};
+module.exports = router;
