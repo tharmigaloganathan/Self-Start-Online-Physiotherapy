@@ -21,7 +21,7 @@ router.route('/')
 		}
 	})
 	.get(function (request, response) {
-        Recommendations.Model.find(function (error, recommendations) {
+        Recommendations.Model.find(function (error, recommendation) {
             if (error) response.send(error);
             response.json({recommendation: recommendation});
         });

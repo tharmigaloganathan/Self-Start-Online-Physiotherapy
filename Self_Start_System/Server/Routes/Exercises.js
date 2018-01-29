@@ -37,7 +37,7 @@ router.route('/')
     .get(function (request, response) {
         Exercises.Model.find(function (error, exercises) {
             if (error) response.send(error);
-            response.json({hysiotherapists: exercise});
+            response.json({exercises: exercises});
         });
     });
 

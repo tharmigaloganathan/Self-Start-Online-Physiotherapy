@@ -43,7 +43,7 @@ app.use('/Appointments', Appointments);
 app.use('/AssessmentTests', AssessmentTests);
 app.use('/Cities', Cities);
 app.use('/Countries', Countries);
-app.use('/Excercises', Exercises);
+app.use('/Exercises', Exercises);
 app.use('/Forms', Forms);
 app.use('/Genders', Genders);
 app.use('/PatientProfiles', PatientProfiles);
