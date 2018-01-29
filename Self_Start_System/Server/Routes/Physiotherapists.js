@@ -29,7 +29,7 @@ router.route('/')
 	.get(function (request, response) {
         Physiotherapists.Model.find(function (error, physiotherapists) {
             if (error) response.send(error);
-            response.json({hysiotherapists: physiotherapist});
+            response.json({physiotherapists: physiotherapist});
         });
     });
 
