@@ -83,7 +83,7 @@ router.route('/:rehabilitationPlan_id')
         if (!req.params.rehabilitationPlan_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            RehabilitationPlans.Model.findById(req.params.rehabilitationPlan_id function (err, rehabilitationPlan) {
+            RehabilitationPlans.Model.findById(req.params.rehabilitationPlan_id, function (err, rehabilitationPlan) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
