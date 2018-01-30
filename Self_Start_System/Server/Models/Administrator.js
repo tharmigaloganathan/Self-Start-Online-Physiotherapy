@@ -6,6 +6,7 @@ var administratorSchema = mongoose.Schema(
         email: String,
         dateHired: Date,
         dateFinished: Date,
+        //Keep forms, but make the post not require them (ie put in null)
         forms: [{type: mongoose.Schema.ObjectId, ref: 'Form'}],
         userAccount: {type: mongoose.Schema.ObjectId, ref: ('UserAccount')}
     }

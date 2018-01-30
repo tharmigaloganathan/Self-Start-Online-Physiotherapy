@@ -1,118 +1,73 @@
-const Recommendation = require('../Models/Recommendation');
+var express = require('express');
+var router = express.Router();
+var Recommendations = require('../models/Recommendation');
 
-module.exports = function (router){
+router.route('/')
+	.post(function (request, response) {
+		var recommendation = new Recommendations.Model(request.body.recommendation);
+		if (!recommendation.timeStamp) {
+			response.json({success: false, message: "No timeStamp detected."});
+		} else if (!recommendation.decision) {
+				response.json({success: false, message: "No decision detected."});
+		} else if (!recommendation.treatment) {
+				response.json({success: false, message: "No treatment detected."});
+		} else if (!recommendation.assessmentTest) {
+				response.json({success: false, message: "No assessmentTest detected."});
+		} else {
+			recommendation.save(function(error) {
+				if(error) response.send(error);
+				response.json({recommendation: recommendation});
+			});
+		}
+	})
+	.get(function (request, response) {
+        Recommendations.Model.find(function (error, recommendation) {
+            if (error) response.send(error);
+            response.json({recommendation: recommendation});
+        });
+    });
 
-    //get specific recommendation
-    router.get('/:recommendationID', function (req, res) {
-        if (!(req.params.recommendationID)) {
+router.route('/:recommendation_id')
+	.get(function (request, response) {
+		Recommendations.Model.findById(request.params.recommendation_id, function (error, recommendation) {
+			if (error) {
+				response.send({error: error});
+			}
+			else {
+				response.json({recommendation: recommendation});
+			}
+		});
+	})
+	.put(function (request, response) {
+		Recommendations.Model.findById(request.params.recommendation_id, function (error, recommendation) {
+			if (error) {
+		   		response.send({error: error});
+	   		}
+			else {
+				if(request.body.recommendation.timeStamp) {
+					recommendation.timeStamp = request.body.recommendation.timeStamp;
+				} else if (request.body.recommendation.decision) {
+					recommendation.decision = request.body.recommendation.decision;
+				} else if (request.body.recommendation.treatment) {
+					recommendation.treatment = request.body.recommendation.treatment;
+				} else if (request.body.recommendation.assessmentTest) {
+					recommendation.assessmentTest = request.body.recommendation.assessmentTest;
+				}
+				recommendation.save(function (error) {
+					if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({recommendation: recommendation});
+                    }
+				});
+			}
+		});
+	})
+	.delete(function (req, res) {
+        if (!req.params.recommendation_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            Recommendation.findOne({recommendationID: req.params.recommendationID}, function (err, recommendation) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    //return recommendation object
-                    res.json({
-                        success: true,
-                        message: ('Success! Retrieved recommendation with id ' + req.params.recommendationID),
-                        recommendation: recommendation
-                    })
-                }
-            })
-        }
-    });
-
-    //get all recommendations
-    router.get('/', function (req, res) {
-        Recommendation.find({}, function (err, recommendations) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all recommendations
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all recommendations',
-                    recommendations: recommendations
-                })
-            }
-        })
-    });
-
-    //post a recommendation
-    router.post('/', function (req, res) {
-        if (!req.body.recommendationID){
-            res.json({success: false, message: "No recommendationID detected."});
-        } else if (!req.body.timeStamp){
-            res.json({success: false, message: "No time stamp detected."});
-        } else if (!req.body.decision) {
-            res.json({success: false, message: "No decision detected."});
-        } else if (!req.body.treatment) {
-            res.json({success: false, message: "No treatment detected."});
-        }else {
-
-            //create a new recommendation instance to be saved
-            var recommendation = new Recommendation({
-                recommendationID: req.body.recommendationID,
-                timeStamp: req.body.timeStamp,
-                decision: req.body.decision,
-                treatment: req.body.treatment
-            });
-
-            //save it
-            recommendation.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "Recommendation saved!"});
-                }
-            })
-        }
-    });
-
-    //change decision and time stamp of recommendation
-    router.put('/:recommendationID', function (req, res) {
-        if (!(req.params.recommendationID)) {
-            res.json({success: false, message: 'id was not provided'});
-        }  else {
-                Recommendation.findOne({recommendationID: req.params.recommendationID}, function (err, recommendation) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    
-                    if (req.body.timeStamp) {
-                        //update with new timeStamp
-                        recommendation.timeStamp = req.body.timeStamp;
-                    }
-
-                    if (req.body.decision) {
-                        //update with new decision
-                        recommendation.decision = req.body.decision;
-                    }
-
-                    if (req.body.treatment) {
-                        //update with new treatment
-                        recommendation.treatment = req.body.treatment;
-                    }
-
-                    //save changes
-                    recommendation.save(function (err){
-                        if (err){
-                            res.json({ success: false, message: err });
-                        } else {
-                            res.json({success: true, message: 'changes to recommendation saved!'});
-                        }
-                    })
-                }
-            })
-        }
-    });
-
-    //delete recommendation
-    router.delete('/:recommendationID', function (req, res) {
-        if (!(req.params.recommendationID)) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Recommendation.findOne({recommendationID: req.params.recommendationID}, function (err, recommendation) {
+            Recommendations.Model.findById(req.params.recommendation_id, function (err, recommendation) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
@@ -128,5 +83,4 @@ module.exports = function (router){
         }
     });
 
-    return router;
-};
+module.exports = router;

@@ -29,7 +29,7 @@ router.route('/')
     .get(function (request, response) {
         AssessmentTests.Model.find(function (error, assessmentTest) {
             if (error) response.send(error);
-            response.json({assessmentTest: assessmentTests});
+            response.json({assessmentTest: assessmentTest});
         });
     });
 
@@ -45,6 +45,7 @@ router.route('/:assessmentTest_id')
         });
     })
     .put(function (request, response) {
+<<<<<<< HEAD
         if (!request.body.assessmentTest.name){
             response.json({success: false, message: "No name detected."});
         } else if (!request.body.assessmentTest.description){
@@ -65,23 +66,43 @@ router.route('/:assessmentTest_id')
                     response.send({error: error});
                 }
                 else {
+=======
+        AssessmentTests.Model.findById(request.params.assessmentTest_id, function (error, assessmentTest) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.assessmentTest.name){
+>>>>>>> 8f26f2eeeb8c2af3403f42fb2deef5fe94b7bcca
                     assessmentTest.name = request.body.assessmentTest.name;
+                } else if (request.body.assessmentTest.description){
                     assessmentTest.description = request.body.assessmentTest.description;
+                } else if (request.body.assessmentTest.authorName){
                     assessmentTest.authorName = request.body.assessmentTest.authorName;
+<<<<<<< HEAD
                     assessmentTest.recommendations = request.body.assessmentTest.recommendations;
                     assessmentTest.form = request.body.assessmentTest.form;
                     assessmentTest.testResults = request.body.assessmentTest.testResults;
+=======
+                } else if (request.body.assessmentTest.recommendation){
+                    assessmentTest.recommendation = request.body.assessmentTest.recommendation;
+                } else if (request.body.assessmentTest.form){
+                    assessmentTest.form = request.body.assessmentTest.form;
+                } else if (request.body.assessmentTest.testResult){
+                    assessmentTest.testResult = request.body.assessmentTest.testResult;
+                } else if (request.body.assessmentTest.rehabilitationPlan){
+>>>>>>> 8f26f2eeeb8c2af3403f42fb2deef5fe94b7bcca
                     assessmentTest.rehabilitationPlan = request.body.assessmentTest.rehabilitationPlan;
-                    assessmentTest.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({assessmentTest: assessmentTest});
-                        }
-                    });
                 }
-            });
-        }
+                assessmentTest.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({assessmentTest: assessmentTest});
+                    }
+                });
+            }
+        });
     })
     .delete(function (req, res) {
         if (!req.params.assessmentTest_id) {

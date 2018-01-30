@@ -45,43 +45,36 @@ router.route('/:administrator_id')
         });
     })
     .put(function (request, response) {
-        if (!request.body.administrator.familyName){
-            response.json({success: false, message: "No familyName detected."});
-        } else if (!request.body.administrator.givenName){
-            response.json({success: false, message: "No givenName detected."});
-        } else if (!request.body.administrator.email){
-            response.json({success: false, message: "No email detected."});
-        } else if (!request.body.administrator.dateHired){
-            response.json({success: false, message: "No dateHired detected."});
-        } else if (!request.body.administrator.dateFinished){
-            response.json({success: false, message: "No dateFinished detected."});
-        } else if (!request.body.administrator.forms){
-            response.json({success: false, message: "No forms detected."});
-        } else if (!request.body.administrator.userAccount){
-            response.json({success: false, message: "No userAccount detected."});
-        } else {
-            Administrators.Model.findById(request.params.administrator_id, function (error, administrator) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
+        Administrators.Model.findById(request.params.administrator_id, function (error, administrator) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if (request.body.administrator.familyName){
                     administrator.familyName = request.body.administrator.familyName;
+                } else if (request.body.administrator.givenName){
                     administrator.givenName = request.body.administrator.givenName;
+                } else if (request.body.administrator.email){
                     administrator.email = request.body.administrator.email;
+                } else if (request.body.administrator.dateHired){
                     administrator.dateHired = request.body.administrator.dateHired;
+                } else if (request.body.administrator.dateFinished){
                     administrator.dateFinished = request.body.administrator.dateFinished;
+                } else if (request.body.administrator.forms){
                     administrator.forms = request.body.administrator.forms;
+                } else if (request.body.administrator.userAccount){
                     administrator.userAccount = request.body.administrator.userAccount;
-                    administrator.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({administrator: administrator});
-                        }
-                    });
                 }
-            });
-        }
+                administrator.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({administrator: administrator});
+                    }
+                });
+            }
+        });
+
     })
     .delete(function (req, res) {
         if (!req.params.administrator_id) {

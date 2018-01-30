@@ -18,32 +18,32 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 //our defined routes
 const Administrators = require('./Routes/Administrators');
-// const Appointments = require('./Routes/Appointments')(router);
+const Appointments = require('./Routes/Appointments');
 const AssessmentTests = require('./Routes/AssessmentTests');
-const Cities = require('./Routes/Cities')(router);
-const Countries = require('./Routes/Countries')(router);
-const Exercises = require('./Routes/Exercises')(router);
+const Cities = require('./Routes/Cities');
+const Countries = require('./Routes/Countries');
+const Exercises = require('./Routes/Exercises');
 const Forms = require('./Routes/Forms');
-const Genders = require('./Routes/Genders')(router);
-const PatientProfiles = require('./Routes/PatientProfiles')(router);
-const Payments = require('./Routes/Payments')(router);
-const Physiotherapists = require('./Routes/Physiotherapists')(router);
-const Provinces = require('./Routes/Provinces')(router);
+const Genders = require('./Routes/Genders');
+const PatientProfiles = require('./Routes/PatientProfiles');
+const Payments = require('./Routes/Payments');
+const Physiotherapists = require('./Routes/Physiotherapists');
+const Provinces = require('./Routes/Provinces');
 const Questions = require('./Routes/Questions');
 const QuestionTypes = require('./Routes/QuestionTypes');
-const Recommendations = require('./Routes/Recommendations')(router);
-const RehabilitationPlans = require('./Routes/RehabilitationPlans')(router);
+const Recommendations = require('./Routes/Recommendations');
+const RehabilitationPlans = require('./Routes/RehabilitationPlans');
 const TestResults = require('./Routes/TestResults');
-const Treatments = require('./Routes/Treatments')(router);
-const UserAccounts = require('./Routes/UserAccounts')(router);
+const Treatments = require('./Routes/Treatments');
+const UserAccounts = require('./Routes/UserAccounts');
 
 //models
 app.use('/Administrators', Administrators);
-// app.use('/Appointments', Appointments);
+app.use('/Appointments', Appointments);
 app.use('/AssessmentTests', AssessmentTests);
 app.use('/Cities', Cities);
 app.use('/Countries', Countries);
-app.use('/Excercises', Exercises);
+app.use('/Exercises', Exercises);
 app.use('/Forms', Forms);
 app.use('/Genders', Genders);
 app.use('/PatientProfiles', PatientProfiles);

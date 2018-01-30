@@ -1,154 +1,97 @@
-const RehabilitationPlans = require('../Models/RehabilitationPlan');
+var express = require('express');
+var router = express.Router();
+var RehabilitationPlans = require('../models/RehabilitationPlan');
 
-module.exports = function (router){
-
-    //get specific rehabilitationPlans
-    router.get('/:rehabilitationPlansID', function (req, res) {
-        if (!(req.params.rehabilitationPlansID)) {
-            res.json({success: false, message: 'id was not provided'});
+router.route('/')
+    .post(function (request, response) {
+        var rehabilitationPlan = new RehabilitationPlans.Model(request.body.rehabilitationPlan);
+        if (!rehabilitationPlan.name) {
+            response.json({success: false, message: "No name detected."});
+        } else if (!rehabilitationPlan.description) {
+            response.json({success: false, message: "No description detected."});
+        } else if (!rehabilitationPlan.authorName) {
+            response.json({success: false, message: "No authorName detected."});
+        } else if (!rehabilitationPlan.goal) {
+            response.json({success: false, message: "No goal detected."});
+        } else if (!rehabilitationPlan.timeFrameToComplete) {
+            response.json({success: false, message: "No timeFrameToComplete detected."});
+        } else if (!rehabilitationPlan.exercises) {
+            response.json({success: false, message: "No exercises detected."});
+        } else if (!rehabilitationPlan.assessmentTests) {
+            response.json({success: false, message: "No assessmentTests detected."});
+        } else if (!rehabilitationPlan.treatments) {
+            response.json({success: false, message: "No treatments detected."});
         } else {
-            RehabilitationPlans.findOne({rehabilitationPlansID: req.params.rehabilitationPlansID}, function (err, rehabilitationPlans) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    //return rehabilitationPlans object
-                    res.json({
-                        success: true,
-                        message: ('Success! Retrieved rehabilitationPlans with id ' + rehabilitationPlansID),
-                        rehabilitationPlans: rehabilitationPlans
-                    })
-                }
-            })
-        }
-    });
-
-    //get all rehabilitationPlanss
-    router.get('/', function (req, res) {
-        RehabilitationPlans.find({}, function (err, rehabilitationPlanss) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all rehabilitationPlanss
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all rehabilitationPlanss',
-                    rehabilitationPlanss: rehabilitationPlanss
-                })
-            }
-        })
-    });
-
-    //post a rehabilitationPlans
-    router.post('/', function (req, res) {
-        if (!req.body.rehabilitationPlansID){
-            res.json({success: false, message: "No rehabilitationPlansID detected."});
-        } else if (!req.body.dateAssign){
-            res.json({success: false, message: "No dateAssign detected."});
-        }  else {
-
-            //create a new rehabilitationPlans instance to be saved
-            var rehabilitationPlans = new RehabilitationPlans({
-                rehabilitationPlansID: req.body.rehabilitationPlansID,
-                name: req.body.name,
-                description: req.body.description,
-                authorName: req.body.authorName,
-                goal: req.body.goal,
-                timeFrameToComplete: req.body.timeFrameToComplete,
-                exercises: req.body.exercises,
-                assessmentTests: req.body.assessmentTests,
-                treatments: req.body.treatments
+            rehabilitationPlan.save(function(error) {
+                if(error) response.send(error);
+                response.json({rehabilitationPlan: rehabilitationPlan});
             });
-
-            //save it
-            rehabilitationPlans.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "rehabilitationPlans saved!"});
-                }
-            })
         }
+    })
+    .get(function (request, response) {
+        RehabilitationPlans.Model.find(function (error, rehabilitationPlans) {
+            if (error) response.send(error);
+            response.json({rehabilitationPlan: rehabilitationPlans});
+        });
     });
 
-    //update rehabilitationPlans
-    router.put('/:rehabilitationPlansID', function (req, res) {
-        if (!(req.params.rehabilitationPlansID)) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            RehabilitationPlans.findOne({rehabilitationPlansID: req.params.rehabilitationPlansID}, function (err, rehabilitationPlans) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-
-                    if (req.body.name) {
-                        //update with new name
-                        rehabilitationPlans.name= req.body.name;
-                    }
-
-                    if (req.body.description) {
-                        //update with new description
-                        rehabilitationPlans.description= req.body.description;
-                    }
-
-                    if (req.body.authorName) {
-                        //update with new authorName
-                        rehabilitationPlans.authorName = req.body.authorName;
-                    }
-
-                    if (req.body.goal) {
-                        //update with new goal
-                        rehabilitationPlans.goal= req.body.goal;
-                    }
-
-                    if (req.body.timeFrameToComplete) {
-                        //update with new timeFrameToComplete
-                        rehabilitationPlans.timeFrameToComplete= req.body.timeFrameToComplete;
-                    }
-
-                    if (req.body.exercises) {
-                        //update with new exercises
-                        rehabilitationPlans.exercises= req.body.exercises;
-                    }
-
-                    if (req.body.assessmentTests) {
-                        //update with new assessmentTests
-                        rehabilitationPlans.assessmentTests= req.body.assessmentTests;
-                    }
-
-                    if (req.body.treatments) {
-                        //update with new treatments
-                        rehabilitationPlans.treatments= req.body.treatments;
-                    }
-
-
-
-                    //save changes
-                    rehabilitationPlans.save(function (err){
-                        if (err){
-                            res.json({ success: false, message: err });
-                        } else {
-                            res.json({success: true, message: 'changes to rehabilitationPlans saved!'});
-                        }
-                    })
+router.route('/:rehabilitationPlan_id')
+    .get(function (request, response) {
+        RehabilitationPlans.Model.findById(request.params.rehabilitationPlan_id, function (error, rehabilitationPlan) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                response.json({rehabilitationPlan: rehabilitationPlan});
+            }
+        });
+    })
+    .put(function (request, response) {
+        RehabilitationPlans.Model.findById(request.params.rehabilitationPlan_id, function (error, rehabilitationPlan) {
+            if (error) {
+                response.send({error: error});
+            }
+            else {
+                if(request.body.rehabilitationPlan.name) {
+                    rehabilitationPlan.name = request.body.rehabilitationPlan.name;
+                } else if (request.body.rehabilitationPlan.description) {
+                    rehabilitationPlan.description = request.body.rehabilitationPlan.description;
+                } else if (request.body.rehabilitationPlan.authorName) {
+                    rehabilitationPlan.authorName = request.body.rehabilitationPlan.authorName;
+                } else if (request.body.rehabilitationPlan.goal) {
+                    rehabilitationPlan.goal = request.body.rehabilitationPlan.goal;
+                } else if (request.body.rehabilitationPlan.timeFrameToComplete) {
+                    rehabilitationPlan.timeFrameToComplete = request.body.rehabilitationPlan.timeFrameToComplete;
+                } else if (request.body.rehabilitationPlan.exercises) {
+                    rehabilitationPlan.exercises = request.body.rehabilitationPlan.exercises;
+                } else if (request.body.rehabilitationPlan.assessmentTests) {
+                    rehabilitationPlan.assessmentTests = request.body.rehabilitationPlan.assessmentTests;
+                } else if (request.body.rehabilitationPlan.treatments) {
+                    rehabilitationPlan.treatments = request.body.rehabilitationPlan.treatments;
                 }
-            })
-        }
-    });
-
-    //delete rehabilitationPlans
-    router.delete('/:rehabilitationPlansID', function (req, res) {
-        if (!(req.params.rehabilitationPlansID)) {
+                rehabilitationPlan.save(function (error) {
+                    if (error) {
+                        response.send({error: error});
+                    } else {
+                        response.json({rehabilitationPlan: rehabilitationPlan});
+                    }
+                });
+            }
+        });
+    })
+    .delete(function (req, res) {
+        if (!req.params.rehabilitationPlan_id) {
             res.json({success: false, message: 'id was not provided'});
         } else {
-            RehabilitationPlans.findOne({rehabilitationPlansID: req.params.rehabilitationPlansID}, function (err, rehabilitationPlans) {
+            RehabilitationPlans.Model.findById(req.params.rehabilitationPlan_id, function (err, rehabilitationPlan) {
                 if (err) {
                     res.json({success: false, message: err});
                 } else {
-                    rehabilitationPlans.remove(function (err) {
+                    rehabilitationPlan.remove(function (err) {
                         if (err){
                             res.json({success: false, message: err});
                         } else {
-                            res.json({success: true, message: 'rehabilitationPlans deleted!'});
+                            res.json({success: true, message: 'rehabilitationPlan deleted!'});
                         }
                     })
                 }
@@ -156,5 +99,4 @@ module.exports = function (router){
         }
     });
 
-    return router;
-};
+module.exports = router;
