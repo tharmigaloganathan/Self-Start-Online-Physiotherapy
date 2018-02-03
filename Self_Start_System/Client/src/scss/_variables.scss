@@ -1,4 +1,7 @@
 @import '~@angular/material/theming';
+
+/******* Colours ********/
+
 $magic-night: #3A3C5A;
 $cobalt: #3D4476;
 $white: #FFFFFF;
@@ -74,4 +77,8 @@ $sss-flash-of-orange: (
   )
 );
 
+$global-background-color: #f9f9f9;
+
+/******* Sizing ********/
+$dashboard-card-margin: 10px;
 

@@ -4,11 +4,20 @@
 @import './variables';
 @import './mixins';
 
-
-body{
-  margin: 0px;
+//Set global background color
+html, body, .container{
+  background-color: $global-background-color;
 }
 
 .full-height{
   height: 100%;
 }
+
+button {
+  border-radius: 0;
+}
+
+button:focus, button:active:focus, button.active:focus {
+  outline: 0 none;
+}
+
