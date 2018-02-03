@@ -1,8 +1,17 @@
 @import '~@angular/material/theming';
+$magic-night: #3A3C5A;
+$cobalt: #3D4476;
+$white: #FFFFFF;
+$black: #000000;
+$beautiful-blue: #206EB4;
+$rare-turquoise: #0E748C;
+$electric-glow: #FED030;
+$flash-of-orange: #FDA92A;
+
 $sss-magic-night: (
   300: #e57373,
   400: #ef5350,
-  500: #3A3C5A,
+  500: $magic-night,
   contrast: (
     300: $dark-primary-text,
     400: $dark-primary-text,
