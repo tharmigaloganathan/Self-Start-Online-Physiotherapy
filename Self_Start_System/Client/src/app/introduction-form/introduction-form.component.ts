@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Question } from "../models/Question";
 
 @Component({
   selector: 'app-introduction-form',
