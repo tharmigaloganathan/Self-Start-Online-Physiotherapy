@@ -1,0 +1,27 @@
+<app-navbar-physio></app-navbar-physio>
+
+<!--Start of Manage Introduction Form-->
+<div class="container">
+  <!--Title and description-->
+  <div class="row">
+    <div class="col-md-2">
+      <h1>Manage the Introduction Form</h1>
+      <p>Add, change, or delete questions of the introduction form shown to new clients.</p>
+    </div>
+  </div>
+
+  <!--Current Introduction Form-->
+  <div class="row">
+    <div class="col-md-2">
+      <h3>Current Introduction Form</h3>
+        <div class="collection">
+          <li *ngFor="let question of questions">
+            <a class="collection-item">
+              <h5>Question {{question.order}}</h5>
+              <h6>{{question.questionText}}</h6>
+            </a>
+          </li>
+        </div>
+    </div>
+  </div>
+</div>
