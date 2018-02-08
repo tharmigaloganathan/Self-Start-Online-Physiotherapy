@@ -5,7 +5,7 @@ var exercisesSchema = mongoose.Schema(
 		description: String,
 		objectives: String,
 		authorName: String,
-		actionSteps: String,
+		actionSteps: [String],
 		location: String,
 		frequency: Number,
 		duration: Number,
