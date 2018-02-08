@@ -1,2 +1,142 @@
 <app-navbar-physio></app-navbar-physio>
 <h1>This is the exercise page</h1>
+
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalHorizontal">
+  Create New Exercise
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel" >
+          Create New Exercise
+        </h4>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form class="form" role="form">
+
+          <!-- name field-->
+          <div class="form-group row" >
+                <label  class="col-sm-2 col-form-label control-label" for="name">Name</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="name" placeholder="Name"/>
+                </div>
+          </div>
+
+          <!-- url field-->
+          <div class="form-group row" >
+            <label  class="col-sm-2 col-form-label control-label" for="URL">URL</label>
+            <div class ="col-sm-6" >
+              <input type="url" class="form-control" id="URL" placeholder="URL"/>
+            </div>
+          </div>
+
+          <!-- author  name field-->
+
+          <div class="form-group row" >
+            <label  class="col-sm-2 col-form-label control-label" for="authorName">Author Name</label>
+            <div class ="col-sm-6" >
+              <input type="text" class="form-control" id="authorName" placeholder="Author Name"/>
+            </div>
+          </div>
+
+          <!-- location field-->
+          <div class="form-group row" >
+            <label  class="col-sm-2 col-form-label control-label" for="location">Location</label>
+            <div class ="col-sm-6" >
+              <input type="text" class="form-control" id="location" placeholder="Location"/>
+            </div>
+          </div>
+
+          <!-- frequency field-->
+          <div class="form-group row" >
+            <label  class="col-sm-2 col-form-label control-label" for="frequency">Frequency</label>
+            <div class ="col-sm-6" >
+              <input type="text" class="form-control" id="frequency" placeholder="Frequency"/>
+            </div>
+          </div>
+
+          <!-- duration field-->
+          <div class="form-group row" >
+            <label  class="col-sm-2 col-form-label control-label" for="duration">Duration</label>
+            <div class ="col-sm-6" >
+              <input type="text" class="form-control" id="duration" placeholder="Duration"/>
+            </div>
+          </div>
+
+          <!-- targetDate field-->
+          <div class="form-group row" >
+            <label  class="col-sm-2 col-form-label control-label" for="targetDate">Target Date</label>
+            <div class ="col-sm-6" >
+              <input type="date" class="form-control" id="targetDate" placeholder="Target Date"/>
+            </div>
+          </div>
+
+
+          <!-- description field-->
+          <div class="form-group row ">
+            <label class="col-sm-2 col-form-label control-label" for="description" >Description</label>
+            <div class = "col-sm-10">
+              <textarea class="form-control" rows = "1" id="description" placeholder="Description"></textarea>
+            </div>
+          </div>
+
+          <!-- objective field-->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label control-label" for="objective" >Objective</label>
+            <div class ="col-sm-10">
+              <textarea class="form-control" rows = "1" id="objective" placeholder="Objective"></textarea>
+            </div>
+          </div>
+
+          <!-- action steps-->
+          <div class="form-group">
+            <label class="control-label" for="actionSteps" >Action Steps</label>
+            <div id="actionSteps">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label control-label" for="step1" >Step 1</label>
+                <div class = "col-sm-10">
+                  <textarea rows="1" class = "form-control" id = "step1" placeholder="First step"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- add new step button-->
+          <div class="form-group">
+              <button type="submit" class="btn btn-success">Add another step</button>
+          </div>
+
+
+        </form>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
