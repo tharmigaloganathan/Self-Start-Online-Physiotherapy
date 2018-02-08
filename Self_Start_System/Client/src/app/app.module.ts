@@ -12,13 +12,15 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { ExerciseComponent } from './exercise/exercise.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarPhysioComponent,
     DashboardPhysioComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    ExerciseComponent
   ],
   imports: [
     BrowserModule,
