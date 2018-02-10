@@ -12,7 +12,13 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule} from "@angular/material";
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseComponent } from './exercise/exercise.component';
+
 
 @NgModule({
   declarations: [
@@ -23,14 +29,20 @@ import { ExerciseComponent } from './exercise/exercise.component';
     ExerciseComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
     MatButtonModule,
-    AppRoutingModule,
+    MatInputModule,
+    MatFormFieldModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,9 +1,23 @@
+@import '../../scss/_variables';
 
+
+.question {
+  width: 100%;
+}
+
+
+button.saveExercise, button.createNewExercise{
+  background-color: $cobalt;
+  color: $white;
+}
 
 .modal-body .form .control-label {
   text-align: left;
 }
 
+::ng-deep .cdk-overlay-container{
+  z-index: 1200 !important;
+}
 
 
 
