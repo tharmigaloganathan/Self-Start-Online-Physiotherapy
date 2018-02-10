@@ -1,0 +1,91 @@
+<mat-toolbar class="z-depth-5">
+
+  <span class="full-height">
+    <img class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
+  </span>
+
+
+  <span class="navbar-fill-remaining-space"></span>
+  <span class="full-height">
+
+    <button routerLink="/dashboard" mat-button class="full-height">Dashboard</button>
+    <button mat-button class="full-height">Task 2</button>
+    <button mat-button class="full-height">Task 3</button>
+    <button mat-raised-button class="login-button">LOGIN</button>
+  </span>
+</mat-toolbar>
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" color="black" mode="side">
+
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+
+    <mat-nav-list>
+        <a mat-list-item routerLink="." style="color: #cccccc;">List of Patients</a>
+        <a mat-list-item routerLink="." style="color: #cccccc;">Manage Patient Profile</a>
+        <a mat-list-item routerLink="." style="color: #cccccc;">Manage Rehabilitation Plans</a>
+        <a mat-list-item routerLink="." style="color: #cccccc;">Manage Exercises</a>
+    </mat-nav-list>
+
+
+    <!-- <button class="blue" (click)="showFiller = !showFiller" mat-button>
+      Toggle extra text
+    </button> -->
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+      <!-- <i class="material-icons">keyboard_arrow_right</i> -->
+     <button mat-button (click)="drawer.toggle(); showSidebar=!showSidebar;" class="mat-small">
+            <mat-icon *ngIf="showSidebar">keyboard_arrow_right</mat-icon>
+            <mat-icon *ngIf="!showSidebar">keyboard_arrow_left</mat-icon>
+     </button>
+     <mat-card class="dashboard-card">
+       <mat-card-title>Title 1</mat-card-title>
+       <mat-card-subtitle>Subtitles</mat-card-subtitle>
+       <mat-card-content>
+         Simple card
+       </mat-card-content>
+
+
+       <mat-card-actions>
+         <button mat-button class="launch">Select</button>
+           </mat-card-actions>
+       </mat-card>
+  </div>
+
+
+</mat-drawer-container>
+
+
+
+
+<!-- <mat-sidenav-container class="example-sidenav-container">
+
+    <mat-sidenav #snav  fixedTopGap="56">
+        <mat-nav-list>
+            <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <p *ngFor="let content of fillerContent">{{content}}-</p>
+    </mat-sidenav-content>
+
+    <div class="example-sidenav-content">
+      <button type="button" mat-button (click)="snav.toggle()">
+        Toggle sidenav
+      </button>
+    </div>
+
+</mat-sidenav-container> -->
+
+
+
+<!--
+<mat-sidenav-container class="example-container" *ngIf="true">
+  <mat-sidenav mode="side" opened>Sidenav content</mat-sidenav>
+  <mat-sidenav-content>Main content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<div *ngIf="!shouldRun">Please open on Stackblitz to see result</div> -->

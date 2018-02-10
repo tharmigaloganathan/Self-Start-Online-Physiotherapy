@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -14,9 +15,13 @@ const appRoutes: Routes = [
     component: DashboardPhysioComponent // The Dashboard Route
   },
   {
+    path: 'rehabilitation-plan',
+    component: RehabilitationPlanComponent // The Dashboard Route
+  },
+  {
     path: '**',
-    component: NotFoundPageComponent
-  } // The "Catch-All" Route
+    component: NotFoundPageComponent // The "Catch-All" Route
+  }
 ];
 
 @NgModule({

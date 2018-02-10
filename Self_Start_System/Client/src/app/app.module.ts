@@ -6,19 +6,24 @@ import { AppComponent } from './app.component';
 import { NavbarPhysioComponent } from './navbar-physio/navbar-physio.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarPhysioComponent,
     DashboardPhysioComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    RehabilitationPlanComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,10 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     AppRoutingModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
