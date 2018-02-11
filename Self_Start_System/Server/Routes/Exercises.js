@@ -2,7 +2,7 @@ var expresponses = require('express');
 var router = expresponses.Router();
 var Exercises = require('../models/Exercise');
 
-router.route('/')
+router.route('/exercises')
     .post(function (request, response) {
         var exercise = new Exercises.Model(request.body.exercise);
         if (!exercise.name){
@@ -34,6 +34,7 @@ router.route('/')
             });
         }
     })
+
     .get(function (request, response) {
         Exercises.Model.find(function (error, exercises) {
             if (error) response.send(error);
@@ -41,7 +42,7 @@ router.route('/')
         });
     });
 
-router.route('/exercise_id')
+router.route('/exercises/exercise_id')
     .get(function (request, response) {
         Exercises.Model.findById(request.params.exercise_id, function (error, exercise) {
             if (error) {
