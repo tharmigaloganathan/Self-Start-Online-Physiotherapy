@@ -1,0 +1,21 @@
+@import '../../scss/_variables';
+
+.edit-button {
+	background-color: $flash-of-orange;
+	color: $white;
+}
+
+.button-container {
+	padding: 2%;
+}
+
+.form-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-container > * {
+	width: 100%;
+}
