@@ -87,7 +87,7 @@
 
           <div class = "col-md-4">
             <mat-form-field class = "question">
-              <input matInput [matDatepicker]="picker" placeholder="Target Date">
+              <input matInput [(ngModel)] = "targetDateValue" [matDatepicker]="picker" placeholder="Target Date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -131,7 +131,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
-        <button mat-raised-button data-dismiss="modal" class="saveExercise">Save Exercise</button>
+        <button mat-raised-button data-dismiss="modal" class="saveExercise" (click) ="addExercise()">Save Exercise</button>
       </div>
     </div>
   </div>

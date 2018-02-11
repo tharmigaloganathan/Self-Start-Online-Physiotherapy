@@ -21,6 +21,12 @@ import { ExerciseComponent } from './exercise/exercise.component';
 
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import { ExerciseService} from "./services/exercise.service";
+
+import { HttpClientModule, HttpParams, HttpHeaders} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
 
 
 @NgModule({
@@ -47,8 +53,12 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    HttpParams,
+    HttpHeaders,
+    HttpErrorResponse
   ],
-  providers: [],
+  providers: [ExerciseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
