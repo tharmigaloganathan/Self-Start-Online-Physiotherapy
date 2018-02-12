@@ -14,16 +14,18 @@ export class IntroductionFormComponent implements OnInit {
   newQuestionText;
   newHelpDescription;
   newQuestionType;
+  openEditModal;
 
 
   introductionForm: Form;
   allQuestions: any[];
-  selectedQuestion: Question;
+  selectedQuestion: null;
 
   constructor(private formService: FormService) { }
 
   ngOnInit() {
     this.getAllQuestions();
+    this.openEditModal = false;
   }
 
   deleteQuestion(selectedQuestion){
@@ -34,6 +36,24 @@ export class IntroductionFormComponent implements OnInit {
       error => {console.log(error)}
     );
 
+  }
+
+  selectQuestion(question){
+    this.selectedQuestion = question;
+    this.openEditModal = true;
+  }
+
+  editQuestion(selectedQuestion) {
+    this.formService.editQuestion(selectedQuestion).subscribe(
+      res => {
+        console.log("response received: ", res),
+          //reload all questions
+          this.getAllQuestions();
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 
   addQuestion(){

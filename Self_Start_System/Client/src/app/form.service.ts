@@ -21,6 +21,15 @@ export class FormService {
       );
   }
 
+  editQuestion(question){
+    console.log("this is the question: ", question);
+    return this.http.put(this.domain+'/questions/'+question._id, question)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   addQuestion (question): Observable<any> {
     return this.http.post(this.domain+'/questions', question)
       .pipe(
