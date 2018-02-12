@@ -17,12 +17,13 @@ export class IntroductionFormComponent implements OnInit {
 
 
   introductionForm: Form;
-  allQuestions: Question[];
+  allQuestions: any[];
   selectedQuestion: Question;
 
   constructor(private formService: FormService) { }
 
   ngOnInit() {
+    this.getAllQuestions();
   }
 
   addQuestion(){
@@ -30,11 +31,27 @@ export class IntroductionFormComponent implements OnInit {
       order: this.newOrder,
       questionText: this.newQuestionText,
       helpDescription: this.newHelpDescription,
-      questionType: this.newQuestionType
+      questionType: "5a81eee3734d1d0d42ead44f", //hard-coded to short answer
+      form: "5a81cbf1734d1d0d42eaa9a9" //hard-coded to the introduction form for now
     };
 
-    this.formService.addForm
+    this.formService.addQuestion(question).subscribe(
+      res=> {console.log("response received: ", res)},
+      error => {console.log(error)}
+    );
 
+    //Reload all questions
+    this.getAllQuestions()
   }
 
+  getAllQuestions(){
+    console.log("getting all questions");
+    this.formService.getAllQuestions().subscribe(
+      data => {
+        console.log("questions retrieved! ",data['question']);
+        this.allQuestions = data.question;
+      },
+      error => console.log(error)
+    );
+  }
 }

@@ -34,6 +34,7 @@ import { MatIconModule} from "@angular/material";
 import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
+import { FormService} from "./form.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -85,7 +86,8 @@ import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-m
     MatTableModule,
     MatSortModule
   ],
-  providers: [ExerciseService],
+  providers: [ExerciseService,
+  FormService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
