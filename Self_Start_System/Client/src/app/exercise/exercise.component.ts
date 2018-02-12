@@ -23,7 +23,7 @@ export class ExerciseComponent implements OnInit {
   objectivesValue;
   actionStepsValue;
 
-  allExercises;
+  allExercises: any[];
 
 
 
@@ -53,13 +53,15 @@ export class ExerciseComponent implements OnInit {
       res=> {console.log("response received: ", res)},
       error => {console.log(error)}
     );
+    window.location.reload();
   }
 
   getAllExercises(){
     console.log("getting all exercises");
     this.exerciseService.getAllExercises().subscribe(
       data => {
-        console.log(data)
+        console.log("exercises retrieved! ",data['exercises']);
+        this.allExercises = data.exercises;
       },
       error => console.log(error)
     );
