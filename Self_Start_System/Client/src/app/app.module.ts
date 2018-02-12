@@ -6,12 +6,15 @@ import { AppComponent } from './app.component';
 import { NavbarPhysioComponent } from './navbar-physio/navbar-physio.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatDatepickerModule} from '@angular/material/datepicker';
@@ -26,13 +29,19 @@ import { HttpClientModule} from '@angular/common/http';
 
 
 
+import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-manage-patients.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-    ExerciseComponent
+
+    ExerciseComponent,
+    PhysioManagePatientsComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -46,6 +55,7 @@ import { HttpClientModule} from '@angular/common/http';
     MatFormFieldModule,
     MatGridListModule,
     MatCardModule,
+
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
@@ -53,6 +63,9 @@ import { HttpClientModule} from '@angular/common/http';
     HttpClientModule,
 
 
+
+    MatTableModule,
+    MatSortModule,
   ],
   providers: [ExerciseService],
   bootstrap: [AppComponent]
