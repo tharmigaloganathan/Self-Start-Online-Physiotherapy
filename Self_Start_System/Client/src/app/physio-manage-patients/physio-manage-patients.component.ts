@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { ExerciseService} from "../services/exercise.service";
-import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-physio-manage-patients',
