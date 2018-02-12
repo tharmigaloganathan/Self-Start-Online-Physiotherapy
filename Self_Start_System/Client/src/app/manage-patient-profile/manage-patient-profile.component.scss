@@ -1,7 +1,17 @@
 @import '../../scss/_variables';
 
+.save-button {
+	background-color: $electric-glow;
+	color: $white;
+}
+
 .edit-button {
-	background-color: $flash-of-orange;
+	background-color: $rare-turquoise;
+	color: $white;
+}
+
+.cancel-button {
+	background-color: $magic-night;
 	color: $white;
 }
 
@@ -22,4 +32,10 @@
 
 .header {
 	padding: 2%;
+}
+
+.mat-tab-nav-bar {
+	background-color: $flash-of-orange;
+	color: $flash-of-orange;
+
 }

@@ -11,8 +11,12 @@
 					<!-- Personal information tab -->
 		  			<mat-tab label="Personal Information">
 						<div class="row float-right button-container">
-							<div class="col">
-								<button mat-raised-button class="edit-button">Edit</button>
+							<div *ngIf="!isChanged" class="col">
+								<button mat-raised-button class="edit-button" (click)="editPatientInfo()">Edit</button>
+							</div>
+							<div *ngIf="isChanged" class="col">
+								<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
+								<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
 							</div>
 						</div>
 						<form class="form-container">
@@ -20,12 +24,12 @@
 							<div class="row">
 								<div class="col form-container">
 									<mat-form-field>
-								 		<input matInput placeholder="Given Name" [value]="patient.givenName">
+								 		<input matInput placeholder="Given Name" [value]="patient.givenName" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 								<div class="col form-container">
 									<mat-form-field>
-										<input matInput placeholder="Family Name" [value]="patient.familyName">
+										<input matInput placeholder="Family Name" [value]="patient.familyName" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 							</div>
@@ -33,7 +37,7 @@
 							<div class="row">
 								<div class="col-4 form-container">
 									<mat-form-field>
-									 	<mat-select [(value)]="patient.gender" placeholder="Gender">
+									 	<mat-select [(value)]="patient.gender" placeholder="Gender" [disabled]="!isChanged">
 									    <mat-option value="Male">Male</mat-option>
 									    <mat-option value="Female">Female</mat-option>
 									    <mat-option value="Other">Other</mat-option>
@@ -42,7 +46,7 @@
 								</div>
 								<div class="col-8 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Date of Birth" [value]="patient.DOB">
+										<input matInput placeholder="Date of Birth" [value]="patient.DOB" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 							</div>
@@ -50,17 +54,17 @@
 							<div class="row">
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Street" [value]="patient.street">
+										<input matInput placeholder="Street" [value]="patient.street" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="City" [value]="patient.city">
+										<input matInput placeholder="City" [value]="patient.city" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 								<div class="col-2 form-container">
 									<mat-form-field>
-									 	<mat-select [(value)]="patient.province" placeholder="Province">
+									 	<mat-select [(value)]="patient.province" placeholder="Province" [disabled]="!isChanged">
 										    <mat-option value="AB">AB</mat-option>
 										    <mat-option value="BC">BC</mat-option>
 										    <mat-option value="MB">MB</mat-option>
@@ -79,7 +83,7 @@
 								</div>
 								<div class="col-2 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Postal Code" [value]="patient.postalCode">
+										<input matInput placeholder="Postal Code" [value]="patient.postalCode" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 							</div>
@@ -87,17 +91,17 @@
 							<div class="row">
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Phone Number" [value]="patient.phone">
+										<input matInput placeholder="Phone Number" [value]="patient.phone" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Health Card Number" [value]="patient.healthCardNumber">
+										<input matInput placeholder="Health Card Number" [value]="patient.healthCardNumber" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<mat-select [(value)]="patient.maritalStatus" placeholder="Marital Status">
+										<mat-select [(value)]="patient.maritalStatus" placeholder="Marital Status" [disabled]="!isChanged">
 											<mat-option value="Single">Single</mat-option>
 											<mat-option value="Married">Married</mat-option>
 											<mat-option value="Divorced">Divorced</mat-option>
@@ -110,19 +114,19 @@
 							<div class="row">
 								<div class="col-6 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Occupation" [value]="patient.occupation">
+										<input matInput placeholder="Occupation" [value]="patient.occupation" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 								<div class="col-6 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Email" [value]="patient.email">
+										<input matInput placeholder="Email" [value]="patient.email" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 							</div>
 						</form>
 		  			</mat-tab>
 					<!-- Treatment History-->
-				  	<mat-tab label="Treatment History">
+				  	<mat-tab label="Treatments">
 						<mat-accordion>
 						  <mat-expansion-panel>
 						    <mat-expansion-panel-header>
@@ -136,6 +140,36 @@
 						  </mat-expansion-panel>
 						</mat-accordion>
 				  </mat-tab>
+				  <!-- Appointments -->
+				  <mat-tab label="Appointments">
+					  <mat-accordion>
+						<mat-expansion-panel>
+						  <mat-expansion-panel-header>
+							<mat-panel-title>
+							  Appointment Id:
+							</mat-panel-title>
+							<mat-panel-description>
+							  Date:
+							</mat-panel-description>
+						  </mat-expansion-panel-header>
+						</mat-expansion-panel>
+					  </mat-accordion>
+				</mat-tab>
+				<!-- Payments -->
+				<mat-tab label="Payments">
+					<mat-accordion>
+					  <mat-expansion-panel>
+						<mat-expansion-panel-header>
+						  <mat-panel-title>
+							 Payment Id:
+						  </mat-panel-title>
+						  <mat-panel-description>
+							Date:
+						  </mat-panel-description>
+						</mat-expansion-panel-header>
+					  </mat-expansion-panel>
+					</mat-accordion>
+			  	</mat-tab>
 			  </mat-tab-group>
 	  		</div>
 		</div>

@@ -10,22 +10,9 @@ import { Subject } from 'rxjs/Subject';
   providers: [ManagePatientProfileService],
 })
 export class ManagePatientProfileComponent implements OnInit {
-	_id;
-	givenName;
-	familyName;
-	email;
-	gender;
-	DOB;
-	Street;
-	City;
-	postalCode;
-	Province;
-	phone;
-	healthCardNumber;
-	maritalStatus;
-	occupation;
 	patientProfileService;
 	patient;
+	isChanged = false;
 
   	constructor(patientProfileService: ManagePatientProfileService) {
 	 	this.patientProfileService = patientProfileService;
@@ -40,5 +27,18 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
 		console.log(this.patient);
   	}
+
+	editPatientInfo() {
+		this.isChanged = "true";
+	}
+
+	savePatientInfo() {
+		this.isChanged = "false";
+	}
+
+	cancelEdit() {
+		this.isChanged = "false";
+		console.log("Click");
+	}
 
 }
