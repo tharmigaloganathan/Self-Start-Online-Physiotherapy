@@ -48,19 +48,26 @@ router.route('/:rehabilitationPlan_id')
             else {
                 if(request.body.name) {
                     rehabilitationPlan.name = request.body.name;
-                } else if (request.body.description) {
+                }
+                if (request.body.description) {
                     rehabilitationPlan.description = request.body.description;
-                } else if (request.body.authorName) {
+                }
+                if (request.body.authorName) {
                     rehabilitationPlan.authorName = request.body.authorName;
-                } else if (request.body.goal) {
+                }
+                if (request.body.goal) {
                     rehabilitationPlan.goal = request.body.goal;
-                } else if (request.body.timeFrameToComplete) {
+                }
+                if (request.body.timeFrameToComplete) {
                     rehabilitationPlan.timeFrameToComplete = request.body.timeFrameToComplete;
-                } else if (request.body.exercises) {
+                }
+                if (request.body.exercises) {
                     rehabilitationPlan.exercises = request.body.exercises;
-                } else if (request.body.assessmentTests) {
+                }
+                if (request.body.assessmentTests) {
                     rehabilitationPlan.assessmentTests = request.body.assessmentTests;
-                } else if (request.body.treatments) {
+                }
+                if (request.body.treatments) {
                     rehabilitationPlan.treatments = request.body.treatments;
                 }
                 rehabilitationPlan.save(function (error) {
