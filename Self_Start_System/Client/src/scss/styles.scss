@@ -13,6 +13,16 @@ html, body, .container{
   height: 100%;
 }
 
+.no-left-right-margin{
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.no-left-right-padding{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 button {
   border-radius: 0;
 }

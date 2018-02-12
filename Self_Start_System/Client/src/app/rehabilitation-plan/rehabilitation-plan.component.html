@@ -1,0 +1,24 @@
+<app-navbar-physio></app-navbar-physio>
+
+<mat-sidenav-container class="example-container" *ngIf="showSidebar">
+
+  <!--Load sidebar component-->
+  <mat-sidenav mode="side" opened>
+    <app-sidebar-physio></app-sidebar-physio>
+  </mat-sidenav>
+  <!--End load sidebar component-->
+
+  <mat-sidenav-content>
+    <h1 class="title">
+      Manage Rehabilitation Plans <br />
+      <button mat-raised-button class="login-button" routerLink="/new-rehabilitation-plan">Create a New Rehabilitation Plan</button>
+    </h1>
+    <br /><br /><br />
+    <mat-card *ngFor="let plans of rehabilitationplans.rehabilitationPlan" (click) = "storeID(plans._id)" routerLink="/edit-rehabilitation-plan">
+      <mat-card-title>{{ plans.name }}</mat-card-title>
+      <mat-card-subtitle>Created by: {{ plans.authorName }}</mat-card-subtitle>
+      <mat-card-subtitle>Goal: {{ plans.goal }}</mat-card-subtitle>
+      <mat-card-subtitle>Timeframe: {{ plans.timeFrameToComplete }}</mat-card-subtitle>
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

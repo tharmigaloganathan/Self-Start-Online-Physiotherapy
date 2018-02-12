@@ -1,0 +1,36 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+@import '../../scss/sidebar';
+
+.title {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    top:20px;
+}
+mat-card {
+    align-items: center;
+    width: 400px;
+}
+
+mat-card:hover {
+    background-color: #d3d3d3;
+}
+
+
+button.blue {
+    background-color: $beautiful-blue;
+    // @include mat-elevation(2);
+}
+
+$custom-typography: mat-typography-config(
+$font-family: 'Roboto Condensed, sans-serif',
+$headline: mat-typography-level(50px, 48px, 300),
+$body-1: mat-typography-level(30px, 30px, 300)
+);
+
+@include mat-toolbar-typography($custom-typography);
+@include mat-button-typography($custom-typography);
+@include mat-list-typography($custom-typography);
+@include mat-sidenav-typography($custom-typography);
