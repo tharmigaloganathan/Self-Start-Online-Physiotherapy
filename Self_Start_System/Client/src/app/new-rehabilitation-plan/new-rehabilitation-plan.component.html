@@ -12,21 +12,42 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="example-container" *ngIf="showSidebar">
-  <mat-sidenav mode="side" opened>
-      <mat-nav-list>
-          <a mat-list-item routerLink=".">List of Patients</a>
-          <a mat-list-item routerLink=".">Manage Patient Profile</a>
-          <a mat-list-item class="selected" routerLink=".">Manage Rehabilitation Plans</a>
-          <a mat-list-item routerLink=".">Manage Exercises</a>
-      </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-      <h1 class="title">
-          Manage Rehabilitation Plans <br />
-          <button mat-raised-button class="login-button" routerLink="/new-rehabilitation-plan">Create a New Rehabilitation Plan</button>
+    <mat-sidenav mode="side" opened>
+        <mat-nav-list>
+            <a mat-list-item routerLink=".">List of Patients</a>
+            <a mat-list-item routerLink=".">Manage Patient Profile</a>
+            <a mat-list-item class="selected" routerLink=".">Manage Rehabilitation Plans</a>
+            <a mat-list-item routerLink=".">Manage Exercises</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <h1 class="title">
+            Create New Rehabilitation Plan <br /><br />
 
-      </h1>
-  </mat-sidenav-content>
+            <div class="example-container2">
+                <mat-form-field>
+                    <input matInput placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput placeholder="Description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Author Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput placeholder="Goal"></textarea>
+                </mat-form-field>
+
+            </div>
+            <br />
+
+            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan">Create!</button>
+
+        </h1>
+    </mat-sidenav-content>
 </mat-sidenav-container>
 
 
