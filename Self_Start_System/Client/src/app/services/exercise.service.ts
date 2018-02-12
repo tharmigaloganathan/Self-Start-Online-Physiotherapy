@@ -4,13 +4,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
 export class ExerciseService {
-  domain = 'http://localhost:3700';
+  domain = environment.apiURL;
 
   constructor(private http: HttpClient) { }
+
+  // Exercise api calls
 
   addExercise (exercise) : Observable<Response> {
     console.log("within exercise service", exercise);
@@ -28,6 +31,20 @@ export class ExerciseService {
       catchError(this.handleError)
       );
   }
+
+  // End of exercise api calls
+
+  // Patient api calls
+
+  getAllPatients(){
+    return this.http.get(this.domain+'/PatientProfiles')
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  // End of patient api calls
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

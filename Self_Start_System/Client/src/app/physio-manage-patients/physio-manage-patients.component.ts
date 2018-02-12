@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { ExerciseService} from "../services/exercise.service";
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -9,34 +10,12 @@ import { environment } from '../../environments/environment';
 })
 export class PhysioManagePatientsComponent implements OnInit {
 
-  displayedColumns = ['givenName', 'name', 'email', 'phone', 'maritalStatus'];
+  displayedColumns = ['givenName', 'familyName', 'email', 'phone', 'maritalStatus'];
   dataSource;
 
   @ViewChild(MatSort) sort: MatSort;
 
-  getPatients = () => {
-    fetch(
-      environment.apiURL + 'PatientProfiles'
-    ).then(
-      resp => {
-        return resp.json().then(
-          json => {
-            if (resp.ok){
-              console.log(json.patientProfile);
-              this.setUpDataSource(json.patientProfile);
-            } else {
-              return Promise.reject({
-                status: resp.status,
-                statusText: resp.statusText
-              })
-            }
-          }
-        );
-      }
-    ).catch(error => {
-      console.log(error);
-    });
-  };
+  constructor(private exerciseService :ExerciseService) { }
 
   setUpDataSource = patientProfile => {
     this.dataSource = new MatTableDataSource(patientProfile);
@@ -48,6 +27,11 @@ export class PhysioManagePatientsComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.getPatients();
+    this.exerciseService.getAllPatients().subscribe(
+      data => {
+        this.setUpDataSource(data.patientProfile);
+      },
+      error => console.log(error)
+    );
   }
 }
