@@ -10,12 +10,19 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
 })
 export class NewRehabilitationPlanComponent implements OnInit {
     showSidebar = true;
-    data= {};
+    data = {
+        rehabilitationPlan: {
+            name: '',
+            authorName: '',
+            description: '',
+            goal: '',
+            timeFrameToComplete: ''
+        }
+    };g
 
   constructor(private rehabilitationplanService: RehabilitationPlanService) { }
 
-  postRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
-      this.data.rehabilitationPlan = {};
+  postRehabilitationPlan(name: string, description: string, authorName: string, goal: string, timeframe: string) {
       this.data.rehabilitationPlan.name = name;
       this.data.rehabilitationPlan.authorName = authorName;
       this.data.rehabilitationPlan.goal = goal;

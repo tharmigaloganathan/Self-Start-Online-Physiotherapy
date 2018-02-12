@@ -35,12 +35,13 @@ export class RehabilitationPlanService {
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    updateRehabilitationPlan(body: Object, id: String) {
+    updateRehabilitationPlan(body: Object, id: string) {
         let bodyString = JSON.stringify(body); //Stringify payload
         let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
         let options       = new RequestOptions({ headers: headers }); // Create a request option
-        let Url = this.baseUrl + "/:" + id;
+        let Url = this.baseUrl + "/" + id;
         console.log("JSON body: ", bodyString);
+        console.log("URL", Url, id);
 
         // ...using post request
         return this.http.put(Url, bodyString, options)
