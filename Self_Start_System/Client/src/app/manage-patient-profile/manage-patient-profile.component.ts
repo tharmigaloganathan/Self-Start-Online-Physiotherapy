@@ -36,6 +36,8 @@ export class ManagePatientProfileComponent implements OnInit {
 		//Reset patient information
 		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.isChanged = false;
+		window.location.reload();
+		console.log(this.patient);
 	}
 
 }
