@@ -27,20 +27,20 @@ const appRoutes: Routes = [
     component: ExerciseComponent // The Exercise route
   },
   {
-    path : 'rehablitation-plan',
-    component: RehabilitationPlanComponent // The Exercise route
+    path: 'rehabilitation-plan',
+    component: RehabilitationPlanComponent // The Dashboard Route
   },
   {
-    path : 'new-rehabilitation-plan',
-    component: NewRehabilitationPlanComponent // The Exercise route
+    path: 'new-rehabilitation-plan',
+    component: NewRehabilitationPlanComponent // The Dashboard Route
   },
   {
-    path : 'edit-rehabilitation-plan',
-    component: EditRehabilitationPlanComponent // The Exercise route
+    path: 'edit-rehabilitation-plan',
+    component: EditRehabilitationPlanComponent // The Dashboard Route
   },
   {
     path: '**',
-    component: NotFoundPageComponent
+    component: NotFoundPageComponent // The "Catch-All" Route
   } // The "Catch-All" Route
 
 ];
