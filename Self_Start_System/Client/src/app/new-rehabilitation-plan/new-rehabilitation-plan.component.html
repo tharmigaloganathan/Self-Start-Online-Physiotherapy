@@ -1,0 +1,94 @@
+<mat-toolbar class="z-depth-5">
+    <span class="full-height">
+        <img class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
+    </span>
+    <span class="navbar-fill-remaining-space"></span>
+    <span class="full-height">
+        <button routerLink="/dashboard" mat-button class="full-height">Dashboard</button>
+        <button mat-button class="full-height">Task 2</button>
+        <button mat-button class="full-height">Task 3</button>
+        <button mat-raised-button class="login-button" (click)="openDialog()">LOGIN</button>
+    </span>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-container" *ngIf="showSidebar">
+    <mat-sidenav mode="side" opened>
+        <mat-nav-list>
+            <a mat-list-item routerLink=".">List of Patients</a>
+            <a mat-list-item routerLink=".">Manage Patient Profile</a>
+            <a mat-list-item class="selected" routerLink="/rehabilitation-plan">Manage Rehabilitation Plans</a>
+            <a mat-list-item routerLink=".">Manage Exercises</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <h1 class="title">
+            Create New Rehabilitation Plan <br /><br />
+
+            <div class="example-container2">
+                <mat-form-field>
+                    <input matInput #name placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #description placeholder="Description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput #authorName placeholder="Author Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #goal placeholder="Goal"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #timeframe placeholder="Time Frame To Complete"></textarea>
+                </mat-form-field>
+
+            </div>
+            <br />
+            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan" (click) = "postRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">Create!</button>
+
+        </h1>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+<!-- DYNAMIC SIDENAV (nightmare to work with) -->
+
+<!-- <mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <mat-nav-list>
+            <a mat-list-item routerLink=".">List of Patients</a>
+            <a mat-list-item routerLink=".">Manage Patient Profile</a>
+            <a mat-list-item routerLink=".">Manage Rehabilitation Plans</a>
+            <a mat-list-item routerLink=".">Manage Exercises</a>
+        </mat-nav-list>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+        <button mat-button (click)="drawer.toggle(); showSidebar=!showSidebar;" class="mat-small">
+            <mat-icon *ngIf="showSidebar">keyboard_arrow_right</mat-icon>
+            <mat-icon *ngIf="!showSidebar">keyboard_arrow_left</mat-icon>
+        </button>
+        <h1 style="font-family: 'Roboto Condensed', sans-serif;" class="title">
+            Existing Rehabilitation Plans
+        </h1>
+        <br/> <br />
+
+        <br/>
+        <mat-card class="dashboard-card">
+            <mat-card-title>Title 1</mat-card-title>
+            <mat-card-subtitle>Subtitles</mat-card-subtitle>
+            <mat-card-content>
+                Simple card
+            </mat-card-content>
+
+
+            <mat-card-actions>
+                <button mat-button class="launch">Select</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+</mat-drawer-container> -->
