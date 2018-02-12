@@ -23,11 +23,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
   }
 
   putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
-<<<<<<< HEAD
-      this.data.name:string = name;
-=======
       this.data.name = name;
->>>>>>> a791e5f3da6c3433631c5a6fa4709254815c4761
       this.data.authorName = authorName;
       this.data.goal = goal;
       this.data.description = description;

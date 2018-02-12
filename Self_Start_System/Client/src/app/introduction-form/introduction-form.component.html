@@ -48,8 +48,8 @@
         <div class = "row">
           <div class="col-md-6">
             <mat-form-field class = "question">
-              <input matInput placeholder="Question Order" [(ngModel)]="newQuestion.order"/>
-              <button mat-button *ngIf="newQuestion.order" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.order=''">
+              <input matInput placeholder="Question Order" [(ngModel)]="newOrder"/>
+              <button mat-button *ngIf="newOrder" matSuffix mat-icon-button aria-label="Clear" (click)="newOrder=''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
@@ -57,8 +57,8 @@
 
           <div class ="col-md-6">
             <mat-form-field class = "question">
-              <input matInput placeholder="Question Text" [(ngModel)]="newQuestion.questionText"/>
-              <button mat-button *ngIf="newQuestion.questionText" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.questionText=''">
+              <input matInput placeholder="Question Text" [(ngModel)]="newQuestionText"/>
+              <button mat-button *ngIf="newQuestionText" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestionText=''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
@@ -68,8 +68,8 @@
         <div class = "row">
           <div class ="col-md-6">
             <mat-form-field class = "question" >
-              <input matInput placeholder="Help Description" [(ngModel)]="newQuestion.helpDescription"/>
-              <button mat-button *ngIf="newQuestion.helpDescription" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.helpDescription=''">
+              <input matInput placeholder="Help Description" [(ngModel)]="newHelpDescription"/>
+              <button mat-button *ngIf="newHelpDescription" matSuffix mat-icon-button aria-label="Clear" (click)="newHelpDescription=''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
@@ -77,8 +77,8 @@
 
           <div class ="col-md-6">
             <mat-form-field class = "question">
-              <input matInput placeholder="Question Type" [(ngModel)]="newQuestion.questionType"/>
-              <button mat-button *ngIf="newQuestion.questionType" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.questionType=''">
+              <input matInput placeholder="Question Type" [(ngModel)]="newQuestionType"/>
+              <button mat-button *ngIf="newQuestionType" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestionType=''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
