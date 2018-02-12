@@ -16,7 +16,7 @@ const appRoutes: Routes = [
     component: DashboardPhysioComponent, // The Dashboard Route
   },
   {
-    path: 'physio-manage-patients',
+    path: 'physio/manage-patients',
     component: PhysioManagePatientsComponent // The Dashboard Route
   },
   {
