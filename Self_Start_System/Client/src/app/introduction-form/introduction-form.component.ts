@@ -9,9 +9,16 @@ import { Question } from "../models/Question";
 })
 export class IntroductionFormComponent implements OnInit {
 
+  newOrder;
+  newQuestionText;
+  newHelpDescription;
+  newQuestionType;
+
+
   introductionForm: Form;
   allQuestions: Question[];
   selectedQuestion: Question;
+  newQuestion: Question;
 
   constructor() { }
 

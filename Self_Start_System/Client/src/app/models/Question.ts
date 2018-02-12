@@ -4,7 +4,7 @@ export class Question {
   questionText: string;
   helpDescription: string;
   order: number;
-  questionType: QuestionType;
+  questionType: string;
   _id: string;
   _v: string;
 }

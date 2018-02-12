@@ -1,78 +1,97 @@
 <app-navbar-physio></app-navbar-physio>
 
-<!--Start of Manage Introduction Form-->
 <div class="container">
   <!--Title and description-->
-  <div class="row">
     <div class="col-md-2">
       <h1>Manage the Introduction Form</h1>
       <p>Add, change, or delete questions of the introduction form shown to new clients.</p>
     </div>
-  </div>
 
-  <!--Current Introduction Form Question List-->
-  <div class="row">
-    <div class="col-md-2">
-      <h3>Current Introduction Form</h3>
-        <div class="collection">
-          <li *ngFor="let question of questions">
-            <a class="collection-item">
-              <h5>Question {{question.order}}</h5>
-              <h6>{{question.questionText}}</h6>
-            </a>
-          </li>
-        </div>
+  <!-- Question List -->
+  <div *ngFor="let question of allQuestions">
+    <!-- Card for each question -->
+    <div class="col-md-12 no-left-right-margin no-left-right-padding">
+      <mat-card class="dashboard-card no-left-right-margin">
+        <mat-card-title>Question {{question.order}}</mat-card-title>
+        <mat-card-subtitle>{{question.questionText}}</mat-card-subtitle>
+        <mat-card-actions>
+          <button mat-button class="editQuestion">Edit</button>
+          <button mat-button class="deleteQuestion">Delete</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
+
+  <button mat-raised-button class="createNewQuestion" data-toggle="modal" data-target="#createQuestionModal">Create New Question</button>
+
 </div>
 
-<!-- Modal form to edit a question -->
-<div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+<!-- Create Question Modal -->
+<div class="modal fade" id="createQuestionModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      
-      <!-- Modal header -->
+
+      <!-- Modal Header -->
       <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel" >
+          Create New Question
+        </h4>
         <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">
-          Edit Question
-        </h4>
       </div>
-      
+
       <!-- Modal Body -->
       <div class="modal-body">
-        
-        <form class="form-horizontal" (ngSubmit)="onSubmit()" #questionForm="ngForm">
-          <!-- Question Text Field -->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="questionText">Question Text</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="questionText" required [(ngModel)]="selectedQuestion.questionText" name="questionText"/>
-            </div>
+        <div class = "row">
+          <div class="col-md-6">
+            <mat-form-field class = "question">
+              <input matInput placeholder="Question Order" [(ngModel)]="newQuestion.order"/>
+              <button mat-button *ngIf="newQuestion.order" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.order=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
           </div>
-          
-          <!-- Help Description Field -->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="questionText">Help Description</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="helpDescription" required [(ngModel)]="selectedQuestion.helpDescription" name="helpDescription"/>
-            </div>
+
+          <div class ="col-md-6">
+            <mat-form-field class = "question">
+              <input matInput placeholder="Question Text" [(ngModel)]="newQuestion.questionText"/>
+              <button mat-button *ngIf="newQuestion.questionText" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.questionText=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
           </div>
-          
-          <!-- Buttons -->
-          <button type="submit" class="btn btn-primary" data-dismiss="modal" [disasbled]="!questionForm.form.valid">Save Changes</button>
-          
-          <button type="button" class="btn btn-danger" data-dismss="modal">Delete Question</button>
-          
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-          
-        </form>
-        
+        </div>
+
+        <div class = "row">
+          <div class ="col-md-6">
+            <mat-form-field class = "question" >
+              <input matInput placeholder="Help Description" [(ngModel)]="newQuestion.helpDescription"/>
+              <button mat-button *ngIf="newQuestion.helpDescription" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.helpDescription=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div class ="col-md-6">
+            <mat-form-field class = "question">
+              <input matInput placeholder="Question Type" [(ngModel)]="newQuestion.questionType"/>
+              <button mat-button *ngIf="newQuestion.questionType" matSuffix mat-icon-button aria-label="Clear" (click)="newQuestion.questionType=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
+        <button mat-raised-button data-dismiss="modal" class="saveExercise" (click) ="addQuestion()">Save Question</button>
       </div>
-      
     </div>
   </div>
 </div>
+
