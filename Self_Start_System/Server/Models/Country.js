@@ -6,5 +6,116 @@ var countrySchema = mongoose.Schema(
         provinces: [{type: mongoose.Schema.ObjectId, ref: 'Province'}]
     }
 );
-var Countries = mongoose.model('Country', countrySchema);
-exports.Model = Countries;
+var Countries = module.exports = mongoose.model('Country', countrySchema);
+
+
+
+module.exports = {
+    add:add,
+    getAll:getAll,
+    getOne:getOne,
+    update:update,
+    deleteOne:deleteOne
+};
+
+function deleteOne(id){
+    return new Promise (function (resolve, reject) {
+        Countries.findById(id, function (error, country) {
+            if (error){
+                reject(error);
+            }else{
+                country.remove(function (err) {
+                    if (err){
+                        reject(error);
+                    } else {
+                        resolve(country);
+                    }
+                })
+            }
+        });
+    });
+}
+
+function update(id, updatedCountry){
+    return new Promise (function (resolve, reject) {
+        if (!updatedCountry.name){
+            err = "No name detected.";
+            reject(err);
+        } else if (!updatedCountry.patientProfiles){
+            err = "No patientProfiles detected.";
+            reject(err);
+        } else if (!updatedCountry.provinces){
+            err = "No provinces detected.";
+            reject(err);
+        } else {
+            Countries.findById(id, function (error, country) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    country.name = updatedCountry.name;
+                    country.patientProfiles = updatedCountry.patientProfiles;
+                    country.provinces = updatedCountry.provinces;
+                    country.save(function (error) {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(country);
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+function getOne(id){
+    return new Promise (function (resolve, reject) {
+        Countries.findById(id, function (error, country) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(country);
+            }
+        });
+    });
+}
+
+function getAll(){
+    return new Promise (function (resolve, reject) {
+        Countries.find({}, function (error, countries) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(countries);
+            }
+        });
+    });
+}
+
+function add(country){
+    return new Promise (function (resolve, reject) {
+        var newCountry = new Cities(country);
+        if (!newCountry.name){
+            err = "No name detected.";
+            reject(err);
+        } else if (!newCountry.patientProfiles){
+            err = "No patientProfiles detected.";
+            reject(err);
+        } else if (!newCountry.provinces){
+            err = "No provinces detected.";
+            reject(err);
+        } else {
+            newCountry.save(function (error) {
+                if (error){
+                    reject(err);
+                }else{
+                    resolve(newCountry);
+                }
+            });
+        }
+    });
+}
+
+
+

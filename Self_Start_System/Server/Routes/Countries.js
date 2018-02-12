@@ -1,22 +1,45 @@
-const Country = require('../Models/Country');
+var express = require('express');
+var router = express.Router();
+var Countries = require('../Models/Country');
 
-module.exports = function (router) {
-
-    //get all countries
-    router.get('/', function (req, res) {
-        Country.find({}, function (err, countries) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all countries
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all countries',
-                    countries: countries
-                })
-            }
+router.route('/')
+    .post(function (request, response) {
+        Countries.add(request.body.country).then(function(country){
+            response.json({country: country});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .get(function (request, response) {
+        Countries.getAll().then(function(countries){
+            response.json({country: countries});
+        }).catch(function(err){
+            response.json({success: false, message: err});
         })
     });
 
-    return router;
-};
+router.route('/:administrator_id')
+    .get(function (request, response) {
+        Countries.getOne(request.params.country_id).then(function(country){
+            response.json({country: country});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .put(function (request, response) {
+        Countries.update(request.params.country_id, request.body.country).then(function(country){
+            response.json({country: country});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (req, res) {
+        Countries.deleteOne(request.params.country_id).then(function(country){
+            res.json({success: true, message: 'country deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
+module.exports = router;
+

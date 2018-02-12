@@ -1,175 +1,44 @@
-const Exercises = require('../Models/Exercise');
+var express = require('express');
+var router = express.Router();
+var Exercises = require('../Models/Exercise');
 
-module.exports = function (router){
-
-    //get specific exercises
-    router.get('/:exercisesID', function (req, res) {
-        if (!(req.params.exercisesID)) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Exercises.findOne({exercisesID: req.params.exercisesID}, function (err, exercises) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    //return exercises object
-                    res.json({
-                        success: true,
-                        message: ('Success! Retrieved exercises with id ' + exercisesID),
-                        exercises: exercises
-                    })
-                }
-            })
-        }
-    });
-
-    //get all exercisess
-    router.get('/', function (req, res) {
-        Exercises.find({}, function (err, exercisess) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all exercisess
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all exercisess',
-                    exercisess: exercisess
-                })
-            }
+router.route('/')
+    .post(function (request, response) {
+        Exercises.add(request.body.exercise).then(function(exercise){
+            response.json({exercise: exercise});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .get(function (request, response) {
+        Exercises.getAll().then(function(exercises){
+            response.json({exercise: exercises});
+        }).catch(function(err){
+            response.json({success: false, message: err});
         })
     });
 
-    //post a exercises
-    router.post('/', function (req, res) {
-        if (!req.body.exercisesID){
-            res.json({success: false, message: "No exercisesID detected."});
-        } else if (!req.body.dateAssign){
-            res.json({success: false, message: "No dateAssign detected."});
-        }  else {
-
-            //create a new exercises instance to be saved
-            var exercises = new Exercises({
-                exercisesID: req.body.exercisesID,
-                name: req.body.name,
-                description: req.body.description,
-                objectives: req.body.objectives,
-                authorName: req.body.authorName,
-                location: req.body.location,
-                frequency: req.body.frequency,
-                duration: req.body.duration,
-                targetDate: req.body.targetDate,
-                multimediaURL: req.body.multimediaURL,
-                rehabilitationPlans: req.body.rehabilitationPlans
-            });
-
-            //save it
-            exercises.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "exercises saved!"});
-                }
-            })
-        }
+router.route('/:exercise_id')
+    .get(function (request, response) {
+        Exercises.getOne(request.params.exercise_id).then(function(exercise){
+            response.json({exercise: exercise});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .put(function (request, response) {
+        Exercises.update(request.params.exercise_id, request.body.exercise).then(function(exercise){
+            response.json({exercise: exercise});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (req, res) {
+        Exercises.deleteOne(request.params.exercise_id).then(function(exercise){
+            res.json({success: true, message: 'exercise deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-    //update exercises
-    router.put('/:exercisesID', function (req, res) {
-        if (!(req.params.exercisesID)) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Exercises.findOne({exercisesID: req.params.exercisesID}, function (err, exercises) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-
-                    if (req.body.name) {
-                        //update with new name
-                        exercises.name= req.body.name;
-                    }
-
-                    if (req.body.description) {
-                        //update with new description
-                        exercises.description= req.body.description;
-                    }
-
-                    if (req.body.objectives) {
-                        //update with new objectives
-                        exercises.objectives= req.body.objectives;
-                    }
-
-                    if (req.body.authorName) {
-                        //update with new authorName
-                        exercises.authorName = req.body.authorName;
-                    }
-
-                    if (req.body.actionSteps) {
-                        //update with new actionSteps
-                        exercises.actionSteps = req.body.actionSteps;
-                    }
-
-                    if (req.body.location) {
-                        //update with new frequency
-                        exercises.frequency = req.body.frequency;
-                    }
-
-                    if (req.body.frequency) {
-                        //update with new frequency
-                        exercises.frequency = req.body.frequency;
-                    }
-
-                    if (req.body.duration) {
-                        //update with new duration
-                        exercises.duration = req.body.duration;
-                    }
-
-                    if (req.body.targetDate) {
-                        //update with new targetDate
-                        exercises.targetDate = req.body.targetDate;
-                    }
-
-                    if (req.body.multimediaURL) {
-                        //update with new multimediaURL
-                        exercises.multimediaURL = req.body.multimediaURL;
-                    }
-
-                    if (req.body.rehabilitationPlans) {
-                        //update with new rehabilitationPlans
-                        exercises.rehabilitationPlans = req.body.rehabilitationPlans;
-                    }
-
-                    //save changes
-                    exercises.save(function (err){
-                        if (err){
-                            res.json({ success: false, message: err });
-                        } else {
-                            res.json({success: true, message: 'changes to exercises saved!'});
-                        }
-                    })
-                }
-            })
-        }
-    });
-
-    //delete exercises
-    router.delete('/:exercisesID', function (req, res) {
-        if (!(req.params.exercisesID)) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Exercises.findOne({exercisesID: req.params.exercisesID}, function (err, exercises) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    exercises.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'exercises deleted!'});
-                        }
-                    })
-                }
-            })
-        }
-    });
-
-    return router;
-};
+module.exports = router;
