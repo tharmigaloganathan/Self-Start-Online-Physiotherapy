@@ -15,12 +15,6 @@ router.route('/')
             response.json({success: false, message: "No goal detected."});
         } else if (!rehabilitationPlan.timeFrameToComplete) {
             response.json({success: false, message: "No timeFrameToComplete detected."});
-        } else if (!rehabilitationPlan.exercises) {
-            response.json({success: false, message: "No exercises detected."});
-        } else if (!rehabilitationPlan.assessmentTests) {
-            response.json({success: false, message: "No assessmentTests detected."});
-        } else if (!rehabilitationPlan.treatments) {
-            response.json({success: false, message: "No treatments detected."});
         } else {
             rehabilitationPlan.save(function(error) {
                 if(error) response.send(error);

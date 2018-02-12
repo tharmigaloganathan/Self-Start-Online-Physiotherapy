@@ -26,25 +26,28 @@
 
             <div class="example-container2">
                 <mat-form-field>
-                    <input matInput placeholder="Name">
+                    <input matInput #name placeholder="Name">
                 </mat-form-field>
 
                 <mat-form-field>
-                    <textarea matInput placeholder="Description"></textarea>
+                    <textarea matInput #description placeholder="Description"></textarea>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="Author Name">
+                    <input matInput #authorName placeholder="Author Name">
                 </mat-form-field>
 
                 <mat-form-field>
-                    <textarea matInput placeholder="Goal"></textarea>
+                    <textarea matInput #goal placeholder="Goal"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #timeframe placeholder="Time Frame To Complete"></textarea>
                 </mat-form-field>
 
             </div>
             <br />
-
-            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan">Create!</button>
+            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan" (click) = "postRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">Create!</button>
 
         </h1>
     </mat-sidenav-content>

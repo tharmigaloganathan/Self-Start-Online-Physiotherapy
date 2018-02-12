@@ -21,6 +21,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
 import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-rehabilitation-plan.component';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-re
     NewRehabilitationPlanComponent
   ],
   imports: [
+    HttpModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatCheckboxModule,

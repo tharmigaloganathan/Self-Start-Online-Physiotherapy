@@ -16,8 +16,11 @@
 }
 mat-card {
     align-items: center;
-    height: 250px;
-    width: 200px;
+    width: 400px;
+}
+
+mat-card:hover {
+    background-color: #d3d3d3;
 }
 
 
