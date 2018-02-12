@@ -1,26 +1,45 @@
-const City = require('../Models/City');
+var express = require('express');
+var router = express.Router();
+var Cities = require('../Models/City');
 
-module.exports = function (router) {
-    router.post('/', function (req, res) {
-        if (!req.body.cityName){
-            res.json({success: false, message: "No city name detected."});
-        } else {
-
-            //create a new patientProfile instance to be saved
-            var city = new City({
-                name: req.body.cityName
-            });
-
-            //save it
-            city.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "city saved!"});
-                }
-            })
-        }
+router.route('/')
+    .post(function (request, response) {
+        Cities.add(request.body.city).then(function(city){
+            response.json({city: city});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .get(function (request, response) {
+        Cities.getAll().then(function(cities){
+            response.json({city: cities});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-    return router;
-};
+router.route('/:city_id')
+    .get(function (request, response) {
+        Cities.getOne(request.params.city_id).then(function(city){
+            response.json({city: city});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .put(function (request, response) {
+        Cities.update(request.params.city_id, request.body.city).then(function(city){
+            response.json({city: city});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (req, res) {
+        Cities.deleteOne(request.params.city_id).then(function(city){
+            res.json({success: true, message: 'city deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
+module.exports = router;
+
