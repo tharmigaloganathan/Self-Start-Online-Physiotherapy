@@ -20,6 +20,9 @@ router.route('/')
 
 router.route('/:appointment_id')
     .get(function (request, response) {
+        if (!req.params.appointment_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Appointment.getOne(request.params.appointment_id).then(function(appointment){
             response.json({appointment: appointment});
         }).catch(function(err){
@@ -27,6 +30,9 @@ router.route('/:appointment_id')
         })
     })
     .put(function (request, response) {
+        if (!req.params.appointment_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Appointment.update(request.params.appointment_id, request.body.appointment).then(function(appointment){
             response.json({appointment: appointment});
         }).catch(function(err){
@@ -34,6 +40,9 @@ router.route('/:appointment_id')
         })
     })
     .delete(function (req, res) {
+        if (!req.params.appointment_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Appointment.deleteOne(request.params.appointment_id).then(function(appointment){
             res.json({success: true, message: 'appointment deleted!'});
         }).catch(function(err){

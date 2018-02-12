@@ -20,6 +20,9 @@ router.route('/')
 
 router.route('/:city_id')
     .get(function (request, response) {
+        if (!req.params.city_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Cities.getOne(request.params.city_id).then(function(city){
             response.json({city: city});
         }).catch(function(err){
@@ -27,6 +30,9 @@ router.route('/:city_id')
         })
     })
     .put(function (request, response) {
+        if (!req.params.city_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Cities.update(request.params.city_id, request.body.city).then(function(city){
             response.json({city: city});
         }).catch(function(err){
@@ -34,6 +40,9 @@ router.route('/:city_id')
         })
     })
     .delete(function (req, res) {
+        if (!req.params.city_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Cities.deleteOne(request.params.city_id).then(function(city){
             res.json({success: true, message: 'city deleted!'});
         }).catch(function(err){

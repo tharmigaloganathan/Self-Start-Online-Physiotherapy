@@ -20,6 +20,9 @@ router.route('/')
 
 router.route('/:exercise_id')
     .get(function (request, response) {
+        if (!req.params.exercise_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Exercises.getOne(request.params.exercise_id).then(function(exercise){
             response.json({exercise: exercise});
         }).catch(function(err){
@@ -27,6 +30,9 @@ router.route('/:exercise_id')
         })
     })
     .put(function (request, response) {
+        if (!req.params.exercise_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Exercises.update(request.params.exercise_id, request.body.exercise).then(function(exercise){
             response.json({exercise: exercise});
         }).catch(function(err){
@@ -34,6 +40,9 @@ router.route('/:exercise_id')
         })
     })
     .delete(function (req, res) {
+        if (!req.params.exercise_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Exercises.deleteOne(request.params.exercise_id).then(function(exercise){
             res.json({success: true, message: 'exercise deleted!'});
         }).catch(function(err){

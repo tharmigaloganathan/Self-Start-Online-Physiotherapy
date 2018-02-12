@@ -1,159 +1,53 @@
-const Physiotherapist = require('../Models/Physiotherapist');
+var express = require('express');
+var router = express.Router();
+var Physiotherapists = require('../Models/Physiotherapist');
 
-module.exports = function (router){
-
-    //get specific physiotherapist
-    router.get('/:physiotherapistID', function (req, res) {
-        if (!(req.params.physiotherapistID)) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    //return physiotherapist object
-                    res.json({
-                        success: true,
-                        message: ('Success! Retrieved physiotherapist with id ' + req.params.physiotherapistID),
-                        physiotherapist: physiotherapist
-                    })
-                }
-            })
-        }
-    });
-
-    //get all physiotherapists
-    router.get('/', function (req, res) {
-        Physiotherapist.find({}, function (err, physiotherapists) {
-            if (err) {
-                res.json({success: false, message: err});
-            } else {
-                //return all physiotherapists
-                res.json({
-                    success: true,
-                    message: 'Success! Retrieved all physiotherapists',
-                    physiotherapists: physiotherapists
-                })
-            }
+router.route('/')
+    .post(function (request, response) {
+        Physiotherapists.add(request.body.physiotherapist).then(function(physiotherapist){
+            response.json({physiotherapist: physiotherapist});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .get(function (request, response) {
+        Physiotherapists.getAll().then(function(physiotherapists){
+            response.json({physiotherapist: physiotherapists});
+        }).catch(function(err){
+            response.json({success: false, message: err});
         })
     });
 
-    //post a physiotherapist
-    router.post('/', function (req, res) {
-        if (!req.body.familyName){
-            res.json({success: false, message: "No familyName detected."});
-        } else if (!req.body.givenName){
-            res.json({success: false, message: "No givenName detected."});
-        } else if (!req.body.email){
-            res.json({success: false, message: "No email detected."});
-        } else if (!req.body.dateHired){
-            res.json({success: false, message: "No dateHired detected."});
-        } else if (!req.body.treatments){
-            res.json({success: false, message: "No treatments detected."});
-        } else if (!req.body.userAccount){
-            res.json({success: false, message: "No userAccount detected."});
-        } else {
-            //create a new physiotherapist instance to be saved
-            var physiotherapist = new Physiotherapist({
-                familyName: req.body.familyName,
-                givenName: req.body.givenName,
-                email: req.body.email,
-                dateHired: req.body.dateHired,
-                dateFinished: null, //not known yet at time of registration
-                treatments: req.body.treatments,
-                userAccount: req.body.userAccount
-
-            });
-
-            //save it
-            physiotherapist.save(function (err) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    res.json({success: true, message: "physiotherapist saved!"});
-                }
-            })
-        }
-    });
-
-    //change info for physiotherapist
-    router.put('/:physiotherapistID', function (req, res) {
-        if (!(req.params.physiotherapistID)) {
+router.route('/:object_id')
+    .get(function (request, response) {
+        if (!req.params.object_id) {
             res.json({success: false, message: 'id was not provided'});
-        } else {
-            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-
-                    if (req.body.familyName) {
-                        //update with new familyName
-                        physiotherapist.familyName = req.body.familyName;
-                    }
-
-                    if (req.body.givenName) {
-                        //update with new givenName
-                        physiotherapist.givenName = req.body.givenName;
-                    }
-
-                    if (req.body.email) {
-                        //update with new email
-                        physiotherapist.email = req.body.email;
-                    }
-
-                    if (req.body.dateHired) {
-                        //update with new dateHired
-                        physiotherapist.dateHired = req.body.dateHired;
-                    }
-
-                    if (req.body.dateFinished) {
-                        //update with new dateFinished
-                        physiotherapist.dateFinished = req.body.dateFinished;
-                    }
-
-                    if (req.body.treatments) {
-                        //update with new treatments
-                        physiotherapist.treatments = req.body.treatments;
-                    }
-
-                    if (req.body.userAccount) {
-                        //update with new treatments
-                        physiotherapist.userAccount = req.body.userAccount;
-                    }
-
-                    //save changes
-                    physiotherapist.save(function (err){
-                        if (err){
-                            res.json({ success: false, message: err });
-                        } else {
-                            res.json({success: true, message: 'changes to physiotherapist saved!'});
-                        }
-                    })
-                }
-            })
         }
-    });
-
-    //delete physiotherapist
-    router.delete('/:physiotherapistID', function (req, res) {
-        if (!(req.params.physiotherapistID)) {
+        Physiotherapists.getOne(request.params.object_id).then(function(physiotherapist){
+            response.json({physiotherapist: physiotherapist});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .put(function (request, response) {
+        if (!req.params.object_id) {
             res.json({success: false, message: 'id was not provided'});
-        } else {
-            Physiotherapist.findById(req.params.physiotherapistID, function (err, physiotherapist) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    physiotherapist.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'physiotherapist deleted!'});
-                        }
-                    })
-                }
-            })
         }
+        Physiotherapists.update(request.params.object_id, request.body.physiotherapist).then(function(physiotherapist){
+            response.json({physiotherapist: physiotherapist});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (req, res) {
+        if (!req.params.object_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
+        Physiotherapists.deleteOne(request.params.object_id).then(function(physiotherapist){
+            res.json({success: true, message: 'physiotherapist deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-    return router;
-};
+module.exports = router;

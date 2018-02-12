@@ -20,6 +20,9 @@ router.route('/')
 
 router.route('/:assessmentTest_id')
     .get(function (request, response) {
+        if (!req.params.assessmentTest_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         AssessmentTests.getOne(request.params.assessmentTest_id).then(function(assessmentTest){
             response.json({assessmentTest: assessmentTest});
         }).catch(function(err){
@@ -27,6 +30,9 @@ router.route('/:assessmentTest_id')
         })
     })
     .put(function (request, response) {
+        if (!req.params.assessmentTest_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         AssessmentTests.update(request.params.assessmentTest_id, request.body.assessmentTest).then(function(assessmentTest){
             response.json({assessmentTest: assessmentTest});
         }).catch(function(err){
@@ -34,6 +40,9 @@ router.route('/:assessmentTest_id')
         })
     })
     .delete(function (req, res) {
+        if (!req.params.assessmentTest_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         AssessmentTests.deleteOne(request.params.assessmentTest_id).then(function(assessmentTest){
             res.json({success: true, message: 'assessmentTest deleted!'});
         }).catch(function(err){

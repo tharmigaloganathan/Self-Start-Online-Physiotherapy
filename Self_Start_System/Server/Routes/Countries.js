@@ -18,8 +18,11 @@ router.route('/')
         })
     });
 
-router.route('/:administrator_id')
+router.route('/:country_id')
     .get(function (request, response) {
+        if (!req.params.country_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Countries.getOne(request.params.country_id).then(function(country){
             response.json({country: country});
         }).catch(function(err){
@@ -27,6 +30,9 @@ router.route('/:administrator_id')
         })
     })
     .put(function (request, response) {
+        if (!req.params.country_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Countries.update(request.params.country_id, request.body.country).then(function(country){
             response.json({country: country});
         }).catch(function(err){
@@ -34,6 +40,9 @@ router.route('/:administrator_id')
         })
     })
     .delete(function (req, res) {
+        if (!req.params.country_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Countries.deleteOne(request.params.country_id).then(function(country){
             res.json({success: true, message: 'country deleted!'});
         }).catch(function(err){

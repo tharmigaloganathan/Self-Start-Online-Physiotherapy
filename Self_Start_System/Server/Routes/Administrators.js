@@ -20,6 +20,9 @@ router.route('/')
 
 router.route('/:administrator_id')
     .get(function (request, response) {
+        if (!req.params.administrator_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Administrators.getOne(request.params.administrator_id).then(function(administrator){
             response.json({administrator: administrator});
         }).catch(function(err){
@@ -27,6 +30,9 @@ router.route('/:administrator_id')
         })
     })
     .put(function (request, response) {
+        if (!req.params.administrator_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Administrators.update(request.params.administrator_id, request.body.administrator).then(function(administrator){
             response.json({administrator: administrator});
         }).catch(function(err){
@@ -34,6 +40,9 @@ router.route('/:administrator_id')
         })
     })
     .delete(function (req, res) {
+        if (!req.params.administrator_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
         Administrators.deleteOne(request.params.administrator_id).then(function(administrator){
             res.json({success: true, message: 'admin deleted!'});
         }).catch(function(err){

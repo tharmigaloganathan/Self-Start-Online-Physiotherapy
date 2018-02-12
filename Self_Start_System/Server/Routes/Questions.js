@@ -1,96 +1,53 @@
 var express = require('express');
 var router = express.Router();
-var Questions = require('../models/Question');
+var Questions = require('../Models/Question');
 
 router.route('/')
     .post(function (request, response) {
-        var question = new Questions.Model(request.body.question);
-        if (!question.questionText){
-            response.json({success: false, message: "No questionText detected."});
-        } else if (!question.helpDescription){
-            response.json({success: false, message: "No helpDescription detected."});
-        } else if (!question.order){
-            response.json({success: false, message: "No order detected."});
-        } else if (!question.questionType){
-            response.json({success: false, message: "No questionType detected."});
-        } else if (!question.form){
-            response.json({success: false, message: "No form detected."});
-        } else {
-            question.save(function (error) {
-                if (error) response.send(error);
-                response.json({question: question});
-            });
-        }
+        Questions.add(request.body.question).then(function(question){
+            response.json({question: question});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .get(function (request, response) {
-        Questions.Model.find(function (error, questions) {
-            if (error) response.send(error);
+        Questions.getAll().then(function(questions){
             response.json({question: questions});
-        });
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-router.route('/:question_id')
+router.route('/:object_id')
     .get(function (request, response) {
-        Questions.Model.findById(request.params.question_id, function (error, question) {
-        if (error) {
-            response.send({error: error});
+        if (!req.params.object_id) {
+            res.json({success: false, message: 'id was not provided'});
         }
-        else {
+        Questions.getOne(request.params.object_id).then(function(question){
             response.json({question: question});
-        }
-        });
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .put(function (request, response) {
-        if (!request.body.question.questionText){
-            response.json({success: false, message: "No questionText detected."});
-        } else if (!request.body.question.helpDescription){
-            response.json({success: false, message: "No helpDescription detected."});
-        } else if (!request.body.question.order){
-            response.json({success: false, message: "No order detected."});
-        } else if (!request.body.question.questionType){
-            response.json({success: false, message: "No questionType detected."});
-        } else if (!request.body.question.form){
-            response.json({success: false, message: "No form detected."});
-        } else {
-            Questions.Model.findById(request.params.question_id, function (error, question) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
-                    question.questionText = request.body.question.questionText;
-                    question.helpDescription = request.body.question.helpDescription;
-                    question.order = request.body.question.order;
-                    question.questionType = request.body.question.questionType;
-                    question.form = request.body.question.form;
-                    question.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({question: question});
-                        }
-                    });
-                }
-            });
+        if (!req.params.object_id) {
+            res.json({success: false, message: 'id was not provided'});
         }
+        Questions.update(request.params.object_id, request.body.question).then(function(question){
+            response.json({question: question});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .delete(function (req, res) {
-        if (!req.params.question_id) {
+        if (!req.params.object_id) {
             res.json({success: false, message: 'id was not provided'});
-        } else {
-            Questions.Model.findById(req.params.question_id, function (err, question) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    question.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'question deleted!'});
-                        }
-                    })
-                }
-            })
         }
+        Questions.deleteOne(request.params.object_id).then(function(question){
+            res.json({success: true, message: 'question deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;

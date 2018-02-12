@@ -1,81 +1,53 @@
 var express = require('express');
 var router = express.Router();
-var QuestionsTypes = require('../models/QuestionType');
+var QuestionTypes = require('../Models/QuestionType');
 
 router.route('/')
     .post(function (request, response) {
-        var questionType = new QuestionTypes.Model(request.body.questionType);
-        if (!questionType.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!questionType.questions){
-            response.json({success: false, message: "No questions detected."});
-        } else {
-            questionType.save(function (error) {
-                if (error) response.send(error);
-                response.json({questionType: questionType});
-            });
-        }
+        QuestionTypes.add(request.body.questionType).then(function(questionType){
+            response.json({questionType: questionType});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .get(function (request, response) {
-        QuestionTypes.Model.find(function (error, questionTypes) {
-            if (error) response.send(error);
-            response.json({questionsType: questionsTypes});
-        });
+        QuestionTypes.getAll().then(function(questionTypes){
+            response.json({questionType: questionTypes});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-router.route('/:questionType_id')
+router.route('/:object_id')
     .get(function (request, response) {
-        QuestionTypes.Model.findById(request.params.questionType_id, function (error, questionType) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                response.json({questionType: questionType});
-            }
-        });
+        if (!req.params.object_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
+        QuestionTypes.getOne(request.params.object_id).then(function(questionType){
+            response.json({questionType: questionType});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .put(function (request, response) {
-        if (!request.body.questionType.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!request.body.questionType.questions){
-            response.json({success: false, message: "No questions detected."});
-        } else {
-            QuestionTypes.Model.findById(request.params.questionType_id, function (error, questionType) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
-                    questionType.name = request.body.questionType.name;
-                    questionType.questions = request.body.questionType.questions;
-                    questionType.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({questionType: questionType});
-                        }
-                    });
-                }
-            });
+        if (!req.params.object_id) {
+            res.json({success: false, message: 'id was not provided'});
         }
+        QuestionTypes.update(request.params.object_id, request.body.questionType).then(function(questionType){
+            response.json({questionType: questionType});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .delete(function (req, res) {
-        if (!req.params.questionType_id) {
+        if (!req.params.object_id) {
             res.json({success: false, message: 'id was not provided'});
-        } else {
-            QuestionTypes.Model.findById(req.params.questionType_id, function (err, questionType) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    questionType.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'questionType deleted!'});
-                        }
-                    })
-                }
-            })
         }
+        QuestionTypes.deleteOne(request.params.object_id).then(function(questionType){
+            res.json({success: true, message: 'questionType deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;
