@@ -23,14 +23,3 @@ button.blue {
     background-color: $beautiful-blue;
     // @include mat-elevation(2);
 }
-
-$custom-typography: mat-typography-config(
-$font-family: 'Roboto Condensed, sans-serif',
-$headline: mat-typography-level(50px, 48px, 300),
-$body-1: mat-typography-level(30px, 30px, 300)
-);
-
-@include mat-toolbar-typography($custom-typography);
-@include mat-button-typography($custom-typography);
-@include mat-list-typography($custom-typography);
-@include mat-sidenav-typography($custom-typography);
