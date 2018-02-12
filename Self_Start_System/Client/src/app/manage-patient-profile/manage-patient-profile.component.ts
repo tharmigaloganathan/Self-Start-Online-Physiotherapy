@@ -19,25 +19,23 @@ export class ManagePatientProfileComponent implements OnInit {
   }
 
   	ngOnInit() {
-		//this.patientProfileService.selectedPatient.subscribe(
-			//data=> this.patient = JSON.stringify(data);
-			//console.log("Patient data: " + JSON.stringify(this.patient));
-		//)
 		//Load the patient
 		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
 		console.log(this.patient);
   	}
 
 	editPatientInfo() {
-		this.isChanged = "true";
+		this.isChanged = true;
 	}
 
 	savePatientInfo() {
-		this.isChanged = "false";
+		this.isChanged = false;
 	}
 
 	cancelEdit() {
-		this.isChanged = "false";
+		//Reset patient information
+		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
+		this.isChanged = false;
 	}
 
 }
