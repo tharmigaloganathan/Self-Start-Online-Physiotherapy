@@ -38,6 +38,7 @@ import { HttpClientModule} from '@angular/common/http';
 
 
 import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-manage-patients.component';
+import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-m
     EditRehabilitationPlanComponent,
     ExerciseComponent,
     PhysioManagePatientsComponent,
+    SidebarPhysioComponent,
   ],
   imports: [
     HttpModule,
