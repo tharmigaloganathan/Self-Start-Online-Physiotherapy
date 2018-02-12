@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar-physio.component.scss']
 })
 export class SidebarPhysioComponent implements OnInit {
+  showSidebar = true;
 
   constructor() { }
 

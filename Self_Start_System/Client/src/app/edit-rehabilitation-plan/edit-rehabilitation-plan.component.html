@@ -1,14 +1,13 @@
 <app-navbar-physio></app-navbar-physio>
 
 <mat-sidenav-container class="example-container" *ngIf="showSidebar">
+
+    <!--Load sidebar component-->
     <mat-sidenav mode="side" opened>
-        <mat-nav-list>
-            <a mat-list-item routerLink=".">List of Patients</a>
-            <a mat-list-item routerLink=".">Manage Patient Profile</a>
-            <a mat-list-item class="selected" routerLink="/rehabilitation-plan">Manage Rehabilitation Plans</a>
-            <a mat-list-item routerLink=".">Manage Exercises</a>
-        </mat-nav-list>
+      <app-sidebar-physio></app-sidebar-physio>
     </mat-sidenav>
+    <!--End load sidebar component-->
+
     <mat-sidenav-content>
         <h1 class="title">
             Edit Rehabilitation Plan <br /><br />
