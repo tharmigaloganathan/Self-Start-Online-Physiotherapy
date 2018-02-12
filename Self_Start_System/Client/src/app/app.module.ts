@@ -14,7 +14,23 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule} from "@angular/material";
+import { MatIconModule} from "@angular/material";
+import { ExerciseComponent } from './exercise/exercise.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ExerciseService} from "./services/exercise.service";
+
+
+import { HttpClientModule} from '@angular/common/http';
+
+
+
 import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-manage-patients.component';
+
 
 @NgModule({
   declarations: [
@@ -22,21 +38,36 @@ import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-m
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-    PhysioManagePatientsComponent
+
+    ExerciseComponent,
+    PhysioManagePatientsComponent,
+
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
     MatButtonModule,
-    AppRoutingModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
     MatGridListModule,
     MatCardModule,
+
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+
+
+
     MatTableModule,
-    MatSortModule
+    MatSortModule,
   ],
-  providers: [],
+  providers: [ExerciseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
