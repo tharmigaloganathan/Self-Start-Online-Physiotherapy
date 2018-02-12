@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <!--Current Introduction Form-->
+  <!--Current Introduction Form Question List-->
   <div class="row">
     <div class="col-md-2">
       <h3>Current Introduction Form</h3>
@@ -22,6 +22,57 @@
             </a>
           </li>
         </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal form to edit a question -->
+<div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <!-- Modal header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          Edit Question
+        </h4>
+      </div>
+      
+      <!-- Modal Body -->
+      <div class="modal-body">
+        
+        <form class="form-horizontal" (ngSubmit)="onSubmit()" #questionForm="ngForm">
+          <!-- Question Text Field -->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="questionText">Question Text</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="questionText" required [(ngModel)]="selectedQuestion.questionText" name="questionText"/>
+            </div>
+          </div>
+          
+          <!-- Help Description Field -->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="questionText">Help Description</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="helpDescription" required [(ngModel)]="selectedQuestion.helpDescription" name="helpDescription"/>
+            </div>
+          </div>
+          
+          <!-- Buttons -->
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" [disasbled]="!questionForm.form.valid">Save Changes</button>
+          
+          <button type="button" class="btn btn-danger" data-dismss="modal">Delete Question</button>
+          
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          
+        </form>
+        
+      </div>
+      
     </div>
   </div>
 </div>

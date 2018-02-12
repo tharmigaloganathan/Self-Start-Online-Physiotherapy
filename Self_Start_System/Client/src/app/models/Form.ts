@@ -1,4 +1,4 @@
-import { Question} from "./Question";
+import { Question } from "./Question";
 
 //NOTE: AssessmentTest and Administrator fields still need to be added
 export class Form {
