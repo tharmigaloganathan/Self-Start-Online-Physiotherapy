@@ -1,0 +1,56 @@
+@import '../../scss/_variables';
+@import '../../scss/sidebar';
+@import '~@angular/material/theming';
+
+.example-container2 {
+  // display: flex;
+  width: 600px !important;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 24%;
+
+  justify-content: center !important;
+  flex-direction: column;
+}
+
+.example-container2 > * {
+  width: 100%;
+}
+
+.title {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    top:20px;
+}
+mat-card {
+    align-items: center;
+    height: 250px;
+    width: 200px;
+}
+
+
+.example-container {
+    width: 100vw;
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    // position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+$custom-typography: mat-typography-config(
+$font-family: 'Roboto Condensed, sans-serif',
+$headline: mat-typography-level(50px, 48px, 300),
+$body-1: mat-typography-level(30px, 30px, 300)
+);
+
+@include mat-toolbar-typography($custom-typography);
+@include mat-button-typography($custom-typography);
+@include mat-list-typography($custom-typography);
+@include mat-sidenav-typography($custom-typography);

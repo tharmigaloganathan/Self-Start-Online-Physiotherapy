@@ -1,10 +1,12 @@
-var expresponses = require('express');
-var router = expresponses.Router();
+var express = require('express');
+var router = express.Router();
 var Exercises = require('../models/Exercise');
 
 router.route('/')
     .post(function (request, response) {
-        var exercise = new Exercises.Model(request.body.exercise);
+        console.log("within exercises post route, request body has: ", request.body);
+        var exercise = new Exercises.Model(request.body);
+        console.log("successfully retrieved exercise from post request, trying to save: ", exercise);
         if (!exercise.name){
             response.json({success: false, message: "No name detected."});
         } else if (!exercise.description) {
@@ -25,16 +27,17 @@ router.route('/')
             response.json({success: false, message: "No targetDate detected."});
         } else if (!exercise.multimediaURL) {
             response.json({success: false, message: "No multimediaURL detected."});
-        } else if (!exercise.rehabilitationPlan) {
-            response.json({success: false, message: "No rehabilitationPlan detected."});
         } else {
             exercise.save(function (error) {
+                console.log("exercise has all values, saving..");
                 if (error) response.send(error);
                 response.json({exercise: exercise});
             });
         }
     })
+
     .get(function (request, response) {
+        console.log("within exercises get all route");
         Exercises.Model.find(function (error, exercises) {
             if (error) response.send(error);
             response.json({exercises: exercises});
