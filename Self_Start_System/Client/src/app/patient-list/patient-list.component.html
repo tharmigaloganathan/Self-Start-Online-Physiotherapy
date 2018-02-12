@@ -1,0 +1,29 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="container">
+	<div class="row">
+		<div class="col border">
+			<div class="header">
+				<h5>Patient List</h5>
+			</div>
+			<!--
+			<div class="form-container">
+				<mat-form-field>
+				 	<input matInput placeholder="Search">
+				</mat-form-field>
+			</div>
+			-->
+			<div class="row">
+				<div class="col">
+					<!-- Patient List -->
+					<mat-nav-list>
+						<mat-divider></mat-divider>
+						<mat-list-item *ngFor="let patient of patientList; let i = index" [attr.data-index]="i" (click)=viewProfile(i)> {{ patient.givenName + " " + patient.familyName }}
+							<mat-divider></mat-divider>
+						</mat-list-item>
+					</mat-nav-list>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
