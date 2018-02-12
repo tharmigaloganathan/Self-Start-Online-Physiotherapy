@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { PhysioManagePatientsComponent } from "./physio-manage-patients/physio-manage-patients.component";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
+import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-rehabilitation-plan.component';
+import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 import { ExerciseComponent} from "./exercise/exercise.component";
 
 // Our Array of Angular 2 Routes
@@ -16,7 +19,7 @@ const appRoutes: Routes = [
     component: DashboardPhysioComponent, // The Dashboard Route
   },
   {
-    path: 'physio-manage-patients',
+    path: 'physio/manage-patients',
     component: PhysioManagePatientsComponent // The Dashboard Route
   },
   {
@@ -24,8 +27,20 @@ const appRoutes: Routes = [
     component: ExerciseComponent // The Exercise route
   },
   {
+    path: 'rehabilitation-plan',
+    component: RehabilitationPlanComponent // The Dashboard Route
+  },
+  {
+    path: 'new-rehabilitation-plan',
+    component: NewRehabilitationPlanComponent // The Dashboard Route
+  },
+  {
+    path: 'edit-rehabilitation-plan',
+    component: EditRehabilitationPlanComponent // The Dashboard Route
+  },
+  {
     path: '**',
-    component: NotFoundPageComponent
+    component: NotFoundPageComponent // The "Catch-All" Route
   } // The "Catch-All" Route
 
 ];

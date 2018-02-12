@@ -6,6 +6,12 @@ import { AppComponent } from './app.component';
 import { NavbarPhysioComponent } from './navbar-physio/navbar-physio.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
@@ -14,6 +20,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
+import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-rehabilitation-plan.component';
+import { HttpModule } from '@angular/http';
+import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -38,12 +48,14 @@ import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-m
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-
+    RehabilitationPlanComponent,
+    NewRehabilitationPlanComponent,
+    EditRehabilitationPlanComponent,
     ExerciseComponent,
     PhysioManagePatientsComponent,
-
   ],
   imports: [
+    HttpModule,
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -55,17 +67,20 @@ import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-m
     MatFormFieldModule,
     MatGridListModule,
     MatCardModule,
-
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-
-
-
     MatTableModule,
-    MatSortModule,
+    MatSortModule
   ],
   providers: [ExerciseService],
   bootstrap: [AppComponent]
