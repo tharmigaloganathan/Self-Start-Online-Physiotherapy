@@ -1,0 +1,73 @@
+@import './_variables';
+@import '~@angular/material/theming';
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  background-color: $white;
+}
+
+button.blue {
+  background-color: $beautiful-blue;
+  // @include mat-elevation(2);
+}
+
+mat-sidenav {
+  background-color: $magic-night;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 250px;
+}
+
+mat-sidenav-container {
+  // position: relative;
+  // margin-top: 6px;
+  // top: 6px;
+  @include mat-elevation(1);
+}
+
+.mat-list-item {
+  color: #cccccc !important;
+  height: 30px !important;
+}
+.mat-list-item-content {
+  padding: 0px !important;
+  height: 30px !important;
+}
+
+.mat-list-item:hover {
+  background-color: #28293d;
+}
+
+.mat-list-item.selected {
+  background-color: $rare-turquoise;
+}
+
+.mat-list-item.selected:hover {
+  background-color: #0c657a;
+}
+
+
+.mat-list-item:focus {
+  background-color: $rare-turquoise;
+}
+
+.mat-list-item:focus:hover {
+  background-color: #0c657a;
+}
+
+mat-toolbar{
+  background-color:$white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  @include mat-elevation(5);
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto Condensed, sans-serif',
+  $headline: mat-typography-level(50px, 48px, 300),
+  $body-1: mat-typography-level(30px, 30px, 300)
+);
+
+@include mat-toolbar-typography($custom-typography);
+@include mat-button-typography($custom-typography);
+@include mat-list-typography($custom-typography);
+@include mat-sidenav-typography($custom-typography);

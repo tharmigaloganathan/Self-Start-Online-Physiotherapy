@@ -4,6 +4,8 @@ import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.co
 import { PhysioManagePatientsComponent } from "./physio-manage-patients/physio-manage-patients.component";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { IntroductionFormComponent} from "./introduction-form/introduction-form.component";
+import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
+import { PatientListComponent } from './patient-list/patient-list.component';
 import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
@@ -42,6 +44,14 @@ const appRoutes: Routes = [
   {
     path: 'admin/introform',
     component: IntroductionFormComponent // The Admin/IntroductionForm Route
+  },
+  {
+    path: 'dashboard/manage-patient-profile',
+    component: ManagePatientProfileComponent
+  },
+  {
+  	path: 'dashboard/patients',
+  	component: PatientListComponent
   },
   {
     path: '**',
