@@ -151,16 +151,6 @@ mat-toolbar{
 
 
 
-img.logo{
-    max-width: 100%;
-    max-height: 100%;
-}
-
-button.login-button{
-    background-color: $electric-glow;
-    border-radius: 0px;
-}
-
 $custom-typography: mat-typography-config(
 $font-family: 'Roboto Condensed, sans-serif',
 $headline: mat-typography-level(50px, 48px, 300),
