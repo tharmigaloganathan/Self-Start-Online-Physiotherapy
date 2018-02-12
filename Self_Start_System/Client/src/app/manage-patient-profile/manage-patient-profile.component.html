@@ -11,13 +11,15 @@
 					<!-- Personal information tab -->
 		  			<mat-tab label="Personal Information">
 						<div class="row float-right button-container">
-							<div *ngIf="!isChanged" class="col">
+							<div *ngIf="!isChanged; else edit" class="col">
 								<button mat-raised-button class="edit-button" (click)="editPatientInfo()">Edit</button>
 							</div>
-							<div *ngIf="isChanged" class="col">
-								<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
-								<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
-							</div>
+							<ng-template #edit>
+								<div class="col">
+									<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
+									<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+								</div>
+							</ng-template>
 						</div>
 						<form class="form-container">
 							<!-- Row 1 -->

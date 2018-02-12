@@ -21,6 +21,7 @@ export class PatientListComponent implements OnInit {
 
 	ngOnInit() {
   	  this.getPatientList();
+	  f.form.disable();
     }
 
     //Get all patients

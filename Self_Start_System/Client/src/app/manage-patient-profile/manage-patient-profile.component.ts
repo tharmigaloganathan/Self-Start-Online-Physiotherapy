@@ -38,7 +38,6 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	cancelEdit() {
 		this.isChanged = "false";
-		console.log("Click");
 	}
 
 }
