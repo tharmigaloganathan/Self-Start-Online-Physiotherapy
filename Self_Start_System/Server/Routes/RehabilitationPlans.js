@@ -15,12 +15,6 @@ router.route('/')
             response.json({success: false, message: "No goal detected."});
         } else if (!rehabilitationPlan.timeFrameToComplete) {
             response.json({success: false, message: "No timeFrameToComplete detected."});
-        } else if (!rehabilitationPlan.exercises) {
-            response.json({success: false, message: "No exercises detected."});
-        } else if (!rehabilitationPlan.assessmentTests) {
-            response.json({success: false, message: "No assessmentTests detected."});
-        } else if (!rehabilitationPlan.treatments) {
-            response.json({success: false, message: "No treatments detected."});
         } else {
             rehabilitationPlan.save(function(error) {
                 if(error) response.send(error);
@@ -52,22 +46,22 @@ router.route('/:rehabilitationPlan_id')
                 response.send({error: error});
             }
             else {
-                if(request.body.rehabilitationPlan.name) {
-                    rehabilitationPlan.name = request.body.rehabilitationPlan.name;
-                } else if (request.body.rehabilitationPlan.description) {
-                    rehabilitationPlan.description = request.body.rehabilitationPlan.description;
-                } else if (request.body.rehabilitationPlan.authorName) {
-                    rehabilitationPlan.authorName = request.body.rehabilitationPlan.authorName;
-                } else if (request.body.rehabilitationPlan.goal) {
-                    rehabilitationPlan.goal = request.body.rehabilitationPlan.goal;
-                } else if (request.body.rehabilitationPlan.timeFrameToComplete) {
-                    rehabilitationPlan.timeFrameToComplete = request.body.rehabilitationPlan.timeFrameToComplete;
-                } else if (request.body.rehabilitationPlan.exercises) {
-                    rehabilitationPlan.exercises = request.body.rehabilitationPlan.exercises;
-                } else if (request.body.rehabilitationPlan.assessmentTests) {
-                    rehabilitationPlan.assessmentTests = request.body.rehabilitationPlan.assessmentTests;
-                } else if (request.body.rehabilitationPlan.treatments) {
-                    rehabilitationPlan.treatments = request.body.rehabilitationPlan.treatments;
+                if(request.body.name) {
+                    rehabilitationPlan.name = request.body.name;
+                } else if (request.body.description) {
+                    rehabilitationPlan.description = request.body.description;
+                } else if (request.body.authorName) {
+                    rehabilitationPlan.authorName = request.body.authorName;
+                } else if (request.body.goal) {
+                    rehabilitationPlan.goal = request.body.goal;
+                } else if (request.body.timeFrameToComplete) {
+                    rehabilitationPlan.timeFrameToComplete = request.body.timeFrameToComplete;
+                } else if (request.body.exercises) {
+                    rehabilitationPlan.exercises = request.body.exercises;
+                } else if (request.body.assessmentTests) {
+                    rehabilitationPlan.assessmentTests = request.body.assessmentTests;
+                } else if (request.body.treatments) {
+                    rehabilitationPlan.treatments = request.body.treatments;
                 }
                 rehabilitationPlan.save(function (error) {
                     if (error) {
