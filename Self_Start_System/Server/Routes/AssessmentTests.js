@@ -11,12 +11,12 @@ router.route('/')
             response.json({success: false, message: "No description detected."});
         } else if (!assessmentTest.authorName){
             response.json({success: false, message: "No authorName detected."});
-        } else if (!assessmentTest.recommendations){
-            response.json({success: false, message: "No recommendations detected."});
+        } else if (!assessmentTest.recommendation){
+            response.json({success: false, message: "No recommendation detected."});
         } else if (!assessmentTest.form){
             response.json({success: false, message: "No form detected."});
-        } else if (!assessmentTest.testResults){
-            response.json({success: false, message: "No testResults detected."});
+        } else if (!assessmentTest.testResult){
+            response.json({success: false, message: "No testResult detected."});
         } else if (!assessmentTest.rehabilitationPlan){
             response.json({success: false, message: "No rehabilitationPlan detected."});
         } else {
@@ -45,45 +45,17 @@ router.route('/:assessmentTest_id')
         });
     })
     .put(function (request, response) {
-<<<<<<< HEAD
-        if (!request.body.assessmentTest.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!request.body.assessmentTest.description){
-            response.json({success: false, message: "No description detected."});
-        } else if (!request.body.assessmentTest.authorName){
-            response.json({success: false, message: "No authorName detected."});
-        } else if (!request.body.assessmentTest.recommendations){
-            response.json({success: false, message: "No recommendations detected."});
-        } else if (!request.body.assessmentTest.form){
-            response.json({success: false, message: "No form detected."});
-        } else if (!request.body.assessmentTest.testResults){
-            response.json({success: false, message: "No testResults detected."});
-        } else if (!request.body.assessmentTest.rehabilitationPlan){
-            response.json({success: false, message: "No rehabilitationPlan detected."});
-        } else {
-            AssessmentTests.Model.findById(request.params.assessmentTest_id, function (error, assessmentTest) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
-=======
         AssessmentTests.Model.findById(request.params.assessmentTest_id, function (error, assessmentTest) {
             if (error) {
                 response.send({error: error});
             }
             else {
                 if (request.body.assessmentTest.name){
->>>>>>> 8f26f2eeeb8c2af3403f42fb2deef5fe94b7bcca
                     assessmentTest.name = request.body.assessmentTest.name;
                 } else if (request.body.assessmentTest.description){
                     assessmentTest.description = request.body.assessmentTest.description;
                 } else if (request.body.assessmentTest.authorName){
                     assessmentTest.authorName = request.body.assessmentTest.authorName;
-<<<<<<< HEAD
-                    assessmentTest.recommendations = request.body.assessmentTest.recommendations;
-                    assessmentTest.form = request.body.assessmentTest.form;
-                    assessmentTest.testResults = request.body.assessmentTest.testResults;
-=======
                 } else if (request.body.assessmentTest.recommendation){
                     assessmentTest.recommendation = request.body.assessmentTest.recommendation;
                 } else if (request.body.assessmentTest.form){
@@ -91,7 +63,6 @@ router.route('/:assessmentTest_id')
                 } else if (request.body.assessmentTest.testResult){
                     assessmentTest.testResult = request.body.assessmentTest.testResult;
                 } else if (request.body.assessmentTest.rehabilitationPlan){
->>>>>>> 8f26f2eeeb8c2af3403f42fb2deef5fe94b7bcca
                     assessmentTest.rehabilitationPlan = request.body.assessmentTest.rehabilitationPlan;
                 }
                 assessmentTest.save(function (error) {
