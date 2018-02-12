@@ -4,8 +4,9 @@ var Exercises = require('../models/Exercise');
 
 router.route('/')
     .post(function (request, response) {
-        var exercise = new Exercises.Model(request.body.exercise);
-        console.log("within exercises post route, saving: ", exercise);
+        console.log("within exercises post route, request body has: ", request.body);
+        var exercise = new Exercises.Model(request.body);
+        console.log("successfully retrieved exercise from post request, trying to save: ", exercise);
         if (!exercise.name){
             response.json({success: false, message: "No name detected."});
         } else if (!exercise.description) {
@@ -28,6 +29,7 @@ router.route('/')
             response.json({success: false, message: "No multimediaURL detected."});
         } else {
             exercise.save(function (error) {
+                console.log("exercise has all values, saving..");
                 if (error) response.send(error);
                 response.json({exercise: exercise});
             });

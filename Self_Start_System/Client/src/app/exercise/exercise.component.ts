@@ -34,24 +34,24 @@ export class ExerciseComponent implements OnInit {
   }
 
   addExercise(){
-    console.log(this.exerciseNameValue,this.authorNameValue,this.targetDateValue);
+    console.log(this.exerciseNameValue);
 
     var exercise = {
       name: this.exerciseNameValue,
+      description: this.descriptionValue,
+      objectives: this.objectiveValue,
       authorName: this.authorNameValue,
+      actionSteps: this.actionStepsValue,
       location: this.locationValue,
-      multimediaURL: this.URLValue,
       frequency: this.frequencyValue,
       duration: this.durationValue,
       targetDate: this.targetDateValue,
-      description: this.descriptionValue,
-      objective: this.objectiveValue,
-      actionSteps: this.actionStepsValue
+      multimediaURL: this.URLValue,
     };
 
     this.exerciseService.addExercise(exercise).subscribe(
-      data=> {},
-      error => console.log(error)
+      res=> {console.log("response received: ", res)},
+      error => {console.log(error)}
     );
   }
 
@@ -59,7 +59,7 @@ export class ExerciseComponent implements OnInit {
     console.log("getting all exercises");
     this.exerciseService.getAllExercises().subscribe(
       data => {
-        console.log(data.exercises)
+        console.log(data)
       },
       error => console.log(error)
     );

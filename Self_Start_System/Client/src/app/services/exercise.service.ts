@@ -12,7 +12,7 @@ export class ExerciseService {
 
   constructor(private http: HttpClient) { }
 
-  addExercise (exercise) : Observable<{}> {
+  addExercise (exercise) : Observable<Response> {
     console.log("within exercise service", exercise);
     return this.http.post(this.domain+'/exercises', exercise)
       .pipe(
