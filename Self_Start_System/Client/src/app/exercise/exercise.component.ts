@@ -6,6 +6,8 @@ import { catchError, retry } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
 
 
+
+
 @Component({
   selector: 'app-exercise',
   templateUrl: './exercise.component.html',
@@ -60,7 +62,7 @@ export class ExerciseComponent implements OnInit {
     console.log("getting all exercises");
     this.exerciseService.getAllExercises().subscribe(
       data => {
-        console.log("exercises retrieved! ",data['exercises']);
+        console.log("exercises retrieved! ",data.exercises);
         this.allExercises = data.exercises;
       },
       error => console.log(error)
