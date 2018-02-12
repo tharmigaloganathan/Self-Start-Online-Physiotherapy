@@ -9,13 +9,7 @@ import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 })
 export class EditRehabilitationPlanComponent implements OnInit {
     showSidebar = true;
-    data = {
-        name: '',
-        authorName: '',
-        description: '',
-        goal: '',
-        timeFrameToComplete: ''
-    };
+    data: Object;
 
   constructor(private rehabilitationplanService: RehabilitationPlanService) { }
 
@@ -23,11 +17,14 @@ export class EditRehabilitationPlanComponent implements OnInit {
   }
 
   putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
-      this.data.name = name;
-      this.data.authorName = authorName;
-      this.data.goal = goal;
-      this.data.description = description;
-      this.data.timeFrameToComplete = timeframe;
+      this.data = {
+         name: name,
+         authorName: authorName,
+         description: description,
+         goal: goal,
+         timeFrameToComplete: timeframe
+     };
+
       console.log("data: ",this.data);
       let editID = localStorage.getItem('edit_rehabilitation_id');
       this.rehabilitationplanService.updateRehabilitationPlan(this.data, editID).subscribe(res =>
