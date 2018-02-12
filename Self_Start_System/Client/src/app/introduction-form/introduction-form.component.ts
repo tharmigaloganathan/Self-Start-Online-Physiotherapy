@@ -26,6 +26,16 @@ export class IntroductionFormComponent implements OnInit {
     this.getAllQuestions();
   }
 
+  deleteQuestion(selectedQuestion){
+    this.formService.deleteQuestion(selectedQuestion._id).subscribe(
+      res=> {console.log("response received: ", res),
+      //reload all questions
+        this.getAllQuestions();},
+      error => {console.log(error)}
+    );
+
+  }
+
   addQuestion(){
     var question = {
       order: this.newOrder,
@@ -36,12 +46,12 @@ export class IntroductionFormComponent implements OnInit {
     };
 
     this.formService.addQuestion(question).subscribe(
-      res=> {console.log("response received: ", res)},
+      res=> {console.log("response received: ", res),
+      //reload all questions
+        this.getAllQuestions();},
       error => {console.log(error)}
     );
 
-    //Reload all questions
-    this.getAllQuestions()
   }
 
   getAllQuestions(){

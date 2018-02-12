@@ -13,6 +13,14 @@ export class FormService {
 
   constructor(private http: HttpClient) { }
 
+  deleteQuestion(id: string){
+    return this.http.delete(this.domain+'/questions/'+id)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   addQuestion (question): Observable<any> {
     return this.http.post(this.domain+'/questions', question)
       .pipe(
