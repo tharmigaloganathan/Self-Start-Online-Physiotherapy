@@ -20,7 +20,7 @@ export class ExerciseComponent implements OnInit {
   durationValue;
   targetDateValue;
   descriptionValue;
-  objectiveValue;
+  objectivesValue;
   actionStepsValue;
 
   allExercises;
@@ -39,7 +39,7 @@ export class ExerciseComponent implements OnInit {
     var exercise = {
       name: this.exerciseNameValue,
       description: this.descriptionValue,
-      objectives: this.objectiveValue,
+      objectives: this.objectivesValue,
       authorName: this.authorNameValue,
       actionSteps: this.actionStepsValue,
       location: this.locationValue,
