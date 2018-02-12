@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
 import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-rehabilitation-plan.component';
 import { HttpModule } from '@angular/http';
+import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HttpModule } from '@angular/http';
     DashboardPhysioComponent,
     NotFoundPageComponent,
     RehabilitationPlanComponent,
-    NewRehabilitationPlanComponent
+    NewRehabilitationPlanComponent,
+    EditRehabilitationPlanComponent
   ],
   imports: [
     HttpModule,

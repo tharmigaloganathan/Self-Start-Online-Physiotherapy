@@ -28,6 +28,11 @@ export class RehabilitationPlanComponent implements OnInit {
         );
     }
 
+    storeID(id: String) {
+        console.log("ID", id);
+        localStorage.setItem('edit_rehabilitation_id', id);
+    }
+
     ngOnInit() {
     }
 

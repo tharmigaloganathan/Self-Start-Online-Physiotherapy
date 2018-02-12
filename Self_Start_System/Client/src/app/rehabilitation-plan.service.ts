@@ -35,4 +35,19 @@ export class RehabilitationPlanService {
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    updateRehabilitationPlan(body: Object, id: String) {
+        let bodyString = JSON.stringify(body); //Stringify payload
+        let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        let options       = new RequestOptions({ headers: headers }); // Create a request option
+        let Url = this.baseUrl + "/:" + id;
+        console.log("JSON body: ", bodyString);
+
+        // ...using post request
+        return this.http.put(Url, bodyString, options)
+            // ...and calling .json() on the response to return data
+            .map((res:Response) => res.json())
+            //...errors if any
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
 }

@@ -4,6 +4,7 @@ import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.co
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
 import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-rehabilitation-plan.component';
+import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -22,6 +23,10 @@ const appRoutes: Routes = [
   {
     path: 'new-rehabilitation-plan',
     component: NewRehabilitationPlanComponent // The Dashboard Route
+  },
+  {
+    path: 'edit-rehabilitation-plan',
+    component: EditRehabilitationPlanComponent // The Dashboard Route
   },
   {
     path: '**',

@@ -7,32 +7,50 @@
         <button routerLink="/dashboard" mat-button class="full-height">Dashboard</button>
         <button mat-button class="full-height">Task 2</button>
         <button mat-button class="full-height">Task 3</button>
-        <button mat-raised-button class="login-button">LOGIN</button>
+        <button mat-raised-button class="login-button" (click)="openDialog()">LOGIN</button>
     </span>
 </mat-toolbar>
 
 <mat-sidenav-container class="example-container" *ngIf="showSidebar">
-  <mat-sidenav mode="side" opened>
-      <mat-nav-list>
-          <a mat-list-item routerLink=".">List of Patients</a>
-          <a mat-list-item routerLink=".">Manage Patient Profile</a>
-          <a mat-list-item class="selected" routerLink=".">Manage Rehabilitation Plans</a>
-          <a mat-list-item routerLink=".">Manage Exercises</a>
-      </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-      <h1 class="title">
-          Manage Rehabilitation Plans <br />
-          <button mat-raised-button class="login-button" routerLink="/new-rehabilitation-plan">Create a New Rehabilitation Plan</button>
-      </h1>
-      <br /><br /><br />
-      <mat-card *ngFor="let plans of rehabilitationplans.rehabilitationPlan" (click) = "storeID(plans._id)" routerLink="/edit-rehabilitation-plan">
-          <mat-card-title>{{ plans.name }}</mat-card-title>
-          <mat-card-subtitle>Created by: {{ plans.authorName }}</mat-card-subtitle>
-          <mat-card-subtitle>Goal: {{ plans.goal }}</mat-card-subtitle>
-          <mat-card-subtitle>Timeframe: {{ plans.timeFrameToComplete }}</mat-card-subtitle>
-      </mat-card>
-  </mat-sidenav-content>
+    <mat-sidenav mode="side" opened>
+        <mat-nav-list>
+            <a mat-list-item routerLink=".">List of Patients</a>
+            <a mat-list-item routerLink=".">Manage Patient Profile</a>
+            <a mat-list-item class="selected" routerLink="/rehabilitation-plan">Manage Rehabilitation Plans</a>
+            <a mat-list-item routerLink=".">Manage Exercises</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <h1 class="title">
+            Edit Rehabilitation Plan <br /><br />
+
+            <div class="example-container2">
+                <mat-form-field>
+                    <input matInput #name placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #description placeholder="Description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput #authorName placeholder="Author Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #goal placeholder="Goal"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #timeframe placeholder="Time Frame To Complete"></textarea>
+                </mat-form-field>
+
+            </div>
+            <br />
+            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">Save my Changes!</button>
+
+        </h1>
+    </mat-sidenav-content>
 </mat-sidenav-container>
 
 
