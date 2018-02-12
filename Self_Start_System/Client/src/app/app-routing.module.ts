@@ -41,8 +41,8 @@ const appRoutes: Routes = [
     component: EditRehabilitationPlanComponent // The Dashboard Route
   },
   {
-	path: 'dashboard/manage-patient-profile',
-	component: ManagePatientProfileComponent
+    path: 'dashboard/manage-patient-profile',
+    component: ManagePatientProfileComponent
   },
   {
   	path: 'dashboard/patients',
