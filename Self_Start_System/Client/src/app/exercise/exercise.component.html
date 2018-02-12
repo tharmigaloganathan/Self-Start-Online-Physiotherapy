@@ -1,31 +1,32 @@
 <app-navbar-physio></app-navbar-physio>
-<h1>This is the exercise page</h1>
-
-<!-- Button trigger modal -->
-
-
-
-<button mat-raised-button class="createNewExercise" data-toggle="modal" data-target="#myModalHorizontal">Create New Exercise</button>
-
-
 <!--Start of Textboxes-->
 <div class="container">
-  <div class="row">
-    <div *ngFor = "let exercise of allExercises">
-    <!--Card 1-->
-    <div class="col-md-12">
-      <mat-card class="dashboard-card">
-        <mat-card-title>{{exercise.name}}</mat-card-title>
-        <mat-card-subtitle>{{exercise.authorName}}</mat-card-subtitle>
-        <mat-card-content>
-          {{exercise.description}}
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button class="assignExercise">Assign</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+  <h1>This is the exercise page</h1>
+
+  <!-- Button trigger modal -->
+
+
+
+  <button mat-raised-button class="createNewExercise" data-toggle="modal" data-target="#myModalHorizontal">Create New Exercise</button>
+
+
+
+  <!--<div class="row">-->
+  <div *ngFor = "let exercise of allExercises">
+  <!--Card 1-->
+  <div class="col-md-12 no-left-right-margin no-left-right-padding">
+    <mat-card class="dashboard-card no-left-right-margin">
+      <mat-card-title>{{exercise.name}}</mat-card-title>
+      <mat-card-subtitle>{{exercise.authorName}}</mat-card-subtitle>
+      <mat-card-content>
+        {{exercise.description}}
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button class="assignExercise">Assign</button>
+      </mat-card-actions>
+    </mat-card>
   </div>
+  <!--</div>-->
 </div>
 
 <!-- Modal -->
