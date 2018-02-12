@@ -8,11 +8,12 @@ import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
 export class ExerciseService {
-  domain = 'http://localhost:8081';
+  domain = 'http://localhost:3700';
 
   constructor(private http: HttpClient) { }
 
   addExercise (exercise) : Observable<{}> {
+    console.log("within exercise service", exercise);
     return this.http.post(this.domain+'/exercises', exercise)
       .pipe(
         retry(3),

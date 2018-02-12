@@ -37,16 +37,16 @@ export class ExerciseComponent implements OnInit {
     console.log(this.exerciseNameValue,this.authorNameValue,this.targetDateValue);
 
     var exercise = {
-      exerciseNameValue: this.exerciseNameValue,
-      authorNameValue: this.authorNameValue,
-      locationValue: this.locationValue,
-      URLValue: this.URLValue,
-      frequencyValue: this.frequencyValue,
-      durationValue: this.durationValue,
-      targetDateValue: this.targetDateValue,
-      descriptionValue: this.descriptionValue,
-      objectiveValue: this.objectiveValue,
-      actionStepsValue: this.actionStepsValue
+      name: this.exerciseNameValue,
+      authorName: this.authorNameValue,
+      location: this.locationValue,
+      multimediaURL: this.URLValue,
+      frequency: this.frequencyValue,
+      duration: this.durationValue,
+      targetDate: this.targetDateValue,
+      description: this.descriptionValue,
+      objective: this.objectiveValue,
+      actionSteps: this.actionStepsValue
     };
 
     this.exerciseService.addExercise(exercise).subscribe(
