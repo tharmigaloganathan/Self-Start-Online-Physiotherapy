@@ -178,13 +178,13 @@
           <div class = "row">
             <div class="col-md-6">
               <mat-form-field class = "question" >
-                <input matInput placeholder="Execise Name"[(ngModel)]="exerciseNameValue" [value]="currentExercise.name"/>
+                <input matInput placeholder="Execise Name"[(ngModel)]="currentExercise.name"/>
               </mat-form-field>
             </div>
 
             <div class ="col-md-6">
               <mat-form-field class = "question">
-                <input matInput placeholder="Author Name"[(ngModel)]="authorNameValue" [value]="currentExercise.authorName"/>
+                <input matInput placeholder="Author Name"[(ngModel)]="currentExercise.authorName"/>
               </mat-form-field>
             </div>
           </div>
@@ -192,13 +192,13 @@
           <div class = "row">
             <div class ="col-md-6">
               <mat-form-field class = "question" >
-                <input matInput placeholder="Location" [(ngModel)]="locationValue" [value]="currentExercise.location"/>
+                <input matInput placeholder="Location" [(ngModel)]="currentExercise.location"/>
               </mat-form-field>
             </div>
 
             <div class ="col-md-6">
               <mat-form-field class = "question">
-                <input matInput placeholder="URL" [(ngModel)]="URLValue" [value]="currentExercise.multimediaURL"/>
+                <input matInput placeholder="URL" [(ngModel)]="currentExercise.multimediaURL"/>
               </mat-form-field>
             </div>
           </div>
@@ -207,19 +207,19 @@
           <div class = "row">
             <div class ="col-md-4">
               <mat-form-field class = "question">
-                <input matInput placeholder="Frequency" [(ngModel)]="frequencyValue" [value]="currentExercise.frequency"/>
+                <input matInput placeholder="Frequency" [(ngModel)]="currentExercise.frequency"/>
               </mat-form-field>
             </div>
 
             <div class ="col-md-4">
               <mat-form-field  class = "question">
-                <input matInput placeholder="Duration" [(ngModel)]="durationValue" [value]="currentExercise.duration"/>
+                <input matInput placeholder="Duration" [(ngModel)]="currentExercise.duration"/>
               </mat-form-field>
             </div>
 
             <div class = "col-md-4">
               <mat-form-field class = "question">
-                <input matInput [(ngModel)] = "targetDateValue" [matDatepicker]="picker" placeholder="Target Date" [value]="currentExercise.targetDate">
+                <input matInput [(ngModel)] = "currentExercise.targetDate" [matDatepicker]="picker" placeholder="Target Date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
@@ -229,7 +229,7 @@
           <div class = "row">
             <div class ="col-md-12">
               <mat-form-field class = "question">
-                <textarea matInput placeholder="Description" [(ngModel)]="descriptionValue">{{currentExercise.description}}</textarea>
+                <textarea matInput placeholder="Description" [(ngModel)]="currentExercise.description"></textarea>
               </mat-form-field>
             </div>
           </div>
@@ -237,7 +237,7 @@
           <div class = "row">
             <div class ="col-md-12">
               <mat-form-field class = "question">
-                <textarea matInput placeholder="Objectives" [(ngModel)]="objectivesValue">{{currentExercise.objectives}}</textarea>
+                <textarea matInput placeholder="Objectives" [(ngModel)]="currentExercise.objectives"></textarea>
               </mat-form-field>
             </div>
           </div>
@@ -245,7 +245,7 @@
           <div class = "row">
             <div class ="col-md-12">
               <mat-form-field class = "question">
-                <textarea matInput placeholder="Action Steps" [(ngModel)]="actionStepsValue">{{currentExercise.actionSteps}}</textarea>
+                <textarea matInput placeholder="Action Steps" [(ngModel)]="currentExercise.actionSteps"></textarea>
               </mat-form-field>
             </div>
           </div>
