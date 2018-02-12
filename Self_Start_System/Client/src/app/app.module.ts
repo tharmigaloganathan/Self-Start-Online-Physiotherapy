@@ -10,9 +10,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-// import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
@@ -24,6 +25,23 @@ import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-re
 import { HttpModule } from '@angular/http';
 import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule} from "@angular/material";
+import { MatIconModule} from "@angular/material";
+import { ExerciseComponent } from './exercise/exercise.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ExerciseService} from "./services/exercise.service";
+
+
+import { HttpClientModule} from '@angular/common/http';
+
+
+
+import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-manage-patients.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,16 +50,21 @@ import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit
     NotFoundPageComponent,
     RehabilitationPlanComponent,
     NewRehabilitationPlanComponent,
-    EditRehabilitationPlanComponent
+    EditRehabilitationPlanComponent,
+    ExerciseComponent,
+    PhysioManagePatientsComponent,
   ],
   imports: [
     HttpModule,
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
     MatButtonModule,
-    AppRoutingModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
     MatGridListModule,
     MatCardModule,
     MatSidenavModule,
@@ -50,9 +73,16 @@ import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit
     MatDialogModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatSortModule
   ],
-  providers: [],
+  providers: [ExerciseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
