@@ -21,6 +21,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 
+import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,6 +46,7 @@ import { MatIconModule} from "@angular/material";
 import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
+import { FormService} from "./form.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -56,12 +58,14 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
+    IntroductionFormComponent,
     ManagePatientProfileComponent,
     PatientListComponent,
     RehabilitationPlanComponent,
@@ -109,7 +113,8 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     MatTableModule,
     MatSortModule
   ],
-  providers: [ExerciseService],
+  providers: [ExerciseService,
+  FormService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
