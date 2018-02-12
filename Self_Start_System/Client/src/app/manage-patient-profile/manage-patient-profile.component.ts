@@ -6,6 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage-patient-profile.component.scss']
 })
 export class ManagePatientProfileComponent implements OnInit {
+	_id;
+	givenName;
+	familyName;
+	email;
+	gender;
+	DOB;
+	Street;
+	City;
+	postalCode;
+	Province;
+	phone;
+	healthCardNumber;
+	maritalStatus;
+	occupation;
 
   constructor() { }
 

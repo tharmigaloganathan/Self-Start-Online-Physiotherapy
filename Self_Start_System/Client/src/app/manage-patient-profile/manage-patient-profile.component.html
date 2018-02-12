@@ -2,117 +2,158 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col border">
-			<mat-tab-group>
-				<!-- Personal information tab -->
-	  			<mat-tab label="Personal Information">
-					<div class="row float-right button-container">
-						<div class="col">
-							<button mat-raised-button class="edit-button">Edit</button>
-						</div>
-					</div>
-					<form class="form-container">
-						<!-- Row 1 -->
-						<div class="row">
-							<div class="col form-container">
-								<mat-form-field>
-							 		<input matInput placeholder="Given Name">
-								</mat-form-field>
-							</div>
-							<div class="col form-container">
-								<mat-form-field>
-									<input matInput placeholder="Family Name">
-								</mat-form-field>
+		<div class="col-3 border">
+			<div class="header">
+				<h5>Patient List</h5>
+			</div>
+		</div>
+		<div class="col-9 border">
+			<div class="header">
+				<h5>Currently Viewing: {{ givenName }}</h5>
+			</div>
+			<div class="col">
+				<mat-tab-group>
+					<!-- Personal information tab -->
+		  			<mat-tab label="Personal Information">
+						<div class="row float-right button-container">
+							<div class="col">
+								<button mat-raised-button class="edit-button">Edit</button>
 							</div>
 						</div>
-						<!-- Row 2 -->
-						<div class="row">
-							<div class="col-4 form-container">
-								<mat-form-field>
-								 	<mat-select [(value)]="selected" placeholder="Gender">
-								    <mat-option value="Male">Male</mat-option>
-								    <mat-option value="Female">Female</mat-option>
-								    <mat-option value="Other">Other</mat-option>
-								  	</mat-select>
-								</mat-form-field>
+						<form class="form-container">
+							<!-- Row 1 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+								 		<input matInput placeholder="Given Name" [value]="givenName">
+									</mat-form-field>
+								</div>
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Family Name" [value]="familyName">
+									</mat-form-field>
+								</div>
 							</div>
-							<div class="col-8 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Date of Birth">
-								</mat-form-field>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+									 	<mat-select [(value)]="gender" placeholder="Gender">
+									    <mat-option value="Male">Male</mat-option>
+									    <mat-option value="Female">Female</mat-option>
+									    <mat-option value="Other">Other</mat-option>
+									  	</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-8 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Date of Birth" [value]="DOB">
+									</mat-form-field>
+								</div>
 							</div>
-						</div>
-						<!-- Row 3 -->
-						<div class="row">
-							<div class="col-6 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Street">
-								</mat-form-field>
+							<!-- Row 3 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Street" [value]="Street">
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="City" [value]="City">
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Postal Code" [value]="postalCode">
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+									 	<mat-select [(value)]="Province" placeholder="Province">
+										    <mat-option value="AB">AB</mat-option>
+										    <mat-option value="BC">BC</mat-option>
+										    <mat-option value="MB">MB</mat-option>
+											<mat-option value="NB">NB</mat-option>
+											<mat-option value="NL">NL</mat-option>
+											<mat-option value="NS">NS</mat-option>
+											<mat-option value="NT">NT</mat-option>
+											<mat-option value="NU">NU</mat-option>
+											<mat-option value="ON">ON</mat-option>
+											<mat-option value="PE">PE</mat-option>
+											<mat-option value="QC">QC</mat-option>
+											<mat-option value="SK">SK</mat-option>
+											<mat-option value="YT">YT</mat-option>
+									  	</mat-select>
+									</mat-form-field>
+								</div>
 							</div>
-							<div class="col-4 form-container">
-								<mat-form-field>
-									<input matInput placeholder="City">
-								</mat-form-field>
+							<!-- Row 4 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Phone Number" [value]="phone">
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Health Card Number" [value]="healthCardNumber">
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<mat-select [(value)]="maritalStatus" placeholder="Marital Status">
+											<mat-option value="Single">Single</mat-option>
+											<mat-option value="Married">Married</mat-option>
+											<mat-option value="Divorced">Divorced</mat-option>
+											<mat-option value="Other">Other</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
 							</div>
-							<div class="col-2 form-container">
-								<mat-form-field>
-								 	<mat-select [(value)]="selected" placeholder="Province">
-									    <mat-option value="AB">AB</mat-option>
-									    <mat-option value="BC">BC</mat-option>
-									    <mat-option value="MB">MB</mat-option>
-										<mat-option value="NB">NB</mat-option>
-										<mat-option value="NL">NL</mat-option>
-										<mat-option value="NS">NS</mat-option>
-										<mat-option value="NT">NT</mat-option>
-										<mat-option value="NU">NU</mat-option>
-										<mat-option value="ON">ON</mat-option>
-										<mat-option value="PE">PE</mat-option>
-										<mat-option value="QC">QC</mat-option>
-										<mat-option value="SK">SK</mat-option>
-										<mat-option value="YT">YT</mat-option>
-								  	</mat-select>
-								</mat-form-field>
+							<!-- Row 5 -->
+							<div class="row">
+								<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Occupation" [value]="occupation">
+									</mat-form-field>
+								</div>
+								<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Email" [value]="email">
+									</mat-form-field>
+								</div>
 							</div>
-						</div>
-						<!-- Row 4 -->
-						<div class="row">
-							<div class="col-4 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Phone Number">
-								</mat-form-field>
-							</div>
-							<div class="col-4 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Health Card Number">
-								</mat-form-field>
-							</div>
-							<div class="col-4 form-container">
-								<mat-form-field>
-									<mat-select [(value)]="selected" placeholder="Marital Status">
-										<mat-option value="Single">Single</mat-option>
-										<mat-option value="Married">Married</mat-option>
-										<mat-option value="Divorced">Divorced</mat-option>
-										<mat-option value="Other">Other</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-						</div>
-						<!-- Row 5 -->
-						<div class="row">
-							<div class="col-6 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Occupation">
-								</mat-form-field>
-							</div>
-						</div>
-					</form>
-	  			</mat-tab>
-				<!-- History -->
-			  	<mat-tab label="History">
-			    <h1>Some more tab content</h1>
-			    <p>...</p>
-			  </mat-tab>
-		  </mat-tab-group>
-  		</div>
+						</form>
+		  			</mat-tab>
+					<!-- Treatment History-->
+				  	<mat-tab label="Treatment History">
+						<mat-accordion>
+						  <mat-expansion-panel>
+						    <mat-expansion-panel-header>
+						      <mat-panel-title>
+						        Personal data
+						      </mat-panel-title>
+						      <mat-panel-description>
+						        Type your name and age
+						      </mat-panel-description>
+						    </mat-expansion-panel-header>
+						  </mat-expansion-panel>
+						  <mat-expansion-panel>
+						    <mat-expansion-panel-header>
+						      <mat-panel-title>
+						        Self aware panel
+						      </mat-panel-title>
+						      <mat-panel-description>
+
+						      </mat-panel-description>
+						    </mat-expansion-panel-header>
+						    <p>I'm visible because I am open</p>
+						  </mat-expansion-panel>
+						</mat-accordion>
+				  </mat-tab>
+			  </mat-tab-group>
+	  		</div>
+		</div>
 	</div>
 </div>
