@@ -1,163 +1,267 @@
 <app-navbar-physio></app-navbar-physio>
-<!--Start of Textboxes-->
-<div class="container">
+
+<div class = "container">
+
+  <!--Start of Textboxes-->
   <h1>This is the exercise page</h1>
 
   <!-- Button trigger modal -->
+  <button mat-raised-button class="createNewExercise" data-toggle="modal" data-target="#createExerciseModal">Create New Exercise</button>
 
-
-
-  <button mat-raised-button class="createNewExercise" data-toggle="modal" data-target="#myModalHorizontal">Create New Exercise</button>
-
-
-
-  <!--<div class="row">-->
   <div *ngFor = "let exercise of allExercises">
   <!--Card 1-->
-  <div class="col-md-12 no-left-right-margin no-left-right-padding">
-    <mat-card class="dashboard-card no-left-right-margin">
-      <mat-card-title>{{exercise.name}}</mat-card-title>
-      <mat-card-subtitle>{{exercise.authorName}}</mat-card-subtitle>
-      <mat-card-content>
-        {{exercise.description}}
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button class="assignExercise">Assign</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+    <div class="col-md-12 no-left-right-margin no-left-right-padding">
+      <mat-card class="dashboard-card no-left-right-margin">
+        <mat-card-title>{{exercise.name}}</mat-card-title>
+        <mat-card-subtitle>{{exercise.authorName}}</mat-card-subtitle>
+        <mat-card-content>
+          {{exercise.description}}
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button class="assignExercise">Assign</button>
+          <button mat-button class="editExercise" data-toggle="modal" data-target="#editExerciseModal" (click)="getOneExercise(exercise._id)">View/Edit</button>
+        </mat-card-actions>
+
+      </mat-card>
+    </div>
   <!--</div>-->
-</div>
+  </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel" >
-          Create New Exercise
-        </h4>
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-      </div>
+  <!-- Create New Exercise Modal -->
+  <div class="modal fade" id="createExerciseModal" tabindex="-1" role="dialog"
+       aria-labelledby="createExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="createExerciseModalLabel" >
+            Create New Exercise
+          </h4>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+        </div>
 
-      <!-- Modal Body -->
-      <div class="modal-body">
-        <div class = "row">
-          <div class="col-md-6">
-            <mat-form-field class = "question" >
-              <input matInput placeholder="Exercise Name" [(ngModel)]="exerciseNameValue"/>
-              <button mat-button *ngIf="exerciseNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="exerciseNameValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class = "row">
+            <div class="col-md-6">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Exercise Name" [(ngModel)]="exerciseNameValue"/>
+                <button mat-button *ngIf="exerciseNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="exerciseNameValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Author Name" [(ngModel)]="authorNameValue"/>
+                <button mat-button *ngIf="authorNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="authorNameValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
           </div>
 
-          <div class ="col-md-6">
-            <mat-form-field class = "question">
-              <input matInput placeholder="Author Name" [(ngModel)]="authorNameValue"/>
-              <button mat-button *ngIf="authorNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="authorNameValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
+          <div class = "row">
+            <div class ="col-md-6">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Location" [(ngModel)]="locationValue"/>
+                <button mat-button *ngIf="locationValue" matSuffix mat-icon-button aria-label="Clear" (click)="locationValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question">
+                <input matInput placeholder="URL"[(ngModel)]="URLValue"/>
+                <button mat-button *ngIf="URLValue" matSuffix mat-icon-button aria-label="Clear" (click)="URLValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class = "row">
+            <div class ="col-md-4">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Frequency"[(ngModel)]="frequencyValue"/>
+                <button mat-button *ngIf="frequencyValue" matSuffix mat-icon-button aria-label="Clear" (click)="frequencyValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-4">
+              <mat-form-field  class = "question">
+                <input matInput placeholder="Duration"[(ngModel)]="durationValue"/>
+                <button mat-button *ngIf="durationValue" matSuffix mat-icon-button aria-label="Clear" (click)="durationValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <div class = "col-md-4">
+              <mat-form-field class = "question">
+                <input matInput [(ngModel)] = "targetDateValue" [matDatepicker]="picker" placeholder="Target Date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Description" [(ngModel)]="descriptionValue"></textarea>
+                <button mat-button *ngIf="descriptionValue" matSuffix mat-icon-button aria-label="Clear" (click)="descriptionValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Objectives" [(ngModel)]="objectivesValue"></textarea>
+                <button mat-button *ngIf="objectivesValue" matSuffix mat-icon-button aria-label="Clear" (click)="objectivesValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Action Steps" [(ngModel)]="actionStepsValue"></textarea>
+                <button mat-button *ngIf="actionStepsValue" matSuffix mat-icon-button aria-label="Clear" (click)="actionStepsValue=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
           </div>
         </div>
 
-        <div class = "row">
-          <div class ="col-md-6">
-            <mat-form-field class = "question" >
-              <input matInput placeholder="Location" [(ngModel)]="locationValue"/>
-              <button mat-button *ngIf="locationValue" matSuffix mat-icon-button aria-label="Clear" (click)="locationValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-
-          <div class ="col-md-6">
-            <mat-form-field class = "question">
-              <input matInput placeholder="URL"[(ngModel)]="URLValue"/>
-              <button mat-button *ngIf="URLValue" matSuffix mat-icon-button aria-label="Clear" (click)="URLValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
+          <button mat-raised-button data-dismiss="modal" class="saveExercise" (click) ="addExercise()">Save Exercise</button>
         </div>
-
-
-        <div class = "row">
-          <div class ="col-md-4">
-            <mat-form-field class = "question">
-              <input matInput placeholder="Frequency"[(ngModel)]="frequencyValue"/>
-              <button mat-button *ngIf="frequencyValue" matSuffix mat-icon-button aria-label="Clear" (click)="frequencyValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-
-          <div class ="col-md-4">
-            <mat-form-field  class = "question">
-              <input matInput placeholder="Duration"[(ngModel)]="durationValue"/>
-              <button mat-button *ngIf="durationValue" matSuffix mat-icon-button aria-label="Clear" (click)="durationValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-
-          <div class = "col-md-4">
-            <mat-form-field class = "question">
-              <input matInput [(ngModel)] = "targetDateValue" [matDatepicker]="picker" placeholder="Target Date">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class = "row">
-          <div class ="col-md-12">
-            <mat-form-field class = "question">
-              <textarea matInput placeholder="Description" [(ngModel)]="descriptionValue"></textarea>
-              <button mat-button *ngIf="descriptionValue" matSuffix mat-icon-button aria-label="Clear" (click)="descriptionValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class = "row">
-          <div class ="col-md-12">
-            <mat-form-field class = "question">
-              <textarea matInput placeholder="Objectives" [(ngModel)]="objectivesValue"></textarea>
-              <button mat-button *ngIf="objectivesValue" matSuffix mat-icon-button aria-label="Clear" (click)="objectivesValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class = "row">
-          <div class ="col-md-12">
-            <mat-form-field class = "question">
-              <textarea matInput placeholder="Action Steps" [(ngModel)]="actionStepsValue"></textarea>
-              <button mat-button *ngIf="actionStepsValue" matSuffix mat-icon-button aria-label="Clear" (click)="actionStepsValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-        <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
-        <button mat-raised-button data-dismiss="modal" class="saveExercise" (click) ="addExercise()">Save Exercise</button>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Edit Exercise Modal -->
+  <div *ngIf="openEditModal" class="modal fade" id="editExerciseModal" tabindex="-1" role="dialog"
+       aria-labelledby="EditExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="EditExerciseModalLabel" >
+            Edit Exercise {{currentExercise.name}}
+          </h4>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class = "row">
+            <div class="col-md-6">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Execise Name"[(ngModel)]="currentExercise.name"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Author Name"[(ngModel)]="currentExercise.authorName"/>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-6">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Location" [(ngModel)]="currentExercise.location"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question">
+                <input matInput placeholder="URL" [(ngModel)]="currentExercise.multimediaURL"/>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class = "row">
+            <div class ="col-md-4">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Frequency" [(ngModel)]="currentExercise.frequency"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-4">
+              <mat-form-field  class = "question">
+                <input matInput placeholder="Duration" [(ngModel)]="currentExercise.duration"/>
+              </mat-form-field>
+            </div>
+
+            <div class = "col-md-4">
+              <mat-form-field class = "question">
+                <input matInput [(ngModel)] = "currentExercise.targetDate" [matDatepicker]="picker" placeholder="Target Date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Description" [(ngModel)]="currentExercise.description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Objectives" [(ngModel)]="currentExercise.objectives"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Action Steps" [(ngModel)]="currentExercise.actionSteps"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
+          <button mat-raised-button data-dismiss="modal" class="saveExercise" (click) ="addExercise()">Save Exercise</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div> <!--  end div for container-->
 
 
 

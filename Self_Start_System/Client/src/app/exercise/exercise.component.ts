@@ -24,12 +24,20 @@ export class ExerciseComponent implements OnInit {
   descriptionValue;
   objectivesValue;
   actionStepsValue;
+  openEditModal;
+
+
 
   allExercises: any[];
+  currentExercise: null;
 
 
 
-  constructor(private exerciseService :ExerciseService) { }
+
+
+  constructor(private exerciseService :ExerciseService) {
+    this.openEditModal=false;
+  }
 
   ngOnInit() {
     this.getAllExercises();
@@ -62,12 +70,28 @@ export class ExerciseComponent implements OnInit {
     console.log("getting all exercises");
     this.exerciseService.getAllExercises().subscribe(
       data => {
-        console.log("exercises retrieved! ",data.exercises);
+        console.log("all exercises retrieved! ",data.exercises);
         this.allExercises = data.exercises;
       },
       error => console.log(error)
     );
   }
+
+  getOneExercise(id){
+    console.log("getting one exercise");
+    this.exerciseService.getOneExercise(id).subscribe(
+      data => {
+        console.log("single exercise retrieved! ", data.exercise);
+        this.currentExercise = data.exercise;
+        console.log ("current exercise selected is ", this.currentExercise.name);
+        this.openEditModal=true;
+
+      }
+    )
+  }
+
+
+
 
 
 

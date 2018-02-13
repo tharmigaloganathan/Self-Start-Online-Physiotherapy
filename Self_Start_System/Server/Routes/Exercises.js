@@ -44,9 +44,10 @@ router.route('/')
         });
     });
 
-router.route('/exercise_id')
+router.route('/:exercise_id')
     .get(function (request, response) {
         Exercises.Model.findById(request.params.exercise_id, function (error, exercise) {
+            console.log("within find single exercise route, fetching ", exercise);
             if (error) {
                 response.send({error: error});
             }

@@ -32,6 +32,14 @@ export class ExerciseService {
       );
   }
 
+  getOneExercise(id){
+    return this.http.get(this.domain+'/exercises/' + id)
+      .pipe(
+        retry (3),
+        catchError(this.handleError)
+      );
+  }
+
   // End of exercise api calls
 
   // Patient api calls
@@ -43,6 +51,8 @@ export class ExerciseService {
         catchError(this.handleError)
       );
   }
+
+
 
   // End of patient api calls
 
