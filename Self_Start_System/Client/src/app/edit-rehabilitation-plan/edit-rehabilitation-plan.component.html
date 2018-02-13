@@ -46,20 +46,6 @@
               <div class="row">
                 <div class="col-md-6">
                     <p style = "font-size: 24px;">
-                        Current Exercises
-                    </p>
-
-                    <mat-selection-list  style = "font-size: 15px;" #selectedexercises>
-                      <mat-list-option *ngFor="let exercise of myExercises" (click)="addToDeleteList(exercise._id)" class="listofexercises">
-                        {{exercise.name}}
-                      </mat-list-option>
-                    </mat-selection-list>
-
-                    <button mat-raised-button class="delete-button" (click)="deleteExercises()">Delete Selected ({{selectedexercises.selectedOptions.selected.length}})</button>
-
-                </div>
-                <div class="col-md-6">
-                    <p style = "font-size: 24px;">
                         Add New Exercise
                     </p>
                     <mat-form-field class="selectexercise" style = "font-size: 15px;">
@@ -71,6 +57,19 @@
                     </mat-form-field>
                     <br />
                     <button mat-raised-button class="addexercise" (click) = "addExercise(exercise.value)">Add Exercise!</button>
+                </div>
+                <div class="col-md-6">
+                    <p style = "font-size: 24px;">
+                        Current Exercises
+                    </p>
+
+                    <mat-selection-list  style = "font-size: 15px;" #selectedexercises>
+                      <mat-list-option *ngFor="let exercise of myExercises" (click)="addToDeleteList(exercise._id)" class="listofexercises">
+                        {{exercise.name}}
+                      </mat-list-option>
+                    </mat-selection-list>
+
+                    <button mat-raised-button class="delete-button" (click)="deleteExercises()">Delete Selected ({{selectedexercises.selectedOptions.selected.length}})</button>
 
                 </div>
               </div>

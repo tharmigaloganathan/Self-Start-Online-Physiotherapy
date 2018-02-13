@@ -93,7 +93,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
   }
 
   getExercises() {
-      for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) {
+      for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
           if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
               console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
               this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
