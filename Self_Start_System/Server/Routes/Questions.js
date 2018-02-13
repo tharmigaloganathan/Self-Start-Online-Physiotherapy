@@ -4,7 +4,9 @@ var Questions = require('../models/Question');
 
 router.route('/')
     .post(function (request, response) {
-        var question = new Questions.Model(request.body.question);
+        console.log("request body has: ", request.body);
+        var question = new Questions.Model(request.body);
+        console.log("successfully retrieved question from post request, trying to save: ", question);
         if (!question.questionText){
             response.json({success: false, message: "No questionText detected."});
         } else if (!question.helpDescription){
@@ -46,16 +48,16 @@ router.route('/:question_id')
                 response.send({error: error});
             }
             else {
-                if (request.body.question.questionText){
-                    question.questionText = request.body.question.questionText;
-                } else if (request.body.question.helpDescription){
-                    question.helpDescription = request.body.question.helpDescription;
-                } else if (request.body.question.order){
-                    question.order = request.body.question.order;
-                } else if (request.body.question.questionType){
-                    question.questionType = request.body.question.questionType;
-                } else if (request.body.question.form){
-                    question.form = request.body.question.form;
+                if (request.body.questionText){
+                    question.questionText = request.body.questionText;
+                } if (request.body.helpDescription){
+                    question.helpDescription = request.body.helpDescription;
+                } if (request.body.order){
+                    question.order = request.body.order;
+                } if (request.body.questionType){
+                    question.questionType = request.body.questionType;
+                } if (request.body.form){
+                    question.form = request.body.form;
                 }
                 question.save(function (error) {
                     if (error) {

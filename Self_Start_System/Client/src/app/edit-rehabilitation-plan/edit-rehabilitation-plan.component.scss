@@ -1,11 +1,6 @@
 @import '../../scss/_variables';
+@import '../../scss/sidebar';
 @import '~@angular/material/theming';
-
-.navbar-fill-remaining-space{
-    /* This pushes buttons on navbar to the right, by using flexbox.
-    Every toolbar row uses a flexbox row layout. */
-    flex: 1 1 auto;
-}
 
 .example-container2 {
   // display: flex;
@@ -17,7 +12,7 @@
   justify-content: center !important;
   flex-direction: column;
 }
-//
+
 .example-container2 > * {
   width: 100%;
 }
@@ -216,3 +211,4 @@ $body-1: mat-typography-level(30px, 30px, 300)
 @include mat-button-typography($custom-typography);
 @include mat-list-typography($custom-typography);
 @include mat-sidenav-typography($custom-typography);
+
