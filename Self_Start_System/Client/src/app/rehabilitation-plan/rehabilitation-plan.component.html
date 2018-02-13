@@ -1,32 +1,20 @@
-<mat-toolbar class="z-depth-5">
-    <span class="full-height">
-        <img class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
-    </span>
-    <span class="navbar-fill-remaining-space"></span>
-    <span class="full-height">
-        <button routerLink="/dashboard" mat-button class="full-height">Dashboard</button>
-        <button mat-button class="full-height">Task 2</button>
-        <button mat-button class="full-height">Task 3</button>
-        <button mat-raised-button class="login-button">LOGIN</button>
-    </span>
-</mat-toolbar>
+<app-navbar-physio></app-navbar-physio>
 
 <mat-sidenav-container class="example-container" *ngIf="showSidebar">
+
+  <!--Load sidebar component-->
   <mat-sidenav mode="side" opened>
-      <mat-nav-list>
-          <a mat-list-item routerLink=".">List of Patients</a>
-          <a mat-list-item routerLink=".">Manage Patient Profile</a>
-          <a mat-list-item class="selected" routerLink=".">Manage Rehabilitation Plans</a>
-          <a mat-list-item routerLink=".">Manage Exercises</a>
-      </mat-nav-list>
+    <app-sidebar-physio></app-sidebar-physio>
   </mat-sidenav>
+  <!--End load sidebar component-->
+
   <mat-sidenav-content>
       <h1 class="title">
           Manage Rehabilitation Plans <br />
           <button mat-raised-button class="login-button" routerLink="/new-rehabilitation-plan">Create a New Rehabilitation Plan</button>
       </h1>
       <br /><br /><br />
-      <mat-card *ngFor="let plans of rehabilitationplans.rehabilitationPlan" (click) = "storeID(plans._id)" routerLink="/edit-rehabilitation-plan">
+      <mat-card class="planlist" *ngFor="let plans of rehabilitationplans.rehabilitationPlan" (click) = "storeID(plans._id)" routerLink="/edit-rehabilitation-plan">
           <mat-card-title>{{ plans.name }}</mat-card-title>
           <mat-card-subtitle>Created by: {{ plans.authorName }}</mat-card-subtitle>
           <mat-card-subtitle>Goal: {{ plans.goal }}</mat-card-subtitle>
@@ -34,43 +22,3 @@
       </mat-card>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-<!-- DYNAMIC SIDENAV (nightmare to work with) -->
-
-<!-- <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer class="example-sidenav" mode="side">
-        <mat-nav-list>
-            <a mat-list-item routerLink=".">List of Patients</a>
-            <a mat-list-item routerLink=".">Manage Patient Profile</a>
-            <a mat-list-item routerLink=".">Manage Rehabilitation Plans</a>
-            <a mat-list-item routerLink=".">Manage Exercises</a>
-        </mat-nav-list>
-    </mat-drawer>
-
-    <div class="example-sidenav-content">
-        <button mat-button (click)="drawer.toggle(); showSidebar=!showSidebar;" class="mat-small">
-            <mat-icon *ngIf="showSidebar">keyboard_arrow_right</mat-icon>
-            <mat-icon *ngIf="!showSidebar">keyboard_arrow_left</mat-icon>
-        </button>
-        <h1 style="font-family: 'Roboto Condensed', sans-serif;" class="title">
-            Existing Rehabilitation Plans
-        </h1>
-        <br/> <br />
-
-        <br/>
-        <mat-card class="dashboard-card">
-            <mat-card-title>Title 1</mat-card-title>
-            <mat-card-subtitle>Subtitles</mat-card-subtitle>
-            <mat-card-content>
-                Simple card
-            </mat-card-content>
-
-
-            <mat-card-actions>
-                <button mat-button class="launch">Select</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-
-</mat-drawer-container> -->

@@ -1,0 +1,41 @@
+@import '../../scss/_variables';
+
+.save-button {
+	background-color: $electric-glow;
+	color: $white;
+}
+
+.edit-button {
+	background-color: $rare-turquoise;
+	color: $white;
+}
+
+.cancel-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.button-container {
+	padding: 2%;
+}
+
+.form-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-container > * {
+	width: 100%;
+}
+
+.header {
+	padding: 2%;
+}
+
+.mat-tab-nav-bar {
+	background-color: $flash-of-orange;
+	color: $flash-of-orange;
+
+}

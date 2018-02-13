@@ -1,29 +1,20 @@
-<mat-toolbar class="z-depth-5">
-    <span class="full-height">
-        <img class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
-    </span>
-    <span class="navbar-fill-remaining-space"></span>
-    <span class="full-height">
-        <button routerLink="/dashboard" mat-button class="full-height">Dashboard</button>
-        <button mat-button class="full-height">Task 2</button>
-        <button mat-button class="full-height">Task 3</button>
-        <button mat-raised-button class="login-button" (click)="openDialog()">LOGIN</button>
-    </span>
-</mat-toolbar>
+<app-navbar-physio></app-navbar-physio>
 
 <mat-sidenav-container class="example-container" *ngIf="showSidebar">
+
+    <!--Load sidebar component-->
     <mat-sidenav mode="side" opened>
-        <mat-nav-list>
-            <a mat-list-item routerLink=".">List of Patients</a>
-            <a mat-list-item routerLink=".">Manage Patient Profile</a>
-            <a mat-list-item class="selected" routerLink="/rehabilitation-plan">Manage Rehabilitation Plans</a>
-            <a mat-list-item routerLink=".">Manage Exercises</a>
-        </mat-nav-list>
+      <app-sidebar-physio></app-sidebar-physio>
     </mat-sidenav>
+    <!--End load sidebar component-->
+
     <mat-sidenav-content>
         <h1 class="title">
-            Edit Rehabilitation Plan <br /><br />
-
+            Edit Rehabilitation Plan
+            <p style="font-size:16px">
+                {{rehabilitationplan.name}}
+            </p>
+            <br />
             <div class="example-container2">
                 <mat-form-field>
                     <input matInput #name placeholder="Name">
@@ -44,10 +35,50 @@
                 <mat-form-field>
                     <textarea matInput #timeframe placeholder="Time Frame To Complete"></textarea>
                 </mat-form-field>
-
             </div>
             <br />
-            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">Save my Changes!</button>
+            Edit Exercises
+            <p style = "font-size: 20px;">
+                <br />
+            </p>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                    <p style = "font-size: 24px;">
+                        Add New Exercise
+                    </p>
+                    <mat-form-field class="selectexercise" style = "font-size: 15px;">
+                      <mat-select #exercise placeholder="Choose Exercise">
+                        <mat-option *ngFor="let exercise of allExercises" [value]="exercise.name" >
+                          {{ exercise.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <br />
+                    <button mat-raised-button class="addexercise" (click) = "addExercise(exercise.value)">Add Exercise!</button>
+                </div>
+                <div class="col-md-6">
+                    <p style = "font-size: 24px;">
+                        Current Exercises
+                    </p>
+
+                    <mat-selection-list  style = "font-size: 15px;" #selectedexercises>
+                      <mat-list-option *ngFor="let exercise of myExercises" (click)="addToDeleteList(exercise._id)" class="listofexercises">
+                        {{exercise.name}}
+                      </mat-list-option>
+                    </mat-selection-list>
+
+                    <button mat-raised-button class="delete-button" (click)="deleteExercises()">Delete Selected ({{selectedexercises.selectedOptions.selected.length}})</button>
+
+                </div>
+              </div>
+            </div>
+            <!-- list exercises -->
+            <br />
+            <br />
+
+            <button mat-raised-button class="submit" routerLink="/rehabilitation-plan" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>
 
         </h1>
     </mat-sidenav-content>
