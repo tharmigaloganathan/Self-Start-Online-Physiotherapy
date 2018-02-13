@@ -4,75 +4,47 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { HttpHeaders } from '@angular/common/http';
+import { environment } from '../environments/environment';
+
 
 @Injectable()
-export class ExerciseService {
+export class FormService {
   domain = environment.apiURL;
-  options;
 
   constructor(private http: HttpClient) { }
 
-  // Exercise api calls
-
-  registerExercise (exercise) : Observable<Response> {
-    console.log("within exercise service", exercise);
-    return this.http.post(this.domain+'/exercises', exercise)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-    );
-  }
-
-  getAllExercises(){
-    return this.http.get(this.domain+'/exercises')
-      .pipe(
-      retry(3),
-      catchError(this.handleError)
-      );
-  }
-
-  getOneExercise(id){
-    return this.http.get(this.domain+'/exercises/' + id)
-      .pipe(
-        retry (3),
-        catchError(this.handleError)
-      );
-  }
-
-  editExercise(id, exercise): Observable<Response>{
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        //'Authorization': 'my-auth-token'
-      })
-    };
-    console.log(id);
-    console.log(exercise);
-
-    return this.http.put(this.domain +'/exercises/' + id, exercise)
+  deleteQuestion(id: string){
+    return this.http.delete(this.domain+'/questions/'+id)
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  // End of exercise api calls
-
-  // Patient api calls
-
-  getAllPatients(){
-    return this.http.get(this.domain+'/PatientProfiles')
+  editQuestion(question){
+    console.log("this is the question: ", question);
+    return this.http.put(this.domain+'/questions/'+question._id, question)
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
+  addQuestion (question): Observable<any> {
+    return this.http.post(this.domain+'/questions', question)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
 
-
-  // End of patient api calls
+  getAllQuestions(){
+    return this.http.get(this.domain+'/questions')
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

@@ -6,12 +6,8 @@ import { AppComponent } from './app.component';
 import { NavbarPhysioComponent } from './navbar-physio/navbar-physio.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
@@ -21,16 +17,13 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 
+import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { PatientListComponent } from './patient-list/patient-list.component';
-import { MdNativeDateModule } from '@angular/material';
 
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
 import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-rehabilitation-plan.component';
@@ -45,6 +38,7 @@ import { MatIconModule} from "@angular/material";
 import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
+import { FormService} from "./form.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -56,12 +50,14 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
+    IntroductionFormComponent,
     ManagePatientProfileComponent,
     PatientListComponent,
     RehabilitationPlanComponent,
@@ -75,7 +71,6 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     HttpModule,
     AppRoutingModule,
     BrowserModule,
-    HttpModule,
     FormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
@@ -93,7 +88,7 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     MatDatepickerModule,
     MatButtonModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
@@ -109,7 +104,8 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     MatTableModule,
     MatSortModule
   ],
-  providers: [ExerciseService],
+  providers: [ExerciseService,
+  FormService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

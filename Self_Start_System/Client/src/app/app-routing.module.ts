@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { PhysioManagePatientsComponent } from "./physio-manage-patients/physio-manage-patients.component";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { IntroductionFormComponent} from "./introduction-form/introduction-form.component";
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
 import { ExerciseComponent} from "./exercise/exercise.component";
@@ -39,6 +40,10 @@ const appRoutes: Routes = [
   {
     path: 'edit-rehabilitation-plan',
     component: EditRehabilitationPlanComponent // The Dashboard Route
+  },
+  {
+    path: 'admin/introform',
+    component: IntroductionFormComponent // The Admin/IntroductionForm Route
   },
   {
     path: 'dashboard/manage-patient-profile',
