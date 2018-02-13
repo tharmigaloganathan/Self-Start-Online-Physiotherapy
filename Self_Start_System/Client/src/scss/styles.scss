@@ -31,3 +31,14 @@ button:focus, button:active:focus, button.active:focus {
   outline: 0 none;
 }
 
+// Set Global Text for side and nav bar
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto Condensed, sans-serif',
+  $headline: mat-typography-level(50px, 48px, 300),
+  $body-1: mat-typography-level(30px, 30px, 300)
+);
+
+@include mat-toolbar-typography($custom-typography);
+@include mat-button-typography($custom-typography);
+@include mat-list-typography($custom-typography);
+@include mat-sidenav-typography($custom-typography);
