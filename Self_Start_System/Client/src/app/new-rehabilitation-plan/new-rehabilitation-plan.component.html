@@ -1,0 +1,41 @@
+<app-navbar-physio></app-navbar-physio>
+
+<mat-sidenav-container class="example-container" *ngIf="showSidebar">
+    <!--Load sidebar component-->
+    <mat-sidenav mode="side" opened>
+      <app-sidebar-physio></app-sidebar-physio>
+    </mat-sidenav>
+    <!--End load sidebar component-->
+
+    <mat-sidenav-content>
+        <h1 class="title">
+            Create New Rehabilitation Plan <br /><br />
+
+            <div class="example-container2">
+                <mat-form-field>
+                    <input matInput #name placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #description placeholder="Description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput #authorName placeholder="Author Name">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #goal placeholder="Goal"></textarea>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput #timeframe placeholder="Time Frame To Complete"></textarea>
+                </mat-form-field>
+
+            </div>
+            <br />
+            <button mat-raised-button class="login-button" routerLink="/rehabilitation-plan" (click) = "postRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">Create!</button>
+
+        </h1>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,29 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+@import '../../scss/sidebar';
+
+.title {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    top:20px;
+}
+mat-card {
+    align-items: center;
+    width: 400px;
+}
+
+.planlist {
+    margin-left: 32%;
+}
+
+mat-card:hover {
+    background-color: #d3d3d3;
+}
+
+
+button.blue {
+    background-color: $beautiful-blue;
+    // @include mat-elevation(2);
+}

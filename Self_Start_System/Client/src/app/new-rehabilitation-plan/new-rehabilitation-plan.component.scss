@@ -1,0 +1,153 @@
+//@import '../../scss/_variables';
+@import '../../scss/sidebar';
+@import '~@angular/material/theming';
+
+.example-container2 {
+  // display: flex;
+  width: 600px !important;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 24%;
+
+  justify-content: center !important;
+  flex-direction: column;
+}
+//
+.example-container2 > * {
+  width: 100%;
+}
+
+.example-container {
+   width: 100vw;
+   height: 92vh;
+   display: flex;
+    flex-direction: column;
+    // position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+//
+// .example-sidenav-content {
+//     display: flex;
+//     height: 100%;
+//     // align-items: center;
+//     // justify-content: center;
+//     background-color: $white;
+// }
+//
+// .mat-button.mat-small {
+//     padding: 0px;
+//     min-width: 10px;
+// }
+//
+//
+// button.blue {
+//     background-color: $beautiful-blue;
+//     // @include mat-elevation(2);
+// }
+//
+// // mat-list-item:hover {
+// //     background-color: rgb(0, 0, 0) !important;
+// //       color:rgb(255, 255, 255);
+// // }
+//
+// .mat-list-item {
+//     color: #cccccc !important;
+//     height: 30px !important;
+// }
+// .mat-list-item-content {
+//     padding: 0px !important;
+//     height: 30px !important;
+// }
+//
+// .mat-list-item:hover {
+//     background-color: #28293d;
+// }
+//
+// .mat-list-item.selected {
+//     background-color: $rare-turquoise;
+// }
+//
+// .mat-list-item.selected:hover {
+//     background-color:  #0c657a;
+// }
+//
+//
+// .mat-list-item:focus {
+//     background-color: $rare-turquoise;
+// }
+//
+// .mat-list-item:focus:hover {
+//     background-color: #0c657a;
+// }
+// mat-sidenav {
+//     background-color: $magic-night;
+//
+//
+//     // background-color: $white;
+//     // background-color: #fdfdfd;
+//     border: 1px solid rgba(0, 0, 0, 0.1);
+//     width: 15vw;
+//
+//     // padding: 20px;
+// }
+//
+// mat-sidenav-container {
+//     // position: relative;
+//     // margin-top: 6px;
+//     // top: 6px;
+//     @include mat-elevation(1);
+// }
+//
+//
+//
+//
+//
+// // .example-container {
+// //   display: flex;
+// //   flex-direction: column;
+// //   position: absolute;
+// //   top: 0;
+// //   bottom: 0;
+// //   left: 0;
+// //   right: 0;
+// // }
+// //
+// // .example-is-mobile .example-toolbar {
+// //   position: fixed;
+// //   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+// //   z-index: 2;
+// // }
+// //
+// // h1.example-app-name {
+// //   margin-left: 8px;
+// // }
+// //
+// // .example-sidenav-container {
+// //   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+// //      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+// //   flex: 1;
+// // }
+//
+// // .example-is-mobile .example-sidenav-container {
+// //   /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+// //      `<body>` to be our scrolling element for mobile layouts. */
+// //   flex: 1 0 auto;
+// // }
+//
+
+.title {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    top:20px;
+}
+mat-card {
+    align-items: center;
+    height: 250px;
+    width: 200px;
+}
