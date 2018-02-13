@@ -57,34 +57,37 @@ router.route('/:exercise_id')
         });
     })
     .put(function (request, response) {
+        console.log("within the exercise put route");
         Exercises.Model.findById(request.params.exercise_id, function (error, exercise) {
+            console.log("retrieved following to edit: ", exercise);
             if (error) {
                 response.send({error: error});
             }
             else {
-                if (request.body.exercise.name){
-                    exercise.name = request.body.exercise.name;
-                } else if (request.body.exercise.description){
-                    exercise.description = request.body.exercise.description;
-                } else if (request.body.exercise.objectives){
-                    exercise.objectives = request.body.exercise.objectives;
-                } else if (request.body.exercise.authorName){
-                    exercise.authorName = request.body.exercise.authorName;
-                } else if (request.body.exercise.actionSteps){
-                    exercise.actionSteps = request.body.exercise.actionSteps;
-                } else if (request.body.exercise.location){
-                    exercise.location = request.body.exercise.location;
-                } else if (request.body.exercise.frequency){
-                    exercise.frequency = request.body.exercise.frequency;
-                } else if (request.body.exercise.duration){
-                    exercise.duration = request.body.exercise.duration;
-                } else if (request.body.exercise.targetDate){
-                    exercise.targetDate = request.body.exercise.targetDate;
-                } else if (request.body.exercise.multimediaURL){
-                    exercise.multimediaURL = request.body.exercise.multimediaURL;
-                } else if (request.body.exercise.rehabilitationPlan){
-                    exercise.rehabilitationPlan = request.body.exercise.rehabilitationPlan;
-                }
+                console.log("assigning the following new changed values to the one we pulled from database: ", request.body);
+                // if (request.body.name){
+                    exercise.name = request.body.name;
+                // } else if (request.body.exercise.description){
+                    exercise.description = request.body.description;
+                // } else if (request.body.exercise.objectives){
+                    exercise.objectives = request.body.objectives;
+                // } else if (request.body.exercise.authorName){
+                    exercise.authorName = request.body.authorName;
+                // } else if (request.body.exercise.actionSteps){
+                    exercise.actionSteps = request.body.actionSteps;
+                // } else if (request.body.exercise.location){
+                    exercise.location = request.body.location;
+                // } else if (request.body.exercise.frequency){
+                    exercise.frequency = request.body.frequency;
+                // } else if (request.body.exercise.duration){
+                    exercise.duration = request.body.duration;
+                // } else if (request.body.exercise.targetDate){
+                    exercise.targetDate = request.body.targetDate;
+                // } else if (request.body.exercise.multimediaURL){
+                    exercise.multimediaURL = request.body.multimediaURL;
+                // } else if (request.body.exercise.rehabilitationPlan){
+                    exercise.rehabilitationPlan = request.body.rehabilitationPlan;
+
                 exercise.save(function (error) {
                     if (error) {
                         response.send({error: error});
