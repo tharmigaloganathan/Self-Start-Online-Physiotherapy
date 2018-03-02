@@ -46,11 +46,16 @@
 									  	</mat-select>
 									</mat-form-field>
 								</div>
-								<div class="col-8 form-container">
+								<div class="col-6 form-container">
 									<mat-form-field>
-									  <input matInput [matDatepicker]="picker" placeholder="Date of Birth" [disabled]="!isChanged">
+									  <input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="patient.DOB"  [disabled]="!isChanged">
 									  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-									  <mat-datepicker #picker></mat-datepicker>
+									  <mat-datepicker #picker [startAt]="patient.DOB"></mat-datepicker>
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Current Age" [value]="patientAge" [disabled]="!isChanged">
 									</mat-form-field>
 								</div>
 							</div>
