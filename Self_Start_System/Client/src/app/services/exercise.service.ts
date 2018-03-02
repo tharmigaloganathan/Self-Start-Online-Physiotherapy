@@ -5,17 +5,18 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ExerciseService {
   domain = environment.apiURL;
+  options;
 
   constructor(private http: HttpClient) { }
 
   // Exercise api calls
 
-  addExercise (exercise) : Observable<Response> {
+  registerExercise (exercise) : Observable<Response> {
     console.log("within exercise service", exercise);
     return this.http.post(this.domain+'/exercises', exercise)
       .pipe(
@@ -36,6 +37,23 @@ export class ExerciseService {
     return this.http.get(this.domain+'/exercises/' + id)
       .pipe(
         retry (3),
+        catchError(this.handleError)
+      );
+  }
+
+  editExercise(id, exercise): Observable<Response>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        //'Authorization': 'my-auth-token'
+      })
+    };
+    console.log(id);
+    console.log(exercise);
+
+    return this.http.put(this.domain +'/exercises/' + id, exercise)
+      .pipe(
+        retry(3),
         catchError(this.handleError)
       );
   }
