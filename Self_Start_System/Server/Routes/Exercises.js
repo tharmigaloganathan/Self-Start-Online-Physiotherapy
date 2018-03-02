@@ -4,7 +4,7 @@ var Exercises = require('../Models/Exercise');
 
 router.route('/')
     .post(function (request, response) {
-        Exercises.add(request.body.exercise).then(function(exercise){
+        Exercises.add(request.body).then(function(exercise){
             response.json({exercise: exercise});
         }).catch(function(err){
             response.json({success: false, message: err});

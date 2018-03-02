@@ -59,6 +59,7 @@ app.use('/Treatments', Treatments);
 app.use('/UserAccounts', UserAccounts);
 
 // connect to mongoDB using mongoose driver
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://SE3350Testing:ademidun@ds111648.mlab.com:11648/se3350testing', { useMongoClient: true });
 
 //middleware

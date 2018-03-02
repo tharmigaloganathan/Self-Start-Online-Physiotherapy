@@ -33,8 +33,8 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                document.remove(function (err) {
-                    if (err){
+                document.remove(function (error) {
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -136,7 +136,7 @@ function getAll(){
 
 function add(object){
     return new Promise (function (resolve, reject) {
-        var document = new Administrators(object);
+        var document = new Exercises(object);
         if (!document.name){
             err = "No name detected.";
             reject(err);
@@ -167,13 +167,10 @@ function add(object){
         } else if (!document.multimediaURL){
             err = "No multimediaURL detected.";
             reject(err);
-        } else if (!document.rehabilitationPlan){
-            err = "No rehabilitationPlan detected.";
-            reject(err);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }
