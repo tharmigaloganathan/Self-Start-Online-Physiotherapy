@@ -5,91 +5,150 @@
 			<div class="header">
 				<h1>SelftStart Registration</h1>
 			</div>
-			<!-- Main Form -->
-			<div class="col">
-				<form class="form-container">
-					<!-- Row 1 -->
-					<div class="row">
-						<div class="col form-container">
-							<mat-form-field>
-								<input matInput placeholder="First Name" [value]="">
-							</mat-form-field>
-						</div>
-						<div class="col form-container">
-							<mat-form-field>
-								<input matInput placeholder="Last Name" [value]="">
-							</mat-form-field>
+			<!-- Personal Information -->
+			<mat-horizontal-stepper>
+				<mat-step>
+					<ng-template matStepLabel>Personal Information</ng-template>
+					<div class="col">
+						<form class="form-container">
+							<!-- Row 1 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="First Name" [value]="">
+									</mat-form-field>
+								</div>
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Last Name" [value]="">
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<mat-select [value]="" placeholder="Gender">
+											<mat-option value="Male">Male</mat-option>
+											<mat-option value="Female">Female</mat-option>
+											<mat-option value="Other">Other</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-8 form-container">
+									<mat-form-field>
+									  <input matInput [matDatepicker]="picker" placeholder="Date of Birth">
+									  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+									  <mat-datepicker #picker></mat-datepicker>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 3 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Street" [value]="">
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="City" [value]="">
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+									  <mat-select [value]="" placeholder="Province">
+										  <mat-option value="AB">AB</mat-option>
+										  <mat-option value="BC">BC</mat-option>
+										  <mat-option value="MB">MB</mat-option>
+										  <mat-option value="NB">NB</mat-option>
+										  <mat-option value="NL">NL</mat-option>
+										  <mat-option value="NS">NS</mat-option>
+										  <mat-option value="NT">NT</mat-option>
+										  <mat-option value="NU">NU</mat-option>
+										  <mat-option value="ON">ON</mat-option>
+										  <mat-option value="PE">PE</mat-option>
+										  <mat-option value="QC">QC</mat-option>
+										  <mat-option value="SK">SK</mat-option>
+										  <mat-option value="YT">YT</mat-option>
+									  </mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Postal Code" [value]="">
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 4 -->
+							<div class="row">
+								<div class="col-8 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Email" [value]="">
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Phone Number" [value]="">
+									</mat-form-field>
+								</div>
+							</div>
+						</form>
+						<div class="row">
+							<div class="col-3 button-container">
+								<button mat-button matStepperNext class="next-button">Next</button>
+							</div>
 						</div>
 					</div>
-					<!-- Row 2 -->
-					<div class="row">
-						<div class="col-4 form-container">
-							<mat-form-field>
-								<mat-select [value]="" placeholder="Gender">
-									<mat-option value="Male">Male</mat-option>
-									<mat-option value="Female">Female</mat-option>
-									<mat-option value="Other">Other</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div class="col-8 form-container">
-							<mat-form-field>
-								<input matInput placeholder="Date of Birth" [value]="">
-							</mat-form-field>
-						</div>
-					</div>
-					<!-- Row 3 -->
-					<div class="row">
-						<div class="col-4 form-container">
-							<mat-form-field>
-								<input matInput placeholder="Street" [value]="">
-							</mat-form-field>
-						</div>
-						<div class="col-4 form-container">
-							<mat-form-field>
-								<input matInput placeholder="City" [value]="">
-							</mat-form-field>
-						</div>
-						<div class="col-2 form-container">
-							<mat-form-field>
-							  <mat-select [value]="" placeholder="Province">
-								  <mat-option value="AB">AB</mat-option>
-								  <mat-option value="BC">BC</mat-option>
-								  <mat-option value="MB">MB</mat-option>
-								  <mat-option value="NB">NB</mat-option>
-								  <mat-option value="NL">NL</mat-option>
-								  <mat-option value="NS">NS</mat-option>
-								  <mat-option value="NT">NT</mat-option>
-								  <mat-option value="NU">NU</mat-option>
-								  <mat-option value="ON">ON</mat-option>
-								  <mat-option value="PE">PE</mat-option>
-								  <mat-option value="QC">QC</mat-option>
-								  <mat-option value="SK">SK</mat-option>
-								  <mat-option value="YT">YT</mat-option>
-							  </mat-select>
-							</mat-form-field>
-						</div>
-						<div class="col-2 form-container">
-							<mat-form-field>
-								<input matInput placeholder="Postal Code" [value]="">
-							</mat-form-field>
+				</mat-step>
+
+				<!-- Account Information -->
+				<mat-step>
+					<ng-template matStepLabel>Account Information</ng-template>
+					<div class="col">
+						<form class="form-container">
+							<!-- Row 1 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="User Name" [value]="">
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Password" [value]="">
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 3 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Confrirm Password" [value]="">
+									</mat-form-field>
+								</div>
+							</div>
+						</form>
+						<div class="row">
+							<div class="col-3 button-container">
+								<button mat-button matStepperPrevious class="previous-button">Back</button>
+							</div>
+							<div class="col-3 button-container">
+								<button mat-button matStepperNext class="next-button">Register</button>
+							</div>
 						</div>
 					</div>
-					<!-- Row 4 -->
-					<div class="row">
-						<div class="col-8 form-container">
-							<mat-form-field>
-								<input matInput placeholder="Email" [value]="">
-							</mat-form-field>
-						</div>
-						<div class="col-4 form-container">
-							<mat-form-field>
-								<input matInput placeholder="Phone Number" [value]="">
-							</mat-form-field>
-						</div>
-					</div>
-				</form>
-			</div>
+				</mat-step>
+
+				<!-- Finish Page -->
+				<mat-step>
+					<ng-template matStepLabel>Register</ng-template>
+					<h1>Next Page 2</h1>
+				</mat-step>
+			</mat-horizontal-stepper>
 		</div>
 	</div>
 </div>
