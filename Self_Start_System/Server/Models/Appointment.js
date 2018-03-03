@@ -24,7 +24,7 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                appointment.remove(function (err) {
+                appointment.remove(function (error) {
                     if (error){
                         reject(error);
                     } else {

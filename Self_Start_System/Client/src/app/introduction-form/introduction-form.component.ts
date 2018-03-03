@@ -78,8 +78,8 @@ export class IntroductionFormComponent implements OnInit {
     console.log("getting all questions");
     this.formService.getAllQuestions().subscribe(
       data => {
-        console.log("questions retrieved! ",data['exercise']);
-        this.allQuestions = data.exercise;
+        console.log("questions retrieved! ",data['question']);
+        this.allQuestions = data.question;
       },
       error => console.log(error)
     );

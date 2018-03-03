@@ -24,7 +24,7 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                country.remove(function (err) {
+                country.remove(function (error) {
                     if (error){
                         reject(error);
                     } else {

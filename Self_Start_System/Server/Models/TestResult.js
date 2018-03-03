@@ -1,7 +1,7 @@
 var mongoose = require ('mongoose');
 var testResultSchema = mongoose.Schema(
     {
-        exercise: String,
+        question: String,
         answer: String,
         assessmentTest: {type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}
     }
@@ -25,7 +25,7 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                document.remove(function (err) {
+                document.remove(function (error) {
                     if (error){
                         reject(error);
                     } else {
@@ -39,8 +39,8 @@ function deleteOne(id){
 
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
-        if (!updatedDocument.exercise){
-            error = "No exercise detected.";
+        if (!updatedDocument.question){
+            error = "No question detected.";
             reject(error);
         } else if (!updatedDocument.answer){
             error = "No answer detected.";
@@ -51,7 +51,7 @@ function update(id, updatedDocument){
                     reject(error);
                 }
                 else {
-                    document.exercise = updatedDocument.exercise;
+                    document.question = updatedDocument.question;
                     document.answer = updatedDocument.answer;
                     document.assessmentTest = updatedDocument.assessmentTest;
                     document.save(function (error) {
@@ -94,8 +94,8 @@ function getAll(){
 function add(object){
     return new Promise (function (resolve, reject) {
         var document = new TestResults(object);
-        if (!document.exercise){
-            error = "No exercise detected.";
+        if (!document.question){
+            error = "No question detected.";
             reject(error);
         } else if (!document.answer){
             error = "No answer detected.";

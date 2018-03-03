@@ -23,7 +23,7 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                city.remove(function (err) {
+                city.remove(function (error) {
                     if (error){
                         reject(error);
                     } else {

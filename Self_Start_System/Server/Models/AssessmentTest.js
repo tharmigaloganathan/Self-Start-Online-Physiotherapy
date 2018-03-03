@@ -28,7 +28,7 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                assessmentTest.remove(function (err) {
+                assessmentTest.remove(function (error) {
                     if (error){
                         reject(error);
                     } else {

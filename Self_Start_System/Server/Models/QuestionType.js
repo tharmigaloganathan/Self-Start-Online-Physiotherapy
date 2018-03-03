@@ -24,7 +24,7 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                document.remove(function (err) {
+                document.remove(function (error) {
                     if (error){
                         reject(error);
                     } else {
