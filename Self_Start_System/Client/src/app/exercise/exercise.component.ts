@@ -25,9 +25,7 @@ export class ExerciseComponent implements OnInit {
   objectivesValue;
   actionStepsValue;
   openEditModal;
-
-
-
+  editEnabled = false;
   allExercises: any[];
   currentExercise: {
     name: null,
@@ -95,6 +93,17 @@ export class ExerciseComponent implements OnInit {
       res=> {console.log("response received: ", res), this.getAllExercises()},
       error => {console.log(error)}
     );
+
+    this.editEnabled = false;
+  }
+
+  enableEdit(){
+    this.editEnabled = true;
+  }
+
+  cancelEdit(){
+    this.editEnabled = false;
+    this.getOneExercise(this.currentExercise._id);
   }
 
   getAllExercises(){
@@ -126,9 +135,12 @@ export class ExerciseComponent implements OnInit {
     this.openEditModal=false;
   }
 
-
-
-
-
-
+  deleteExercise(){
+    if (this.currentExercise){
+      this.exerciseService.deleteExercise(this.currentExercise._id).subscribe(
+        res=> {console.log("response received: ", res), this.getAllExercises()},
+        error => {console.log(error)}
+      );
+    }
+  }
 }
