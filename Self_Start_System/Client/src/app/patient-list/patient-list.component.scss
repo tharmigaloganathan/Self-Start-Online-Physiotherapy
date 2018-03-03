@@ -18,3 +18,7 @@
 .mat-row{
   cursor: pointer;
 }
+
+.mat-row:hover{
+  background-color: $data-table-background-hover-color;
+}

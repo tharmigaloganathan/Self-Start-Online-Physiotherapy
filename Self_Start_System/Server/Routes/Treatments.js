@@ -1,90 +1,53 @@
 var express = require('express');
 var router = express.Router();
-var Treatments = require('../models/Treatment');
+var Treatments = require('../Models/Treatment');
 
 router.route('/')
     .post(function (request, response) {
-        var treatment = new Treatments.Model(request.body.treatment);
-        if (!treatment.dateAssign){
-            response.json({success: false, message: "No dateAssign detected."});
-        } else if (!treatment.physiotherapist){
-            response.json({success: false, message: "No physiotherapist detected."});
-        } else if (!treatment.patientProfile){
-            response.json({success: false, message: "No patientProfile detected."});
-        } else if (!treatment.rehabilitationPlan){
-            response.json({success: false, message: "No rehabilitationPlan detected."});
-        } else if (!treatment.recommendations){
-            response.json({success: false, message: "No recommendations detected."});
-        } else {
-            treatment.save(function (error) {
-                if (error) response.send(error);
-                response.json({treatment: treatment});
-            });
-        }
+        Treatments.add(request.body).then(function(treatment){
+            response.json({treatment: treatment});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
-	.get(function (request, response) {
-        Treatments.Model.find(function (error, treatments) {
-            if (error) response.send(error);
-            response.json({treatments: treatments});
-        });
+    .get(function (request, response) {
+        Treatments.getAll().then(function(treatments){
+            response.json({treatment: treatments});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-router.route('/:treatment_id')
-	.get(function (request, response) {
-		Treatments.Model.findById(request.params.treatment_id, function (error, treatment) {
-			if (error) {
-				response.send({error: error});
-			}
-			else {
-				response.json({treatment: treatment});
-			}
-		});
-	})
-	.put(function (request, response) {
-        Treatments.Model.findById(request.params.treatment_id, function (error, treatment) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                if (request.body.treatment.dateAssign){
-                    treatment.dateAssign = request.body.treatment.dateAssign;
-                } else if (request.body.treatment.physiotherapist){
-                    treatment.physiotherapist = request.body.treatment.physiotherapist;
-                } else if (request.body.treatment.patientProfile){
-                    treatment.patientProfile = request.body.treatment.patientProfile;
-                } else if (request.body.treatment.rehabilitationPlan){
-                    treatment.rehabilitationPlan = request.body.treatment.rehabilitationPlan;
-                } else if (request.body.treatment.recommendations){
-                    treatment.recommendations = request.body.treatment.recommendations;
-                }
-                treatment.save(function (error) {
-                    if (error) {
-                        response.send({error: error});
-                    } else {
-                        response.json({treatment: treatment});
-                    }
-                });
-            }
-        });
-    })
-	.delete(function (req, res) {
-        if (!req.params.treatment_id) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Treatments.Model.findById(req.params.treatment_id, function (err, treatment) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    treatment.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'treatment deleted!'});
-                        }
-                    })
-                }
-            })
+router.route('/:object_id')
+    .get(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
+        Treatments.getOne(request.params.object_id).then(function(treatment){
+            response.json({treatment: treatment});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .put(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Treatments.update(request.params.object_id, request.body).then(function(treatment){
+            response.json({treatment: treatment});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Treatments.deleteOne(request.params.object_id).then(function(treatment){
+            response.json({success: true, message: 'treatment deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;
