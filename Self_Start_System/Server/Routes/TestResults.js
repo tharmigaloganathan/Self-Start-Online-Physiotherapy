@@ -1,82 +1,53 @@
 var express = require('express');
 var router = express.Router();
-var TestResults = require('../models/TestResult');
+var TestResults = require('../Models/TestResult');
 
 router.route('/')
     .post(function (request, response) {
-        var testResult = new TestResults.Model(request.body.testResult);
-        if (!testResult.question){
-            response.json({success: false, message: "No question detected."});
-        } else if (!testResult.answer){
-            response.json({success: false, message: "No answer detected."});
-        } else if (!testResult.assessmentTest){
-            response.json({success: false, message: "No assessmentTest detected."});
-        } else {
-            testResult.save(function (error) {
-                if (error) response.send(error);
-                response.json({testResult: testResult});
-            });
-        }
+        TestResults.add(request.body).then(function(testResult){
+            response.json({testResult: testResult});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .get(function (request, response) {
-        TestResults.Model.find(function (error, testResult) {
-            if (error) response.send(error);
-            response.json({testResult: testResult});
-        });
+        TestResults.getAll().then(function(testResults){
+            response.json({testResult: testResults});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
-router.route('/:testResult_id')
+router.route('/:object_id')
     .get(function (request, response) {
-        TestResults.Model.findById(request.params.testResult_id, function (error, testResult) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                response.json({testResult: testResult});
-            }
-        });
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        TestResults.getOne(request.params.object_id).then(function(testResult){
+            response.json({testResult: testResult});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .put(function (request, response) {
-        TestResults.Model.findById(request.params.testResult_id, function (error, testResult) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                if (request.body.testResult.question){
-                    testResult.question = request.body.testResult.question;
-                } else if (request.body.testResult.answer){
-                    testResult.answer = request.body.testResult.answer;
-                } else if (request.body.testResult.assessmentTest){
-                    testResult.assessmentTest = request.body.testResult.assessmentTest;
-                }
-                testResult.save(function (error) {
-                    if (error) {
-                        response.send({error: error});
-                    } else {
-                        response.json({testResult: testResult});
-                    }
-                });
-            }
-        });
-    })
-    .delete(function (req, res) {
-        if (!req.params.testResult_id) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            TestResults.Model.findById(req.params.testResult_id, function (err, testResult) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    testResult.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'testResult deleted!'});
-                        }
-                    })
-                }
-            })
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
+        TestResults.update(request.params.object_id, request.body).then(function(testResult){
+            response.json({testResult: testResult});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        TestResults.deleteOne(request.params.object_id).then(function(testResult){
+            response.json({success: true, message: 'testResult deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;

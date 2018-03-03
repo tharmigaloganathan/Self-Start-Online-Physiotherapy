@@ -1,14 +1,13 @@
 var mongoose = require ('mongoose');
-var questionsSchema = mongoose.Schema(
+var exerciseOrderSchema = mongoose.Schema(
     {
-        questionText: String,
-        helpDescription: String,
-        questionType: {type: mongoose.Schema.ObjectId, ref: ('QuestionType')},
-        questionOrders: [{type: mongoose.Schema.ObjectId, ref: 'QuestionOrder'}]
+        exerciseOrder: Number,
+        exercise: {type: mongoose.Schema.ObjectId, ref: ('Exercise')},
+        rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: 'RehabilitationPlan'}
     }
 );
 
-var Questions = module.exports = mongoose.model('Question', questionsSchema);
+var ExerciseOrder = module.exports = mongoose.model('ExerciseOrder', exerciseOrderSchema);
 
 
 
@@ -22,7 +21,7 @@ module.exports = {
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
-        Questions.findById(id, function (error, document) {
+        ExerciseOrder.findById(id, function (error, document) {
             if (error){
                 reject(error);
             }else{
@@ -40,22 +39,18 @@ function deleteOne(id){
 
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
-        if (!updatedDocument.questionText){
-            error = "No questionText detected.";
-            reject(error);
-        } else if (!updatedDocument.helpDescription){
-            error = "No helpDescription detected.";
+        if (!updatedDocument.exerciseOrder){
+            error = "No exerciseOrder detected.";
             reject(error);
         } else {
-            Questions.findById(id, function (error, document) {
+            ExerciseOrder.findById(id, function (error, document) {
                 if (error) {
                     reject(error);
                 }
                 else {
-                    document.questionText = updatedDocument.questionText;
-                    document.helpDescription = updatedDocument.helpDescription;
-                    document.questionType = updatedDocument.questionType;
-                    document.questionOrders = updatedDocument.questionOrders;
+                    document.exerciseOrder = updatedDocument.exerciseOrder;
+                    document.exercise = updatedDocument.exercise;
+                    document.rehabilitationPlan = updatedDocument.rehabilitationPlan;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -71,7 +66,7 @@ function update(id, updatedDocument){
 
 function getOne(id){
     return new Promise (function (resolve, reject) {
-        Questions.findById(id, function (error, document) {
+        ExerciseOrder.findById(id, function (error, document) {
             if (error){
                 reject(error);
             }else{
@@ -83,7 +78,7 @@ function getOne(id){
 
 function getAll(){
     return new Promise (function (resolve, reject) {
-        Questions.find({}, function (error, documents) {
+        ExerciseOrder.find({}, function (error, documents) {
             if (error){
                 reject(error);
             }else{
@@ -95,12 +90,9 @@ function getAll(){
 
 function add(object){
     return new Promise (function (resolve, reject) {
-        var document = new Questions(object);
-        if (!document.questionText){
-            error = "No questionText detected.";
-            reject(error);
-        } else if (!document.helpDescription){
-            error = "No helpDescription detected.";
+        var document = new ExerciseOrder(object);
+        if (!document.exerciseOrder){
+            error = "No exerciseOrder detected.";
             reject(error);
         } else {
             document.save(function (error) {
