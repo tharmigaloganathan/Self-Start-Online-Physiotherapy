@@ -15,7 +15,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
     rehabilitationplan = {exercises:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
-    myExercises = [];//nullasaaaa
+    myExercises = [];
     deleteList = [];
     editID = localStorage.getItem('edit_rehabilitation_id');
 

@@ -44,9 +44,6 @@ export class ExerciseComponent implements OnInit {
   };
 
 
-
-
-
   constructor(private exerciseService :ExerciseService) {
     this.openEditModal=false;
   }
@@ -104,8 +101,10 @@ export class ExerciseComponent implements OnInit {
     console.log("getting all exercises");
     this.exerciseService.getAllExercises().subscribe(
       data => {
-        console.log("all exercises retrieved! ",data.exercises);
-        this.allExercises = data.exercises;
+        console.log("all exercises retrieved! ",data.exercise);
+        console.log(data);
+        this.allExercises = data.exercise;
+
       },
       error => console.log(error)
     );
