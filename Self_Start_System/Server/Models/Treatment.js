@@ -28,7 +28,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -42,20 +42,8 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.dateAssign){
-            err = "No dateAssign detected.";
-            reject(err);
-        } else if (!updatedDocument.physiotherapist){
-            err = "No physiotherapist detected.";
-            reject(err);
-        } else if (!updatedDocument.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
-        } else if (!updatedDocument.rehabilitationPlan){
-            err = "No rehabilitationPlan detected.";
-            reject(err);
-        } else if (!updatedDocument.recommendations){
-            err = "No recommendations detected.";
-            reject(err);
+            error = "No dateAssign detected.";
+            reject(error);
         } else {
             Treatments.findById(id, function (error, document) {
                 if (error) {
@@ -108,24 +96,12 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Treatments(object);
         if (!document.dateAssign){
-            err = "No dateAssign detected.";
-            reject(err);
-        } else if (!document.physiotherapist){
-            err = "No physiotherapist detected.";
-            reject(err);
-        } else if (!document.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
-        } else if (!document.rehabilitationPlan){
-            err = "No rehabilitationPlan detected.";
-            reject(err);
-        } else if (!document.recommendations){
-            err = "No recommendations detected.";
-            reject(err);
+            error = "No dateAssign detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

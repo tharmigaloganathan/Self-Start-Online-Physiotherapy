@@ -11,7 +11,7 @@ var exercisesSchema = mongoose.Schema(
 		duration: Number,
 		targetDate: Date,
 		multimediaURL: String,
-		rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: ('RehabilitationPlan')}
+		exerciseOrders: {type: mongoose.Schema.ObjectId, ref: ('ExerciseOrder')}
 	}
 );
 
@@ -48,38 +48,35 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.name){
-            err = "No name detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else if (!updatedDocument.description){
-            err = "No description detected.";
-            reject(err);
+            error = "No description detected.";
+            reject(error);
         } else if (!updatedDocument.objectives){
-            err = "No objectives detected.";
-            reject(err);
+            error = "No objectives detected.";
+            reject(error);
         } else if (!updatedDocument.authorName){
-            err = "No authorName detected.";
-            reject(err);
+            error = "No authorName detected.";
+            reject(error);
         } else if (!updatedDocument.actionSteps){
-            err = "No actionSteps detected.";
-            reject(err);
+            error = "No actionSteps detected.";
+            reject(error);
         } else if (!updatedDocument.location){
-            err = "No location detected.";
-            reject(err);
+            error = "No location detected.";
+            reject(error);
         } else if (!updatedDocument.frequency){
-            err = "No frequency detected.";
-            reject(err);
+            error = "No frequency detected.";
+            reject(error);
         } else if (!updatedDocument.duration){
-            err = "No duration detected.";
-            reject(err);
+            error = "No duration detected.";
+            reject(error);
         } else if (!updatedDocument.targetDate){
-            err = "No targetDate detected.";
-            reject(err);
+            error = "No targetDate detected.";
+            reject(error);
         } else if (!updatedDocument.multimediaURL){
-            err = "No multimediaURL detected.";
-            reject(err);
-        } else if (!updatedDocument.rehabilitationPlan){
-            err = "No rehabilitationPlan detected.";
-            reject(err);
+            error = "No multimediaURL detected.";
+            reject(error);
         } else {
             Exercises.findById(id, function (error, document) {
                 if (error) {
@@ -96,7 +93,7 @@ function update(id, updatedDocument){
                     document.duration = updatedDocument.duration;
                     document.targetDate = updatedDocument.targetDate;
                     document.multimediaURL = updatedDocument.multimediaURL;
-                    document.rehabilitationPlan = updatedDocument.rehabilitationPlan;
+                    document.exerciseOrders = updatedDocument.exerciseOrders;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -138,35 +135,35 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Exercises(object);
         if (!document.name){
-            err = "No name detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else if (!document.description){
-            err = "No description detected.";
-            reject(err);
+            error = "No description detected.";
+            reject(error);
         } else if (!document.objectives){
-            err = "No objectives detected.";
-            reject(err);
+            error = "No objectives detected.";
+            reject(error);
         } else if (!document.authorName){
-            err = "No authorName detected.";
-            reject(err);
+            error = "No authorName detected.";
+            reject(error);
         } else if (!document.actionSteps){
-            err = "No actionSteps detected.";
-            reject(err);
+            error = "No actionSteps detected.";
+            reject(error);
         } else if (!document.location){
-            err = "No location detected.";
-            reject(err);
+            error = "No location detected.";
+            reject(error);
         } else if (!document.frequency){
-            err = "No frequency detected.";
-            reject(err);
+            error = "No frequency detected.";
+            reject(error);
         } else if (!document.duration){
-            err = "No duration detected.";
-            reject(err);
+            error = "No duration detected.";
+            reject(error);
         } else if (!document.targetDate){
-            err = "No targetDate detected.";
-            reject(err);
+            error = "No targetDate detected.";
+            reject(error);
         } else if (!document.multimediaURL){
-            err = "No multimediaURL detected.";
-            reject(err);
+            error = "No multimediaURL detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){

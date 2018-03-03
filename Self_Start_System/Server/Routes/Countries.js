@@ -4,7 +4,7 @@ var Countries = require('../Models/Country');
 
 router.route('/')
     .post(function (request, response) {
-        Countries.add(request.body.country).then(function(country){
+        Countries.add(request.body).then(function(country){
             response.json({country: country});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:country_id')
     .get(function (request, response) {
-        if (!req.params.country_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.country_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Countries.getOne(request.params.country_id).then(function(country){
             response.json({country: country});
@@ -30,21 +30,21 @@ router.route('/:country_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.country_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.country_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Countries.update(request.params.country_id, request.body.country).then(function(country){
+        Countries.update(request.params.country_id, request.body).then(function(country){
             response.json({country: country});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.country_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.country_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Countries.deleteOne(request.params.country_id).then(function(country){
-            res.json({success: true, message: 'country deleted!'});
+            response.json({success: true, message: 'country deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

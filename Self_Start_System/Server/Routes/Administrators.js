@@ -4,7 +4,7 @@ var Administrators = require('../Models/Administrator');
 
 router.route('/')
     .post(function (request, response) {
-        Administrators.add(request.body.administrator).then(function(administrator){
+        Administrators.add(request.body).then(function(administrator){
             response.json({administrator: administrator});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:administrator_id')
     .get(function (request, response) {
-        if (!req.params.administrator_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.administrator_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Administrators.getOne(request.params.administrator_id).then(function(administrator){
             response.json({administrator: administrator});
@@ -30,21 +30,21 @@ router.route('/:administrator_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.administrator_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.administrator_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Administrators.update(request.params.administrator_id, request.body.administrator).then(function(administrator){
+        Administrators.update(request.params.administrator_id, request.body).then(function(administrator){
             response.json({administrator: administrator});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.administrator_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.administrator_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Administrators.deleteOne(request.params.administrator_id).then(function(administrator){
-            res.json({success: true, message: 'admin deleted!'});
+            response.json({success: true, message: 'admin deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

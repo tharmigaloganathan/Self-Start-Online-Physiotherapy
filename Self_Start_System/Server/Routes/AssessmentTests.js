@@ -4,7 +4,7 @@ var AssessmentTests = require('../Models/AssessmentTest');
 
 router.route('/')
     .post(function (request, response) {
-        AssessmentTests.add(request.body.assessmentTest).then(function(assessmentTest){
+        AssessmentTests.add(request.body).then(function(assessmentTest){
             response.json({assessmentTest: assessmentTest});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:assessmentTest_id')
     .get(function (request, response) {
-        if (!req.params.assessmentTest_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.assessmentTest_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         AssessmentTests.getOne(request.params.assessmentTest_id).then(function(assessmentTest){
             response.json({assessmentTest: assessmentTest});
@@ -30,21 +30,21 @@ router.route('/:assessmentTest_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.assessmentTest_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.assessmentTest_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        AssessmentTests.update(request.params.assessmentTest_id, request.body.assessmentTest).then(function(assessmentTest){
+        AssessmentTests.update(request.params.assessmentTest_id, request.body).then(function(assessmentTest){
             response.json({assessmentTest: assessmentTest});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.assessmentTest_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.assessmentTest_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         AssessmentTests.deleteOne(request.params.assessmentTest_id).then(function(assessmentTest){
-            res.json({success: true, message: 'assessmentTest deleted!'});
+            response.json({success: true, message: 'assessmentTest deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

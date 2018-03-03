@@ -4,7 +4,7 @@ var Provinces = require('../Models/Province');
 
 router.route('/')
     .post(function (request, response) {
-        Provinces.add(request.body.province).then(function(province){
+        Provinces.add(request.body).then(function(province){
             response.json({province: province});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Provinces.getOne(request.params.object_id).then(function(province){
             response.json({province: province});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Provinces.update(request.params.object_id, request.body.province).then(function(province){
+        Provinces.update(request.params.object_id, request.body).then(function(province){
             response.json({province: province});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Provinces.deleteOne(request.params.object_id).then(function(province){
-            res.json({success: true, message: 'province deleted!'});
+            response.json({success: true, message: 'province deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

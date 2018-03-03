@@ -29,7 +29,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 assessmentTest.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(assessmentTest);
@@ -43,26 +43,14 @@ function deleteOne(id){
 function update(id, updatedAssessmentTest){
     return new Promise (function (resolve, reject) {
         if (!updatedAssessmentTest.name){
-            err = "No name detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else if (!updatedAssessmentTest.description){
-            err = "No description detected.";
-            reject(err);
+            error = "No description detected.";
+            reject(error);
         } else if (!updatedAssessmentTest.authorName){
-            err = "No authorName detected.";
-            reject(err);
-        } else if (!updatedAssessmentTest.recommendations){
-            err = "No recommendations detected.";
-            reject(err);
-        } else if (!updatedAssessmentTest.form){
-            err = "No form detected.";
-            reject(err);
-        } else if (!updatedAssessmentTest.testResults){
-            err = "No testResults detected.";
-            reject(err);
-        } else if (!updatedAssessmentTest.rehabilitationPlan){
-            err = "No rehabilitationPlan detected.";
-            reject(err);
+            error = "No authorName detected.";
+            reject(error);
         } else {
             AssessmentTests.findById(id, function (error, assessmentTest) {
                 if (error) {
@@ -117,30 +105,18 @@ function add(assessmentTest){
     return new Promise (function (resolve, reject) {
         var assessment = new AssessmentTests(assessmentTest);
         if (!assessment.name){
-            err = "No name detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else if (!assessment.description){
-            err = "No description detected.";
-            reject(err);
+            error = "No description detected.";
+            reject(error);
         } else if (!assessment.authorName){
-            err = "No authorName detected.";
-            reject(err);
-        } else if (!assessment.recommendations){
-            err = "No recommendations detected.";
-            reject(err);
-        } else if (!assessment.form){
-            err = "No form detected.";
-            reject(err);
-        } else if (!assessment.testResults){
-            err = "No testResults detected.";
-            reject(err);
-        } else if (!assessment.rehabilitationPlan){
-            err = "No rehabilitationPlan detected.";
-            reject(err);
+            error = "No authorName detected.";
+            reject(error);
         } else {
             assessment.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(assessment);
                 }

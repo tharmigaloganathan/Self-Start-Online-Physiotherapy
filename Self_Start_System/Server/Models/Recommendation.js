@@ -27,7 +27,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -41,17 +41,11 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.timeStamp){
-            err = "No timeStamp detected.";
-            reject(err);
+            error = "No timeStamp detected.";
+            reject(error);
         } else if (!updatedDocument.decision){
-            err = "No decision detected.";
-            reject(err);
-        } else if (!updatedDocument.treatment){
-            err = "No treatment detected.";
-            reject(err);
-        } else if (!updatedDocument.assessmentTest){
-            err = "No assessmentTest detected.";
-            reject(err);
+            error = "No decision detected.";
+            reject(error);
         } else {
             Recommendations.findById(id, function (error, document) {
                 if (error) {
@@ -103,21 +97,15 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Recommendations(object);
         if (!document.timeStamp){
-            err = "No timeStamp detected.";
-            reject(err);
+            error = "No timeStamp detected.";
+            reject(error);
         } else if (!document.decision){
-            err = "No decision detected.";
-            reject(err);
-        } else if (!document.treatment){
-            err = "No treatment detected.";
-            reject(err);
-        } else if (!document.assessmentTest){
-            err = "No assessmentTest detected.";
-            reject(err);
+            error = "No decision detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

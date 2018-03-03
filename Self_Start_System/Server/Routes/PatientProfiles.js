@@ -4,7 +4,7 @@ var PatientProfiles = require('../Models/PatientProfile');
 
 router.route('/')
     .post(function (request, response) {
-        PatientProfiles.add(request.body.patientProfile).then(function(patientProfile){
+        PatientProfiles.add(request.body).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:patientprofile_id')
     .get(function (request, response) {
-        if (!req.params.patientprofile_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.patientprofile_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         PatientProfiles.getOne(request.params.patientprofile_id).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
@@ -30,21 +30,21 @@ router.route('/:patientprofile_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.patientprofile_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.patientprofile_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        PatientProfiles.update(request.params.patientprofile_id, request.body.patientProfile).then(function(patientProfile){
+        PatientProfiles.update(request.params.patientprofile_id, request.body).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.patientprofile_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.patientprofile_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         PatientProfiles.deleteOne(request.params.patientprofile_id).then(function(patientProfile){
-            res.json({success: true, message: 'patientProfile deleted!'});
+            response.json({success: true, message: 'patientProfile deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

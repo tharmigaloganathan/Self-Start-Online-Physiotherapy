@@ -29,7 +29,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -43,17 +43,14 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.dayTimeStamp){
-            err = "No dayTimeStamp detected.";
-            reject(err);
+            error = "No dayTimeStamp detected.";
+            reject(error);
         } else if (!updatedDocument.amount){
-            err = "No amount detected.";
-            reject(err);
+            error = "No amount detected.";
+            reject(error);
         } else if (!updatedDocument.note){
-            err = "No note detected.";
-            reject(err);
-        } else if (!updatedDocument.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
+            error = "No note detected.";
+            reject(error);
         } else {
             Payments.findById(id, function (error, document) {
                 if (error) {
@@ -105,21 +102,18 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Payments(object);
         if (!document.dayTimeStamp){
-            err = "No dayTimeStamp detected.";
-            reject(err);
+            error = "No dayTimeStamp detected.";
+            reject(error);
         } else if (!document.amount){
-            err = "No amount detected.";
-            reject(err);
+            error = "No amount detected.";
+            reject(error);
         } else if (!document.note){
-            err = "No note detected.";
-            reject(err);
-        } else if (!document.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
+            error = "No note detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

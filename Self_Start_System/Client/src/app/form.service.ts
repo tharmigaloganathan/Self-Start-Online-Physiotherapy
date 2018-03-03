@@ -22,7 +22,7 @@ export class FormService {
   }
 
   editQuestion(question){
-    console.log("this is the question: ", question);
+    console.log("this is the exercise: ", question);
     return this.http.put(this.domain+'/questions/'+question._id, question)
       .pipe(
         retry(3),

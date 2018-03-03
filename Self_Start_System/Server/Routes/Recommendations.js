@@ -4,7 +4,7 @@ var Recommendations = require('../Models/Recommendation');
 
 router.route('/')
     .post(function (request, response) {
-        Recommendations.add(request.body.recommendation).then(function(recommendation){
+        Recommendations.add(request.body).then(function(recommendation){
             response.json({recommendation: recommendation});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Recommendations.getOne(request.params.object_id).then(function(recommendation){
             response.json({recommendation: recommendation});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Recommendations.update(request.params.object_id, request.body.recommendation).then(function(recommendation){
+        Recommendations.update(request.params.object_id, request.body).then(function(recommendation){
             response.json({recommendation: recommendation});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Recommendations.deleteOne(request.params.object_id).then(function(recommendation){
-            res.json({success: true, message: 'recommendation deleted!'});
+            response.json({success: true, message: 'recommendation deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

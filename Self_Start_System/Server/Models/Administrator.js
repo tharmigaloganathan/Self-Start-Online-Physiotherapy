@@ -28,8 +28,8 @@ function deleteOne(id){
             if (error){
                 reject(error);
             }else{
-                document.remove(function (err) {
-                    if (err){
+                document.remove(function (error) {
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -43,26 +43,20 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.familyName){
-            err = "No familyName detected.";
-            reject(err);
+            error = "No familyName detected.";
+            reject(error);
         } else if (!updatedDocument.givenName){
-            err = "No givenName detected.";
-            reject(err);
+            error = "No givenName detected.";
+            reject(error);
         } else if (!updatedDocument.email){
-            err = "No email detected.";
-            reject(err);
+            error = "No email detected.";
+            reject(error);
         } else if (!updatedDocument.dateHired){
-            err = "No dateHired detected.";
-            reject(err);
+            error = "No dateHired detected.";
+            reject(error);
         } else if (!updatedDocument.dateFinished){
-            err = "No dateFinished detected.";
-            reject(err);
-        } else if (!updatedDocument.forms){
-            err = "No forms detected.";
-            reject(err);
-        } else if (!updatedDocument.userAccount){
-            err = "No userAccount detected.";
-            reject(err);
+            error = "No dateFinished detected.";
+            reject(error);
         } else {
             Administrators.findById(id, function (error, document) {
                 if (error) {
@@ -117,30 +111,24 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Administrators(object);
         if (!document.familyName){
-            err = "No familyName detected.";
-            reject(err);
+            error = "No familyName detected.";
+            reject(error);
         } else if (!document.givenName){
-            err = "No givenName detected.";
-            reject(err);
+            error = "No givenName detected.";
+            reject(error);
         } else if (!document.email){
-            err = "No email detected.";
-            reject(err);
+            error = "No email detected.";
+            reject(error);
         } else if (!document.dateHired){
-            err = "No dateHired detected.";
-            reject(err);
+            error = "No dateHired detected.";
+            reject(error);
         } else if (!document.dateFinished){
-            err = "No dateFinished detected.";
-            reject(err);
-        } else if (!document.forms){
-            err = "No forms detected.";
-            reject(err);
-        } else if (!document.userAccount){
-            err = "No userAccount detected.";
-            reject(err);
+            error = "No dateFinished detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

@@ -1,15 +1,13 @@
 var mongoose = require ('mongoose');
-var formsSchema = mongoose.Schema(
+var exerciseOrderSchema = mongoose.Schema(
     {
-        name: String,
-        description: String,
-        questionOrders: [{type: mongoose.Schema.ObjectId, ref: 'QuestionOrder'}],
-        administrator: {type: mongoose.Schema.ObjectId, ref: ('Administrator')},
-        assessmentTests: [{type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}]
+        exerciseOrder: Number,
+        exercise: {type: mongoose.Schema.ObjectId, ref: ('Exercise')},
+        rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: 'RehabilitationPlan'}
     }
 );
 
-var Forms = module.exports = mongoose.model('Form', formsSchema);
+var ExerciseOrder = module.exports = mongoose.model('ExerciseOrder', exerciseOrderSchema);
 
 
 
@@ -23,11 +21,11 @@ module.exports = {
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
-        Forms.findById(id, function (error, document) {
+        ExerciseOrder.findById(id, function (error, document) {
             if (error){
                 reject(error);
             }else{
-                document.remove(function (error) {
+                document.remove(function (err) {
                     if (error){
                         reject(error);
                     } else {
@@ -41,23 +39,18 @@ function deleteOne(id){
 
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
-        if (!updatedDocument.name){
-            error = "No name detected.";
-            reject(error);
-        } else if (!updatedDocument.description){
-            error = "No description detected.";
+        if (!updatedDocument.exerciseOrder){
+            error = "No exerciseOrder detected.";
             reject(error);
         } else {
-            Forms.findById(id, function (error, document) {
+            ExerciseOrder.findById(id, function (error, document) {
                 if (error) {
                     reject(error);
                 }
                 else {
-                    document.name = updatedDocument.name;
-                    document.description = updatedDocument.description;
-                    document.questionOrders = updatedDocument.questionOrders;
-                    document.administrator = updatedDocument.administrator;
-                    document.assessmentTests = updatedDocument.assessmentTests;
+                    document.exerciseOrder = updatedDocument.exerciseOrder;
+                    document.exercise = updatedDocument.exercise;
+                    document.rehabilitationPlan = updatedDocument.rehabilitationPlan;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -73,7 +66,7 @@ function update(id, updatedDocument){
 
 function getOne(id){
     return new Promise (function (resolve, reject) {
-        Forms.findById(id, function (error, document) {
+        ExerciseOrder.findById(id, function (error, document) {
             if (error){
                 reject(error);
             }else{
@@ -85,7 +78,7 @@ function getOne(id){
 
 function getAll(){
     return new Promise (function (resolve, reject) {
-        Forms.find({}, function (error, documents) {
+        ExerciseOrder.find({}, function (error, documents) {
             if (error){
                 reject(error);
             }else{
@@ -97,12 +90,9 @@ function getAll(){
 
 function add(object){
     return new Promise (function (resolve, reject) {
-        var document = new Forms(object);
-        if (!document.name){
-            error = "No name detected.";
-            reject(error);
-        } else if (!document.description){
-            error = "No description detected.";
+        var document = new ExerciseOrder(object);
+        if (!document.exerciseOrder){
+            error = "No exerciseOrder detected.";
             reject(error);
         } else {
             document.save(function (error) {

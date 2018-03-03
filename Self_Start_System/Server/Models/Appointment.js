@@ -25,7 +25,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 appointment.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(appointment);
@@ -39,17 +39,14 @@ function deleteOne(id){
 function update(id, updatedAppointment){
     return new Promise (function (resolve, reject) {
         if (!updatedAppointment.date){
-            err = "No date detected.";
-            reject(err);
+            error = "No date detected.";
+            reject(error);
         } else if (!updatedAppointment.reason){
-            err = "No reason detected.";
-            reject(err);
+            error = "No reason detected.";
+            reject(error);
         } else if (!updatedAppointment.other){
-            err = "No other detected.";
-            reject(err);
-        } else if (!updatedAppointment.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
+            error = "No other detected.";
+            reject(error);
         } else {
             Appointments.findById(id, function (error, appointment) {
                 if (error) {
@@ -101,21 +98,18 @@ function add(appointment){
     return new Promise (function (resolve, reject) {
         var newAppointment = new Appointments(appointment);
         if (!newAppointment.date){
-            err = "No date detected.";
-            reject(err);
+            error = "No date detected.";
+            reject(error);
         } else if (!newAppointment.reason){
-            err = "No reason detected.";
-            reject(err);
+            error = "No reason detected.";
+            reject(error);
         } else if (!newAppointment.other){
-            err = "No other detected.";
-            reject(err);
-        } else if (!newAppointment.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
+            error = "No other detected.";
+            reject(error);
         } else {
             newAppointment.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(newAppointment);
                 }

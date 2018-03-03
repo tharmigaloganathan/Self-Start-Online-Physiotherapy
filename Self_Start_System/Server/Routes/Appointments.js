@@ -4,7 +4,7 @@ var Appointment = require('../Models/Appointment');
 
 router.route('/')
     .post(function (request, response) {
-        Appointment.add(request.body.appointment).then(function(appointment){
+        Appointment.add(request.body).then(function(appointment){
             response.json({appointment: appointment});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:appointment_id')
     .get(function (request, response) {
-        if (!req.params.appointment_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.appointment_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Appointment.getOne(request.params.appointment_id).then(function(appointment){
             response.json({appointment: appointment});
@@ -30,21 +30,21 @@ router.route('/:appointment_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.appointment_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.appointment_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Appointment.update(request.params.appointment_id, request.body.appointment).then(function(appointment){
+        Appointment.update(request.params.appointment_id, request.body).then(function(appointment){
             response.json({appointment: appointment});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.appointment_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.appointment_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Appointment.deleteOne(request.params.appointment_id).then(function(appointment){
-            res.json({success: true, message: 'appointment deleted!'});
+            response.json({success: true, message: 'appointment deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

@@ -4,7 +4,7 @@ var Physiotherapists = require('../Models/Physiotherapist');
 
 router.route('/')
     .post(function (request, response) {
-        Physiotherapists.add(request.body.physiotherapist).then(function(physiotherapist){
+        Physiotherapists.add(request.body).then(function(physiotherapist){
             response.json({physiotherapist: physiotherapist});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Physiotherapists.getOne(request.params.object_id).then(function(physiotherapist){
             response.json({physiotherapist: physiotherapist});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Physiotherapists.update(request.params.object_id, request.body.physiotherapist).then(function(physiotherapist){
+        Physiotherapists.update(request.params.object_id, request.body).then(function(physiotherapist){
             response.json({physiotherapist: physiotherapist});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Physiotherapists.deleteOne(request.params.object_id).then(function(physiotherapist){
-            res.json({success: true, message: 'physiotherapist deleted!'});
+            response.json({success: true, message: 'physiotherapist deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

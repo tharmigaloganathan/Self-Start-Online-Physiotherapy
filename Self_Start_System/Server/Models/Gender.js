@@ -23,7 +23,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -37,11 +37,8 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.name){
-            err = "No name detected.";
-            reject(err);
-        } else if (!updatedDocument.patientProfiles){
-            err = "No patientProfiles detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else {
             Genders.findById(id, function (error, document) {
                 if (error) {
@@ -91,15 +88,12 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Genders(object);
         if (!document.name){
-            err = "No name detected.";
-            reject(err);
-        } else if (!document.patientProfiles){
-            err = "No patientProfiles detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

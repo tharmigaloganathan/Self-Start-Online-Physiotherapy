@@ -4,7 +4,7 @@ var RehabilitationPlans = require('../Models/RehabilitationPlan');
 
 router.route('/')
     .post(function (request, response) {
-        RehabilitationPlans.add(request.body.rehabilitationPlan).then(function(rehabilitationPlan){
+        RehabilitationPlans.add(request.body).then(function(rehabilitationPlan){
             response.json({rehabilitationPlan: rehabilitationPlan});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         RehabilitationPlans.getOne(request.params.object_id).then(function(rehabilitationPlan){
             response.json({rehabilitationPlan: rehabilitationPlan});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        RehabilitationPlans.update(request.params.object_id, request.body.rehabilitationPlan).then(function(rehabilitationPlan){
+        RehabilitationPlans.update(request.params.object_id, request.body).then(function(rehabilitationPlan){
             response.json({rehabilitationPlan: rehabilitationPlan});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         RehabilitationPlans.deleteOne(request.params.object_id).then(function(rehabilitationPlan){
-            res.json({success: true, message: 'rehabilitationPlan deleted!'});
+            response.json({success: true, message: 'rehabilitationPlan deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

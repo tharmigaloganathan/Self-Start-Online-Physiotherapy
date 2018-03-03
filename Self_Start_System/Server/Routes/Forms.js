@@ -4,7 +4,7 @@ var Forms = require('../Models/Form');
 
 router.route('/')
     .post(function (request, response) {
-        Forms.add(request.body.form).then(function(form){
+        Forms.add(request.body).then(function(form){
             response.json({form: form});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:form_id')
     .get(function (request, response) {
-        if (!req.params.form_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.form_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Forms.getOne(request.params.form_id).then(function(form){
             response.json({form: form});
@@ -30,21 +30,21 @@ router.route('/:form_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.form_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.form_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Forms.update(request.params.form_id, request.body.form).then(function(form){
+        Forms.update(request.params.form_id, request.body).then(function(form){
             response.json({form: form});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.form_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.form_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Forms.deleteOne(request.params.form_id).then(function(form){
-            res.json({success: true, message: 'form deleted!'});
+            response.json({success: true, message: 'form deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

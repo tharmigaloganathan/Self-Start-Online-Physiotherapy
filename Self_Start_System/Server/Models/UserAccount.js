@@ -28,7 +28,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -42,20 +42,11 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.userAccountName){
-            err = "No userAccountName detected.";
-            reject(err);
+            error = "No userAccountName detected.";
+            reject(error);
         } else if (!updatedDocument.encryptedPassword){
-            err = "No encryptedPassword detected.";
-            reject(err);
-        } else if (!updatedDocument.administrator){
-            err = "No administrator detected.";
-            reject(err);
-        } else if (!updatedDocument.physiotherapist){
-            err = "No physiotherapist detected.";
-            reject(err);
-        } else if (!updatedDocument.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
+            error = "No encryptedPassword detected.";
+            reject(error);
         } else {
             UserAccounts.findById(id, function (error, document) {
                 if (error) {
@@ -108,24 +99,15 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new UserAccounts(object);
         if (!document.userAccountName){
-            err = "No userAccountName detected.";
-            reject(err);
+            error = "No userAccountName detected.";
+            reject(error);
         } else if (!document.encryptedPassword){
-            err = "No encryptedPassword detected.";
-            reject(err);
-        } else if (!document.administrator){
-            err = "No administrator detected.";
-            reject(err);
-        } else if (!document.physiotherapist){
-            err = "No physiotherapist detected.";
-            reject(err);
-        } else if (!document.patientProfile){
-            err = "No patientProfile detected.";
-            reject(err);
+            error = "No encryptedPassword detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

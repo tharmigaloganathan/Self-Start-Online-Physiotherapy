@@ -3,9 +3,8 @@ var questionsSchema = mongoose.Schema(
     {
         questionText: String,
         helpDescription: String,
-        order: Number,
         questionType: {type: mongoose.Schema.ObjectId, ref: ('QuestionType')},
-        form: {type: mongoose.Schema.ObjectId, ref: 'Form'}
+        questionOrders: [{type: mongoose.Schema.ObjectId, ref: 'QuestionOrder'}]
     }
 );
 
@@ -28,7 +27,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -42,20 +41,11 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.questionText){
-            err = "No questionText detected.";
-            reject(err);
+            error = "No questionText detected.";
+            reject(error);
         } else if (!updatedDocument.helpDescription){
-            err = "No helpDescription detected.";
-            reject(err);
-        } else if (!updatedDocument.order){
-            err = "No order detected.";
-            reject(err);
-        } else if (!updatedDocument.questionType){
-            err = "No questionType detected.";
-            reject(err);
-        } else if (!updatedDocument.form){
-            err = "No form detected.";
-            reject(err);
+            error = "No helpDescription detected.";
+            reject(error);
         } else {
             Questions.findById(id, function (error, document) {
                 if (error) {
@@ -64,9 +54,8 @@ function update(id, updatedDocument){
                 else {
                     document.questionText = updatedDocument.questionText;
                     document.helpDescription = updatedDocument.helpDescription;
-                    document.order = updatedDocument.order;
                     document.questionType = updatedDocument.questionType;
-                    document.form = updatedDocument.form;
+                    document.questionOrders = updatedDocument.questionOrders;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -108,24 +97,15 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Questions(object);
         if (!document.questionText){
-            err = "No questionText detected.";
-            reject(err);
+            error = "No questionText detected.";
+            reject(error);
         } else if (!document.helpDescription){
-            err = "No helpDescription detected.";
-            reject(err);
-        } else if (!document.order){
-            err = "No order detected.";
-            reject(err);
-        } else if (!document.questionType){
-            err = "No questionType detected.";
-            reject(err);
-        } else if (!document.form){
-            err = "No form detected.";
-            reject(err);
+            error = "No helpDescription detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

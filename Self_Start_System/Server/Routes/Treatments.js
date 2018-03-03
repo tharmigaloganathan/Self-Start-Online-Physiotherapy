@@ -4,7 +4,7 @@ var Treatments = require('../Models/Treatment');
 
 router.route('/')
     .post(function (request, response) {
-        Treatments.add(request.body.treatment).then(function(treatment){
+        Treatments.add(request.body).then(function(treatment){
             response.json({treatment: treatment});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Treatments.getOne(request.params.object_id).then(function(treatment){
             response.json({treatment: treatment});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Treatments.update(request.params.object_id, request.body.treatment).then(function(treatment){
+        Treatments.update(request.params.object_id, request.body).then(function(treatment){
             response.json({treatment: treatment});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Treatments.deleteOne(request.params.object_id).then(function(treatment){
-            res.json({success: true, message: 'treatment deleted!'});
+            response.json({success: true, message: 'treatment deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

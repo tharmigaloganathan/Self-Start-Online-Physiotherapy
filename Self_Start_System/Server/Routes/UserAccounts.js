@@ -4,7 +4,7 @@ var UserAccounts = require('../Models/UserAccount');
 
 router.route('/')
     .post(function (request, response) {
-        UserAccounts.add(request.body.payment).then(function(userAccount){
+        UserAccounts.add(request.body).then(function(userAccount){
             response.json({userAccount: userAccount});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         UserAccounts.getOne(request.params.object_id).then(function(userAccount){
             response.json({userAccount: userAccount});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
+        if (!request.params.object_id) {
             res.json({success: false, message: 'id was not provided'});
         }
-        UserAccounts.update(request.params.object_id, request.body.userAccount).then(function(userAccount){
+        UserAccounts.update(request.params.object_id, request.body).then(function(userAccount){
             response.json({userAccount: userAccount});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (request, res) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         UserAccounts.deleteOne(request.params.object_id).then(function(userAccount){
-            res.json({success: true, message: 'userAccount deleted!'});
+            response.json({success: true, message: 'userAccount deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })

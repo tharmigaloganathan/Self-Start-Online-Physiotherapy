@@ -9,11 +9,9 @@ var patientProfileSchema = mongoose.Schema(
         postalCode: String,
         address: String,
         phone: String,
-        maritalStatus: String,
-        healthCardNumber: String,
-        occupation: String,
         others: String,
         account: {type: mongoose.Schema.ObjectId, ref: 'UserAccount'},
+        treatments: [{type: mongoose.Schema.ObjectId, ref: 'Treatment'}],
         payments: [{type: mongoose.Schema.ObjectId, ref: 'Payment'}],
         country: {type: mongoose.Schema.ObjectId, ref: 'Country'},
         province: {type: mongoose.Schema.ObjectId, ref: 'Province'},
@@ -40,7 +38,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -54,59 +52,29 @@ function deleteOne(id){
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.familyName){
-            err = "No familyName detected.";
-            reject(err);
+            error = "No familyName detected.";
+            reject(error);
         } else if (!updatedDocument.givenName){
-            err = "No givenName detected.";
-            reject(err);
+            error = "No givenName detected.";
+            reject(error);
         } else if (!updatedDocument.email){
-            err = "No email detected.";
-            reject(err);
+            error = "No email detected.";
+            reject(error);
         } else if (!updatedDocument.DOB){
-            err = "No DOB detected.";
-            reject(err);
+            error = "No DOB detected.";
+            reject(error);
         } else if (!updatedDocument.postalCode){
-            err = "No postalCode detected.";
-            reject(err);
+            error = "No postalCode detected.";
+            reject(error);
         } else if (!updatedDocument.address){
-            err = "No address detected.";
-            reject(err);
+            error = "No address detected.";
+            reject(error);
         } else if (!updatedDocument.phone){
-            err = "No phone detected.";
-            reject(err);
-        } else if (!updatedDocument.maritalStatus){
-            err = "No maritalStatus detected.";
-            reject(err);
-        } else if (!updatedDocument.healthCardNumber){
-            err = "No healthCardNumber detected.";
-            reject(err);
-        } else if (!updatedDocument.occupation){
-            err = "No occupation detected.";
-            reject(err);
+            error = "No phone detected.";
+            reject(error);
         } else if (!updatedDocument.others){
-            err = "No others detected.";
-            reject(err);
-        } else if (!updatedDocument.account){
-            err = "No account detected.";
-            reject(err);
-        } else if (!updatedDocument.payments){
-            err = "No payments detected.";
-            reject(err);
-        } else if (!updatedDocument.country){
-            err = "No country detected.";
-            reject(err);
-        } else if (!updatedDocument.province){
-            err = "No province detected.";
-            reject(err);
-        } else if (!updatedDocument.city){
-            err = "No city detected.";
-            reject(err);
-        } else if (!updatedDocument.gender){
-            err = "No gender detected.";
-            reject(err);
-        } else if (!updatedDocument.appointments){
-            err = "No appointments detected.";
-            reject(err);
+            error = "No others detected.";
+            reject(error);
         } else {
             PatientProfiles.findById(id, function (error, document) {
                 if (error) {
@@ -120,11 +88,9 @@ function update(id, updatedDocument){
                     document.postalCode = updatedDocument.postalCode;
                     document.address = updatedDocument.address;
                     document.phone = updatedDocument.phone;
-                    document.maritalStatus = updatedDocument.maritalStatus;
-                    document.healthCardNumber = updatedDocument.healthCardNumber;
-                    document.occupation = updatedDocument.occupation;
                     document.others = updatedDocument.others;
                     document.account = updatedDocument.account;
+                    document.treatments = updatedDocument.treatments;
                     document.payments = updatedDocument.payments;
                     document.country = updatedDocument.country;
                     document.province = updatedDocument.province;
@@ -172,63 +138,33 @@ function add(object){
     return new Promise (function (resolve, reject) {
         var document = new PatientProfiles(object);
         if (!document.familyName){
-            err = "No familyName detected.";
-            reject(err);
+            error = "No familyName detected.";
+            reject(error);
         } else if (!document.givenName){
-            err = "No givenName detected.";
-            reject(err);
+            error = "No givenName detected.";
+            reject(error);
         } else if (!document.email){
-            err = "No email detected.";
-            reject(err);
+            error = "No email detected.";
+            reject(error);
         } else if (!document.DOB){
-            err = "No DOB detected.";
-            reject(err);
+            error = "No DOB detected.";
+            reject(error);
         } else if (!document.postalCode){
-            err = "No postalCode detected.";
-            reject(err);
+            error = "No postalCode detected.";
+            reject(error);
         } else if (!document.address){
-            err = "No address detected.";
-            reject(err);
+            error = "No address detected.";
+            reject(error);
         } else if (!document.phone){
-            err = "No phone detected.";
-            reject(err);
-        } else if (!document.maritalStatus){
-            err = "No maritalStatus detected.";
-            reject(err);
-        } else if (!document.healthCardNumber){
-            err = "No healthCardNumber detected.";
-            reject(err);
-        } else if (!document.occupation){
-            err = "No occupation detected.";
-            reject(err);
+            error = "No phone detected.";
+            reject(error);
         } else if (!document.others){
-            err = "No others detected.";
-            reject(err);
-        } else if (!document.account){
-            err = "No account detected.";
-            reject(err);
-        } else if (!document.payments){
-            err = "No payments detected.";
-            reject(err);
-        } else if (!document.country){
-            err = "No country detected.";
-            reject(err);
-        } else if (!document.province){
-            err = "No province detected.";
-            reject(err);
-        } else if (!document.city){
-            err = "No city detected.";
-            reject(err);
-        } else if (!document.gender){
-            err = "No gender detected.";
-            reject(err);
-        } else if (!document.appointments){
-            err = "No appointments detected.";
-            reject(err);
+            error = "No others detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

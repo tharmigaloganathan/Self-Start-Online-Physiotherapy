@@ -1,7 +1,7 @@
 var mongoose = require ('mongoose');
 var testResultSchema = mongoose.Schema(
     {
-        question: String,
+        exercise: String,
         answer: String,
         assessmentTest: {type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}
     }
@@ -26,7 +26,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 document.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(document);
@@ -39,22 +39,19 @@ function deleteOne(id){
 
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
-        if (!updatedDocument.question){
-            err = "No question detected.";
-            reject(err);
+        if (!updatedDocument.exercise){
+            error = "No exercise detected.";
+            reject(error);
         } else if (!updatedDocument.answer){
-            err = "No answer detected.";
-            reject(err);
-        } else if (!updatedDocument.assessmentTest){
-            err = "No assessmentTest detected.";
-            reject(err);
+            error = "No answer detected.";
+            reject(error);
         } else {
             TestResults.findById(id, function (error, document) {
                 if (error) {
                     reject(error);
                 }
                 else {
-                    document.question = updatedDocument.question;
+                    document.exercise = updatedDocument.exercise;
                     document.answer = updatedDocument.answer;
                     document.assessmentTest = updatedDocument.assessmentTest;
                     document.save(function (error) {
@@ -97,19 +94,16 @@ function getAll(){
 function add(object){
     return new Promise (function (resolve, reject) {
         var document = new TestResults(object);
-        if (!document.question){
-            err = "No question detected.";
-            reject(err);
+        if (!document.exercise){
+            error = "No exercise detected.";
+            reject(error);
         } else if (!document.answer){
-            err = "No answer detected.";
-            reject(err);
-        } else if (!document.assessmentTest){
-            err = "No assessmentTest detected.";
-            reject(err);
+            error = "No answer detected.";
+            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(document);
                 }

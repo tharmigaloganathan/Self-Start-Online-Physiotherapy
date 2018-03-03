@@ -25,7 +25,7 @@ function deleteOne(id){
                 reject(error);
             }else{
                 country.remove(function (err) {
-                    if (err){
+                    if (error){
                         reject(error);
                     } else {
                         resolve(country);
@@ -39,14 +39,8 @@ function deleteOne(id){
 function update(id, updatedCountry){
     return new Promise (function (resolve, reject) {
         if (!updatedCountry.name){
-            err = "No name detected.";
-            reject(err);
-        } else if (!updatedCountry.patientProfiles){
-            err = "No patientProfiles detected.";
-            reject(err);
-        } else if (!updatedCountry.provinces){
-            err = "No provinces detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else {
             Countries.findById(id, function (error, country) {
                 if (error) {
@@ -95,20 +89,14 @@ function getAll(){
 
 function add(country){
     return new Promise (function (resolve, reject) {
-        var newCountry = new Cities(country);
+        var newCountry = new Countries(country);
         if (!newCountry.name){
-            err = "No name detected.";
-            reject(err);
-        } else if (!newCountry.patientProfiles){
-            err = "No patientProfiles detected.";
-            reject(err);
-        } else if (!newCountry.provinces){
-            err = "No provinces detected.";
-            reject(err);
+            error = "No name detected.";
+            reject(error);
         } else {
             newCountry.save(function (error) {
                 if (error){
-                    reject(err);
+                    reject(error);
                 }else{
                     resolve(newCountry);
                 }

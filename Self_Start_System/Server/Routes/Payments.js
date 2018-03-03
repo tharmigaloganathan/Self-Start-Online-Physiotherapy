@@ -4,7 +4,7 @@ var Payments = require('../Models/Payment');
 
 router.route('/')
     .post(function (request, response) {
-        Payments.add(request.body.payment).then(function(payment){
+        Payments.add(request.body).then(function(payment){
             response.json({payment: payment});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -20,8 +20,8 @@ router.route('/')
 
 router.route('/:object_id')
     .get(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Payments.getOne(request.params.object_id).then(function(payment){
             response.json({payment: payment});
@@ -30,21 +30,21 @@ router.route('/:object_id')
         })
     })
     .put(function (request, response) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        Payments.update(request.params.object_id, request.body.payment).then(function(payment){
+        Payments.update(request.params.object_id, request.body).then(function(payment){
             response.json({payment: payment});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
-    .delete(function (req, res) {
-        if (!req.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+    .delete(function (req, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
         Payments.deleteOne(request.params.object_id).then(function(payment){
-            res.json({success: true, message: 'payment deleted!'});
+            response.json({success: true, message: 'payment deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
