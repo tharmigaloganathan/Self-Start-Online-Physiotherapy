@@ -29,7 +29,19 @@ export class ExerciseComponent implements OnInit {
 
 
   allExercises: any[];
-  currentExercise: null;
+  currentExercise: {
+    name: null,
+    description: null,
+    objectives: null,
+    authorName: null,
+    actionSteps: null,
+    location: null,
+    frequency: null,
+    duration: null,
+    targetDate: null,
+    multimediaURL: null,
+    _id: null
+  };
 
 
 
