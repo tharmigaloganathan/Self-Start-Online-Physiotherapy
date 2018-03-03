@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		<div class="col border">
+		<div class="col">
 			<!-- Page Header -->
 			<div class="header">
 				<h1>SelfStart Registration</h1>
@@ -15,13 +15,13 @@
 							<div class="row">
 								<div class="col form-container">
 									<mat-form-field>
-										<input matInput placeholder="First Name" [value]="" required>
+										<input matInput placeholder="First Name" [(ngModel)]="givenName" name="givenName" required>
 									</mat-form-field>
 
 								</div>
 								<div class="col form-container">
 									<mat-form-field>
-										<input matInput placeholder="Last Name" [value]="" required>
+										<input matInput placeholder="Last Name" [(ngModel)]="familyName" name="familyName" required>
 									</mat-form-field>
 								</div>
 							</div>
@@ -29,16 +29,14 @@
 							<div class="row">
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<mat-select [value]="" placeholder="Gender" required>
-											<mat-option value="Male">Male</mat-option>
-											<mat-option value="Female">Female</mat-option>
-											<mat-option value="Other">Other</mat-option>
+										<mat-select [(ngModel)]="gender" name="gender" placeholder="Gender" required>
+											<mat-option *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</mat-option>
 										</mat-select>
 									</mat-form-field>
 								</div>
 								<div class="col-8 form-container">
 									<mat-form-field>
-									  <input matInput [matDatepicker]="picker" placeholder="Date of Birth"required>
+									  <input matInput [matDatepicker]="picker" [(ngModel)]="DOB" name="DOB" placeholder="Date of Birth"required>
 									  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 									  <mat-datepicker #picker></mat-datepicker>
 									</mat-form-field>
@@ -48,36 +46,24 @@
 							<div class="row">
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Street" [value]="" required>
+										<input matInput placeholder="Street" [(ngModel)]="address" name="address" required>
 									</mat-form-field>
 								</div>
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="City" [value]="" required>
+										<input matInput placeholder="City" [(ngModel)]="city" name="city" required>
 									</mat-form-field>
 								</div>
 								<div class="col-2 form-container">
 									<mat-form-field>
-									  <mat-select [value]="" placeholder="Province" required>
-										  <mat-option value="AB">AB</mat-option>
-										  <mat-option value="BC">BC</mat-option>
-										  <mat-option value="MB">MB</mat-option>
-										  <mat-option value="NB">NB</mat-option>
-										  <mat-option value="NL">NL</mat-option>
-										  <mat-option value="NS">NS</mat-option>
-										  <mat-option value="NT">NT</mat-option>
-										  <mat-option value="NU">NU</mat-option>
-										  <mat-option value="ON">ON</mat-option>
-										  <mat-option value="PE">PE</mat-option>
-										  <mat-option value="QC">QC</mat-option>
-										  <mat-option value="SK">SK</mat-option>
-										  <mat-option value="YT">YT</mat-option>
+									  <mat-select [(ngModel)]="province" name="province"  placeholder="Province" required>
+										  <mat-option *ngFor="let province of provinces" [value]="province.value">{{province.viewValue}}</mat-option>
 									  </mat-select>
 									</mat-form-field>
 								</div>
 								<div class="col-2 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Postal Code" [value]="" required>
+										<input matInput placeholder="Postal Code" [(ngModel)]="postalCode" name="postalCode" required>
 									</mat-form-field>
 								</div>
 							</div>
@@ -85,12 +71,12 @@
 							<div class="row">
 								<div class="col-8 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Email" [value]="" required>
+										<input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
 									</mat-form-field>
 								</div>
 								<div class="col-4 form-container">
 									<mat-form-field>
-										<input matInput placeholder="Phone Number" [value]="" required>
+										<input matInput placeholder="Phone Number" [(ngModel)]="phone" name="phone" required>
 									</mat-form-field>
 								</div>
 							</div>
@@ -112,7 +98,7 @@
 							<div class="row">
 								<div class="col form-container">
 									<mat-form-field>
-										<input matInput placeholder="User Name" [value]="" required>
+										<input matInput placeholder="User Name" [(ngModel)]="userName" name="userName" required>
 									</mat-form-field>
 								</div>
 							</div>
@@ -120,7 +106,7 @@
 							<div class="row">
 								<div class="col form-container">
 									<mat-form-field>
-										<input matInput type="password" placeholder="Password" [value]="" required>
+										<input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
 									</mat-form-field>
 								</div>
 							</div>
@@ -128,7 +114,7 @@
 							<div class="row">
 								<div class="col form-container">
 									<mat-form-field>
-										<input matInput type="password" placeholder="Confrirm Password" [value]="" required>
+										<input matInput type="password" placeholder="Confrirm Password" [(ngModel)]="passwordVerify" name="passwordVerify"required>
 									</mat-form-field>
 								</div>
 							</div>
@@ -138,7 +124,7 @@
 								<button mat-button matStepperPrevious class="previous-button">Back</button>
 							</div>
 							<div class="col-3 button-container">
-								<button mat-button matStepperNext class="next-button">Register</button>
+								<button mat-button matStepperNext class="next-button" (click)="registerUser()">Register</button>
 							</div>
 						</div>
 					</div>
