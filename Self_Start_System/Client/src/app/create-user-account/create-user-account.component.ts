@@ -1,36 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreateUserAccountService } from '../create-user-account.service';
 
 @Component({
   selector: 'app-create-user-account',
   templateUrl: './create-user-account.component.html',
-  styleUrls: ['./create-user-account.component.scss']
+  styleUrls: ['./create-user-account.component.scss'],
+  providers: [CreateUserAccountService],
 })
 export class CreateUserAccountComponent implements OnInit {
 	personalInfoValid = false;
 	accountInforValid = false;
-	//Gender dropdown
-	genders = [
-		{value: 'Male', viewValue: 'Male'},
-		{value: 'Female', viewValue: 'Female'},
-		{value: 'Other', viewValue: 'Other'},
-	];
-	//Province dropdown
-	provinces = [
-		{value: 'AB', viewValue: 'AB'},
-		{value: 'BC', viewValue: 'BC'},
-		{value: 'MB', viewValue: 'MB'},
-		{value: 'NB', viewValue: 'NB'},
-		{value: 'NL', viewValue: 'NL'},
-		{value: 'NS', viewValue: 'NS'},
-		{value: 'NT', viewValue: 'NT'},
-		{value: 'NU', viewValue: 'NU'},
-		{value: 'ON', viewValue: 'ON'},
-		{value: 'PE', viewValue: 'PE'},
-		{value: 'QC', viewValue: 'QC'},
-		{value: 'SK', viewValue: 'SK'},
-		{value: 'YT', viewValue: 'YT'},
-	]
+	genders; //Populates gender dropdown
+	provinces; //Populates province dropdown
+	createUserAccountService;
 	//User input fields
 	familyName;
 	givenName;
@@ -46,13 +29,17 @@ export class CreateUserAccountComponent implements OnInit {
 	password;
 	passwordVerify;
 
-  constructor() { }
+  constructor(createUserAccountService: CreateUserAccountService) {
+	  this.createUserAccountService = createUserAccountService;
+		this.genders = this.createUserAccountService.getGenders();
+		this.provinces = this.createUserAccountService.getProvinces();
+  }
 
-
-    ngOnInit() {
+	ngOnInit() {
     }
 
 	registerUser() {
+		//JSON object to hold user information
 		const user = {
 			userAccountName: this.userName,
 			encryptedPassword: this.password,
@@ -78,6 +65,15 @@ export class CreateUserAccountComponent implements OnInit {
 			}
 		}
 		console.log(user);
+		//Send user data to backend
+		this.createUserAccountService.registerUser(user).
+		subscribe(
+			user => {
+				console.log(user);
+			},
+			error => {
+				console.log("Error");
+			});
 	}
 
 }
