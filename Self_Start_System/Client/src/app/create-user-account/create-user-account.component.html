@@ -1,0 +1,147 @@
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<!-- Page Header -->
+			<div class="header">
+				<h1>SelfStart Registration</h1>
+			</div>
+			<!-- Personal Information -->
+			<mat-horizontal-stepper>
+				<mat-step>
+					<ng-template matStepLabel>Personal Information</ng-template>
+					<div class="col">
+						<form class="form-container" name="personalInfoForm">
+							<!-- Row 1 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="First Name" [(ngModel)]="givenName" name="givenName" required>
+									</mat-form-field>
+
+								</div>
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Last Name" [(ngModel)]="familyName" name="familyName" required>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<mat-select [(ngModel)]="gender" name="gender" placeholder="Gender" required>
+											<mat-option *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-8 form-container">
+									<mat-form-field>
+									  <input matInput [matDatepicker]="picker" [(ngModel)]="DOB" name="DOB" placeholder="Date of Birth"required>
+									  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+									  <mat-datepicker #picker></mat-datepicker>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 3 -->
+							<div class="row">
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Street" [(ngModel)]="address" name="address" required>
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="City" [(ngModel)]="city" name="city" required>
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+									  <mat-select [(ngModel)]="province" name="province"  placeholder="Province" required>
+										  <mat-option *ngFor="let province of provinces" [value]="province.value">{{province.viewValue}}</mat-option>
+									  </mat-select>
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Postal Code" [(ngModel)]="postalCode" name="postalCode" required>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 4 -->
+							<div class="row">
+								<div class="col-8 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+									</mat-form-field>
+								</div>
+								<div class="col-4 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Phone Number" [(ngModel)]="phone" name="phone" required>
+									</mat-form-field>
+								</div>
+							</div>
+						</form>
+						<div class="row">
+							<div class="col-3 button-container">
+								<button mat-button matStepperNext class="next-button">Next</button>
+							</div>
+						</div>
+					</div>
+				</mat-step>
+
+				<!-- Account Information -->
+				<mat-step>
+					<ng-template matStepLabel>Account Information</ng-template>
+					<div class="col">
+						<form class="form-container">
+							<!-- Row 1 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="User Name" [(ngModel)]="userName" name="userName" required>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 3 -->
+							<div class="row">
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput type="password" placeholder="Confrirm Password" [(ngModel)]="passwordVerify" name="passwordVerify"required>
+									</mat-form-field>
+								</div>
+							</div>
+						</form>
+						<div class="row">
+							<div class="col-3 button-container">
+								<button mat-button matStepperPrevious class="previous-button">Back</button>
+							</div>
+							<div class="col-3 button-container">
+								<button mat-button matStepperNext class="next-button" (click)="registerUser()">Register</button>
+							</div>
+						</div>
+					</div>
+				</mat-step>
+
+				<!-- Finish Page -->
+				<mat-step>
+					<ng-template matStepLabel>Confirm Registration</ng-template>
+					<div class="col">
+						<div class="row form-container">
+							<h3>Thanks for registering!</h3> <br/>
+							<p> A confirmation email in on the way. Follow the steps to activate your account.</p> <br/>
+							<p> Already activated your account? Login here </p>
+						</div>
+					</div>
+				</mat-step>
+			</mat-horizontal-stepper>
+		</div>
+	</div>
+</div>
