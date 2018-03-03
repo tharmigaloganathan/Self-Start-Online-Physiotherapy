@@ -11,10 +11,10 @@ import { ExerciseService } from '../services/exercise.service';
 export class EditRehabilitationPlanComponent implements OnInit {
     showSidebar = true;
     data: Object;
-    rehabilitationplans = {}; //nullaaaaaa
-    rehabilitationplan = {}; //nullaaaaaa
-    allExercises = [];//nullaaaaa
-    myExercises = []//nullasaaaa
+    rehabilitationplans = {}; //nullaaaaaaa
+    rehabilitationplan = {}; //nullaaaaaaa
+    allExercises = [];//nullaaaaaa
+    myExercises = []//nullasaaaaa
     deleteList = [];
     editID = localStorage.getItem('edit_rehabilitation_id');
 
