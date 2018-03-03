@@ -12,7 +12,9 @@ import { Subject } from 'rxjs/Subject';
 export class ManagePatientProfileComponent implements OnInit {
 	patientProfileService;
 	patient;
+	oldPatient;
 	isChanged = false;
+	patientAge;
 
   	constructor(patientProfileService: ManagePatientProfileService) {
 	 	this.patientProfileService = patientProfileService;
@@ -21,6 +23,7 @@ export class ManagePatientProfileComponent implements OnInit {
   	ngOnInit() {
 		//Load the patient
 		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
+		this.oldPatient = this.patient;
 		console.log(this.patient);
   	}
 
@@ -34,7 +37,10 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	cancelEdit() {
 		//Reset patient information
-		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
+		console.log("Cancel button pressesd");
+		this.patient = this.oldPatient;
+		console.log(this.patient);
+		//this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.isChanged = false;
 	}
 

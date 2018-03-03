@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
@@ -44,6 +45,8 @@ import { FormService} from "./form.service";
 import { HttpClientModule} from '@angular/common/http';
 
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
+import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
+import { UserAccountListComponent } from './user-account-list/user-account-list.component';
 
 
 
@@ -61,7 +64,10 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     NewRehabilitationPlanComponent,
     EditRehabilitationPlanComponent,
     ExerciseComponent,
-    SidebarPhysioComponent
+    PhysioManagePatientsComponent,
+    SidebarPhysioComponent,
+    CreateUserAccountComponent,
+    UserAccountListComponent
   ],
   imports: [
     HttpModule,
@@ -98,7 +104,8 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     ReactiveFormsModule,
     HttpClientModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+	MatStepperModule
   ],
   providers: [ExerciseService,
   FormService],
