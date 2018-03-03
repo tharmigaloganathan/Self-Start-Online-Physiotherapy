@@ -17,6 +17,7 @@ module.exports = {
     add:add,
     getAll:getAll,
     getOne:getOne,
+    getByName:getByName,
     update:update,
     deleteOne:deleteOne
 };
@@ -74,6 +75,18 @@ function update(id, updatedDocument){
 function getOne(id){
     return new Promise (function (resolve, reject) {
         UserAccounts.findById(id, function (error, document) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(document);
+            }
+        });
+    });
+}
+
+function getByName(name){
+    return new Promise (function (resolve, reject) {
+        UserAccounts.find({userAccountName: name}, function (error, document) {
             if (error){
                 reject(error);
             }else{
