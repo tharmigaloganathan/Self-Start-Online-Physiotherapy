@@ -44,9 +44,6 @@ import { FormService} from "./form.service";
 
 import { HttpClientModule} from '@angular/common/http';
 
-
-
-import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-manage-patients.component';
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';

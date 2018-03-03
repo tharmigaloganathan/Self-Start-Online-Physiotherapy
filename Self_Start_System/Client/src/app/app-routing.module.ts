@@ -1,7 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
-import { PhysioManagePatientsComponent } from "./physio-manage-patients/physio-manage-patients.component";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { IntroductionFormComponent} from "./introduction-form/introduction-form.component";
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
@@ -22,10 +21,6 @@ const appRoutes: Routes = [
   {
     path: 'physio',
     component: DashboardPhysioComponent, // The Dashboard Route
-  },
-  {
-    path: 'physio/manage-patients',
-    component: PhysioManagePatientsComponent // The Dashboard Route
   },
   {
     path : 'exercise',

@@ -1,90 +1,151 @@
 var express = require('express');
 var router = express.Router();
-var UserAccount = require('../models/UserAccount');
+var UserAccounts = require('../Models/UserAccount');
+var Administrators = require('../Models/Administrator');
+var Physiotherapists = require('../Models/Physiotherapist');
+var PatientProfiles = require('../Models/PatientProfile');
 
 router.route('/')
     .post(function (request, response) {
-        var userAccount = new UserAccount.Model(request.body.userAccount);
-        if (!userAccount.userAccountName){
-            response.json({success: false, message: "No userAccountName detected."});
-        } else if (!userAccount.encryptedPassword){
-            response.json({success: false, message: "No encryptedPassword detected."});
-        } else if (!userAccount.administrator){
-            response.json({success: false, message: "No administrator detected."});
-        } else if (!userAccount.physiotherapist){
-            response.json({success: false, message: "No physiotherapist detected."});
-        } else if (!userAccount.patientProfile){
-            response.json({success: false, message: "No patientProfile detected."});
-        } else {
-            userAccount.save(function (error) {
-                if (error) response.send(error);
-                response.json({userAccount: userAccount});
+
+        if(request.body.administrator){
+            Administrators.add(request.body.administrator).then(function(document){
+                request.body.administrator = document._id; // Replace administrator object provided with ID of document created
+                administratorObject = document;
+            }).catch(function(err){
+                console.log(err);
+            });
+        }else if(request.body.physiotherapist){
+            Physiotherapists.add(request.body.physiotherapist).then(function(document){
+                request.body.physiotherapist = document._id; // Replace physiotherapist object provided with ID of document created
+                physiotherapistObject = document;
+            }).catch(function(err){
+                console.log(err);
+            });
+        }else if(request.body.patientProfile){
+            PatientProfiles.add(request.body.patientProfile).then(function(document){
+                request.body.patientProfile = document._id; // Replace patientProfile object provided with ID of document created
+                patientProfileObject = document;
+            }).catch(function(err){
+                console.log(err);
             });
         }
-    })
-    .get(function (request, response) {
-        UserAccount.Model.find(function (error, userAccounts) {
-            if (error) response.send(error);
-            response.json({userAccount: userAccounts});
-        });
-    });
 
-router.route('/:userAccount_id')
-    .get(function (request, response) {
-        UserAccount.Model.findById(request.params.userAccount_id, function (error, userAccount) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                response.json({userAccount: userAccount});
-            }
-        });
-    })
-    .put(function (request, response) {
-        UserAccount.Model.findById(request.params.userAccount_id, function (error, userAccount) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                if (request.body.userAccount.userAccountName){
-                    userAccount.userAccountName = request.body.userAccount.userAccountName;
-                } else if (request.body.userAccount.encryptedPassword){
-                    userAccount.encryptedPassword = request.body.userAccount.encryptedPassword;
-                } else if (request.body.userAccount.administrator){
-                    userAccount.administrator = request.body.userAccount.administrator;
-                } else if (request.body.userAccount.physiotherapist){
-                    userAccount.physiotherapist = request.body.userAccount.physiotherapist;
-                } else if (request.body.userAccount.patientProfile){
-                    userAccount.patientProfile = request.body.userAccount.patientProfile;
-                }
-                userAccount.save(function (error) {
-                    if (error) {
-                        response.send({error: error});
-                    } else {
-                        response.json({userAccount: userAccount});
-                    }
+        UserAccounts.add(request.body).then(function(userAccount){
+
+            if(administratorObject){
+                administratorObject.userAccount = userAccount._id;  // Set the userAccount reference of the administrator just created
+                Administrators.update(administratorObject._id, administratorObject).then(function(document){
+                    console.log(document);
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }else if(physiotherapistObject){
+                physiotherapistObject.userAccount = userAccount._id;  // Set the userAccount reference of the physiotherapist just created
+                Physiotherapists.update(physiotherapistObject._id, physiotherapistObject).then(function(document){
+                    console.log(document);
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }else if(patientProfileObject){
+                patientProfileObject.userAccount = userAccount._id;  // Set the userAccount reference of the patientProfile just created
+                PatientProfiles.update(patientProfileObject._id, patientProfileObject).then(function(document){
+                    console.log(document);
+                }).catch(function(err){
+                    console.log(err);
                 });
             }
-        });
+
+            userAccount.administrator = administrator._id;
+            UserAccounts.update(userAccount._id, userAccount).then(function(userAccount){   // I then update the administrator reference of the associated userAccount
+                console.log(userAccount);
+            }).catch(function(err){
+                console.log(err);
+            });
+
+            response.json({userAccount: userAccount});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
-    .delete(function (req, res) {
-        if (!req.params.userAccount_id) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            UserAccount.Model.findById(req.params.userAccount_id, function (err, userAccount) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    userAccount.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'form deleted!'});
-                        }
-                    })
+    .get(function (request, response) {
+        UserAccounts.getAll().then(function(userAccounts){
+            userAccounts.forEach(function(userAccount){
+                if(userAccount.administrator){
+                    Administrators.getOne(userAccount.administrator).then(function(document){
+                        userAccount.administrator = document;   // Replace the id in the field with the object so you have the needed data on the front end
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+                }else if(userAccount.physiotherapist){
+                    Physiotherapists.getOne(userAccount.physiotherapist).then(function(document){
+                        userAccount.physiotherapist = document; // Replace the id in the field with the object so you have the needed data on the front end
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+                }else if(userAccount.patientProfile){
+                    PatientProfiles.getOne(userAccount.patientProfile).then(function(document){
+                        userAccount.patientProfile = document;  // Replace the id in the field with the object so you have the needed data on the front end
+                    }).catch(function(err){
+                        console.log(err);
+                    });
                 }
-            })
+            });
+            response.json({userAccount: userAccounts});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
+router.route('/:object_id')
+    .get(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
+        UserAccounts.getOne(request.params.object_id).then(function(userAccount){
+            if(userAccount.administrator){
+                Administrators.getOne(userAccount.administrator).then(function(document){
+                    userAccount.administrator = document;   // Replace the id in the field with the object so you have the needed data on the front end
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }else if(userAccount.physiotherapist){
+                Physiotherapists.getOne(userAccount.physiotherapist).then(function(document){
+                    userAccount.physiotherapist = document; // Replace the id in the field with the object so you have the needed data on the front end
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }else if(userAccount.patientProfile){
+                PatientProfiles.getOne(userAccount.patientProfile).then(function(document){
+                    userAccount.patientProfile = document;  // Replace the id in the field with the object so you have the needed data on the front end
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }
+            response.json({userAccount: userAccount});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .put(function (request, response) {
+        if (!request.params.object_id) {
+            res.json({success: false, message: 'id was not provided'});
+        }
+        UserAccounts.update(request.params.object_id, request.body).then(function(userAccount){
+            response.json({userAccount: userAccount});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        UserAccounts.deleteOne(request.params.object_id).then(function(userAccount){
+            response.json({success: true, message: 'userAccount deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;

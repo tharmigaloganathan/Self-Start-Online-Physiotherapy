@@ -1,99 +1,54 @@
 var express = require('express');
 var router = express.Router();
-var Administrators = require('../models/Administrator');
+var Administrators = require('../Models/Administrator');
+var UserAccounts = require('../Models/UserAccount');
 
 router.route('/')
     .post(function (request, response) {
-        var administrator = new Administrators.Model(request.body.administrator);
-        if (!administrator.familyName){
-            response.json({success: false, message: "No familyName detected."});
-        } else if (!administrator.givenName){
-            response.json({success: false, message: "No givenName detected."});
-        } else if (!administrator.email){
-            response.json({success: false, message: "No email detected."});
-        } else if (!administrator.dateHired){
-            response.json({success: false, message: "No dateHired detected."});
-        } else if (!administrator.dateFinished){
-            response.json({success: false, message: "No dateFinished detected."});
-        } else if (!administrator.forms){
-            response.json({success: false, message: "No forms detected."});
-        } else if (!administrator.userAccount){
-            response.json({success: false, message: "No userAccount detected."});
-        } else {
-            administrator.save(function (error) {
-                if (error) response.send(error);
-                response.json({administrator: administrator});
-            });
-        }
+        Administrators.add(request.body).then(function(administrator){
+            response.json({administrator: administrator});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .get(function (request, response) {
-        Administrators.Model.find(function (error, administrators) {
-            if (error) response.send(error);
+        Administrators.getAll().then(function(administrators){
             response.json({administrator: administrators});
-        });
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 router.route('/:administrator_id')
     .get(function (request, response) {
-        Administrators.Model.findById(request.params.administrator_id, function (error, administrator) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                response.json({administrator: administrator});
-            }
-        });
+        if (!request.params.administrator_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Administrators.getOne(request.params.administrator_id).then(function(administrator){
+            response.json({administrator: administrator});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .put(function (request, response) {
-        Administrators.Model.findById(request.params.administrator_id, function (error, administrator) {
-            if (error) {
-                response.send({error: error});
-            }
-            else {
-                if (request.body.administrator.familyName){
-                    administrator.familyName = request.body.administrator.familyName;
-                } else if (request.body.administrator.givenName){
-                    administrator.givenName = request.body.administrator.givenName;
-                } else if (request.body.administrator.email){
-                    administrator.email = request.body.administrator.email;
-                } else if (request.body.administrator.dateHired){
-                    administrator.dateHired = request.body.administrator.dateHired;
-                } else if (request.body.administrator.dateFinished){
-                    administrator.dateFinished = request.body.administrator.dateFinished;
-                } else if (request.body.administrator.forms){
-                    administrator.forms = request.body.administrator.forms;
-                } else if (request.body.administrator.userAccount){
-                    administrator.userAccount = request.body.administrator.userAccount;
-                }
-                administrator.save(function (error) {
-                    if (error) {
-                        response.send({error: error});
-                    } else {
-                        response.json({administrator: administrator});
-                    }
-                });
-            }
-        });
-
-    })
-    .delete(function (req, res) {
-        if (!req.params.administrator_id) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Administrators.Model.findById(req.params.administrator_id, function (err, administrator) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    administrator.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'form deleted!'});
-                        }
-                    })
-                }
-            })
+        if (!request.params.administrator_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
+        Administrators.update(request.params.administrator_id, request.body).then(function(administrator){
+            response.json({administrator: administrator});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .delete(function (request, response) {
+        if (!request.params.administrator_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Administrators.deleteOne(request.params.administrator_id).then(function(administrator){
+            response.json({success: true, message: 'admin deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;
