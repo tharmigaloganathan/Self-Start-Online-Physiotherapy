@@ -38,6 +38,7 @@ const RehabilitationPlans = require('./Routes/RehabilitationPlans');
 const TestResults = require('./Routes/TestResults');
 const Treatments = require('./Routes/Treatments');
 const UserAccounts = require('./Routes/UserAccounts');
+const Photos = require('./Routes/Photos');
 
 //models
 app.use('/Administrators', Administrators);
@@ -61,6 +62,7 @@ app.use('/RehabilitationPlans', RehabilitationPlans);
 app.use('/TestResults', TestResults);
 app.use('/Treatments', Treatments);
 app.use('/UserAccounts', UserAccounts);
+app.use('/Photos', Photos);
 
 // connect to mongoDB using mongoose driver
 mongoose.Promise = global.Promise;
