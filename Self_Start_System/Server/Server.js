@@ -36,7 +36,6 @@ const RehabilitationPlans = require('./Routes/RehabilitationPlans');
 const TestResults = require('./Routes/TestResults');
 const Treatments = require('./Routes/Treatments');
 const UserAccounts = require('./Routes/UserAccounts');
-const Photos = require('./Routes/Photos');
 
 //models
 app.use('/Administrators', Administrators);
@@ -58,11 +57,15 @@ app.use('/RehabilitationPlans', RehabilitationPlans);
 app.use('/TestResults', TestResults);
 app.use('/Treatments', Treatments);
 app.use('/UserAccounts', UserAccounts);
-app.use('/Photos', Photos);
 
 // connect to mongoDB using mongoose driver
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://SE3350Testing:ademidun@ds111648.mlab.com:11648/se3350testing', { useMongoClient: true });
+var goose = mongoose;
+var conn = mongoose.connection;
+
+const Photos = require('./Routes/Photos')(router, goose, conn);
+app.use('/Photos', Photos);
 
 //middleware
 app.listen(3700, function () {
