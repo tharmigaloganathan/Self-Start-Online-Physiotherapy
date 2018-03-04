@@ -11,8 +11,6 @@ var formsSchema = mongoose.Schema(
 
 var Forms = module.exports = mongoose.model('Form', formsSchema);
 
-
-
 module.exports = {
     add:add,
     getAll:getAll,
