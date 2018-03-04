@@ -43,8 +43,8 @@ const appRoutes: Routes = [
     component: IntroductionFormComponent // The Admin/IntroductionForm Route
   },
   {
-	path: 'admin/user-accounts',
-	component: UserAccountListComponent // The Admin/IntroductionForm Route
+	  path: 'admin/user-accounts',
+	  component: UserAccountListComponent // The Admin/IntroductionForm Route
   },
   {
     path: 'dashboard/manage-patient-profile',
