@@ -61,37 +61,55 @@ module.exports = (router, mongoose, conn) => {
       if (!request.params.object_id) {
         response.json({success: false, message: 'id was not provided'});
       }
+
       var filename = request.params.object_id;
       var gfs = Grid(conn.db);
       var filePath = DIR+"/"+filename+".png"; // Path of the image's temp location
       // Write to temporary location
-      var fs_write_stream = fs.createWriteStream(filePath);
 
-      // Create readstream with the picture name we want
-      var readstream = gfs.createReadStream({
-        filename: filename
-      });
+      // Check if item is in db
+      gfs.exist({ filename: filename }, function(err, found){
+        if (err){ // If error, log it and send it
+          console.log(err);
+          response.json({success: false, message: err});
+        } else if (!found){
+          console.log(filename + " photo not found");
+          response.json({success: false, message: filename + " photo not found"});
+        } else{ // File is found
+          var fs_write_stream = fs.createWriteStream(filePath);
 
-      // Pipe the picture into the read stream
-      readstream.pipe(fs_write_stream);
+          // Create readstream with the picture name we want
+          var readstream = gfs.createReadStream({
+            filename: filename
+          });
 
-      // On close, send the picture and delete the temporary picture
-      fs_write_stream.on('close', function() {
-        console.log("Successfully retrieved");
-        response.sendFile(path.resolve(filePath), function(err){
-          if (err){
-            throw(err);
-          } else {
-            console.log(filename + ' sent!');
-            // Delete photo on temporary storage
-            fs.unlink(filePath, function(error) {
-              if (error) {
-                throw error;
-              }
-              console.log(filename + ' Deleted');
+          // Pipe the picture into the read stream
+          readstream.pipe(fs_write_stream);
+
+          // On close, send the picture and delete the temporary picture
+          fs_write_stream
+            .on('error', function(err){
+              console.log(err);
+              response.json({success: false, message: err});
+            })
+            .on('close', function() {
+              console.log("Successfully retrieved");
+              response.sendFile(path.resolve(filePath), function(err){
+                if (err){
+                  throw(err);
+                } else {
+                  console.log(filename + ' sent!');
+                  // Delete photo on temporary storage
+                  fs.unlink(filePath, function(error) {
+                    if (error) {
+                      throw error;
+                    }
+                    console.log(filename + ' Deleted');
+                  });
+                }
+              });
             });
-          }
-        });
+        }
       });
     });
     // .delete(function (req, response) {
