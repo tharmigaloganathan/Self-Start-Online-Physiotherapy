@@ -4,6 +4,12 @@ var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 
+// Set up variables to upload files and images
+var multer = require('multer');
+var DIR = './uploads';
+//define the type of upload multer would be doing and pass in its destination, in our case, its a single file with the name photo
+var upload = multer({dest: DIR}).single('photo');
+
 //setting request headers
 app.use(function (request, response, next) {
     response.setHeader('Access-Control-Allow-Origin', '*');

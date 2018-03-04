@@ -64,7 +64,6 @@ import { UserAccountListComponent } from './user-account-list/user-account-list.
     NewRehabilitationPlanComponent,
     EditRehabilitationPlanComponent,
     ExerciseComponent,
-    PhysioManagePatientsComponent,
     SidebarPhysioComponent,
     CreateUserAccountComponent,
     UserAccountListComponent

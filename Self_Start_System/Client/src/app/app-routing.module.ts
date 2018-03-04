@@ -9,8 +9,8 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
-import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component.ts";
-import { UserAccountListComponent } from "./user-account-list/user-account-list.component.ts";
+import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
+import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
