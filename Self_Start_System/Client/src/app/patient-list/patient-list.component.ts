@@ -28,7 +28,7 @@ export class PatientListComponent implements OnInit {
   	this.patientProfileService.getPatients()
   	.subscribe(
   		data => {
-  			console.log(data)
+  			console.log(data);
   			this.patientList = data;
   		},
   		error => {
@@ -37,7 +37,7 @@ export class PatientListComponent implements OnInit {
 
 	//View the selected patients profile
 	viewProfile(i) {
-		console.log(this.patientList[i]));
+		console.log(this.patientList[i]);
 		this.patientProfileService.setSelectedPatient(this.patientList[i]);
 		this.router.navigate(['/dashboard/manage-patient-profile']);
 	}
