@@ -9,50 +9,83 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
+import { HomePageComponent} from "./home-page/home-page.component";
+import { DashboardAdminComponent} from "./dashboard-admin/dashboard-admin.component";
+import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.component";
+
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
+
   {
-    path: '',
-    component: NotFoundPageComponent // The Default Route, TEMPORARY
+    path: 'home',
+    component: HomePageComponent // what a general user sees
   },
+
   {
-    path: 'physio',
-    component: DashboardPhysioComponent, // The Dashboard Route
-  },
-  {
-    path : 'exercise',
-    component: ExerciseComponent // The Exercise route
-  },
-  {
-    path: 'rehabilitation-plan',
-    component: RehabilitationPlanComponent // The Dashboard Route
-  },
-  {
-    path: 'new-rehabilitation-plan',
-    component: NewRehabilitationPlanComponent // The Dashboard Route
-  },
-  {
-    path: 'edit-rehabilitation-plan',
-    component: EditRehabilitationPlanComponent // The Dashboard Route
+    path: 'admin/home',
+    component: DashboardAdminComponent // Home page for a logged in admin
   },
   {
     path: 'admin/introform',
     component: IntroductionFormComponent // The Admin/IntroductionForm Route
   },
   {
-    path: 'dashboard/manage-patient-profile',
+    path: 'admin',
+    redirectTo: '/admin/home'
+  }, //the last admin route
+
+  {
+    path: 'patient/home',
+    component: DashboardPatientComponent
+  },
+
+  {
+    path: 'patient',
+    redirectTo: '/patient/home'
+  }, //the last patient route
+
+  {
+    path: 'physio/home',
+    component: DashboardPhysioComponent, // Home page  for a logged in physiotherapist Route
+  },
+
+  {
+    path: 'physio/patients',
+    component: PatientListComponent
+  },
+
+  {
+    path: 'physio/patients/:name',
     component: ManagePatientProfileComponent
   },
+
   {
-  	path: 'dashboard/patients',
-  	component: PatientListComponent
+    path : 'physio/exercises',
+    component: ExerciseComponent // The Exercise route
   },
   {
-    path: '**',
-    component: NotFoundPageComponent // The "Catch-All" Route
-  } // The "Catch-All" Route
+    path: 'physio/rehabilitation-plans',
+    component: RehabilitationPlanComponent //
+  },
+  {
+    path: 'physio/rehabilitation-plans/new',
+    component: NewRehabilitationPlanComponent //
+  },
+  {
+    path: 'physio/rehabilitation-plans/:name',
+    component: EditRehabilitationPlanComponent //
+  },
 
+  {
+    path: 'physio',
+    redirectTo: '/physio/home'
+  }, //the last physio route
+
+  {
+    path: '**',
+    redirectTo: '/home'
+  }// The "Catch-All" Route
 ];
 
 @NgModule({

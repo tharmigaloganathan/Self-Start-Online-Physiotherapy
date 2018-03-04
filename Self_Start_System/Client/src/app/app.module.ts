@@ -44,6 +44,12 @@ import { FormService} from "./form.service";
 import { HttpClientModule} from '@angular/common/http';
 
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { NavbarGeneralComponent } from './navbar-general/navbar-general.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { DashboardPatientComponent } from './dashboard-patient/dashboard-patient.component';
+import { NavbarPatientComponent } from './navbar-patient/navbar-patient.component';
+import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 
 
 
@@ -61,7 +67,13 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     NewRehabilitationPlanComponent,
     EditRehabilitationPlanComponent,
     ExerciseComponent,
-    SidebarPhysioComponent
+    SidebarPhysioComponent,
+    HomePageComponent,
+    NavbarGeneralComponent,
+    DashboardAdminComponent,
+    DashboardPatientComponent,
+    NavbarPatientComponent,
+    NavbarAdminComponent
   ],
   imports: [
     HttpModule,

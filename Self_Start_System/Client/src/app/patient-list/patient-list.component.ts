@@ -44,6 +44,6 @@ export class PatientListComponent implements OnInit {
   selectRow = row => {
     console.log(row);
     this.patientProfileService.setSelectedPatient(row);
-    this.router.navigate(['/dashboard/manage-patient-profile']);
+    this.router.navigate(['/physio/patients/'+ row.givenName + row.familyName]);
   };
 }
