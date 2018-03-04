@@ -47,8 +47,10 @@ import { HttpClientModule} from '@angular/common/http';
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
+import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
-
+// Image uploading
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { UserAccountListComponent } from './user-account-list/user-account-list.
     ExerciseComponent,
     SidebarPhysioComponent,
     CreateUserAccountComponent,
-    UserAccountListComponent
+    UserAccountListComponent,
+    ImageUploadTestComponent,
+    FileSelectDirective
   ],
   imports: [
     HttpModule,
