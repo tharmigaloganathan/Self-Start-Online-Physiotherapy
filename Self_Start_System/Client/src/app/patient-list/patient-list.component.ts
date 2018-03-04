@@ -37,7 +37,7 @@ export class PatientListComponent implements OnInit {
 
 	//View the selected patients profile
 	viewProfile(i) {
-		console.log(this.patientList[i]));
+		console.log(this.patientList[i]);
 		this.patientProfileService.setSelectedPatient(this.patientList[i]);
 		this.router.navigate(['/dashboard/manage-patient-profile']);
 	}

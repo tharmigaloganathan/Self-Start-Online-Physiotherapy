@@ -158,9 +158,6 @@ function add(object){
         } else if (!document.phone){
             error = "No phone detected.";
             reject(error);
-        } else if (!document.others){
-            error = "No others detected.";
-            reject(error);
         } else {
             document.save(function (error) {
                 if (error){
