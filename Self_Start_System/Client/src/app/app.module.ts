@@ -17,6 +17,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
@@ -108,7 +109,8 @@ import { FileSelectDirective } from 'ng2-file-upload';
     HttpClientModule,
     MatTableModule,
     MatSortModule,
-	MatStepperModule
+	  MatStepperModule,
+    MatSnackBarModule
   ],
   providers: [ExerciseService,
   FormService],
