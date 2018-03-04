@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from './../environments/environment';
 
 @Injectable()
 export class CreateUserAccountService {
@@ -27,6 +28,8 @@ export class CreateUserAccountService {
 		{value: 'YT', viewValue: 'YT'},
 	];
 
+	domain = environment.apiURL;
+
   constructor(private http: Http) {}
 
 	//Return all genders
@@ -40,10 +43,29 @@ export class CreateUserAccountService {
 	}
 
 	//Create a new user account
-	registerUser(user: any) {
-		return this.http.post('http://localhost:3700/UserAccounts')
+	registerUserProfile(user: any) {
+		return this.http.post(this.domain+'/UserAccounts', user)
 		.map((response: Response) => {
 			return response.json();
+		});
+	}
+
+	// THIS FUNCTION IS NOT DONE IT SHOULD GETTING UserAccounts NOT PatientProfiles
+	//Get all user Accounts
+	getAllUserAccounts() {
+			return this.http.get(this.domain+'/PatientProfiles')
+			.map((response: Response) => {
+			console.log("Inside service" + response.json().patientProfile);
+			return response.json().patientProfile;
+		});
+	}
+
+	//Get a single users accounts
+	getuserAccount(id) {
+		return this.http.get(this.domain+'/UserAccounts/'+id)
+		.map((response: Response) => {
+		console.log("Inside service" + response.json().userAccount);
+		return response.json().userAccount;
 		});
 	}
 

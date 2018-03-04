@@ -1,19 +1,57 @@
 <div class="container">
 	<div class="row">
-		<div class="col border">
-			<h1>User Account List</h1>
-			<mat-card>
-				<div class="row">
-					<div class="col-10">
-					Andrew Hart
+		<div class="col">
+			<h1>User Accounts List</h1>
+			<div *ngFor="let user of users; let i = index" [attr.data-index]="i" class="card-container">
+				<mat-card>
+					<div class="row">
+						<div class="col-md-10">
+						{{ user.givenName + " " + user.familyName }}
+						</div>
+						<div class="col-md-2 col-md-offset-10">
+							<button mat-raised-button class="view-button" data-toggle="modal" data-target="#viewUserAccountModal" (click)="viewAccount(i)">View</button>
+						</div>
 					</div>
-					<div class="col-12">
-						<button mat-raised-button>View</button>
-					</div>
-				</div>
-			</mat-card>
-			<mat-card>Sooruj</mat-card>
-			<mat-card>Nick</mat-card>
+				</mat-card>
+			</div>
 		</div>
+	</div>
+</div>
+
+<!-- User Account Model -->
+<div class="modal fade" id="viewUserAccountModal" tabindex="-1" role="dialog"
+		 aria-labelledby="viewUserAccountModalLabel" aria-hidden="true">
+		 <div class="modal-dialog modal-lg">
+			 <div class="modal-content">
+				 <!-- Modal Header -->
+				 <div class="modal-header">
+					 <h4 class="modal-title" id="viewUserAccountModalLabel">
+						Viewing: {{ users[activeIndex].givenName + " " + users[activeIndex].familyName }}
+					 </h4>
+					 <button type="button" class="close" data-dismiss="modal">
+						 <span aria-hidden="true">&times;</span>
+						 <span class="sr-only">Close</span>
+					 </button>
+				 </div>
+				 <!-- Modal Body -->
+				 <div class="modal-body">
+					 <div class = "row">
+						 <div class="col-md-6">
+							 <label>Username: </label>
+							 <input matInput [(ngModel)]="activeUser.userAccountName" disabled>
+							</div>
+							<div class="col-md-6 col-md-offset-4">
+								<label>Password: </label>
+								<input matInput type="password" [(ngModel)]="activeUser.encryptedPassword" disabled>
+								</div>
+
+						</div>
+			 </div>
+			 <!-- Modal Footer -->
+				 <div class="modal-footer">
+					 <button mat-raised-button>View Profile</button>
+					 <button mat-raised-button>Reset Password</button>
+				</div>
+		 </div>
 	</div>
 </div>

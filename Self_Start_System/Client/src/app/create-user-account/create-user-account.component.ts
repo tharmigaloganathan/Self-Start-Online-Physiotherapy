@@ -28,6 +28,7 @@ export class CreateUserAccountComponent implements OnInit {
 	userName;
 	password;
 	passwordVerify;
+	patientProfile_id;
 
   constructor(createUserAccountService: CreateUserAccountService) {
 	  this.createUserAccountService = createUserAccountService;
@@ -43,9 +44,7 @@ export class CreateUserAccountComponent implements OnInit {
 		const user = {
 			userAccountName: this.userName,
 			encryptedPassword: this.password,
-			administrator: null,
-			physiotherapist: null,
-			patientProfile: {
+			patientProfile: [{
 				familyName: this.familyName,
 				givenName: this.givenName,
 				email: this.email,
@@ -53,23 +52,23 @@ export class CreateUserAccountComponent implements OnInit {
 				postalCode: this.postalCode,
 				address: this.address,
 				phone: this.phone,
-				others: null,
-				account: null,
-				treatments: null,
-				payments: null,
+				others: "",
+				account: "",
+				treatments: "",
+				payments: "",
 				country: "Canada",
 				province: this.province,
 				city: this.city,
 				gender: this.gender,
 				appointments: null
+				}]
 			}
-		}
 		console.log(user);
 		//Send user data to backend
-		this.createUserAccountService.registerUser(user).
+		this.createUserAccountService.registerUserProfile(user).
 		subscribe(
 			user => {
-				console.log(user);
+				console.log("This is what was returned" + user);
 			},
 			error => {
 				console.log("Error");
