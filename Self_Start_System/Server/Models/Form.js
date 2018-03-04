@@ -3,7 +3,7 @@ var formsSchema = mongoose.Schema(
     {
         name: String,
         description: String,
-        questionOrders: [{type: mongoose.Schema.ObjectId, ref: 'QuestionOrder'}],
+        questions: [{type: mongoose.Schema.ObjectId, ref: 'Question'}],
         administrator: {type: mongoose.Schema.ObjectId, ref: ('Administrator')},
         assessmentTests: [{type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}]
     }
@@ -53,7 +53,7 @@ function update(id, updatedDocument){
                 else {
                     document.name = updatedDocument.name;
                     document.description = updatedDocument.description;
-                    document.questionOrders = updatedDocument.questionOrders;
+                    document.questions = updatedDocument.questions;
                     document.administrator = updatedDocument.administrator;
                     document.assessmentTests = updatedDocument.assessmentTests;
                     document.save(function (error) {

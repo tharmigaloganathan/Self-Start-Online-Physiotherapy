@@ -13,6 +13,26 @@ export class FormService {
 
   constructor(private http: HttpClient) { }
 
+  //======FORM ROUTES=======
+  getAllForms(){
+    return this.http.get(this.domain+'/forms')
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  getForm(_id: string){
+    return this.http.get(this.domain+'/forms/'+_id)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  //======END OF FORM ROUTES=========
+
+  //======QUESTION ROUTES==========
   deleteQuestion(id: string){
     return this.http.delete(this.domain+'/questions/'+id)
       .pipe(
@@ -38,6 +58,8 @@ export class FormService {
       );
   }
 
+  getQuestion
+
   getAllQuestions(){
     return this.http.get(this.domain+'/questions')
       .pipe(
@@ -45,6 +67,8 @@ export class FormService {
         catchError(this.handleError)
       );
   }
+
+  //=======END OF QUESTION ROUTES=========
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

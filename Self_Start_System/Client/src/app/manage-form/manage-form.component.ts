@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Form } from "../models/Form";
-import { Question } from "../models/Question";
 import { FormService} from "../form.service";
 
 @Component({
   selector: 'app-introduction-form',
-  templateUrl: './introduction-form.component.html',
-  styleUrls: ['./introduction-form.component.scss']
+  templateUrl: './manage-form.component.html',
+  styleUrls: ['./manage-form.component.scss']
 })
-export class IntroductionFormComponent implements OnInit {
+export class ManageFormComponent implements OnInit {
+
+  formID: string;
+  form: any;
 
   newOrder;
   newQuestionText;
@@ -24,8 +26,20 @@ export class IntroductionFormComponent implements OnInit {
   constructor(private formService: FormService) { }
 
   ngOnInit() {
-    this.getAllQuestions();
+    this.formID =  localStorage.getItem('edit_form_id');
+    this.getForm();
     this.openEditModal = false;
+  }
+
+  getForm(){
+    console.log("formID searched: ", this.formID);
+    this.formService.getForm(this.formID).subscribe(
+      data => {
+        console.log("specific form received! ", data);
+        this.form = data.form;
+      },
+      error => console.log(error)
+    );
   }
 
   deleteQuestion(selectedQuestion){
@@ -75,13 +89,15 @@ export class IntroductionFormComponent implements OnInit {
   }
 
   getAllQuestions(){
-    console.log("getting all questions");
-    this.formService.getAllQuestions().subscribe(
-      data => {
-        console.log("questions retrieved! ",data['question']);
-        this.allQuestions = data.question;
-      },
-      error => console.log(error)
-    );
+    console.log("getting all questions for this form");
+    for(let i=0; i<this.form.questionOrder.length; i++){
+      this.formService.getAllQuestions(this.form.questionOrder[i]).subscribe(
+        data => {
+          console.log("questions retrieved! ",data['question']);
+          this.allQuestions = data.question;
+        },
+        error => console.log(error)
+      );
+    }
   }
 }

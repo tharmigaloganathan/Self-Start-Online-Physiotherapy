@@ -2,8 +2,9 @@
 
 <div class="container">
   <!--Title and description-->
-      <h1>Manage the Introduction Form</h1>
-      <p>Add, edit, or delete questions of the introduction form shown to new clients.</p>
+      <h1>Manage the {{form.name}}</h1>
+      <p>Add, edit, or delete questions of the {{form.name}}.</p>
+
 
   <!-- Question List -->
   <div *ngFor="let question of allQuestions">
@@ -19,6 +20,7 @@
       </mat-card>
     </div>
   </div>
+
 
   <br>
   <br>

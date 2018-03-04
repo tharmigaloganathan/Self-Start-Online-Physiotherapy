@@ -18,7 +18,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 
-import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
+import { ManageFormComponent } from './manage-form/manage-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
@@ -49,7 +49,8 @@ import { CreateUserAccountComponent } from './create-user-account/create-user-ac
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
 
 
-
+import { DndModule } from 'ng2-dnd';
+import { FormsComponent } from './forms/forms.component';
 
 @NgModule({
   declarations: [
@@ -57,17 +58,17 @@ import { UserAccountListComponent } from './user-account-list/user-account-list.
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-    IntroductionFormComponent,
+    ManageFormComponent,
     ManagePatientProfileComponent,
     PatientListComponent,
     RehabilitationPlanComponent,
     NewRehabilitationPlanComponent,
     EditRehabilitationPlanComponent,
     ExerciseComponent,
-    PhysioManagePatientsComponent,
     SidebarPhysioComponent,
     CreateUserAccountComponent,
-    UserAccountListComponent
+    UserAccountListComponent,
+    FormsComponent
   ],
   imports: [
     HttpModule,
