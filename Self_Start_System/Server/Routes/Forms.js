@@ -1,96 +1,53 @@
 var express = require('express');
 var router = express.Router();
-var Forms = require('../models/Form');
+var Forms = require('../Models/Form');
 
 router.route('/')
     .post(function (request, response) {
-        var form = new Forms.Model(request.body.form);
-        if (!form.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!form.description){
-            response.json({success: false, message: "No description detected."});
-        } else if (!form.questions){
-            response.json({success: false, message: "No questions detected."});
-        } else if (!form.administrator){
-            response.json({success: false, message: "No administrator detected."});
-        } else if (!form.assessmentTests){
-            response.json({success: false, message: "No assessmentTests detected."});
-        } else {
-            form.save(function (error) {
-                if (error) response.send(error);
-                response.json({form: form});
-            });
-        }
+        Forms.add(request.body).then(function(form){
+            response.json({form: form});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .get(function (request, response) {
-        Forms.Model.find(function (error, forms) {
-            if (error) response.send(error);
+        Forms.getAll().then(function(forms){
             response.json({form: forms});
-        });
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 router.route('/:form_id')
     .get(function (request, response) {
-        Forms.Model.findById(request.params.form_id, function (error, form) {
-        if (error) {
-            response.send({error: error});
+        if (!request.params.form_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
-        else {
+        Forms.getOne(request.params.form_id).then(function(form){
             response.json({form: form});
-        }
-        });
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
     .put(function (request, response) {
-        if (!request.body.form.name){
-            response.json({success: false, message: "No name detected."});
-        } else if (!request.body.form.description){
-            response.json({success: false, message: "No description detected."});
-        } else if (!request.body.form.questions){
-            response.json({success: false, message: "No questions detected."});
-        } else if (!request.body.form.administrator){
-            response.json({success: false, message: "No administrator detected."});
-        } else if (!request.body.form.assessmentTests){
-            response.json({success: false, message: "No assessmentTests detected."});
-        } else {
-            Forms.Model.findById(request.params.form_id, function (error, form) {
-                if (error) {
-                    response.send({error: error});
-                }
-                else {
-                    form.name = request.body.form.name;
-                    form.description = request.body.form.description;
-                    form.questions = request.body.form.questions;
-                    form.administrator = request.body.form.administrator;
-                    form.assessmentTests = request.body.form.assessmentTests;
-                    form.save(function (error) {
-                        if (error) {
-                            response.send({error: error});
-                        } else {
-                            response.json({form: form});
-                        }
-                    });
-                }
-            });
+        if (!request.params.form_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
+        Forms.update(request.params.form_id, request.body).then(function(form){
+            response.json({form: form});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     })
-    .delete(function (req, res) {
-        if (!req.paramsform_id) {
-            res.json({success: false, message: 'id was not provided'});
-        } else {
-            Forms.Model.findById(req.params.form_id, function (err, form) {
-                if (err) {
-                    res.json({success: false, message: err});
-                } else {
-                    form.remove(function (err) {
-                        if (err){
-                            res.json({success: false, message: err});
-                        } else {
-                            res.json({success: true, message: 'form deleted!'});
-                        }
-                    })
-                }
-            })
+    .delete(function (request, response) {
+        if (!request.params.form_id) {
+            response.json({success: false, message: 'id was not provided'});
         }
+        Forms.deleteOne(request.params.form_id).then(function(form){
+            response.json({success: true, message: 'form deleted!'});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
     });
 
 module.exports = router;

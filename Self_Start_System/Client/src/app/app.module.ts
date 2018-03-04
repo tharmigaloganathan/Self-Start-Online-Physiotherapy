@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
@@ -43,12 +44,13 @@ import { FormService} from "./form.service";
 
 import { HttpClientModule} from '@angular/common/http';
 
-
-
-import { PhysioManagePatientsComponent } from './physio-manage-patients/physio-manage-patients.component';
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
+import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
+import { UserAccountListComponent } from './user-account-list/user-account-list.component';
+import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
-
+// Image uploading
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -64,8 +66,11 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     NewRehabilitationPlanComponent,
     EditRehabilitationPlanComponent,
     ExerciseComponent,
-    PhysioManagePatientsComponent,
-    SidebarPhysioComponent
+    SidebarPhysioComponent,
+    CreateUserAccountComponent,
+    UserAccountListComponent,
+    ImageUploadTestComponent,
+    FileSelectDirective
   ],
   imports: [
     HttpModule,
@@ -102,7 +107,8 @@ import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.componen
     ReactiveFormsModule,
     HttpClientModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+	MatStepperModule
   ],
   providers: [ExerciseService,
   FormService],

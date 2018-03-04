@@ -29,7 +29,19 @@ export class ExerciseComponent implements OnInit {
 
 
   allExercises: any[];
-  currentExercise: null;
+  currentExercise: {
+    name: null,
+    description: null,
+    objectives: null,
+    authorName: null,
+    actionSteps: null,
+    location: null,
+    frequency: null,
+    duration: null,
+    targetDate: null,
+    multimediaURL: null,
+    _id: null
+  };
 
 
 
@@ -43,7 +55,7 @@ export class ExerciseComponent implements OnInit {
     this.getAllExercises();
   }
 
-  addExercise(){
+  registerExercise(){
     console.log(this.exerciseNameValue);
 
     var exercise = {
@@ -59,11 +71,33 @@ export class ExerciseComponent implements OnInit {
       multimediaURL: this.URLValue,
     };
 
-    this.exerciseService.addExercise(exercise).subscribe(
-      res=> {console.log("response received: ", res)},
+    this.exerciseService.registerExercise(exercise).subscribe(
+      res=> {console.log("response received: ", res), this.getAllExercises()},
       error => {console.log(error)}
     );
-    window.location.reload();
+  }
+
+  editExercise(){
+    if (this.currentExercise) {
+      console.log("making a new exercise object based on: ", this.currentExercise);
+      var exercise = {
+        name: this.currentExercise.name,
+        description: this.currentExercise.description,
+        objectives: this.currentExercise.objectives,
+        authorName: this.currentExercise.authorName,
+        actionSteps: this.currentExercise.actionSteps,
+        location: this.currentExercise.location,
+        frequency: this.currentExercise.frequency,
+        duration: this.currentExercise.duration,
+        targetDate: this.currentExercise.targetDate,
+        multimediaURL: this.currentExercise.multimediaURL,
+      }
+    }
+
+    this.exerciseService.editExercise(this.currentExercise._id, exercise).subscribe(
+      res=> {console.log("response received: ", res), this.getAllExercises()},
+      error => {console.log(error)}
+    );
   }
 
   getAllExercises(){
@@ -84,10 +118,13 @@ export class ExerciseComponent implements OnInit {
         console.log("single exercise retrieved! ", data.exercise);
         this.currentExercise = data.exercise;
         console.log ("current exercise selected is ", this.currentExercise.name);
-        this.openEditModal=true;
-
       }
     )
+    this.openEditModal=true;
+  }
+
+  closeEditModal(){
+    this.openEditModal=false;
   }
 
 

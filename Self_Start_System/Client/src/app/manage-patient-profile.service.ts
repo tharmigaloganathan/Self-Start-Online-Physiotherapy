@@ -5,8 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ManagePatientProfileService {
 
-  	constructor(private http: Http) {
-	}
+	constructor(private http: Http) {}
 
   	//Function to get all patients
 	getPatients() {
@@ -14,6 +13,14 @@ export class ManagePatientProfileService {
   		.map((response: Response) => {
 	 	return response.json().patientProfile;
   		});
+	}
+
+	//Function to update patient
+	updatePatient(patient: any) {
+		return this.http.put('http://localhost:3700/PatientProfiles/')
+		.map((response: Response) => {
+		return response.json();
+		});
 	}
 
 	//Function to set the selected patient
