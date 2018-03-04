@@ -11,7 +11,8 @@ import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
-import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component"
+import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
+
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
