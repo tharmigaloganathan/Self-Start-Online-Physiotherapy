@@ -70,13 +70,13 @@ const appRoutes: Routes = [
   {
 
     path: 'physio/patients/:name',
-    component: UserAccountListComponent
-  },
-
-  {
-    path: 'dashboard/manage-patient-profile',
     component: ManagePatientProfileComponent
   },
+
+  // {
+  //   path: 'dashboard/manage-patient-profile',
+  //   component: ManagePatientProfileComponent
+  // },
 
   {
     path : 'physio/exercises',
