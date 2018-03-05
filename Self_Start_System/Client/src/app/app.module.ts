@@ -56,6 +56,9 @@ import { CreateUserAccountComponent } from './create-user-account/create-user-ac
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
 import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
+import {DndModule} from 'ng2-dnd';
+
+
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
@@ -91,6 +94,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     HttpModule,
     AppRoutingModule,
     BrowserModule,
+    DndModule.forRoot(),
     FormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,

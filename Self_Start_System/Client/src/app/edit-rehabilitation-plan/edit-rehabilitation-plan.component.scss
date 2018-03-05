@@ -1,13 +1,65 @@
 @import '../../scss/_variables';
-@import '../../scss/sidebar';
+// @import '../../scss/sidebar';
 @import '~@angular/material/theming';
+@import '../../../node_modules/ng2-dnd/bundles/style.css';
+
+
+.list-group {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+mat-tab-group {
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+// /deep/ .mat-tab-group.mat-primary mat-tab-label-active{
+//   background-color: blue;
+// }
+//
+// md-tabs > md-tabs-wrapper {
+//   background-color: #f00 !important;
+// }
+
+// /deep/ mat-ink-bar{ background-color:#fff; }
+
+mat-tab {
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+/* Styles for tab labels */
+.mat-tab-label {
+    // min-width: 25px !important;
+    // padding: 5px;
+    // background-color: red;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: black;
+    font-size: 14px;
+}
+
+
+/* Styles for the active tab label */
+// .mat-tab-label.mat-tab-label-active {
+//     // min-width: 25px !important;
+//     // padding: 5px;
+//     // background-color: red;
+//     font-family: 'Roboto Condensed', sans-serif;
+//     // color: blue !important;
+//     // font-weight: 700;
+// }
+
+/* Styles for the ink bar */
+.mat-ink-bar {
+    // background-color: green !important;
+}
 
 .example-container2 {
   // display: flex;
-  width: 600px !important;
+  // width: 600px !important;
   font-size: 20px;
   text-align: center;
-  margin-left: 24%;
+  margin-right: 10%;
+  margin-left: 10%;
 
   justify-content: center !important;
   flex-direction: column;
@@ -17,6 +69,37 @@
   width: 100%;
 }
 
+mat-form-field.name {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.frequency {
+    margin-left: 4%;
+    width: 200px !important;
+}
+
+
+mat-form-field.authorName {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.goal {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.timeframe {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.description {
+    margin-left: 4%;
+    width: 900px !important;
+}
+
 .title {
     justify-content: center !important;
     font-family: 'Roboto Condensed', sans-serif;
@@ -24,6 +107,16 @@
     position: relative;
     top:20px;
 }
+
+.subtitle {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    font-size: 24px;
+    top:10px;
+}
+
 mat-card {
     align-items: center;
     height: 250px;
@@ -68,55 +161,60 @@ button.blue {
 //       color:rgb(255, 255, 255);
 // }
 
-.mat-list-item.sidebar {
-    color: #cccccc !important;
-    height: 30px !important;
-}
-.mat-list-item.listofexercises {
+// .mat-list-item.sidebar {
+//     color: #cccccc !important;
+//     height: 30px !important;
+// }
+.mat-list-option.listofexercises {
     text-align: center;
     margin-left: 10%;
+    color: #000000;
     height: 30px !important;
     width: 400px;
     background-color: #eeeeee !important;
 }
-.mat-select {
-    // height: 30px !important;
-    width: 400px !important;
-}
+// .mat-select {
+//     // height: 30px !important;
+//     width: 400px !important;
+// }
+
+// mat-list-item:hover {
+//     background-color:
+// }
 
 mat-form-field.selectexercise {
     margin-left: 4%;
     width: 400px !important;
 }
-.mat-list-item.selected {
-    color: #cccccc !important;
-    height: 30px !important;
-}
+// .mat-list-item.selected {
+//     color: #cccccc !important;
+//     height: 30px !important;
+// }
 .mat-list-item-content {
     padding: 0px !important;
     height: 30px !important;
 }
-
-.mat-list-item.sidebar:hover {
-    background-color: #28293d;
-}
-
-.mat-list-item.selected {
-    background-color: $rare-turquoise;
-}
-
-.mat-list-item.selected:hover {
-    background-color:  #0c657a;
-}
-
-
-.mat-list-item.sidebar:focus {
-    background-color: $rare-turquoise;
-}
-
-.mat-list-item.sidebar:focus:hover {
-    background-color: #0c657a;
-}
+//
+// .mat-list-item.sidebar:hover {
+//     background-color: #28293d;
+// }
+//
+// .mat-list-item.selected {
+//     background-color: $rare-turquoise;
+// }
+//
+// .mat-list-item.selected:hover {
+//     background-color:  #0c657a;
+// }
+//
+//
+// .mat-list-item.sidebar:focus {
+//     background-color: $rare-turquoise;
+// }
+//
+// .mat-list-item.sidebar:focus:hover {
+//     background-color: #0c657a;
+// }
 mat-sidenav {
     background-color: $magic-night;
 
@@ -188,12 +286,19 @@ button.login-button{
     border-radius: 0px;
 }
 
-button.submit{
+button.move{
+    background-color: #439b42;
+    border-radius: 0px;
+}
+
+button.stickToBottom{
+    position: fixed;
+    bottom: 0px;
     background-color: $electric-glow;
     border-radius: 0px;
-    height: 60px;
+    height: 40px;
     font-size: 30px;
-    width: 250px;
+    width: 100%;
 }
 
 button.delete-button{
