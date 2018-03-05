@@ -15,7 +15,7 @@ var patientProfileSchema = mongoose.Schema(
         payments: [{type: mongoose.Schema.ObjectId, ref: 'Payment'}],
         country: {type: mongoose.Schema.ObjectId, ref: 'Country'},
         province: {type: mongoose.Schema.ObjectId, ref: 'Province'},
-        city: {type: mongoose.Schema.ObjectId, ref: 'City'},
+        city: String,
         gender: {type: mongoose.Schema.ObjectId, ref: 'Gender'},
         appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}]
     }
@@ -72,8 +72,8 @@ function update(id, updatedDocument){
         } else if (!updatedDocument.phone){
             error = "No phone detected.";
             reject(error);
-        } else if (!updatedDocument.others){
-            error = "No others detected.";
+        } else if (!updatedDocument.city){
+            error = "No cities detected.";
             reject(error);
         } else {
             PatientProfiles.findById(id, function (error, document) {
@@ -158,8 +158,8 @@ function add(object){
         } else if (!document.phone){
             error = "No phone detected.";
             reject(error);
-        } else if (!document.others){
-            error = "No others detected.";
+        } else if (!document.city){
+            error = "No cities detected.";
             reject(error);
         } else {
             document.save(function (error) {
@@ -172,4 +172,3 @@ function add(object){
         }
     });
 }
-
