@@ -158,12 +158,9 @@ function add(object){
         } else if (!document.phone){
             error = "No phone detected.";
             reject(error);
-<<<<<<< HEAD
         } else if (!document.city){
             error = "No cities detected.";
             reject(error);
-=======
->>>>>>> ead21bd18624d1d160068fd2a9db6038cd2fb896
         } else {
             document.save(function (error) {
                 if (error){
