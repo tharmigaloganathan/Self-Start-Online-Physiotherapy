@@ -103,6 +103,4 @@ export class UserAccountListComponent implements OnInit {
 		this.router.navigate(['admin/user-accounts/manage']);
 	}
 
-
-
 }
