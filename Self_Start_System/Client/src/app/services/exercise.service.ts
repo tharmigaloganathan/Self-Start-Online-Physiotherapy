@@ -41,6 +41,14 @@ export class ExerciseService {
       );
   }
 
+  deleteExercise(id){
+    return this.http.delete(this.domain+'/exercises/'+id)
+      .pipe(
+        retry (3),
+        catchError(this.handleError)
+      );
+  }
+
   editExercise(id, exercise): Observable<Response>{
     const httpOptions = {
       headers: new HttpHeaders({

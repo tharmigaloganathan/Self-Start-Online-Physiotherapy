@@ -25,9 +25,7 @@ export class ExerciseComponent implements OnInit {
   objectivesValue;
   actionStepsValue;
   openEditModal;
-
-
-
+  editEnabled = false;
   allExercises: any[];
   currentExercise: {
     name: null,
@@ -42,9 +40,6 @@ export class ExerciseComponent implements OnInit {
     multimediaURL: null,
     _id: null
   };
-
-
-
 
 
   constructor(private exerciseService :ExerciseService) {
@@ -98,14 +93,27 @@ export class ExerciseComponent implements OnInit {
       res=> {console.log("response received: ", res), this.getAllExercises()},
       error => {console.log(error)}
     );
+
+    this.editEnabled = false;
+  }
+
+  enableEdit(){
+    this.editEnabled = true;
+  }
+
+  cancelEdit(){
+    this.editEnabled = false;
+    this.getOneExercise(this.currentExercise._id);
   }
 
   getAllExercises(){
     console.log("getting all exercises");
     this.exerciseService.getAllExercises().subscribe(
       data => {
-        console.log("all exercises retrieved! ",data.exercises);
-        this.allExercises = data.exercises;
+        console.log("all exercises retrieved! ",data.exercise);
+        console.log(data);
+        this.allExercises = data.exercise;
+
       },
       error => console.log(error)
     );
@@ -127,9 +135,12 @@ export class ExerciseComponent implements OnInit {
     this.openEditModal=false;
   }
 
-
-
-
-
-
+  deleteExercise(){
+    if (this.currentExercise){
+      this.exerciseService.deleteExercise(this.currentExercise._id).subscribe(
+        res=> {console.log("response received: ", res), this.getAllExercises()},
+        error => {console.log(error)}
+      );
+    }
+  }
 }

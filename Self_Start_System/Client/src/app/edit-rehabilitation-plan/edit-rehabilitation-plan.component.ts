@@ -14,21 +14,25 @@ import { ViewEncapsulation } from '@angular/core';
 export class EditRehabilitationPlanComponent implements OnInit {
     showSidebar = true;
     data: Object;
+
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
     rehabilitationplan = {exercises:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
     exerciseIDs = [];
+
     deleteList = [];
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
 
   constructor(private rehabilitationplanService: RehabilitationPlanService, private exerciseService: ExerciseService) {
       console.log("ID", this.editID)
-      this.getRehabilitationPlans();
   }
 
   ngOnInit() {
+    this.getRehabilitationPlans();
+    this.getExercises();
+
   }
 
   getExerciseIDs() {
@@ -174,10 +178,13 @@ export class EditRehabilitationPlanComponent implements OnInit {
           if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
               console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
               this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+              console.log(this.rehabilitationplan);
           }
+
       }
 
       console.log("getting all exercises");
+
       // let exercises =
 
 
@@ -230,6 +237,6 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
 
 
-  }
 
+  }
 }
