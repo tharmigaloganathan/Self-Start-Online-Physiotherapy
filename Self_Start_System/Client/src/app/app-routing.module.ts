@@ -20,7 +20,7 @@ import { DashboardAdminComponent} from "./dashboard-admin/dashboard-admin.compon
 import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.component";
 import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
 import { BookAppointmentComponent } from "./book-appointment/book-appointment.component";
-
+import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
 
 
 // Our Array of Angular 2 Routes

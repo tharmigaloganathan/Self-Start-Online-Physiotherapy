@@ -39,7 +39,7 @@ export class UserAccountListComponent implements OnInit {
 		subscribe(
 			user => {
 				this.users = user;
-				console.log("This is what was returned" + JSON.stringify(user);
+				console.log("This is what was returned" + JSON.stringify(user));
 			},
 			error => {
 				console.log("Error");

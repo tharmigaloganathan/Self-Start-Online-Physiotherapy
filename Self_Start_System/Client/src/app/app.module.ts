@@ -55,6 +55,7 @@ import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
 import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/admin-manage-user-accounts.component';
+import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
 import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
@@ -63,6 +64,7 @@ import { CreateFormComponent } from './create-form/create-form.component';
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
+
 
 
 @NgModule({
@@ -91,8 +93,8 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     CreateFormComponent,
     ImageUploadTestComponent,
     FileSelectDirective,
-    BookAppointmentComponent
-
+    BookAppointmentComponent,
+		AdminManageUserAccountsComponent
   ],
   imports: [
     HttpModule,
