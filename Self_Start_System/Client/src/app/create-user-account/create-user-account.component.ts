@@ -35,11 +35,32 @@ export class CreateUserAccountComponent implements OnInit {
   constructor(createUserAccountService: CreateUserAccountService, router: Router) {
 	  this.createUserAccountService = createUserAccountService;
 		this.router = router;
-		this.genders = this.createUserAccountService.getGenders();
-		this.provinces = this.createUserAccountService.getProvinces();
+
   }
 
 	ngOnInit() {
+		//Populate provinces
+		this.provinces = this.createUserAccountService.getProvinces().
+		subscribe(
+			data => {
+				this.provinces = data;
+				console.log("This is what was returned" + JSON.stringify(data);
+			},
+			error => {
+				console.log("Error");
+			});
+			console.log(this.provinces);
+			//Populate genders
+			this.genders = this.createUserAccountService.getGenders().
+			subscribe(
+				data => {
+					this.genders = data;
+					console.log("This is what was returned" + JSON.stringify(data);
+				},
+				error => {
+					console.log("Error");
+				});
+				console.log(this.genders);
     }
 
 	//Go back to account list
@@ -47,12 +68,9 @@ export class CreateUserAccountComponent implements OnInit {
 		this.router.navigate(['/admin/user-accounts']);
 	}
 
-	registerUser() {
+	registerUserProfile() {
 		//JSON object to hold user information
 		const user = {
-			userAccountName: this.userName,
-			encryptedPassword: this.password,
-			patientProfile: [{
 				familyName: this.familyName,
 				givenName: this.givenName,
 				email: this.email,
@@ -61,26 +79,48 @@ export class CreateUserAccountComponent implements OnInit {
 				address: this.address,
 				phone: this.phone,
 				others: "",
-				account: "",
-				treatments: "",
-				payments: "",
-				country: "Canada",
+				account: null,
+				treatments: null,
+				payments: null,
+				country: "5a679e0b734d1d7c679791c8",
 				province: this.province,
 				city: this.city,
 				gender: this.gender,
-				appointments: ""
-				}]
+				appointments: null
 			}
 		console.log(user);
 		//Send user data to backend
 		this.createUserAccountService.registerUserProfile(user).
 		subscribe(
 			user => {
-				console.log("This is what was returned" + user);
+				console.log("This is what was returned" + JSON.stringify(user));
+				this.patientProfile_id = user.patientProfile._id;
+				console.log("Patient profile id " + this.patientProfile_id);
 			},
 			error => {
 				console.log("Error");
 			});
 	}
+
+	//Register user accounts
+	registerUserAccount() {
+		const account = {
+			userAccountName: this.userName,
+			encryptedPassword: this.password,
+			patientProfile: this.patientProfile_id
+		}
+		//Send account data to backend
+		this.createUserAccountService.registerUserAccount(account).
+		subscribe(
+			user => {
+				console.log("This is what was returned" + JSON.stringify(account));
+			},
+			error => {
+				console.log("Error");
+			});
+
+	}
+
+
 
 }

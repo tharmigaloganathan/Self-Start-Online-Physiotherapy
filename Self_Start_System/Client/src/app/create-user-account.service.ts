@@ -34,17 +34,30 @@ export class CreateUserAccountService {
 
 	//Return all genders
 	getGenders() {
-		return this.genders;
+		return this.http.get(this.domain+'/Genders')
+		.map((response: Response) => {
+			return response.json().gender;
+		});
 	}
 
 	//Return all provinces
 	getProvinces() {
-		return this.provinces;
+		return this.http.get(this.domain+'/Provinces')
+		.map((response: Response) => {
+			return response.json().province;
+		});
 	}
 
-	//Create a new user account
+	//Create a new patient profile
 	registerUserProfile(user: any) {
-		return this.http.post(this.domain+'/UserAccounts', user)
+		return this.http.post(this.domain+'/PatientProfiles', user)
+		.map((response: Response) => {
+			return response.json();
+		});
+	}
+
+	registerUserAccount(account: any) {
+		return this.http.post(this.domain+'/UserAccounts', account)
 		.map((response: Response) => {
 			return response.json();
 		});

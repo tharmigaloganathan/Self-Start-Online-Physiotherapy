@@ -96,9 +96,11 @@ export class UserAccountListComponent implements OnInit {
 	//View the users full profile
 	viewProfile() {
 		//Store the users information in local storage
-
+		console.log("Putting this in store for the user" + this.users[this.activeIndex]);
+		localStorage.setItem('selectedPatient', JSON.stringify(this.users[this.activeIndex]));
+		console.log("Putting this in store for the user" + this.activeUser);
+		localStorage.setItem('selectedAccount', JSON.stringify(this.activeUser));
 		this.router.navigate(['/admin/user-accounts/manage']);
-
 	}
 
 

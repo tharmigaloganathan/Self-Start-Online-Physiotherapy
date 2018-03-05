@@ -3,7 +3,7 @@
 		<div class="col">
 			<div class="card-container">
 				<mat-card>
-					<h1>Viewing Profile</h1>
+					<h1>Viewing: {{ user.givenName + " " + user.familyName }}</h1>
 					<hr>
 					<div class="row">
 						<div class="col-md-10"></div>
@@ -11,9 +11,11 @@
 							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
 						</div>
 					</div>
+					<app-manage-patient-profile></app-manage-patient-profile>
 				</mat-card>
 			</div>
 			<!-- Tabs -->
+
 		</div>
 	</div>
 </div>

@@ -8,12 +8,16 @@ import { Router } from '@angular/router';
 })
 export class AdminManageUserAccountsComponent implements OnInit {
 	router;
+	user = {};
+	account = {}
 
   constructor(router: Router) {
 		this.router = router;
 	}
 
   ngOnInit() {
+		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
+		this.account = JSON.parse(localStorage.getItem('account'));
   }
 
 	//Go back to account list
