@@ -65,6 +65,8 @@ import { CreateFormComponent } from './create-form/create-form.component';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 
+// Calendar
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 
 @NgModule({
@@ -100,6 +102,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     HttpModule,
     AppRoutingModule,
     BrowserModule,
+    FullCalendarModule,
     DndModule.forRoot(),
     FormsModule,
     BrowserAnimationsModule,
