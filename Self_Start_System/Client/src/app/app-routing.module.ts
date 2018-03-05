@@ -9,11 +9,6 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
-<<<<<<< HEAD
-import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component.ts";
-import { UserAccountListComponent } from "./user-account-list/user-account-list.component.ts";
-import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component.ts";
-=======
 
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
@@ -27,7 +22,6 @@ import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.
 import { BookAppointmentComponent } from "./book-appointment/book-appointment.component";
 
 
->>>>>>> ead21bd18624d1d160068fd2a9db6038cd2fb896
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -75,7 +69,6 @@ const appRoutes: Routes = [
     component: DashboardPhysioComponent, // Home page  for a logged in physiotherapist Route
   },
   {
-<<<<<<< HEAD
 		path: 'admin/user-accounts',
 		component: UserAccountListComponent // The Admin/UserAccountsList Route
   },
@@ -83,12 +76,6 @@ const appRoutes: Routes = [
 		path: 'admin/user-accounts/manage',
 		component: AdminManageUserAccountsComponent// The Admin/UserAccountsList Route
 	},
-=======
-    path: 'physio/patients',
-    component: PatientListComponent
-  },
-
->>>>>>> ead21bd18624d1d160068fd2a9db6038cd2fb896
   {
 
     path: 'physio/patients/:name',

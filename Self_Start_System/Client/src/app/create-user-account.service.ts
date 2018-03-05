@@ -48,15 +48,9 @@ export class CreateUserAccountService {
 		});
 	}
 
-<<<<<<< HEAD
 	//Create a new patient profile
 	registerUserProfile(user: any) {
 		return this.http.post(this.domain+'/PatientProfiles', user)
-=======
-	//Create a new user account
-	registerUser(user: any) {
-		return this.http.post('http://localhost:3700/UserAccounts', user)
->>>>>>> ead21bd18624d1d160068fd2a9db6038cd2fb896
 		.map((response: Response) => {
 			return response.json();
 		});
