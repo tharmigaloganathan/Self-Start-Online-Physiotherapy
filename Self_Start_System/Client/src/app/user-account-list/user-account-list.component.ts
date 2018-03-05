@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { CreateUserAccountService } from '../create-user-account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-account-list',
@@ -11,22 +12,34 @@ import { CreateUserAccountService } from '../create-user-account.service';
 export class UserAccountListComponent implements OnInit {
 	patientProfileService;
 	userAccountService;
+	router;
 	userAccounts = ["Andrew", "Sooruj", "Nick"];
 	users = {};
 	physiotherapists = {};
 	activeUser;
 	activeIndex;
 
-	constructor(patientProfileService: ManagePatientProfileService, userAccountService: CreateUserAccountService) {
+	constructor(patientProfileService: ManagePatientProfileService, userAccountService: CreateUserAccountService, router: Router) {
 		this.patientProfileService = patientProfileService
 		this.userAccountService = userAccountService;
+		this.router = router;
   }
 
   ngOnInit() {
 		this.getPatientAccounts();
   }
 
-	//Get all user account
+	//Route to the create account
+	createAccount() {
+		console.log("Create Account clicked");
+		this.router.navigate(['/create-account']);
+	}
+
+	create() {
+		concole.log("Create Account clicked");
+	}
+
+	//Get all user patient accounts
 	getPatientAccounts() {
 		this.users = this.userAccountService.getAllUserAccounts().
 		subscribe(
@@ -54,5 +67,7 @@ export class UserAccountListComponent implements OnInit {
 				console.log("Error");
 			});
 	}
+
+
 
 }

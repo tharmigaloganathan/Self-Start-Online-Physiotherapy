@@ -1,7 +1,28 @@
 <div class="container">
 	<div class="row">
 		<div class="col">
-			<h1>User Accounts List</h1>
+			<!-- Search and Filter Area -->
+			<div class="card-container">
+				<mat-card>
+					<h1>User Accounts</h1>
+					<hr>
+					<div class="row">
+						<div class="col-md-10">
+							<label>Filter By: </label>
+							<mat-form-field>
+							  <mat-select placeholder="">
+							    <mat-option value="patient" selected>Patient</mat-option>
+									<mat-option value="physiotherapist">Physiotherapist</mat-option>
+							  </mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col-md-2 col-md-offset-10">
+							<button mat-raised-button class="create-account-button" (click)="createAccount()">Create Account</button>
+						</div>
+					</div>
+				</mat-card>
+			</div>
+			<!-- Individual User Cards -->
 			<div *ngFor="let user of users; let i = index" [attr.data-index]="i" class="card-container">
 				<mat-card>
 					<div class="row">
@@ -9,7 +30,7 @@
 						{{ user.givenName + " " + user.familyName }}
 						</div>
 						<div class="col-md-2 col-md-offset-10">
-							<button mat-raised-button class="view-button" data-toggle="modal" data-target="#viewUserAccountModal" (click)="viewAccount(i)">View</button>
+							<button mat-raised-button class="view-button" data-toggle="modal" data-target="#viewUserAccountModal" (click)="viewAccount(i)">View Account</button>
 						</div>
 					</div>
 				</mat-card>
@@ -35,7 +56,7 @@
 				 </div>
 				 <!-- Modal Body -->
 				 <div class="modal-body">
-					 <div class = "row">
+					 <div class="row">
 						 <div class="col-md-6">
 							 <label>Username: </label>
 							 <input matInput [(ngModel)]="activeUser.userAccountName" disabled>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateUserAccountService } from '../create-user-account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-user-account',
@@ -14,6 +15,7 @@ export class CreateUserAccountComponent implements OnInit {
 	genders; //Populates gender dropdown
 	provinces; //Populates province dropdown
 	createUserAccountService;
+	router;
 	//User input fields
 	familyName;
 	givenName;
@@ -30,14 +32,20 @@ export class CreateUserAccountComponent implements OnInit {
 	passwordVerify;
 	patientProfile_id;
 
-  constructor(createUserAccountService: CreateUserAccountService) {
+  constructor(createUserAccountService: CreateUserAccountService, router: Router) {
 	  this.createUserAccountService = createUserAccountService;
+		this.router = router;
 		this.genders = this.createUserAccountService.getGenders();
 		this.provinces = this.createUserAccountService.getProvinces();
   }
 
 	ngOnInit() {
     }
+
+	//Go back to account list
+	viewAccountList() {
+		this.router.navigate(['/admin/user-accounts']);
+	}
 
 	registerUser() {
 		//JSON object to hold user information
@@ -60,7 +68,7 @@ export class CreateUserAccountComponent implements OnInit {
 				province: this.province,
 				city: this.city,
 				gender: this.gender,
-				appointments: null
+				appointments: ""
 				}]
 			}
 		console.log(user);
