@@ -11,19 +11,22 @@ import { ExerciseService } from '../services/exercise.service';
 export class EditRehabilitationPlanComponent implements OnInit {
     showSidebar = true;
     data: Object;
+
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
     rehabilitationplan = {exercises:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
-    myExercises = [];//nullasaaaa
+    myExercises = [];
     deleteList = [];
     editID = localStorage.getItem('edit_rehabilitation_id');
 
   constructor(private rehabilitationplanService: RehabilitationPlanService, private exerciseService: ExerciseService) {
       console.log("ID", this.editID)
-      this.getRehabilitationPlans();
   }
 
   ngOnInit() {
+    this.getRehabilitationPlans();
+    this.getExercises();
+
   }
 
   putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
@@ -97,15 +100,17 @@ export class EditRehabilitationPlanComponent implements OnInit {
           if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
               console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
               this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+              console.log(this.rehabilitationplan);
           }
+
       }
 
       console.log("getting all exercises");
       this.exerciseService.getAllExercises().subscribe(
         data => {
-          console.log("exercises retrieved! ",data.exercises);
-          let exercises = data.exercises;
-          this.allExercises = data.exercises;
+          console.log("exercises retrieved! ",data.exercise);
+          let exercises = data.exercise;
+          this.allExercises = data.exercise;
 
           for(var i = 0; i < exercises.length; i++) {
               for(var j = 0; j < this.rehabilitationplan.exercises.length; j++) {
@@ -119,10 +124,5 @@ export class EditRehabilitationPlanComponent implements OnInit {
         },
         error => console.log(error)
       );
-
-
-
-
   }
-
 }
