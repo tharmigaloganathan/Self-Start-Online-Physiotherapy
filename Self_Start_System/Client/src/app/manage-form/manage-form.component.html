@@ -43,11 +43,17 @@
   <br>
 
   <div>
+    <!--
     <button mat-raised-button class="createNewQuestion" data-toggle="modal" data-target="#createQuestionModal">Create New Question</button>
+    -->
+    <button mat-raised-button (click)="newQuestion()">Create New Question</button>
   </div>
+  <br>
   <div>
-    <button mat-raised-button class="saveForm" (click)="saveForm()">Save Form</button>
+    <button mat-raised-button class="saveForm" (click)="saveForm()" routerLink="/admin/forms">Save Form</button>
   </div>
+  <br>
+  <br>
 
 </div>
 
@@ -119,7 +125,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
-        <button mat-raised-button data-dismiss="modal" (click) ="addQuestion()">Save Question</button>
+        <button mat-raised-button data-dismiss="modal" (click)="addQuestion()">Save Question</button>
       </div>
     </div>
   </div>

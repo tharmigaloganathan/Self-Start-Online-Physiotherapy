@@ -122,6 +122,8 @@ export class ManageFormComponent implements OnInit {
   }
 
   saveForm(){
+    console.log("Nick this is the form you are saving:", this.form);
+    this.form.administrator = {};
     this.formService.saveForm(this.form).subscribe(
       res => {
         console.log("response received: ", res)
@@ -130,6 +132,26 @@ export class ManageFormComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+  newQuestion(){
+    var question = {
+      questionText: "Template",
+      helpDescription: "Template",
+      questionType: "Short Answer",
+      answerChoices: [],
+      range: "0",
+      form: this.formID
+    };
+    console.log("formID: ", question.form);
+
+    this.formService.addQuestion(question).subscribe(
+      res=> {console.log("new question ID: ", res),
+        this.form.questions.push(res.question._id),
+        //reload all questions
+        this.getAllQuestions();},
+      error => {console.log(error)}
+    );
   }
 
   getAllQuestions(){
