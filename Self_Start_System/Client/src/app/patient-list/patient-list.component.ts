@@ -21,6 +21,12 @@ export class PatientListComponent implements OnInit {
 
 	ngOnInit() {
   	  this.getPatientList();
+      this.exerciseService.getAllPatients().subscribe(
+        data => {
+        this.setUpDataSource(data.patientProfile);
+      },
+      error => console.log(error)
+    );
     }
 
     //Get all patients
@@ -42,4 +48,15 @@ export class PatientListComponent implements OnInit {
 		this.router.navigate(['/dashboard/manage-patient-profile']);
 	}
 
+
+  setUpDataSource = patientProfile => {
+    this.dataSource = new MatTableDataSource(patientProfile);
+    this.dataSource.sort = this.sort;
+  };
+
+  selectRow = row => {
+    console.log(row);
+    this.patientProfileService.setSelectedPatient(row);
+    this.router.navigate(['/physio/patients/'+ row.givenName + row.familyName]);
+  };
 }

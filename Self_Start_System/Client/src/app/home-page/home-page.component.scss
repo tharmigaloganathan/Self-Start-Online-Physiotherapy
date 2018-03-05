@@ -1,0 +1,24 @@
+@import '../../scss/_variables';
+
+.title {
+  justify-content: center !important;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  position: relative;
+  top:40px;
+}
+
+.description{
+  justify-content: center !important;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  position: relative;
+  top:25px;
+}
+
+button.login-button{
+  background-color: $beautiful-blue;
+  color: $white;
+  border-radius: 1px;
+}
+

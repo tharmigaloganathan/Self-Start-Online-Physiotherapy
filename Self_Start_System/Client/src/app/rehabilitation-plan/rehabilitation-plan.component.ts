@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RehabilitationPlanService } from '../rehabilitation-plan.service';
+import { Router } from '@angular/router';
+
 // import { RehabilitationPlanService } from '../services/rehabilitation-plan.service';
 
 
@@ -12,10 +14,11 @@ import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 export class RehabilitationPlanComponent implements OnInit {
     showSidebar = true;
     rehabilitationplans = {};
+    router;
 
-    constructor(private rehabilitationplanService: RehabilitationPlanService) {
-        this.loadUser();
-        console.log(this.rehabilitationplans);
+    constructor(private rehabilitationplanService: RehabilitationPlanService, router: Router) {
+
+        this.router = router;
     }
 
     loadUser() {
@@ -28,12 +31,15 @@ export class RehabilitationPlanComponent implements OnInit {
         );
     }
 
-    storeID(id: string) {
-        console.log("ID", id);
-        localStorage.setItem('edit_rehabilitation_id', id);
+    storeID(plan) {
+        console.log("ID", plan._id);
+        localStorage.setItem('edit_rehabilitation_id', plan._id);
+        this.router.navigate(['physio/rehabilitation-plans/'+ plan.name]);
     }
 
     ngOnInit() {
+      this.loadUser();
+      console.log(this.rehabilitationplans);
     }
 
 }
