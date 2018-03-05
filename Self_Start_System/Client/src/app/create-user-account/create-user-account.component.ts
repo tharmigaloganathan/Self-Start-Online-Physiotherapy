@@ -44,7 +44,7 @@ export class CreateUserAccountComponent implements OnInit {
 		subscribe(
 			data => {
 				this.provinces = data;
-				console.log("This is what was returned" + JSON.stringify(data);
+				console.log("This is what was returned" + JSON.stringify(data));
 			},
 			error => {
 				console.log("Error");
