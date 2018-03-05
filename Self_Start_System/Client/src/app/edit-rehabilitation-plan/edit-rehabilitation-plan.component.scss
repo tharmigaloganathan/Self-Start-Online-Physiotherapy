@@ -1,7 +1,13 @@
 @import '../../scss/_variables';
-@import '../../scss/sidebar';
+// @import '../../scss/sidebar';
 @import '~@angular/material/theming';
+@import '../../../node_modules/ng2-dnd/bundles/style.css';
 
+
+.list-group {
+    margin-left: 30%;
+    margin-right: 30%;
+}
 
 mat-tab-group {
   font-family: 'Roboto Condensed', sans-serif !important;
@@ -67,6 +73,12 @@ mat-form-field.name {
     margin-left: 4%;
     width: 425px !important;
 }
+
+mat-form-field.frequency {
+    margin-left: 4%;
+    width: 200px !important;
+}
+
 
 mat-form-field.authorName {
     margin-left: 4%;
@@ -149,10 +161,10 @@ button.blue {
 //       color:rgb(255, 255, 255);
 // }
 
-.mat-list-item.sidebar {
-    color: #cccccc !important;
-    height: 30px !important;
-}
+// .mat-list-item.sidebar {
+//     color: #cccccc !important;
+//     height: 30px !important;
+// }
 .mat-list-option.listofexercises {
     text-align: center;
     margin-left: 10%;
@@ -161,44 +173,48 @@ button.blue {
     width: 400px;
     background-color: #eeeeee !important;
 }
-.mat-select {
-    // height: 30px !important;
-    width: 400px !important;
-}
+// .mat-select {
+//     // height: 30px !important;
+//     width: 400px !important;
+// }
+
+// mat-list-item:hover {
+//     background-color:
+// }
 
 mat-form-field.selectexercise {
     margin-left: 4%;
     width: 400px !important;
 }
-.mat-list-item.selected {
-    color: #cccccc !important;
-    height: 30px !important;
-}
+// .mat-list-item.selected {
+//     color: #cccccc !important;
+//     height: 30px !important;
+// }
 .mat-list-item-content {
     padding: 0px !important;
     height: 30px !important;
 }
-
-.mat-list-item.sidebar:hover {
-    background-color: #28293d;
-}
-
-.mat-list-item.selected {
-    background-color: $rare-turquoise;
-}
-
-.mat-list-item.selected:hover {
-    background-color:  #0c657a;
-}
-
-
-.mat-list-item.sidebar:focus {
-    background-color: $rare-turquoise;
-}
-
-.mat-list-item.sidebar:focus:hover {
-    background-color: #0c657a;
-}
+//
+// .mat-list-item.sidebar:hover {
+//     background-color: #28293d;
+// }
+//
+// .mat-list-item.selected {
+//     background-color: $rare-turquoise;
+// }
+//
+// .mat-list-item.selected:hover {
+//     background-color:  #0c657a;
+// }
+//
+//
+// .mat-list-item.sidebar:focus {
+//     background-color: $rare-turquoise;
+// }
+//
+// .mat-list-item.sidebar:focus:hover {
+//     background-color: #0c657a;
+// }
 mat-sidenav {
     background-color: $magic-night;
 
@@ -267,6 +283,11 @@ img.logo{
 
 button.login-button{
     background-color: $electric-glow;
+    border-radius: 0px;
+}
+
+button.move{
+    background-color: #439b42;
     border-radius: 0px;
 }
 

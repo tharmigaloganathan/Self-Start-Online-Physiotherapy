@@ -23,27 +23,27 @@
                   <br /><br />
                   <div class="example-container2">
                       <mat-form-field class="name">
-                          <input matInput #name placeholder="Name">
+                          <input matInput #name placeholder="Name: {{rehabilitationplan.name}}">
                       </mat-form-field>
 
                       <mat-form-field class="authorName">
-                          <input matInput #authorName placeholder="Author Name">
+                          <input matInput #authorName placeholder="Author Name: {{rehabilitationplan.authorName}}">
                       </mat-form-field>
 
                       <br /><br />
 
                       <mat-form-field class="description">
-                          <textarea matInput #description placeholder="Description"></textarea>
+                          <textarea matInput #description placeholder="Description: {{rehabilitationplan.description}}"></textarea>
                       </mat-form-field>
 
                       <br /><br />
 
                       <mat-form-field class="goal">
-                          <textarea matInput #goal placeholder="Goal"></textarea>
+                          <textarea matInput #goal placeholder="Goal: {{rehabilitationplan.goal}}"></textarea>
                       </mat-form-field>
 
                       <mat-form-field class="timeframe">
-                          <textarea matInput #timeframe placeholder="Time Frame To Complete"></textarea>
+                          <textarea matInput #timeframe placeholder="Time Frame To Complete: {{rehabilitationplan.timeFrameToComplete}}"></textarea>
                       </mat-form-field>
                   </div>
               </mat-tab>
@@ -52,20 +52,58 @@
                   <h1 class="subtitle">
                       <b>Exercises</b>
                   </h1>
+
+                  <div class="subtitle">
+                      <mat-form-field class="selectexercise" style = "font-size: 15px;">
+                        <mat-select #exercise placeholder="Add New Exercise">
+                          <mat-option *ngFor="let exercise of allExercises" [value]="exercise.name" >
+                            {{ exercise.name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <br />
+                      <button mat-raised-button class="addexercise" (click) = "addExercise(exercise.value)">Add Exercise!</button>
+                      <button mat-raised-button class="delete-button" (click)="deleteExercises()">Delete Selected Exercises ({{selectedexercises.selectedOptions.selected.length}})</button>
+                      <br />
+                  </div>
+
+
                   <br />
+
+                  <ul class="list-group" dnd-sortable-container [sortableData]="formQuestions">
+                      <mat-selection-list  style = "font-size: 15px;" #selectedexercises>
+                      <mat-list-option *ngFor="let exercise of myExercises; let i = index" class="list-group-item" (click)="addToDeleteList(exercise._id); addToMoveList(exercise._id)" dnd-sortable [sortableIndex]="i">
+                          {{exercise.name}}
+                          <!-- <mat-form-field class="freq">
+                              <input matInput #name placeholder="frequency">
+                          </mat-form-field> -->
+                          <!-- <mat-card class="dashboard-card no-left-right-margin">
+                            <mat-card-title>{{question.questionText}}</mat-card-title>
+                            <mat-card-subtitle>{{question.questionType}}</mat-card-subtitle>
+                            <mat-card-actions>
+                              <button float-right mat-button class="editQuestion" data-toggle="modal" data-target="#editQuestionModal" (click)="selectQuestion(question)">Edit</button>
+                              <button float-right mat-button class="deleteQuestion" (click)="deleteQuestion(question)">Delete</button>
+                            </mat-card-actions>
+                          </mat-card> -->
+
+                      </mat-list-option>
+                      </mat-selection-list>
+                    </ul>
+                    <div class="subtitle">
+                        <button mat-raised-button class="move" (click)="moveSelectedUp()">Move Selected Exercise Up!</button>
+                        <button mat-raised-button class="move" (click)="moveSelectedDown()">Move Selected Exercise Down!</button>
+
+                    </div>
 
                   <p style = "font-size: 20px;">
                       <br />
                   </p>
 
-                  <div class="container">
+                  <!-- <div class="container">
                     <div class="row">
                       <div class="col-md-6">
-                          <p style = "font-size: 24px;">
-                              Add New Exercise
-                          </p>
                           <mat-form-field class="selectexercise" style = "font-size: 15px;">
-                            <mat-select #exercise placeholder="Choose Exercise">
+                            <mat-select #exercise placeholder="Add New Exercise">
                               <mat-option *ngFor="let exercise of allExercises" [value]="exercise.name" >
                                 {{ exercise.name }}
                               </mat-option>
@@ -75,21 +113,22 @@
                           <button mat-raised-button class="addexercise" (click) = "addExercise(exercise.value)">Add Exercise!</button>
                       </div>
                       <div class="col-md-6">
-                          <p style = "font-size: 24px;">
-                              Current Exercises
-                          </p>
+
+
 
                           <mat-selection-list  style = "font-size: 15px;" #selectedexercises>
                             <mat-list-option *ngFor="let exercise of myExercises" (click)="addToDeleteList(exercise._id)" class="listofexercises">
                               {{exercise.name}}
                             </mat-list-option>
                           </mat-selection-list>
-
+                          <br />
                           <button mat-raised-button class="delete-button" (click)="deleteExercises()">Delete Selected ({{selectedexercises.selectedOptions.selected.length}})</button>
 
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+
+
               </mat-tab>
               <mat-tab label="Assessment Tests">
                   <br />
