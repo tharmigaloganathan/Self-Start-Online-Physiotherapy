@@ -1,21 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { Router } from '@angular/router';
+import { ExerciseService} from "../services/exercise.service";
 
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
   styleUrls: ['./patient-list.component.scss'],
-  providers: [ManagePatientProfileService],
+  providers: [ManagePatientProfileService, ExerciseService],
 })
 export class PatientListComponent implements OnInit {
 	router;
 	patientProfileService;
 	patientList = {};
 	selectedPatient;
+  exerciseService;
 
-	constructor(patientProfileService: ManagePatientProfileService, router: Router) {
+	constructor(patientProfileService: ManagePatientProfileService, router: Router, exerciseService: ExerciseService) {
   	  this.patientProfileService = patientProfileService;
+  	  this.exerciseService = exerciseService;
 	  this.router = router;
     }
 
