@@ -39,7 +39,14 @@ const appRoutes: Routes = [
 	  path: 'admin/user-accounts',
 	  component: UserAccountListComponent // The Admin/IntroductionForm Route
   },
-
+  {
+    path: 'admin/forms',
+    component: FormsComponent // The Form Route
+  },
+  {
+    path: 'admin/edit-form',
+    component: ManageFormComponent //The Edit/Manage Form Route
+  },
   {
     path: 'admin',
     redirectTo: '/admin/home'
@@ -60,15 +67,6 @@ const appRoutes: Routes = [
   {
     path: 'physio/home',
     component: DashboardPhysioComponent, // Home page  for a logged in physiotherapist Route
-  },
-
-  {
-    path: 'admin/forms',
-    component: FormsComponent // The Form Route
-  },
-  {
-    path: 'admin/edit-form',
-    component: ManageFormComponent //The Edit/Manage Form Route
   },
   {
     path: 'physio/patients',
