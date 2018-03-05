@@ -30,6 +30,15 @@ export class FormService {
       );
   }
 
+  saveForm(form){
+    console.log("this is the form: ", form);
+    return this.http.put(this.domain+'/forms/'+form._id, form)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   //======END OF FORM ROUTES=========
 
   //======QUESTION ROUTES==========

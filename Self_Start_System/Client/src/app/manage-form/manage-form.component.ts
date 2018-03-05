@@ -120,6 +120,17 @@ export class ManageFormComponent implements OnInit {
     );
   }
 
+  saveForm(){
+    this.formService.saveForm(this.form).subscribe(
+      res => {
+        console.log("response received: ", res)
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
   getAllQuestions(){
     //Set to nothing so that it doesn't get double-populated
     this.formQuestions = [];
