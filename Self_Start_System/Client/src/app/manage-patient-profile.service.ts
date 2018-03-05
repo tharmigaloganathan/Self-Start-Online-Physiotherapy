@@ -18,7 +18,6 @@ export class ManagePatientProfileService {
 	//Function to update patient
 	updatePatient(patient: any) {
 		return this.http.put('http://localhost:3700/PatientProfiles/', patient)
-
 		.map((response: Response) => {
 		return response.json();
 		});

@@ -1,0 +1,202 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container">
+  <!--Title and description-->
+      <h1>Manage the {{form.name}}</h1>
+      <p>Add, edit, or delete questions of the {{form.name}}.</p>
+
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="question">
+          <input matInput placeholder="Form Name" [(ngModel)]="form.name"/>
+        </mat-form-field>
+      </div>
+    </div>
+    <div>
+      <mat-form-field class="question">
+        <input matInput placeholder="Form Help Description" [(ngModel)]="form.description"/>
+      </mat-form-field>
+    </div>
+  </div>
+
+
+<ul class="list-group" dnd-sortable-container [sortableData]="formQuestions">
+  <!-- Question List -->
+  <div *ngFor="let question of formQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+    <!-- Card for each question -->
+    <div class="col-md-12 no-left-right-margin no-left-right-padding">
+      <mat-card class="dashboard-card no-left-right-margin">
+        <mat-card-title>{{question.questionText}}</mat-card-title>
+        <mat-card-subtitle>{{question.questionType}}</mat-card-subtitle>
+        <mat-card-actions>
+          <button float-right mat-button class="editQuestion" data-toggle="modal" data-target="#editQuestionModal" (click)="selectQuestion(question)">Edit</button>
+          <button float-right mat-button class="deleteQuestion" (click)="deleteQuestion(question)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</ul>
+
+
+  <br>
+  <br>
+
+  <div>
+    <button mat-raised-button class="createNewQuestion" data-toggle="modal" data-target="#createQuestionModal">Create New Question</button>
+  </div>
+  <div>
+    <button mat-raised-button class="saveForm" (click)="saveForm()">Save Form</button>
+  </div>
+
+</div>
+
+<!-- Create Question Modal -->
+<div class="modal fade" id="createQuestionModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel" >
+          Create New Question
+        </h4>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class = "row">
+          <div class="col-md-12">
+            <mat-form-field class = "question">
+              <input matInput placeholder="Question Text" [(ngModel)]="newQuestionText"/>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field class = "question">
+              <input matInput placeholder="Help Description" [(ngModel)]="newHelpDescription"/>
+            </mat-form-field>
+          </div>
+        </div>
+
+      <div class = "row">
+        <div class ="col-md-12">
+          <mat-form-field class = "question" >
+            <mat-select placeholder="Question Type" [(ngModel)]="newQuestionType">
+              <mat-option *ngFor="let type of questionTypeOptions" [value]="type.value">
+                {{type.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="newQuestionType == 'Multiple Choice'" class ="col-md-6">
+          <li *ngFor="let option of newAnswerChoices">
+            {{option}}
+            <button (click)="deleteOption(option)">x</button>
+          </li>
+          <mat-form-field class = "question">
+            <input matInput placeholder="Add New Option" [(ngModel)]="newOption"/>
+            <button mat-raised-button (click)="addNewOption(newOption)">Add</button>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="newQuestionType == 'Range'" class ="col-md-6">
+          <mat-form-field class = "question">
+            <input matInput placeholder="Range" [(ngModel)]="newRange" type="number"/>
+          </mat-form-field>
+        </div>
+      </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
+        <button mat-raised-button data-dismiss="modal" (click) ="addQuestion()">Save Question</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!--NEW MODAL BELOW-->
+<!--=========-->
+
+<!-- Edit Question Modal -->
+<div *ngIf="openEditModal" class="modal fade" id="editQuestionModal" tabindex="-1" role="dialog"
+ aria-labelledby="myModalLabel2" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel2" >
+      Edit Question
+    </h4>
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+  </div>
+
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <div class = "row">
+      <div class="col-md-12">
+        <mat-form-field class = "question">
+          <textarea matInput placeholder="Question Text" [(ngModel)]="selectedQuestion.questionText"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class ="col-md-12">
+        <mat-form-field class = "question">
+          <textarea matInput placeholder="Help Description" [(ngModel)]="selectedQuestion.helpDescription"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class ="col-md-12">
+        <mat-form-field class = "question" >
+          <mat-select placeholder="Question Type" [(ngModel)]="selectedQuestion.questionType">
+            <mat-option *ngFor="let type of questionTypeOptions" [value]="type.value">
+              {{type.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="selectedQuestion.questionType == 'Multiple Choice'" class ="col-md-6">
+        <li *ngFor="let option of selectedQuestion.answerChoices">
+          {{option}}
+          <button (click)="deleteOption(option)">x</button>
+        </li>
+        <mat-form-field class = "question">
+          <input matInput placeholder="Add New Option" [(ngModel)]="newOption"/>
+          <button mat-raised-button (click)="addOption(newOption)">Add</button>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="selectedQuestion.questionType == 'Range'" class ="col-md-6">
+        <mat-form-field class = "question">
+          <input matInput placeholder="Range" [(ngModel)]="selectedQuestion.range" type="number"/>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button mat-raised-button data-dismiss="modal" class="closeBox">Close</button>
+        <button mat-raised-button data-dismiss="modal" class="saveExercise" (click)="editQuestion(selectedQuestion)">Save Question</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -19,7 +19,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
+import { ManageFormComponent } from './manage-form/manage-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
@@ -56,8 +56,9 @@ import { CreateUserAccountComponent } from './create-user-account/create-user-ac
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
 import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
-import {DndModule} from 'ng2-dnd';
-
+import { DndModule } from 'ng2-dnd';
+import { FormsComponent } from './forms/forms.component';
+import { CreateFormComponent } from './create-form/create-form.component';
 
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
@@ -70,7 +71,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-    IntroductionFormComponent,
+    ManageFormComponent,
     ManagePatientProfileComponent,
     PatientListComponent,
     RehabilitationPlanComponent,
@@ -86,6 +87,8 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     NavbarAdminComponent,
     CreateUserAccountComponent,
     UserAccountListComponent,
+    FormsComponent,
+    CreateFormComponent,
     ImageUploadTestComponent,
     FileSelectDirective,
     BookAppointmentComponent
@@ -127,6 +130,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     HttpClientModule,
     MatTableModule,
     MatSortModule,
+    DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
   ],

@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { IntroductionFormComponent} from "./introduction-form/introduction-form.component";
+import { ManageFormComponent} from "./manage-form/manage-form.component";
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
 import { ExerciseComponent} from "./exercise/exercise.component";
@@ -10,13 +10,17 @@ import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
 
+import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
+import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
+import { FormsComponent } from "./forms/forms.component";
+
+
 import { HomePageComponent} from "./home-page/home-page.component";
 import { DashboardAdminComponent} from "./dashboard-admin/dashboard-admin.component";
 import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.component";
-import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
-import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
 import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
 import { BookAppointmentComponent } from "./book-appointment/book-appointment.component";
+
 
 
 // Our Array of Angular 2 Routes
@@ -32,14 +36,17 @@ const appRoutes: Routes = [
     component: DashboardAdminComponent // Home page for a logged in admin
   },
   {
-    path: 'admin/intro-form',
-    component: IntroductionFormComponent // The Admin/IntroductionForm Route
-  },
-   {
 	  path: 'admin/user-accounts',
 	  component: UserAccountListComponent // The Admin/IntroductionForm Route
   },
-
+  {
+    path: 'admin/forms',
+    component: FormsComponent // The Form Route
+  },
+  {
+    path: 'admin/edit-form',
+    component: ManageFormComponent //The Edit/Manage Form Route
+  },
   {
     path: 'admin',
     redirectTo: '/admin/home'
@@ -61,7 +68,6 @@ const appRoutes: Routes = [
     path: 'physio/home',
     component: DashboardPhysioComponent, // Home page  for a logged in physiotherapist Route
   },
-
   {
     path: 'physio/patients',
     component: PatientListComponent
