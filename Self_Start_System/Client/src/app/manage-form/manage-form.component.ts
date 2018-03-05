@@ -23,10 +23,11 @@ export class ManageFormComponent implements OnInit {
     {value: 'Range', viewValue: 'Range'},
   ]
 
-  newOrder;
   newQuestionText;
   newHelpDescription;
   newQuestionType;
+  newAnswerChoices;
+  newRange;
   openEditModal;
 
 
@@ -86,6 +87,11 @@ export class ManageFormComponent implements OnInit {
     this.newOption = null;
   }
 
+  addNewOption(option: string){
+    this.newAnswerChoices.push(option);
+    this.newOption = null;
+  }
+
   deleteOption(option: string){
     for (let i = 0; i < this.selectedQuestion.answerChoices.length; i++){
       if(this.selectedQuestion.answerChoices[i] == option){
@@ -96,20 +102,22 @@ export class ManageFormComponent implements OnInit {
 
   addQuestion(){
     var question = {
-      order: this.newOrder,
       questionText: this.newQuestionText,
       helpDescription: this.newHelpDescription,
-      questionType: "5a81eee3734d1d0d42ead44f", //hard-coded to short answer
-      form: "5a81cbf1734d1d0d42eaa9a9" //hard-coded to the introduction form for now
+      questionType: this.newQuestionType,
+      answerChoices: this.newAnswerChoices,
+      range: this.newRange,
+      form: this.formID
     };
+    console.log("NEW QUESTION: ", question);
 
     this.formService.addQuestion(question).subscribe(
-      res=> {console.log("response received: ", res),
+      res=> {console.log("new question ID: ", res.question._id),
+        this.form.questions.push(res.question._id),
       //reload all questions
         this.getAllQuestions();},
       error => {console.log(error)}
     );
-
   }
 
   getAllQuestions(){
