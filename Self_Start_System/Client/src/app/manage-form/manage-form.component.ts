@@ -86,6 +86,14 @@ export class ManageFormComponent implements OnInit {
     this.newOption = null;
   }
 
+  deleteOption(option: string){
+    for (let i = 0; i < this.selectedQuestion.answerChoices.length; i++){
+      if(this.selectedQuestion.answerChoices[i] == option){
+        this.selectedQuestion.answerChoices.splice(i, 1);
+      }
+    }
+  }
+
   addQuestion(){
     var question = {
       order: this.newOrder,

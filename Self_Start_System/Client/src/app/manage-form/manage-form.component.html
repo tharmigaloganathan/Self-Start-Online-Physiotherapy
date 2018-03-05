@@ -146,9 +146,10 @@
       </div>
 
       <div *ngIf="selectedQuestion.questionType == 'Multiple Choice'" class ="col-md-6">
-        <div *ngFor="let option of selectedQuestion.answerChoices">
+        <li *ngFor="let option of selectedQuestion.answerChoices">
           {{option}}
-        </div>
+          <button (click)="deleteOption(option)">x</button>
+        </li>
         <mat-form-field class = "question">
           <input matInput placeholder="Add New Option" [(ngModel)]="newOption"/>
           <button mat-raised-button (click)="addOption(newOption)">Add</button>
