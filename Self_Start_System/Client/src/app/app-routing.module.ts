@@ -31,14 +31,14 @@ const appRoutes: Routes = [
     component: DashboardAdminComponent // Home page for a logged in admin
   },
   {
-    path: 'admin/introform',
+    path: 'admin/intro-form',
     component: IntroductionFormComponent // The Admin/IntroductionForm Route
   },
    {
 	  path: 'admin/user-accounts',
 	  component: UserAccountListComponent // The Admin/IntroductionForm Route
   },
-  
+
   {
     path: 'admin',
     redirectTo: '/admin/home'
@@ -69,7 +69,7 @@ const appRoutes: Routes = [
     path: 'physio/patients/:name',
     component: UserAccountListComponent
   },
-  
+
   {
     path: 'dashboard/manage-patient-profile',
     component: ManagePatientProfileComponent
@@ -93,23 +93,27 @@ const appRoutes: Routes = [
     component: EditRehabilitationPlanComponent //
   },
 
-	  path: 'create-account',
-	  component: CreateUserAccountComponent
-  },
-  {
-    path: 'image-test',
-    component: ImageUploadTestComponent
-  },
-
   {
     path: 'physio',
     redirectTo: '/physio/home'
   }, //the last physio route
 
   {
+	  path: 'create-account',
+	  component: CreateUserAccountComponent
+  },
+
+  {
+    path: 'image-test',
+    component: ImageUploadTestComponent
+  },
+
+
+  {
     path: '**',
     redirectTo: '/home'
   }// The "Catch-All" Route
+
 ];
 
 @NgModule({
