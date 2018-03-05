@@ -11,6 +11,7 @@ import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component.ts";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component.ts";
+import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component.ts";
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -43,9 +44,13 @@ const appRoutes: Routes = [
     component: IntroductionFormComponent // The Admin/IntroductionForm Route
   },
   {
-	path: 'admin/user-accounts',
-	component: UserAccountListComponent // The Admin/IntroductionForm Route
+		path: 'admin/user-accounts',
+		component: UserAccountListComponent // The Admin/UserAccountsList Route
   },
+	{
+		path: 'admin/user-accounts/manage',
+		component: AdminManageUserAccountsComponent// The Admin/UserAccountsList Route
+	},
   {
     path: 'dashboard/manage-patient-profile',
     component: ManagePatientProfileComponent

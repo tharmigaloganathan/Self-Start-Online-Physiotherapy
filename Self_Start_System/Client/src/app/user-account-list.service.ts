@@ -14,7 +14,6 @@ export class UserAccountListService {
 	getUserAccount(id) {
 			return this.http.get(this.domain+'/UserAccounts/'+id)
 			.map((response: Response) => {
-			console.log("Inside service" + response.json().userAccount);
 			return response.json().userAccount;
 		});
 	}
@@ -26,7 +25,6 @@ export class UserAccountListService {
 	updateUserAccount(id, user) {
 			return this.http.put(this.domain+'/UserAccounts/'+id, user)
 			.map((response: Response) => {
-			console.log("Inside service" + response.json().userAccount);
 			return response.json().userAccount;
 		});
 	}
@@ -35,7 +33,6 @@ export class UserAccountListService {
 	getAllPatients() {
 			return this.http.get(this.domain+'/PatientProfiles')
 			.map((response: Response) => {
-			console.log("Inside new service" + response.json().patientProfile);
 			return response.json().patientProfile;
 		});
 	}
@@ -44,7 +41,6 @@ export class UserAccountListService {
 	getAllPhysiotherapists() {
 			return this.http.get(this.domain+'/Physiotherapists')
 			.map((response: Response) => {
-			console.log("Inside physio service" + response.json().physiotherapist;
 			return response.json().physiotherapist;
 		});
 	}

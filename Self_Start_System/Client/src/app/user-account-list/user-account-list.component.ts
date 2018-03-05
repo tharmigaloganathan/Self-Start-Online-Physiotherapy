@@ -93,6 +93,14 @@ export class UserAccountListComponent implements OnInit {
 			});
 	}
 
+	//View the users full profile
+	viewProfile() {
+		//Store the users information in local storage
+
+		this.router.navigate(['/admin/user-accounts/manage']);
+
+	}
+
 
 
 }

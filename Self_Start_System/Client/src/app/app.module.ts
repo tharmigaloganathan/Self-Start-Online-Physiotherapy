@@ -47,6 +47,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
+import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/admin-manage-user-accounts.component';
 
 
 
@@ -66,7 +67,8 @@ import { UserAccountListComponent } from './user-account-list/user-account-list.
     ExerciseComponent,
     SidebarPhysioComponent,
     CreateUserAccountComponent,
-    UserAccountListComponent
+    UserAccountListComponent,
+    AdminManageUserAccountsComponent
   ],
   imports: [
     HttpModule,
