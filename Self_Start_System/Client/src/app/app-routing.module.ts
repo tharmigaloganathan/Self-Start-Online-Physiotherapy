@@ -16,6 +16,7 @@ import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
 import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
+import { BookAppointmentComponent } from "./book-appointment/book-appointment.component";
 
 
 // Our Array of Angular 2 Routes
@@ -43,12 +44,14 @@ const appRoutes: Routes = [
     path: 'admin',
     redirectTo: '/admin/home'
   }, //the last admin route
-
   {
     path: 'patient/home',
     component: DashboardPatientComponent
   },
-
+  {
+    path: 'patient/book-appointment',
+    component: BookAppointmentComponent
+  },
   {
     path: 'patient',
     redirectTo: '/patient/home'
@@ -92,12 +95,10 @@ const appRoutes: Routes = [
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
   },
-
   {
     path: 'physio',
     redirectTo: '/physio/home'
   }, //the last physio route
-
   {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
@@ -107,8 +108,10 @@ const appRoutes: Routes = [
     path: 'image-test',
     component: ImageUploadTestComponent
   },
-
-
+  {
+    path: 'physio',
+    redirectTo: '/physio/home'
+  }, //the last physio route
   {
     path: '**',
     redirectTo: '/home'

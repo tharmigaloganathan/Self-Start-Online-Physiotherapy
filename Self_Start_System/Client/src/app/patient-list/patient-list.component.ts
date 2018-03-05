@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { Router } from '@angular/router';
 import { ExerciseService} from "../services/exercise.service";
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-patient-list',
@@ -14,13 +15,16 @@ export class PatientListComponent implements OnInit {
 	patientProfileService;
 	patientList = {};
 	selectedPatient;
-  exerciseService;
 
-	constructor(patientProfileService: ManagePatientProfileService, router: Router, exerciseService: ExerciseService) {
-  	  this.patientProfileService = patientProfileService;
-  	  this.exerciseService = exerciseService;
+  displayedColumns = ['givenName', 'familyName', 'email', 'phone', 'maritalStatus'];
+  dataSource;
+
+  @ViewChild(MatSort) sort: MatSort;
+
+	constructor(private exerciseService :ExerciseService, patientProfileService: ManagePatientProfileService, router: Router) {
+	  this.patientProfileService = patientProfileService;
 	  this.router = router;
-    }
+	}
 
 	ngOnInit() {
   	  this.getPatientList();
@@ -34,14 +38,14 @@ export class PatientListComponent implements OnInit {
 
     //Get all patients
     getPatientList() {
-  	this.patientProfileService.getPatients()
-  	.subscribe(
-  		data => {
-  			console.log(data);
-  			this.patientList = data;
-  		},
-  		error => {
-  		});
+      this.patientProfileService.getPatients()
+      .subscribe(
+        data => {
+          console.log(data);
+          this.patientList = data;
+        },
+        error => {
+        });
     }
 
 	//View the selected patients profile
