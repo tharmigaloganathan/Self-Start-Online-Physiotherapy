@@ -58,8 +58,6 @@ export class FormService {
       );
   }
 
-  getQuestion
-
   getAllQuestions(){
     return this.http.get(this.domain+'/questions')
       .pipe(

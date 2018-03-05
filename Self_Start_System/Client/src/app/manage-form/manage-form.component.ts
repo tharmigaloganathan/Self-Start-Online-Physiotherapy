@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Form } from "../models/Form";
 import { FormService} from "../form.service";
+import { DndModule } from "ng2-dnd";
 
 @Component({
   selector: 'app-introduction-form',
@@ -9,8 +10,18 @@ import { FormService} from "../form.service";
 })
 export class ManageFormComponent implements OnInit {
 
-  formID: string;
-  form: any;
+  formID: string; //Holds the _id of the form currently viewed
+  form: any; //Holds the form information of the form currently viewed
+  formQuestions = []; // Holds all question objects belonging to this form
+  allQuestions: any[]; //Holds all other question objects not belonging to this form
+  selectedQuestion: any; //Necessary to focus the modal on the selected question
+  newOption: string;
+
+  questionTypeOptions = [
+    {value: 'Short Answer', viewValue: 'Short Answer'},
+    {value: 'Multiple Choice', viewValue: 'Multiple Choice'},
+    {value: 'Range', viewValue: 'Range'},
+  ]
 
   newOrder;
   newQuestionText;
@@ -19,13 +30,11 @@ export class ManageFormComponent implements OnInit {
   openEditModal;
 
 
-  introductionForm: Form;
-  allQuestions: any[];
-  selectedQuestion: null;
 
   constructor(private formService: FormService) { }
 
   ngOnInit() {
+    this.selectedQuestion = null;
     this.formID =  localStorage.getItem('edit_form_id');
     this.getForm();
     this.openEditModal = false;
@@ -37,6 +46,7 @@ export class ManageFormComponent implements OnInit {
       data => {
         console.log("specific form received! ", data);
         this.form = data.form;
+        this.getAllQuestions();
       },
       error => console.log(error)
     );
@@ -70,6 +80,12 @@ export class ManageFormComponent implements OnInit {
     )
   }
 
+  addOption(option: string){
+    console.log("this is the selected question", this.selectedQuestion);
+    this.selectedQuestion.answerChoices.push(option);
+    this.newOption = null;
+  }
+
   addQuestion(){
     var question = {
       order: this.newOrder,
@@ -89,15 +105,30 @@ export class ManageFormComponent implements OnInit {
   }
 
   getAllQuestions(){
+    //Set to nothing so that it doesn't get double-populated
+    this.formQuestions = [];
+    this.allQuestions = [];
     console.log("getting all questions for this form");
-    for(let i=0; i<this.form.questionOrder.length; i++){
-      this.formService.getAllQuestions(this.form.questionOrder[i]).subscribe(
-        data => {
-          console.log("questions retrieved! ",data['question']);
-          this.allQuestions = data.question;
-        },
-        error => console.log(error)
-      );
-    }
+    this.formService.getAllQuestions().subscribe(
+      data => {
+        console.log("questions retrieved!");
+        let questions = data.question;
+        this.allQuestions = data.question;
+
+        console.log("form.Questions", this.form.questions);
+        console.log("all Questions", this.allQuestions);
+        //Places the formQuestion objects in order, splices it out of rest of questions
+        for (let i = 0; i < this.form.questions.length; i++) {
+          for (let j = 0; j < this.allQuestions.length; j++){
+            if(this.form.questions[i] == questions[j]._id) {
+              this.formQuestions.push(questions[j]);
+              this.allQuestions.splice(j, 1);
+            }
+          }
+        }
+        console.log("formQuestions", this.formQuestions);
+      },
+      error => console.log(error)
+    );
   }
 }

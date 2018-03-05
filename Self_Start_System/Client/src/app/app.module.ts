@@ -106,7 +106,8 @@ import { FormsComponent } from './forms/forms.component';
     HttpClientModule,
     MatTableModule,
     MatSortModule,
-	MatStepperModule
+	MatStepperModule,
+    DndModule.forRoot()
   ],
   providers: [ExerciseService,
   FormService],
