@@ -5,6 +5,7 @@ var Questions = require('../Models/Question');
 router.route('/')
     .post(function (request, response) {
         Questions.add(request.body).then(function(question){
+            console.log(request.body);
             response.json({question: question});
         }).catch(function(err){
             response.json({success: false, message: err});

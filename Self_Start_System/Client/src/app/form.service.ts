@@ -30,6 +30,14 @@ export class FormService {
       );
   }
 
+  createForm(form){
+    return this.http.post(this.domain+'/forms', form)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   saveForm(form){
     console.log("this is the form: ", form);
     return this.http.put(this.domain+'/forms/'+form._id, form)
