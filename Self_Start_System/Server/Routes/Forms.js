@@ -33,6 +33,7 @@ router.route('/:form_id')
         if (!request.params.form_id) {
             response.json({success: false, message: 'id was not provided'});
         }
+        console.log("Form submitted: ", request.body);
         Forms.update(request.params.form_id, request.body).then(function(form){
             response.json({form: form});
         }).catch(function(err){

@@ -13,6 +13,7 @@ import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-reh
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
 import { FormsComponent } from "./forms/forms.component";
+import { CreateFormComponent} from "./create-form/create-form.component";
 
 
 import { HomePageComponent} from "./home-page/home-page.component";
@@ -50,6 +51,10 @@ const appRoutes: Routes = [
   {
     path: 'admin/edit-form',
     component: ManageFormComponent //The Edit/Manage Form Route
+  },
+  {
+    path: 'admin/create-form',
+    component: CreateFormComponent //The Create Form Route
   },
   {
     path: 'admin',
