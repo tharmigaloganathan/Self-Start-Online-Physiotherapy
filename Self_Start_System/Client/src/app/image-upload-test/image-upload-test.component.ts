@@ -29,4 +29,3 @@ export class ImageUploadTestComponent implements OnInit {
     };
   }
 }
-

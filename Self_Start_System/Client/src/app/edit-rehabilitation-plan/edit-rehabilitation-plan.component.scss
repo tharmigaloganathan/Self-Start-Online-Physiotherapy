@@ -2,12 +2,58 @@
 @import '../../scss/sidebar';
 @import '~@angular/material/theming';
 
+
+mat-tab-group {
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+// /deep/ .mat-tab-group.mat-primary mat-tab-label-active{
+//   background-color: blue;
+// }
+//
+// md-tabs > md-tabs-wrapper {
+//   background-color: #f00 !important;
+// }
+
+// /deep/ mat-ink-bar{ background-color:#fff; }
+
+mat-tab {
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+/* Styles for tab labels */
+.mat-tab-label {
+    // min-width: 25px !important;
+    // padding: 5px;
+    // background-color: red;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: black;
+    font-size: 14px;
+}
+
+
+/* Styles for the active tab label */
+// .mat-tab-label.mat-tab-label-active {
+//     // min-width: 25px !important;
+//     // padding: 5px;
+//     // background-color: red;
+//     font-family: 'Roboto Condensed', sans-serif;
+//     // color: blue !important;
+//     // font-weight: 700;
+// }
+
+/* Styles for the ink bar */
+.mat-ink-bar {
+    // background-color: green !important;
+}
+
 .example-container2 {
   // display: flex;
-  width: 600px !important;
+  // width: 600px !important;
   font-size: 20px;
   text-align: center;
-  margin-left: 24%;
+  margin-right: 10%;
+  margin-left: 10%;
 
   justify-content: center !important;
   flex-direction: column;
@@ -17,6 +63,31 @@
   width: 100%;
 }
 
+mat-form-field.name {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.authorName {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.goal {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.timeframe {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.description {
+    margin-left: 4%;
+    width: 900px !important;
+}
+
 .title {
     justify-content: center !important;
     font-family: 'Roboto Condensed', sans-serif;
@@ -24,6 +95,16 @@
     position: relative;
     top:20px;
 }
+
+.subtitle {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    font-size: 24px;
+    top:10px;
+}
+
 mat-card {
     align-items: center;
     height: 250px;
@@ -189,12 +270,14 @@ button.login-button{
     border-radius: 0px;
 }
 
-button.submit{
+button.stickToBottom{
+    position: fixed;
+    bottom: 0px;
     background-color: $electric-glow;
     border-radius: 0px;
-    height: 60px;
+    height: 40px;
     font-size: 30px;
-    width: 250px;
+    width: 100%;
 }
 
 button.delete-button{

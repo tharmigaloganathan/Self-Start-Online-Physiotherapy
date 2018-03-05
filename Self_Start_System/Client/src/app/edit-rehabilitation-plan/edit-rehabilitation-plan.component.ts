@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 import { ExerciseService } from '../services/exercise.service';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-edit-rehabilitation-plan',
   templateUrl: './edit-rehabilitation-plan.component.html',
   styleUrls: ['./edit-rehabilitation-plan.component.scss'],
-  providers: [ RehabilitationPlanService ]
+  providers: [ RehabilitationPlanService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditRehabilitationPlanComponent implements OnInit {
     showSidebar = true;

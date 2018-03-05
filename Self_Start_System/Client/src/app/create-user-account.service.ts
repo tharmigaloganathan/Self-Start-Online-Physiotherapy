@@ -41,7 +41,7 @@ export class CreateUserAccountService {
 
 	//Create a new user account
 	registerUser(user: any) {
-		return this.http.post('http://localhost:3700/UserAccounts')
+		return this.http.post('http://localhost:3700/UserAccounts', user)
 		.map((response: Response) => {
 			return response.json();
 		});
