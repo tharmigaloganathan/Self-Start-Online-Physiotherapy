@@ -52,6 +52,7 @@ import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.
 
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
+import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { FileSelectDirective } from 'ng2-file-upload';
     CreateUserAccountComponent,
     UserAccountListComponent,
     ImageUploadTestComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    BookAppointmentComponent
   ],
   imports: [
     HttpModule,

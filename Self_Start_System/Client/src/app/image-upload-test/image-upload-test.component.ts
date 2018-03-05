@@ -37,7 +37,5 @@ export class ImageUploadTestComponent implements OnInit {
       console.log("ImageUpload:uploaded:", item, status, response);
     };
   }
-
-
 }
 
