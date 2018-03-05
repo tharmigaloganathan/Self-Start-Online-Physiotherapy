@@ -60,6 +60,8 @@ import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 
+// Calendar
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 @NgModule({
   declarations: [
@@ -91,6 +93,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     HttpModule,
     AppRoutingModule,
     BrowserModule,
+    FullCalendarModule,
     FormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
