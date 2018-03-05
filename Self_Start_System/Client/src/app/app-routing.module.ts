@@ -39,6 +39,10 @@ const appRoutes: Routes = [
 	  path: 'admin/user-accounts',
 	  component: UserAccountListComponent // The Admin/IntroductionForm Route
   },
+	{
+		path: 'admin/user-accounts/manage',
+		component: AdminManageUserAccountsComponent// The Admin/UserAccountsList Route
+	},
   {
     path: 'admin/forms',
     component: FormsComponent // The Form Route
@@ -72,12 +76,8 @@ const appRoutes: Routes = [
 		path: 'admin/user-accounts',
 		component: UserAccountListComponent // The Admin/UserAccountsList Route
   },
-	{
-		path: 'admin/user-accounts/manage',
-		component: AdminManageUserAccountsComponent// The Admin/UserAccountsList Route
-	},
-  {
 
+  {
     path: 'physio/patients/:name',
     component: ManagePatientProfileComponent
   },
