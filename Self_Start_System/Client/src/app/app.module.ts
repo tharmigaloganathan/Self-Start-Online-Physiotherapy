@@ -19,7 +19,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
+import { ManageFormComponent } from './manage-form/manage-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
@@ -54,7 +54,12 @@ import { NavbarPatientComponent } from './navbar-patient/navbar-patient.componen
 import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
+import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/admin-manage-user-accounts.component';
 import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
+
+import { DndModule } from 'ng2-dnd';
+import { FormsComponent } from './forms/forms.component';
+import { CreateFormComponent } from './create-form/create-form.component';
 
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
@@ -63,13 +68,14 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-    IntroductionFormComponent,
+    ManageFormComponent,
     ManagePatientProfileComponent,
     PatientListComponent,
     RehabilitationPlanComponent,
@@ -85,15 +91,19 @@ import { FullCalendarModule } from 'ng-fullcalendar';
     NavbarAdminComponent,
     CreateUserAccountComponent,
     UserAccountListComponent,
+    FormsComponent,
+    CreateFormComponent,
     ImageUploadTestComponent,
     FileSelectDirective,
-    BookAppointmentComponent
+    BookAppointmentComponent,
+		AdminManageUserAccountsComponent
   ],
   imports: [
     HttpModule,
     AppRoutingModule,
     BrowserModule,
     FullCalendarModule,
+    DndModule.forRoot(),
     FormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
@@ -126,6 +136,7 @@ import { FullCalendarModule } from 'ng-fullcalendar';
     HttpClientModule,
     MatTableModule,
     MatSortModule,
+    DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
   ],

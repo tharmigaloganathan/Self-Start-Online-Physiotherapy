@@ -2,9 +2,16 @@
 	<div class="row">
 		<div class="col">
 			<!-- Page Header -->
-			<div class="header">
-				<h1>SelfStart Registration</h1>
-			</div>
+			<mat-card>
+				<h1>Create User Account</h1>
+				<hr>
+				<div class="row">
+					<div class="col-md-10"></div>
+					<div class="col-md-2 col-md-offset-10">
+						<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
+					</div>
+				</div>
+			</mat-card>
 			<!-- Personal Information -->
 			<mat-horizontal-stepper>
 				<mat-step>
@@ -30,7 +37,7 @@
 								<div class="col-4 form-container">
 									<mat-form-field>
 										<mat-select [(ngModel)]="gender" name="gender" placeholder="Gender" required>
-											<mat-option *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</mat-option>
+											<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender.name}}</mat-option>
 										</mat-select>
 									</mat-form-field>
 								</div>
@@ -57,7 +64,7 @@
 								<div class="col-2 form-container">
 									<mat-form-field>
 									  <mat-select [(ngModel)]="province" name="province"  placeholder="Province" required>
-										  <mat-option *ngFor="let province of provinces" [value]="province.value">{{province.viewValue}}</mat-option>
+										  <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
 									  </mat-select>
 									</mat-form-field>
 								</div>
@@ -83,7 +90,7 @@
 						</form>
 						<div class="row">
 							<div class="col-3 button-container">
-								<button mat-button matStepperNext class="next-button">Next</button>
+								<button mat-button matStepperNext class="next-button"(click)="registerUserProfile()">Next</button>
 							</div>
 						</div>
 					</div>
@@ -124,7 +131,7 @@
 								<button mat-button matStepperPrevious class="previous-button">Back</button>
 							</div>
 							<div class="col-3 button-container">
-								<button mat-button matStepperNext class="next-button" (click)="registerUser()">Register</button>
+								<button mat-button matStepperNext class="next-button" (click)="registerUserAccount()">Register</button>
 							</div>
 						</div>
 					</div>

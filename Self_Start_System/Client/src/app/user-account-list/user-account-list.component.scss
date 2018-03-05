@@ -1,3 +1,5 @@
+@import '../../scss/_variables';
+
 .form-container {
 	padding: 2%;
 	display: flex;
@@ -7,4 +9,28 @@
 
 .form-container > * {
 	width: 100%;
+}
+
+.card-container {
+	padding-bottom: 1%;
+}
+
+.view-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.create-account-button {
+	background-color: $flash-of-orange;
+	color: $white;
+}
+
+.reset-button {
+	background-color: $electric-glow;
+	color: $white;
+}
+
+.view-profile-button {
+	background-color: $beautiful-blue;
+	color: $white;
 }

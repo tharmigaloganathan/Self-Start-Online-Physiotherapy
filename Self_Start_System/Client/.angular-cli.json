@@ -20,7 +20,8 @@
       "prefix": "app",
       "styles": [
         "scss/self-start-theme.scss",
-        "scss/styles.scss"
+        "scss/styles.scss",
+        "../node_modules/ng2-dnd/bundles/style.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js"
