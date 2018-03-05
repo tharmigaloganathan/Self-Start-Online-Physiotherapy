@@ -17,8 +17,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
+import { ManageFormComponent } from './manage-form/manage-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
@@ -45,11 +46,23 @@ import { FormService} from "./form.service";
 import { HttpClientModule} from '@angular/common/http';
 
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { NavbarGeneralComponent } from './navbar-general/navbar-general.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { DashboardPatientComponent } from './dashboard-patient/dashboard-patient.component';
+import { NavbarPatientComponent } from './navbar-patient/navbar-patient.component';
+import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
 import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/admin-manage-user-accounts.component';
 
+import { DndModule } from 'ng2-dnd';
+import { FormsComponent } from './forms/forms.component';
+import { CreateFormComponent } from './create-form/create-form.component';
 
+// Image uploading
+import { FileSelectDirective } from 'ng2-file-upload';
+import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 
 
 @NgModule({
@@ -58,7 +71,7 @@ import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/a
     NavbarPhysioComponent,
     DashboardPhysioComponent,
     NotFoundPageComponent,
-    IntroductionFormComponent,
+    ManageFormComponent,
     ManagePatientProfileComponent,
     PatientListComponent,
     RehabilitationPlanComponent,
@@ -66,14 +79,26 @@ import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/a
     EditRehabilitationPlanComponent,
     ExerciseComponent,
     SidebarPhysioComponent,
+    HomePageComponent,
+    NavbarGeneralComponent,
+    DashboardAdminComponent,
+    DashboardPatientComponent,
+    NavbarPatientComponent,
+    NavbarAdminComponent,
     CreateUserAccountComponent,
     UserAccountListComponent,
-    AdminManageUserAccountsComponent
+    FormsComponent,
+    CreateFormComponent,
+    ImageUploadTestComponent,
+    FileSelectDirective,
+    BookAppointmentComponent
+
   ],
   imports: [
     HttpModule,
     AppRoutingModule,
     BrowserModule,
+    DndModule.forRoot(),
     FormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
@@ -106,7 +131,9 @@ import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/a
     HttpClientModule,
     MatTableModule,
     MatSortModule,
-	MatStepperModule
+    DndModule.forRoot(),
+	  MatStepperModule,
+    MatSnackBarModule,
   ],
   providers: [ExerciseService,
   FormService],

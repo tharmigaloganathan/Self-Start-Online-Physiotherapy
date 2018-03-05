@@ -3,8 +3,10 @@ var questionsSchema = mongoose.Schema(
     {
         questionText: String,
         helpDescription: String,
-        questionType: {type: mongoose.Schema.ObjectId, ref: ('QuestionType')},
-        questionOrders: [{type: mongoose.Schema.ObjectId, ref: 'QuestionOrder'}]
+        questionType: String,
+        form: [{type: mongoose.Schema.ObjectId, ref: 'Form'}],
+        answerChoices: [String],
+        range: Number
     }
 );
 
@@ -55,7 +57,9 @@ function update(id, updatedDocument){
                     document.questionText = updatedDocument.questionText;
                     document.helpDescription = updatedDocument.helpDescription;
                     document.questionType = updatedDocument.questionType;
-                    document.questionOrders = updatedDocument.questionOrders;
+                    document.form = updatedDocument.form;
+                    document.answerChoices = updatedDocument.answerChoices;
+                    document.range = updatedDocument.range;
                     document.save(function (error) {
                         if (error) {
                             reject(error);

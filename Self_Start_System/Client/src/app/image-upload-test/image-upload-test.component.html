@@ -1,0 +1,8 @@
+
+<!-- File input for the file-upload plugin, with special ng2-file-upload directive called ng2FileSelect -->
+<input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
+<!-- button to trigger the file upload when submitted -->
+<button mat-raised-button type="button" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+  Upload
+</button>
+

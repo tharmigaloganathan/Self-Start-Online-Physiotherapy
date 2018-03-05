@@ -12,8 +12,10 @@ router.route('/')
     })
     .get(function (request, response) {
         Exercises.getAll().then(function(exercises){
+            console.log(exercises);
             response.json({exercise: exercises});
         }).catch(function(err){
+            console.log(err);
             response.json({success: false, message: err});
         })
     });
