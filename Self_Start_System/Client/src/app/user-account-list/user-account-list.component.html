@@ -1,8 +1,10 @@
+<app-navbar-admin></app-navbar-admin>
+
 <div class="container">
 	<div class="row">
 		<div class="col">
 			<!-- Search and Filter Area -->
-			<div class="card-container">
+			<div class="card-container top">
 				<mat-card>
 					<h1>User Accounts</h1>
 					<hr>
@@ -39,6 +41,7 @@
 	</div>
 </div>
 
+
 <!-- User Account Model -->
 <div class="modal fade" id="viewUserAccountModal" tabindex="-1" role="dialog"
 		 aria-labelledby="viewUserAccountModalLabel" aria-hidden="true">
@@ -65,7 +68,6 @@
 								<label>Password: </label>
 								<input matInput type="password" [(ngModel)]="activeUser.encryptedPassword" disabled>
 								</div>
-
 						</div>
 			 </div>
 			 <!-- Modal Footer -->

@@ -1,14 +1,7 @@
 @import '../../scss/_variables';
 
-.form-container {
-	padding: 2%;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-}
-
-.form-container > * {
-	width: 100%;
+.top {
+	margin-top: 2.5%;
 }
 
 .card-container {

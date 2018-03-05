@@ -100,9 +100,7 @@ export class UserAccountListComponent implements OnInit {
 		localStorage.setItem('selectedPatient', JSON.stringify(this.users[this.activeIndex]));
 		console.log("Putting this in store for the user" + this.activeUser);
 		localStorage.setItem('selectedAccount', JSON.stringify(this.activeUser));
-		this.router.navigate(['/admin/user-accounts/manage']);
+		this.router.navigate(['admin/user-accounts/manage']);
 	}
-
-
 
 }

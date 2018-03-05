@@ -1,4 +1,6 @@
-<div class="container">
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container top">
 	<div class="row">
 		<div class="col">
 			<!-- Page Header -->
@@ -11,7 +13,7 @@
 						<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
 					</div>
 				</div>
-			</mat-card>
+
 			<!-- Personal Information -->
 			<mat-horizontal-stepper>
 				<mat-step>
@@ -136,19 +138,18 @@
 						</div>
 					</div>
 				</mat-step>
-
 				<!-- Finish Page -->
 				<mat-step>
 					<ng-template matStepLabel>Confirm Registration</ng-template>
 					<div class="col">
 						<div class="row form-container">
-							<h3>Thanks for registering!</h3> <br/>
-							<p> A confirmation email in on the way. Follow the steps to activate your account.</p> <br/>
-							<p> Already activated your account? Login here </p>
+							<h3>Success!</h3> <br/>
+							<p>User account has been created!</p>
 						</div>
 					</div>
 				</mat-step>
 			</mat-horizontal-stepper>
+			</mat-card>
 		</div>
 	</div>
 </div>
