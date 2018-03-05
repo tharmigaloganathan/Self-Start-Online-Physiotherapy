@@ -10,12 +10,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { IntroductionFormComponent } from './introduction-form/introduction-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
@@ -50,8 +52,12 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 import { DashboardPatientComponent } from './dashboard-patient/dashboard-patient.component';
 import { NavbarPatientComponent } from './navbar-patient/navbar-patient.component';
 import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
+import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
+import { UserAccountListComponent } from './user-account-list/user-account-list.component';
+import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
-
+// Image uploading
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -73,7 +79,11 @@ import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
     DashboardAdminComponent,
     DashboardPatientComponent,
     NavbarPatientComponent,
-    NavbarAdminComponent
+    NavbarAdminComponent,
+    CreateUserAccountComponent,
+    UserAccountListComponent,
+    ImageUploadTestComponent,
+    FileSelectDirective,
   ],
   imports: [
     HttpModule,
@@ -110,7 +120,9 @@ import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
     ReactiveFormsModule,
     HttpClientModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+	  MatStepperModule,
+    MatSnackBarModule,
   ],
   providers: [ExerciseService,
   FormService],

@@ -9,9 +9,13 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
+
 import { HomePageComponent} from "./home-page/home-page.component";
 import { DashboardAdminComponent} from "./dashboard-admin/dashboard-admin.component";
 import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.component";
+import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
+import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
+import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
 
 
 // Our Array of Angular 2 Routes
@@ -30,6 +34,11 @@ const appRoutes: Routes = [
     path: 'admin/introform',
     component: IntroductionFormComponent // The Admin/IntroductionForm Route
   },
+   {
+	  path: 'admin/user-accounts',
+	  component: UserAccountListComponent // The Admin/IntroductionForm Route
+  },
+  
   {
     path: 'admin',
     redirectTo: '/admin/home'
@@ -56,7 +65,13 @@ const appRoutes: Routes = [
   },
 
   {
+
     path: 'physio/patients/:name',
+    component: UserAccountListComponent
+  },
+  
+  {
+    path: 'dashboard/manage-patient-profile',
     component: ManagePatientProfileComponent
   },
 
@@ -65,6 +80,7 @@ const appRoutes: Routes = [
     component: ExerciseComponent // The Exercise route
   },
   {
+
     path: 'physio/rehabilitation-plans',
     component: RehabilitationPlanComponent //
   },
@@ -75,6 +91,14 @@ const appRoutes: Routes = [
   {
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
+  },
+
+	  path: 'create-account',
+	  component: CreateUserAccountComponent
+  },
+  {
+    path: 'image-test',
+    component: ImageUploadTestComponent
   },
 
   {

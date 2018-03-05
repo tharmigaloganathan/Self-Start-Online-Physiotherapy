@@ -7,7 +7,7 @@ var PatientProfiles = require('../Models/PatientProfile');
 
 router.route('/')
     .post(function (request, response) {
-
+        console.log(request.body);
         if(request.body.administrator){
             Administrators.add(request.body.administrator).then(function(document){
                 request.body.administrator = document._id; // Replace administrator object provided with ID of document created
@@ -23,7 +23,11 @@ router.route('/')
                 console.log(err);
             });
         }else if(request.body.patientProfile){
+            console.log("test");
             PatientProfiles.add(request.body.patientProfile).then(function(document){
+                console.log("test2");
+                console.log(document);
+                console.log(document._id);
                 request.body.patientProfile = document._id; // Replace patientProfile object provided with ID of document created
                 patientProfileObject = document;
             }).catch(function(err){

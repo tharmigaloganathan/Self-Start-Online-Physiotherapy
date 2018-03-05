@@ -1,52 +1,52 @@
 var express = require('express');
 var router = express.Router();
-var Exercises = require('../Models/Exercise');
+var ExerciseOrders = require('../Models/ExerciseOrder');
 
 router.route('/')
     .post(function (request, response) {
-        Exercises.add(request.body).then(function(exercise){
-            response.json({exercise: exercise});
+        ExerciseOrders.add(request.body).then(function(exerciseOrder){
+            response.json({exerciseOrder: exerciseOrder});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .get(function (request, response) {
-        Exercises.getAll().then(function(exercises){
-            console.log(exercises);
-            response.json({exercise: exercises});
+        ExerciseOrders.getAll().then(function(exerciseOrders){
+            console.log(exerciseOrders);
+            response.json({exerciseOrder: exerciseOrders});
         }).catch(function(err){
             console.log(err);
             response.json({success: false, message: err});
         })
     });
 
-router.route('/:exercise_id')
+router.route('/:exerciseOrder_id')
     .get(function (request, response) {
-        if (!request.params.exercise_id) {
+        if (!request.params.exerciseOrder_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        Exercises.getOne(request.params.exercise_id).then(function(exercise){
-            response.json({exercise: exercise});
+        ExerciseOrders.getOne(request.params.exerciseOrder_id).then(function(exerciseOrder){
+            response.json({exerciseOrder: exerciseOrder});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .put(function (request, response) {
-        if (!request.params.exercise_id) {
+        if (!request.params.exerciseOrder_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        Exercises.update(request.params.exercise_id, request.body).then(function(exercise){
-            response.json({exercise: exercise});
+        ExerciseOrders.update(request.params.exerciseOrder_id, request.body).then(function(exerciseOrder){
+            response.json({exerciseOrder: exerciseOrder});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .delete(function (request, response) {
-        if (!request.params.exercise_id) {
+        if (!request.params.exerciseOrder_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        Exercises.deleteOne(request.params.exercise_id).then(function(exercise){
-            response.json({success: true, message: 'exercise deleted!'});
+        ExerciseOrders.deleteOne(request.params.exerciseOrder_id).then(function(exerciseOrder){
+            response.json({success: true, message: 'exerciseOrder deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
