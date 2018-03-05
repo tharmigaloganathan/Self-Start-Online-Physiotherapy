@@ -52,7 +52,7 @@ export class UserAccountListComponent implements OnInit {
 		subscribe(
 			user => {
 				this.physiotherapists = user;
-				console.log("This is what was returned" + JSON.stringify(user);
+				console.log("This is what was returned" + JSON.stringify(user));
 			},
 			error => {
 				console.log("Error");
@@ -68,6 +68,25 @@ export class UserAccountListComponent implements OnInit {
 			user => {
 				this.activeUser = user;
 				console.log(this.activeUser);
+			},
+			error => {
+				console.log("Error");
+			});
+	}
+
+	//Reset patient password
+	resetPatientPassword() {
+		const patientAccount = {
+			_id: this.activeUser._id,
+			userAccountName: this.activeUser.userAccountName,
+			encryptedPassword: "password",
+			patientProfile: this.activeUser.patientProfile
+		}
+		this.userAccountListService.updateUserAccount(this.activeUser._id, patientAccount).
+		subscribe(
+			user => {
+				this.activeUser = user;
+				console.log("This was returned for reset password" + JSON.stringify(user));
 			},
 			error => {
 				console.log("Error");

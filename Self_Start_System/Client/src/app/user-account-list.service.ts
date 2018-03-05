@@ -22,6 +22,15 @@ export class UserAccountListService {
 	//Get all user accounts
 	getAllUserAccounts() {}
 
+	//Update user account
+	updateUserAccount(id, user) {
+			return this.http.put(this.domain+'/UserAccounts/'+id, user)
+			.map((response: Response) => {
+			console.log("Inside service" + response.json().userAccount);
+			return response.json().userAccount;
+		});
+	}
+
 	//Get all patients
 	getAllPatients() {
 			return this.http.get(this.domain+'/PatientProfiles')
