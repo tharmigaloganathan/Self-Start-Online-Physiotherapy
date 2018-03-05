@@ -101,6 +101,7 @@ export class ManageFormComponent implements OnInit {
   }
 
   addQuestion(){
+    console.log("tect:", this.newQuestionText);
     var question = {
       questionText: this.newQuestionText,
       helpDescription: this.newHelpDescription,
@@ -112,7 +113,7 @@ export class ManageFormComponent implements OnInit {
     console.log("NEW QUESTION: ", question);
 
     this.formService.addQuestion(question).subscribe(
-      res=> {console.log("new question ID: ", res.question._id),
+      res=> {console.log("new question ID: ", res.data.question._id),
         this.form.questions.push(res.question._id),
       //reload all questions
         this.getAllQuestions();},

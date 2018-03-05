@@ -51,6 +51,7 @@ import { UserAccountListComponent } from './user-account-list/user-account-list.
 
 import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
+import { CreateFormComponent } from './create-form/create-form.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { FormsComponent } from './forms/forms.component';
     SidebarPhysioComponent,
     CreateUserAccountComponent,
     UserAccountListComponent,
-    FormsComponent
+    FormsComponent,
+    CreateFormComponent
   ],
   imports: [
     HttpModule,
