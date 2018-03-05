@@ -16,16 +16,16 @@ export class ManagePatientProfileComponent implements OnInit {
 	isChanged = false;
 	patientAge;
 
-  	constructor(patientProfileService: ManagePatientProfileService) {
+	constructor(patientProfileService: ManagePatientProfileService) {
 	 	this.patientProfileService = patientProfileService;
   }
 
-  	ngOnInit() {
+  ngOnInit() {
 		//Load the patient
 		this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.oldPatient = this.patient;
 		console.log(this.patient);
-  	}
+	}
 
 	editPatientInfo() {
 		this.isChanged = true;

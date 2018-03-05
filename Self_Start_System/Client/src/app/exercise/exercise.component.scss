@@ -1,13 +1,34 @@
 @import '../../scss/_variables';
 
 
+.title {
+  justify-content: center !important;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  position: relative;
+  top:20px;
+}
+
 .question {
   width: 100%;
 }
 
+input[disabled],textarea[disabled] {
+  color: $dark-grey;
+}
 
-button.saveExercise, button.createNewExercise, button.assignExercise, button.editExercise{
+button.save-button, button.create-button, button.view-button, button.edit-button{
   background-color: $cobalt;
+  color: $white;
+}
+
+button.delete-button {
+  background-color: $dark-red;
+  color: $white;
+}
+
+button.cancel-button {
+  background-color: $rare-turquoise;
   color: $white;
 }
 

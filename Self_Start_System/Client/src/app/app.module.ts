@@ -17,6 +17,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ManageFormComponent } from './manage-form/manage-form.component';
 import { ManagePatientProfileComponent } from './manage-patient-profile/manage-patient-profile.component';
@@ -45,13 +46,24 @@ import { FormService} from "./form.service";
 import { HttpClientModule} from '@angular/common/http';
 
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { NavbarGeneralComponent } from './navbar-general/navbar-general.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { DashboardPatientComponent } from './dashboard-patient/dashboard-patient.component';
+import { NavbarPatientComponent } from './navbar-patient/navbar-patient.component';
+import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
-
+import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
 import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
+
+// Image uploading
+import { FileSelectDirective } from 'ng2-file-upload';
+import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
+
 
 @NgModule({
   declarations: [
@@ -67,15 +79,25 @@ import { CreateFormComponent } from './create-form/create-form.component';
     EditRehabilitationPlanComponent,
     ExerciseComponent,
     SidebarPhysioComponent,
+    HomePageComponent,
+    NavbarGeneralComponent,
+    DashboardAdminComponent,
+    DashboardPatientComponent,
+    NavbarPatientComponent,
+    NavbarAdminComponent,
     CreateUserAccountComponent,
     UserAccountListComponent,
     FormsComponent,
-    CreateFormComponent
+    CreateFormComponent,
+    ImageUploadTestComponent,
+    FileSelectDirective,
+    BookAppointmentComponent
   ],
   imports: [
     HttpModule,
     AppRoutingModule,
     BrowserModule,
+    DndModule.forRoot(),
     FormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
@@ -108,8 +130,9 @@ import { CreateFormComponent } from './create-form/create-form.component';
     HttpClientModule,
     MatTableModule,
     MatSortModule,
-	MatStepperModule,
-    DndModule.forRoot()
+    DndModule.forRoot(),
+	  MatStepperModule,
+    MatSnackBarModule,
   ],
   providers: [ExerciseService,
   FormService],

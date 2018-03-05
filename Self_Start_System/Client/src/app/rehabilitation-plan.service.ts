@@ -11,7 +11,7 @@ export class RehabilitationPlanService {
     // Resolve HTTP using the constructor
     constructor(private http: Http) { }
     // private instance variable to hold base url
-    private baseUrl = 'http://localhost:3700/rehabilitationPlans';
+    private baseUrl = 'http://localhost:3700/RehabilitationPlans';
 
     getRehabilitationPlans() {
         // ...using get request
