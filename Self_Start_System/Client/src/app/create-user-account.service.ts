@@ -56,6 +56,15 @@ export class CreateUserAccountService {
 		});
 	}
 
+	//Create a new physiotherapist
+	registerPhysiotherapist(physiotherapist: any) {
+		return this.http.post(this.domain+'/Physiotherapists', physiotherapist)
+		.map((response: Response) => {
+			return response.json();
+		});
+	}
+
+	//Create a new user account
 	registerUserAccount(account: any) {
 		return this.http.post(this.domain+'/UserAccounts', account)
 		.map((response: Response) => {

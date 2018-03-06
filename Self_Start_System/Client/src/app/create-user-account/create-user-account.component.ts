@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class CreateUserAccountComponent implements OnInit {
 	personalInfoValid = false;
 	accountInforValid = false;
+	type;
+	isPhysio;
 	genders; //Populates gender dropdown
 	provinces; //Populates province dropdown
 	createUserAccountService;
@@ -30,7 +32,10 @@ export class CreateUserAccountComponent implements OnInit {
 	userName;
 	password;
 	passwordVerify;
-	patientProfile_id;
+	patientProfile_id = null;
+	physiotherapistProfile_id = null;
+	//User input fields for physio
+	dateHired;
 
   constructor(createUserAccountService: CreateUserAccountService, router: Router) {
 	  this.createUserAccountService = createUserAccountService;
@@ -68,6 +73,17 @@ export class CreateUserAccountComponent implements OnInit {
 		this.router.navigate(['/admin/user-accounts']);
 	}
 
+	//Set the account
+	setAccountType() {
+		if(this.type == "patient") {
+			this.isPhysio = false;
+		} if(this.type == "physiotherapist") {
+			this.isPhysio = true;
+		}
+		console.log(this.type);
+		console.log(this.isPhysio);
+	}
+
 	registerUserProfile() {
 		//JSON object to hold user information
 		const user = {
@@ -102,12 +118,36 @@ export class CreateUserAccountComponent implements OnInit {
 			});
 	}
 
+	//Register the phyiotherpists account
+	registerPhyioProfile() {
+		const physiotherapist = {
+			familyName: this.familyName,
+			givenName: this.givenName,
+			email: this.email,
+			dateHired: this.dateHired,
+			dateFinished: this.dateHired,,
+			treatments: null,
+			userAccount: null
+		}
+		//Send data to backend
+		this.createUserAccountService.registerPhysiotherapist(physiotherapist).
+		subscribe(
+			user => {
+				console.log("This is what was returned" + JSON.stringify(user));
+				this.physiotherapistProfile_id = user.physiotherapist._id;
+			},
+			error => {
+				console.log("Error");
+			});
+	}
+
 	//Register user accounts
 	registerUserAccount() {
 		const account = {
 			userAccountName: this.userName,
 			encryptedPassword: this.password,
 			patientProfile: this.patientProfile_id
+			physiotherapist: this.physiotherapistProfile_id
 		}
 		//Send account data to backend
 		this.createUserAccountService.registerUserAccount(account).
@@ -118,8 +158,8 @@ export class CreateUserAccountComponent implements OnInit {
 			error => {
 				console.log("Error");
 			});
-
 	}
+
 
 
 
