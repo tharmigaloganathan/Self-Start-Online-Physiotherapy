@@ -23,6 +23,8 @@ import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.
 import { BookAppointmentComponent } from "./book-appointment/book-appointment.component";
 import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
 
+import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
+
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -72,7 +74,10 @@ const appRoutes: Routes = [
     path: 'patient',
     redirectTo: '/patient/home'
   }, //the last patient route
-
+  {
+    path: 'new-account',
+    component: CreateNewAccountComponent
+  },
   {
     path: 'physio/home',
     component: DashboardPhysioComponent, // Home page  for a logged in physiotherapist Route

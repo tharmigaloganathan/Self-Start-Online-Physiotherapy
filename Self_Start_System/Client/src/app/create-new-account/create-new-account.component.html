@@ -1,0 +1,40 @@
+<app-navbar-patient></app-navbar-patient>
+
+
+<h1 class="title">
+    Create New Account
+    <p style="font-size:16px">
+    </p>
+</h1>
+
+<h1 class="subtitle">
+    <b>Fill out your information below!</b>
+</h1>
+<br /><br />
+<div class="example-container2">
+    <mat-form-field class="name">
+        <input matInput #name placeholder="Username">
+    </mat-form-field>
+
+    <mat-form-field class="authorName">
+        <input matInput #authorName placeholder="Password ">
+    </mat-form-field>
+
+    <br /><br />
+
+    <mat-form-field class="description">
+        <input matInput #description placeholder="Email Address">
+    </mat-form-field>
+
+    <br /><br />
+
+    <mat-form-field class="goal">
+        <input matInput #goal placeholder="First Name">
+    </mat-form-field>
+
+    <mat-form-field class="timeframe">
+        <input matInput #timeframe placeholder="Last Name">
+    </mat-form-field>
+</div>
+
+<button mat-raised-button class="stickToBottom" routerLink="/patient">Create Account!</button>

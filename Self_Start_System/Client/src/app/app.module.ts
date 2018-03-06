@@ -67,6 +67,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
 
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
+import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { FullCalendarModule } from 'ng-fullcalendar';
     ImageUploadTestComponent,
     FileSelectDirective,
     BookAppointmentComponent,
-		AdminManageUserAccountsComponent
+		AdminManageUserAccountsComponent,
+		CreateNewAccountComponent
   ],
   imports: [
     HttpModule,
