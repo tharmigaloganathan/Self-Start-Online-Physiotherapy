@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class CreateUserAccountComponent implements OnInit {
 	personalInfoValid = false;
 	accountInforValid = false;
+	type;
+	isPhysio;
 	genders; //Populates gender dropdown
 	provinces; //Populates province dropdown
 	createUserAccountService;
@@ -31,6 +33,8 @@ export class CreateUserAccountComponent implements OnInit {
 	password;
 	passwordVerify;
 	patientProfile_id;
+	//User input fields for physio
+	dateHired;
 
   constructor(createUserAccountService: CreateUserAccountService, router: Router) {
 	  this.createUserAccountService = createUserAccountService;
@@ -66,6 +70,17 @@ export class CreateUserAccountComponent implements OnInit {
 	//Go back to account list
 	viewAccountList() {
 		this.router.navigate(['/admin/user-accounts']);
+	}
+
+	//Set the account
+	setAccountType() {
+		if(this.type == "patient") {
+			this.isPhysio = false;
+		} if(this.type == "physiotherapist") {
+			this.isPhysio = true;
+		}
+		console.log(this.type);
+		console.log(this.isPhysio);
 	}
 
 	registerUserProfile() {
@@ -118,8 +133,8 @@ export class CreateUserAccountComponent implements OnInit {
 			error => {
 				console.log("Error");
 			});
-
 	}
+
 
 
 
