@@ -117,6 +117,28 @@ export class CreateUserAccountComponent implements OnInit {
 			});
 	}
 
+	//Register the phyiotherpists account
+	registerPhyioProfile() {
+		const physiotherapist = {
+			familyName: this.familyName,
+			givenName: this.givenName,
+			email: this.email,
+			dateHired: this.dateHired,
+			dateFinished: null,
+			treatments: null,
+			userAccount: null
+		}
+		//Send data to backend
+		this.createUserAccountService.registerPhysiotherapist(physiotherapist).
+		subscribe(
+			user => {
+				console.log("This is what was returned" + JSON.stringify(user));
+			},
+			error => {
+				console.log("Error");
+			});
+	}
+
 	//Register user accounts
 	registerUserAccount() {
 		const account = {

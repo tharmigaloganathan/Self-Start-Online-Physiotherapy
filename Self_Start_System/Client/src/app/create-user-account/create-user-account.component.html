@@ -109,14 +109,14 @@
 										</div>
 									</div>
 								</form>
-							</div>
 							<div class="row">
 								<div class="col-3 button-container">
 									<button mat-button matStepperNext class="next-button"(click)="registerUserProfile()">Next</button>
 								</div>
 							</div>
 						</div>
-					</mat-step>
+					</div>
+				</mat-step>
 
 				<!-- Personal information for physio -->
 				<ng-template #physioForm>
@@ -150,6 +150,11 @@
 							</div>
 						</div>
 					</form>
+					<div class="row">
+						<div class="col-3 button-container">
+							<button mat-button matStepperNext class="next-button"(click)="registerPhyioProfile()">Next</button>
+						</div>
+					</div>
 				</ng-template>
 
 				<!-- Account Information -->
