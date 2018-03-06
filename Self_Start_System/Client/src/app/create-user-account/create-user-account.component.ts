@@ -32,7 +32,8 @@ export class CreateUserAccountComponent implements OnInit {
 	userName;
 	password;
 	passwordVerify;
-	patientProfile_id;
+	patientProfile_id = null;
+	physiotherapistProfile_id = null;
 	//User input fields for physio
 	dateHired;
 
@@ -124,7 +125,7 @@ export class CreateUserAccountComponent implements OnInit {
 			givenName: this.givenName,
 			email: this.email,
 			dateHired: this.dateHired,
-			dateFinished: null,
+			dateFinished: this.dateHired,,
 			treatments: null,
 			userAccount: null
 		}
@@ -133,6 +134,7 @@ export class CreateUserAccountComponent implements OnInit {
 		subscribe(
 			user => {
 				console.log("This is what was returned" + JSON.stringify(user));
+				this.physiotherapistProfile_id = user.physiotherapist._id;
 			},
 			error => {
 				console.log("Error");
@@ -145,6 +147,7 @@ export class CreateUserAccountComponent implements OnInit {
 			userAccountName: this.userName,
 			encryptedPassword: this.password,
 			patientProfile: this.patientProfile_id
+			physiotherapist: this.physiotherapistProfile_id
 		}
 		//Send account data to backend
 		this.createUserAccountService.registerUserAccount(account).
