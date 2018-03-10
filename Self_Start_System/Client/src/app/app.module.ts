@@ -63,6 +63,7 @@ import { CreateFormComponent } from './create-form/create-form.component';
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
+import { EditQuestionDialogComponent } from './edit-question-dialog/edit-question-dialog.component';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
     CreateFormComponent,
     ImageUploadTestComponent,
     FileSelectDirective,
-    BookAppointmentComponent
+    BookAppointmentComponent,
+    EditQuestionDialogComponent
   ],
   imports: [
     HttpModule,
@@ -136,6 +138,7 @@ import { BookAppointmentComponent } from './book-appointment/book-appointment.co
   ],
   providers: [ExerciseService,
   FormService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EditQuestionDialogComponent]
 })
 export class AppModule { }

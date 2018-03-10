@@ -30,7 +30,8 @@
         <mat-card-title>{{question.questionText}}</mat-card-title>
         <mat-card-subtitle>{{question.questionType}}</mat-card-subtitle>
         <mat-card-actions>
-          <button float-right mat-button class="editQuestion" data-toggle="modal" data-target="#editQuestionModal" (click)="selectQuestion(question)">Edit</button>
+          <!--<button float-right mat-button class="editQuestion" data-toggle="modal" data-target="#editQuestionModal" (click)="selectQuestion(question)">Edit</button>-->
+          <button float-right mat-button (click)="openEditQuestionDialog(question)">Edit</button>
           <button float-right mat-button class="deleteQuestion" (click)="deleteQuestion(question)">Delete</button>
         </mat-card-actions>
       </mat-card>

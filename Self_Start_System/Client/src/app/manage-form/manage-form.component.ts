@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Form } from "../models/Form";
 import { FormService} from "../form.service";
 import { DndModule } from "ng2-dnd";
+import { MatDialog, MatDialogRef } from "@angular/material";
+import { EditQuestionDialogComponent } from "../edit-question-dialog/edit-question-dialog.component";
 
 @Component({
   selector: 'app-introduction-form',
@@ -30,9 +32,10 @@ export class ManageFormComponent implements OnInit {
   newRange;
   openEditModal;
 
+  editQuestionDialogRef: MatDialogRef<EditQuestionDialogComponent>
 
-
-  constructor(private formService: FormService) { }
+  constructor(private formService: FormService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.selectedQuestion = null;
@@ -61,6 +64,21 @@ export class ManageFormComponent implements OnInit {
       error => {console.log(error)}
     );
 
+  }
+
+  openEditQuestionDialog(question){
+    this.selectQuestion(question);
+    this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
+      width: '50vw',
+      data: {
+        question: this.selectedQuestion
+      }
+    });
+
+    this.editQuestionDialogRef.afterClosed().subscribe(result => {
+      this.selectedQuestion = result;
+      this.editQuestion(this.selectedQuestion);
+    });
   }
 
   selectQuestion(question){
