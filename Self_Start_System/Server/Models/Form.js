@@ -58,6 +58,7 @@ function update(id, updatedDocument){
                     document.assessmentTests = updatedDocument.assessmentTests;
                     document.save(function (error) {
                         if (error) {
+                            console.log("There was an error saving:", document.name);
                             reject(error);
                         } else {
                             resolve(document);

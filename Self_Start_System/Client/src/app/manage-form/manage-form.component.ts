@@ -50,6 +50,7 @@ export class ManageFormComponent implements OnInit {
       data => {
         console.log("specific form received! ", data);
         this.form = data.form;
+        console.log("what you are saving in form:", this.form);
         this.getAllQuestions();
       },
       error => console.log(error)
@@ -140,8 +141,19 @@ export class ManageFormComponent implements OnInit {
   }
 
   saveForm(){
+    // var form = {
+    //   _id: this.form._id,
+    //   name: this.form.name,
+    //   description: this.form.description,
+    //   questions: this.form.questions,
+    //   assessmentTests: this.form.assessmentTests,
+    //   administrator: "5aa3575df36d280504b4fa38"
+    // };
+    for(let i = 0; i<this.formQuestions.length; i++){
+      this.form.questions[i] = this.formQuestions[i]._id;
+    }
+    // this.form.questions = this.formQuestions;
     console.log("Nick this is the form you are saving:", this.form);
-    this.form.administrator = {};
     this.formService.saveForm(this.form).subscribe(
       res => {
         console.log("response received: ", res)
@@ -167,7 +179,9 @@ export class ManageFormComponent implements OnInit {
       res=> {console.log("new question ID: ", res),
         this.form.questions.push(res.question._id),
         //reload all questions
-        this.getAllQuestions();},
+        this.getAllQuestions(),
+        //need to then save form with the new ID in the questions list
+        this.saveForm()},
       error => {console.log(error)}
     );
   }

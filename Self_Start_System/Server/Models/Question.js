@@ -54,6 +54,7 @@ function update(id, updatedDocument){
                     reject(error);
                 }
                 else {
+                    console.log("This is what the question is like:", updatedDocument);
                     document.questionText = updatedDocument.questionText;
                     document.helpDescription = updatedDocument.helpDescription;
                     document.questionType = updatedDocument.questionType;

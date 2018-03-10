@@ -18,33 +18,33 @@ router.route('/')
         })
     });
 
-router.route('/:form_id')
+router.route('/:object_id')
     .get(function (request, response) {
-        if (!request.params.form_id) {
+        if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        Forms.getOne(request.params.form_id).then(function(form){
+        Forms.getOne(request.params.object_id).then(function(form){
             response.json({form: form});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .put(function (request, response) {
-        if (!request.params.form_id) {
+        if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        console.log("Form submitted: ", request.body);
-        Forms.update(request.params.form_id, request.body).then(function(form){
+        console.log("request.body", request.body);
+        Forms.update(request.params.object_id, request.body).then(function(form){
             response.json({form: form});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .delete(function (request, response) {
-        if (!request.params.form_id) {
+        if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        Forms.deleteOne(request.params.form_id).then(function(form){
+        Forms.deleteOne(request.params.object_id).then(function(form){
             response.json({success: true, message: 'form deleted!'});
         }).catch(function(err){
             response.json({success: false, message: err});

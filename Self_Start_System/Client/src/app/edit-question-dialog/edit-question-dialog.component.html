@@ -28,15 +28,17 @@
 
 <div class = "row">
   <div class ="col-md-12">
-    <div *ngIf="selectedQuestion.questionType == 'Multiple Choice'" class ="col-md-6">
-      <li *ngFor="let option of selectedQuestion.answerChoices">
+    <div *ngIf="selectedQuestion.questionType == 'Multiple Choice'" class ="col-md-12">
+      Options
+      <div *ngFor="let option of selectedQuestion.answerChoices">
         {{option}}
-        <button (click)="deleteOption(option)">x</button>
-      </li>
+        <span flex></span>
+        <button mat-icon-button (click)="deleteOption(option)">x</button>
+      </div>
       <mat-form-field class = "question">
         <input matInput placeholder="Add New Option" [(ngModel)]="newOption"/>
-        <button mat-raised-button (click)="addNewOption(newOption)">Add</button>
       </mat-form-field>
+      <button mat-raised-button (click)="addOption(newOption)">Add</button>
     </div>
 
     <div *ngIf="selectedQuestion.questionType == 'Range'" class ="col-md-6">

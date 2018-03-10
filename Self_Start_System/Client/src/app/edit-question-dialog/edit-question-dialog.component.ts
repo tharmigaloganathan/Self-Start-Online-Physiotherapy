@@ -14,6 +14,8 @@ export class EditQuestionDialogComponent implements OnInit {
     {value: 'Range', viewValue: 'Range'},
   ]
 
+  newOption: string;
+
   selectedQuestion: any;
 
   constructor(private dialogRef: MatDialogRef<EditQuestionDialogComponent>,
@@ -24,4 +26,17 @@ export class EditQuestionDialogComponent implements OnInit {
     this.selectedQuestion = this.data.question;
   }
 
+  addOption(option: string){
+    console.log("this is the selected question", this.selectedQuestion);
+    this.selectedQuestion.answerChoices.push(option);
+    this.newOption = null;
+  }
+
+  deleteOption(option: string){
+    for (let i = 0; i < this.selectedQuestion.answerChoices.length; i++){
+      if(this.selectedQuestion.answerChoices[i] == option){
+        this.selectedQuestion.answerChoices.splice(i, 1);
+      }
+    }
+  }
 }
