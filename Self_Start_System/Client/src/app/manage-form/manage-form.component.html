@@ -56,4 +56,18 @@
   <br>
   <br>
 
+
+  <p>Drag existing questions below into the form above to include it.</p>
+  <ul class="list-group" dnd-sortable-container [sortableData]="allQuestions">
+    <!-- Question List -->
+    <div *ngFor="let question of allQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+      <!-- Card for each question -->
+      <div class="col-md-12 no-left-right-margin no-left-right-padding">
+        <mat-card class="dashboard-card no-left-right-margin">
+          <mat-card-title>{{question.questionText}}</mat-card-title>
+          <mat-card-subtitle>{{question.questionType}}</mat-card-subtitle>
+        </mat-card>
+      </div>
+    </div>
+  </ul>
 </div>
