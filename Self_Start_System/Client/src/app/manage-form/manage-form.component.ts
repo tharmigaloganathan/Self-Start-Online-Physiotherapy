@@ -18,7 +18,6 @@ export class ManageFormComponent implements OnInit {
   allQuestions: any[]; //Holds all other question objects not belonging to this form
   selectedQuestion: any; //Necessary to focus the modal on the selected question
 
-  openEditModal;
 
   editQuestionDialogRef: MatDialogRef<EditQuestionDialogComponent>
 
@@ -28,8 +27,31 @@ export class ManageFormComponent implements OnInit {
   ngOnInit() {
     this.selectedQuestion = null;
     this.formID =  localStorage.getItem('edit_form_id');
-    this.getForm();
-    this.openEditModal = false;
+    if(this.formID != "empty"){
+      this.getForm();
+    } else {
+      this.createForm();
+    }
+  }
+
+  createForm(){
+    var form = {
+      name: "Template",
+      description: "Template",
+      administrator: "5aa3575df36d280504b4fa38",
+      assessmentTests: [],
+      questions: [],
+    };
+    this.form = form;
+    console.log("form: ", form);
+
+    this.formService.createForm(form).subscribe(
+      res=> {console.log("new form", res),
+        localStorage.setItem('edit_form_id', res.form._id),
+        this.formID = res.form._id,
+        this.getForm();},
+      error => {console.log(error)}
+    );
   }
 
   getForm(){
@@ -103,7 +125,6 @@ export class ManageFormComponent implements OnInit {
 
   selectQuestion(question){
     this.selectedQuestion = question;
-    this.openEditModal = true;
   }
 
   editQuestion(selectedQuestion) {

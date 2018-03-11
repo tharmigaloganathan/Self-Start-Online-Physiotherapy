@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Forms = require('../Models/Form');
+var Questions = require('../Models/Question');
 
 router.route('/')
     .post(function (request, response) {
@@ -45,7 +46,9 @@ router.route('/:object_id')
             response.json({success: false, message: 'id was not provided'});
         }
         Forms.deleteOne(request.params.object_id).then(function(form){
-            response.json({success: true, message: 'form deleted!'});
+            Questions.updateManyOnFormDelete(request.params.object_id).then(function() {
+                response.json({success: true, message: 'form deleted!'});
+            });
         }).catch(function(err){
             response.json({success: false, message: err});
         })

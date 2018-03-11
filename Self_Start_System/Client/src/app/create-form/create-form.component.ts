@@ -26,13 +26,11 @@ export class CreateFormComponent implements OnInit {
   newQuestionType;
   newAnswerChoices;
   newRange;
-  openEditModal;
 
   constructor(private formService: FormService) { }
 
   ngOnInit() {
     this.createForm();
-    this.openEditModal = false;
   }
 
   createForm(){
@@ -46,11 +44,11 @@ export class CreateFormComponent implements OnInit {
     this.form = form;
     console.log("form: ", form);
 
-    // this.formService.createForm(form).subscribe(
-    //   res=> {console.log("new question ID: ", res),
-    //     this.formID = res.form._id;},
-    //   error => {console.log(error)}
-    // );
+    this.formService.createForm(form).subscribe(
+      res=> {console.log("create form response", res),
+        this.formID = res.form._id;},
+      error => {console.log(error)}
+    );
   }
 
   deleteQuestion(selectedQuestion){
@@ -65,7 +63,6 @@ export class CreateFormComponent implements OnInit {
 
   selectQuestion(question){
     this.selectedQuestion = question;
-    this.openEditModal = true;
   }
 
   editQuestion(selectedQuestion) {
