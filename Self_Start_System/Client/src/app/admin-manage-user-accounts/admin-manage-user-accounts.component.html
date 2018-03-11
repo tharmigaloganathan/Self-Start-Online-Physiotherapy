@@ -1,0 +1,22 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="card-container top">
+				<mat-card>
+					<h1>Viewing: {{ user.givenName + " " + user.familyName }}</h1>
+					<hr>
+					<div class="row">
+						<div class="col-md-10"></div>
+						<div class="col-md-2 col-md-offset-10">
+							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
+						</div>
+					</div>
+					<app-manage-patient-profile></app-manage-patient-profile>
+				</mat-card>
+			</div>
+			<!-- Tabs -->
+		</div>
+	</div>
+</div>

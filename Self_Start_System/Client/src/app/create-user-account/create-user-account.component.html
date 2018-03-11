@@ -1,93 +1,161 @@
-<div class="container">
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container top">
 	<div class="row">
 		<div class="col">
 			<!-- Page Header -->
-			<div class="header">
-				<h1>SelfStart Registration</h1>
-			</div>
-			<!-- Personal Information -->
+			<mat-card>
+				<h1>Create User Account</h1>
+				<hr>
+				<div class="row">
+					<div class="col-md-10"></div>
+					<div class="col-md-2 col-md-offset-10">
+						<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
+					</div>
+				</div>
+			<!-- Account Type -->
 			<mat-horizontal-stepper>
 				<mat-step>
-					<ng-template matStepLabel>Personal Information</ng-template>
-					<div class="col">
-						<form class="form-container" name="personalInfoForm">
-							<!-- Row 1 -->
+					<ng-template matStepLabel>Account Type</ng-template>
+					<div class="row">
+						<div class="col-md-12 col-md-offset-6">
+							<label>What type of account would you like to create? </label>
+							<mat-form-field>
+								<mat-select [(ngModel)]="type" name="accountType" placeholder="">
+									<mat-option value="patient" selected>Patient</mat-option>
+									<mat-option value=physiotherapist>Physiotherapist</mat-option>
+								</mat-select>
+							</mat-form-field>
 							<div class="row">
-								<div class="col form-container">
-									<mat-form-field>
-										<input matInput placeholder="First Name" [(ngModel)]="givenName" name="givenName" required>
-									</mat-form-field>
-
+								<div class="col-3 button-container">
+									<button mat-button matStepperNext class="next-button" (click)="setAccountType()">Next</button>
 								</div>
-								<div class="col form-container">
-									<mat-form-field>
-										<input matInput placeholder="Last Name" [(ngModel)]="familyName" name="familyName" required>
-									</mat-form-field>
-								</div>
-							</div>
-							<!-- Row 2 -->
-							<div class="row">
-								<div class="col-4 form-container">
-									<mat-form-field>
-										<mat-select [(ngModel)]="gender" name="gender" placeholder="Gender" required>
-											<mat-option *ngFor="let gender of genders" [value]="gender.value">{{gender.viewValue}}</mat-option>
-										</mat-select>
-									</mat-form-field>
-								</div>
-								<div class="col-8 form-container">
-									<mat-form-field>
-									  <input matInput [matDatepicker]="picker" [(ngModel)]="DOB" name="DOB" placeholder="Date of Birth"required>
-									  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-									  <mat-datepicker #picker></mat-datepicker>
-									</mat-form-field>
-								</div>
-							</div>
-							<!-- Row 3 -->
-							<div class="row">
-								<div class="col-4 form-container">
-									<mat-form-field>
-										<input matInput placeholder="Street" [(ngModel)]="address" name="address" required>
-									</mat-form-field>
-								</div>
-								<div class="col-4 form-container">
-									<mat-form-field>
-										<input matInput placeholder="City" [(ngModel)]="city" name="city" required>
-									</mat-form-field>
-								</div>
-								<div class="col-2 form-container">
-									<mat-form-field>
-									  <mat-select [(ngModel)]="province" name="province"  placeholder="Province" required>
-										  <mat-option *ngFor="let province of provinces" [value]="province.value">{{province.viewValue}}</mat-option>
-									  </mat-select>
-									</mat-form-field>
-								</div>
-								<div class="col-2 form-container">
-									<mat-form-field>
-										<input matInput placeholder="Postal Code" [(ngModel)]="postalCode" name="postalCode" required>
-									</mat-form-field>
-								</div>
-							</div>
-							<!-- Row 4 -->
-							<div class="row">
-								<div class="col-8 form-container">
-									<mat-form-field>
-										<input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
-									</mat-form-field>
-								</div>
-								<div class="col-4 form-container">
-									<mat-form-field>
-										<input matInput placeholder="Phone Number" [(ngModel)]="phone" name="phone" required>
-									</mat-form-field>
-								</div>
-							</div>
-						</form>
-						<div class="row">
-							<div class="col-3 button-container">
-								<button mat-button matStepperNext class="next-button">Next</button>
 							</div>
 						</div>
 					</div>
 				</mat-step>
+				<!-- Personal Information -->
+					<mat-step>
+						<ng-template matStepLabel>Personal Information</ng-template>
+						<div class="col">
+							<div *ngIf="!isPhysio; else physioForm">
+								<form class="form-container" name="personalInfoForm">
+									<!-- Row 1 -->
+									<div class="row">
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="First Name" [(ngModel)]="givenName" name="givenName" required>
+											</mat-form-field>
+										</div>
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="Last Name" [(ngModel)]="familyName" name="familyName" required>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 2 -->
+									<div class="row">
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="gender" name="gender" placeholder="Gender" required>
+													<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender.name}}</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-8 form-container">
+											<mat-form-field>
+											  <input matInput [matDatepicker]="picker" [(ngModel)]="DOB" name="DOB" placeholder="Date of Birth"required>
+											  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+											  <mat-datepicker #picker></mat-datepicker>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 3 -->
+									<div class="row">
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Street" [(ngModel)]="address" name="address" required>
+											</mat-form-field>
+										</div>
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<input matInput placeholder="City" [(ngModel)]="city" name="city" required>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+											  <mat-select [(ngModel)]="province" name="province"  placeholder="Province" required>
+												  <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
+											  </mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Postal Code" [(ngModel)]="postalCode" name="postalCode" required>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 4 -->
+									<div class="row">
+										<div class="col-8 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+											</mat-form-field>
+										</div>
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Phone Number" [(ngModel)]="phone" name="phone" required>
+											</mat-form-field>
+										</div>
+									</div>
+								</form>
+							<div class="row">
+								<div class="col-3 button-container">
+									<button mat-button matStepperNext class="next-button"(click)="registerUserProfile()">Next</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</mat-step>
+
+				<!-- Personal information for physio -->
+				<ng-template #physioForm>
+					<form class="form-container" name="personalInfoForm">
+						<!-- Row 1 -->
+						<div class="row">
+							<div class="col form-container">
+								<mat-form-field>
+									<input matInput placeholder="First Name" [(ngModel)]="givenName" name="givenName" required>
+								</mat-form-field>
+							</div>
+							<div class="col form-container">
+								<mat-form-field>
+									<input matInput placeholder="Last Name" [(ngModel)]="familyName" name="familyName" required>
+								</mat-form-field>
+							</div>
+						</div>
+						<!-- Row 2 -->
+						<div class="row">
+							<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+									</mat-form-field>
+							</div>
+							<div class="col-6 form-container">
+								<mat-form-field>
+									<input matInput [matDatepicker]="picker" [(ngModel)]="dateHired" name="dateHired" placeholder="Date Hired"required>
+									<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+									<mat-datepicker #picker></mat-datepicker>
+								</mat-form-field>
+							</div>
+						</div>
+					</form>
+					<div class="row">
+						<div class="col-3 button-container">
+							<button mat-button matStepperNext class="next-button"(click)="registerPhyioProfile()">Next</button>
+						</div>
+					</div>
+				</ng-template>
 
 				<!-- Account Information -->
 				<mat-step>
@@ -124,24 +192,23 @@
 								<button mat-button matStepperPrevious class="previous-button">Back</button>
 							</div>
 							<div class="col-3 button-container">
-								<button mat-button matStepperNext class="next-button" (click)="registerUser()">Register</button>
+								<button mat-button matStepperNext class="next-button" (click)="registerUserAccount()">Register</button>
 							</div>
 						</div>
 					</div>
 				</mat-step>
-
 				<!-- Finish Page -->
 				<mat-step>
 					<ng-template matStepLabel>Confirm Registration</ng-template>
 					<div class="col">
 						<div class="row form-container">
-							<h3>Thanks for registering!</h3> <br/>
-							<p> A confirmation email in on the way. Follow the steps to activate your account.</p> <br/>
-							<p> Already activated your account? Login here </p>
+							<h3>Success!</h3> <br/>
+							<p>User account has been created!</p>
 						</div>
 					</div>
 				</mat-step>
 			</mat-horizontal-stepper>
+			</mat-card>
 		</div>
 	</div>
 </div>

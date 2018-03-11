@@ -11,23 +11,23 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
 export class NewRehabilitationPlanComponent implements OnInit {
     showSidebar = true;
     data = {
-        rehabilitationPlan: {
             name: '',
             authorName: '',
             description: '',
             goal: '',
             timeFrameToComplete: ''
-        }
-    };g
+    
+    };
 
   constructor(private rehabilitationplanService: RehabilitationPlanService) { }
 
   postRehabilitationPlan(name: string, description: string, authorName: string, goal: string, timeframe: string) {
-      this.data.rehabilitationPlan.name = name;
-      this.data.rehabilitationPlan.authorName = authorName;
-      this.data.rehabilitationPlan.goal = goal;
-      this.data.rehabilitationPlan.description = description;
-      this.data.rehabilitationPlan.timeFrameToComplete = timeframe;
+      console.log("post name",name);
+      this.data.name = name;
+      this.data.authorName = authorName;
+      this.data.goal = goal;
+      this.data.description = description;
+      this.data.timeFrameToComplete = timeframe;
       console.log("data: ",this.data);
       this.rehabilitationplanService.addRehabilitationPlan(this.data).subscribe(res =>
           {

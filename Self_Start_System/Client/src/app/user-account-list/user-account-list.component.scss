@@ -1,10 +1,29 @@
-.form-container {
-	padding: 2%;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
+@import '../../scss/_variables';
+
+.top {
+	margin-top: 2.5%;
 }
 
-.form-container > * {
-	width: 100%;
+.card-container {
+	padding-bottom: 1%;
+}
+
+.view-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.create-account-button {
+	background-color: $flash-of-orange;
+	color: $white;
+}
+
+.reset-button {
+	background-color: $electric-glow;
+	color: $white;
+}
+
+.view-profile-button {
+	background-color: $beautiful-blue;
+	color: $white;
 }

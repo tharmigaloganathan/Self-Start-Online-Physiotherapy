@@ -54,6 +54,7 @@ import { NavbarPatientComponent } from './navbar-patient/navbar-patient.componen
 import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { CreateUserAccountComponent } from './create-user-account/create-user-account.component';
 import { UserAccountListComponent } from './user-account-list/user-account-list.component';
+import { AdminManageUserAccountsComponent } from './admin-manage-user-accounts/admin-manage-user-accounts.component';
 import { ImageUploadTestComponent } from './image-upload-test/image-upload-test.component';
 
 import { DndModule } from 'ng2-dnd';
@@ -64,6 +65,10 @@ import { CreateFormComponent } from './create-form/create-form.component';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 import { EditQuestionDialogComponent } from './edit-question-dialog/edit-question-dialog.component';
+
+// Calendar
+import { FullCalendarModule } from 'ng-fullcalendar';
+import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 
 
 @NgModule({
@@ -93,12 +98,15 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
     ImageUploadTestComponent,
     FileSelectDirective,
     BookAppointmentComponent,
-    EditQuestionDialogComponent
+    EditQuestionDialogComponent,
+		AdminManageUserAccountsComponent,
+		CreateNewAccountComponent
   ],
   imports: [
     HttpModule,
     AppRoutingModule,
     BrowserModule,
+    FullCalendarModule,
     DndModule.forRoot(),
     FormsModule,
     BrowserAnimationsModule,
