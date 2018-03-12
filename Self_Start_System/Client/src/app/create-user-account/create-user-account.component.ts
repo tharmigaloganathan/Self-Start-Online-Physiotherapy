@@ -125,7 +125,7 @@ export class CreateUserAccountComponent implements OnInit {
 			givenName: this.givenName,
 			email: this.email,
 			dateHired: this.dateHired,
-			dateFinished: this.dateHired,,
+			dateFinished: this.dateHired,
 			treatments: null,
 			userAccount: null
 		}
@@ -146,7 +146,7 @@ export class CreateUserAccountComponent implements OnInit {
 		const account = {
 			userAccountName: this.userName,
 			encryptedPassword: this.password,
-			patientProfile: this.patientProfile_id
+			patientProfile: this.patientProfile_id,
 			physiotherapist: this.physiotherapistProfile_id
 		}
 		//Send account data to backend

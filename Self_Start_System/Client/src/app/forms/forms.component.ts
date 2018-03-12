@@ -31,4 +31,18 @@ export class FormsComponent implements OnInit {
     console.log("FormID:", id);
     localStorage.setItem("edit_form_id", id);
   }
+
+  newForm(){
+    localStorage.setItem("edit_form_id", "empty");
+  }
+
+  deleteForm(form){
+    this.formService.deleteForm(form).subscribe(
+      res => {
+        console.log(res),
+          this.getAllForms()
+      },
+      error => console.log(error)
+    );
+  }
 }

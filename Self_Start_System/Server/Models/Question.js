@@ -19,8 +19,10 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    updateManyOnFormDelete:updateManyOnFormDelete
 };
+
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
@@ -54,6 +56,7 @@ function update(id, updatedDocument){
                     reject(error);
                 }
                 else {
+                    console.log("This is what the question is like:", updatedDocument);
                     document.questionText = updatedDocument.questionText;
                     document.helpDescription = updatedDocument.helpDescription;
                     document.questionType = updatedDocument.questionType;
@@ -118,4 +121,20 @@ function add(object){
     });
 }
 
-
+//below removes all FKs of a form that has been deleted
+function updateManyOnFormDelete(form_id){
+    return new Promise (function (resolve, reject) {
+        Questions.update( {},
+            { $pull: { form: form_id } },
+            { multi: true },
+            function(error, documents){
+                if(error){
+                    reject(error);
+                } else {
+                    resolve(documents);
+                }
+            }
+        );
+        console.log("finished the updateManyOnFormDelete fn", form_id);
+    });
+}

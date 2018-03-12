@@ -64,6 +64,7 @@ import { CreateFormComponent } from './create-form/create-form.component';
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
+import { EditQuestionDialogComponent } from './edit-question-dialog/edit-question-dialog.component';
 
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
@@ -97,6 +98,7 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
     ImageUploadTestComponent,
     FileSelectDirective,
     BookAppointmentComponent,
+    EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent
   ],
@@ -144,6 +146,7 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
   ],
   providers: [ExerciseService,
   FormService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EditQuestionDialogComponent]
 })
 export class AppModule { }
