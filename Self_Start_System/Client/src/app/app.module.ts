@@ -70,6 +70,8 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { MessagesService} from "./messages.service";
+
 
 
 @NgModule({
