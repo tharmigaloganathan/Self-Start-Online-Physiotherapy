@@ -24,7 +24,8 @@ import { BookAppointmentComponent } from "./book-appointment/book-appointment.co
 import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
 
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
-
+import { CreateNewEventComponent } from "./set-free-time/create-new-event/create-new-event.component";
+import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -113,6 +114,14 @@ const appRoutes: Routes = [
   {
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
+  },
+  {
+    path: 'physio/set-free-time',
+    component: SetFreeTimeComponent //
+  },
+  {
+    path: 'physio/create-new-free-time',
+    component: CreateNewEventComponent //
   },
   {
     path: 'physio',

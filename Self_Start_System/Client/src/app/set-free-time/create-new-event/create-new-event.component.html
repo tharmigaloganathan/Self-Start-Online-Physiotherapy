@@ -1,0 +1,46 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="container">
+  <form class="create-new-event-form">
+    <!--Start Beginning date-->
+    <mat-form-field>
+      <input matInput name="startDateInput" [(ngModel)]="startDate"
+             [matDatepicker]="startDatePicker" placeholder="Start Date">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput name="startTimeInput" [(ngModel)]="startTime"
+             type="time" placeholder="Start Time" value="">
+    </mat-form-field>
+    <!--End Beginning date-->
+
+    <!--End date-->
+    <mat-form-field>
+      <input matInput name="endDateInput" [(ngModel)]="endDate"
+             [matDatepicker]="endDatePicker" placeholder="Start Date">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput name="endTimeInput" [(ngModel)]="endTime"
+             type="time" placeholder="End Time" value="">
+    </mat-form-field>
+    <!--End End date-->
+
+    <p>Repeat weekly for </p>
+      <mat-form-field>
+        <input matInput type="number" name="numWeekInput" [(ngModel)]="numWeek"
+               (change)="onChangeWeekNum()"
+               (keypress)="onChangeWeekNum()"
+               (keydown)="onChangeWeekNum()"
+               (keyup)="onChangeWeekNum()"
+        />
+      </mat-form-field>
+    <p>week(s)</p>
+
+    <button mat-raised-button (click)="onClickSubmit()">Submit</button>
+  </form>
+</div>

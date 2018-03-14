@@ -1,10 +1,8 @@
-<app-navbar-patient></app-navbar-patient>
+<app-navbar-physio></app-navbar-physio>
+
+<!--<button mat-raised-button class="logout-button">Create New</button>-->
 
 <div *ngIf="calendarOptions">
   <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
                    (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)"></ng-fullcalendar>
 </div>
-
-<!--<div *ngIf="calendarOptions">-->
-  <!--<ng-fullcalendar #ucCalendar [options]="calendarOptions" [(eventsModel)]="events"></ng-fullcalendar>-->
-<!--</div>-->
