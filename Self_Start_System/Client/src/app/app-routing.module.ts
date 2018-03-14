@@ -22,7 +22,7 @@ import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.
 import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
 import { BookAppointmentComponent } from "./book-appointment/book-appointment.component";
 import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
-
+import {LoginComponent} from "./login/login.component";
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
 
 
@@ -33,6 +33,12 @@ const appRoutes: Routes = [
     path: 'home',
     component: HomePageComponent // what a general user sees
   },
+
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+
 
   {
     path: 'admin/home',
@@ -87,15 +93,17 @@ const appRoutes: Routes = [
 		component: UserAccountListComponent // The Admin/UserAccountsList Route
   },
 
+
+
   {
     path: 'physio/patients/:name',
     component: ManagePatientProfileComponent
   },
 
-  // {
-  //   path: 'dashboard/manage-patient-profile',
-  //   component: ManagePatientProfileComponent
-  // },
+  {
+    path: 'physio/patients',
+    component: ManagePatientProfileComponent
+  },
 
   {
     path : 'physio/exercises',
@@ -114,10 +122,7 @@ const appRoutes: Routes = [
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
   },
-  {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
+
   {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
