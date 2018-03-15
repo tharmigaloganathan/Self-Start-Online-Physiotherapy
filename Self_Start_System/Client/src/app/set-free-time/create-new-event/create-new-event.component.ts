@@ -53,7 +53,14 @@ export class CreateNewEventComponent implements OnInit {
     this.startDate.setHours(this.startTime.substring(0, 2),this.startTime.substring(3, 5));
     this.endDate.setHours(this.endTime.substring(0, 2),this.endTime.substring(3, 5));
 
-    for (let i = 0; i < this.numWeek; i++){
+    this.sendTimeSlots();
+  };
+
+  /// Helper Function ///
+
+  sendTimeSlots = () => {
+    // Send message and increment if more weeks to send
+    if (this.numWeeksSentToBackend++ < this.numWeek) {
       // Send free time to backend
       this.setFreeTimeService.addTimeSlot(
         this.physioID,
@@ -63,10 +70,9 @@ export class CreateNewEventComponent implements OnInit {
       )
         .subscribe(response => {
           console.log(response);
-          this.switchPageIfDone();
+          this.sendTimeSlots();
         }, error => {
           console.log(error);
-          this.switchPageIfDone();
         });
       console.log(
         this.startDate,
@@ -75,10 +81,12 @@ export class CreateNewEventComponent implements OnInit {
 
       this.startDate.setDate(this.startDate.getDate() + 7);
       this.endDate.setDate(this.endDate.getDate() + 7);
+    } else {
+      // Switch pages if done
+      this.router.navigate(['/physio/set-free-time/']);
     }
   };
 
-  /// Helper Function ///
   /*
   Converts time from 1:4 format into "01:04" format
 */
@@ -95,11 +103,12 @@ export class CreateNewEventComponent implements OnInit {
     return strHour + ":" + strMinute;
   };
 
-  // Switch pages only if all the weeks have been sent
-  switchPageIfDone = () => {
-    if (++this.numWeeksSentToBackend >= this.numWeek){
-      // Navigate to previous page when done
-      this.router.navigate(['/physio/set-free-time/']);
-    }
-  };
+  // // Switch pages only if all the weeks have been sent
+  // switchPageIfDone = () => {
+  //   if (++this.numWeeksSentToBackend >= this.numWeek){
+  //     // Navigate to previous page when done
+  //     this.router.navigate(['/physio/set-free-time/']);
+  //     this.router.navigate(['/physio/set-free-time/']);
+  //   }
+  // };
 }
