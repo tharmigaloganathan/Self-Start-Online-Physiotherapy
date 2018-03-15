@@ -4,26 +4,61 @@ import { Options } from 'fullcalendar';
 import { ExerciseService } from "../services/exercise.service";
 import {ManagePatientProfileService} from "../manage-patient-profile.service";
 import { Router } from '@angular/router';
+import { SetFreeTimeService } from "../set-free-time.service";
 
 @Component({
   selector: 'app-set-free-time',
   templateUrl: './set-free-time.component.html',
   styleUrls: ['./set-free-time.component.scss'],
-  providers: [ManagePatientProfileService, ExerciseService],
+  providers: [ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
 export class SetFreeTimeComponent implements OnInit {
+
+  // temp PhysioTherapistID, for testing
+  physioID = '5aa9fa5b0f39cbb0213e2182';
 
   calendarOptions: Options;
 
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
-  constructor(private rd: Renderer2, private router : Router) {}
+  constructor(private rd: Renderer2,
+              private router : Router,
+              private setFreeTimeService: SetFreeTimeService) {}
 
   ngOnInit() {
-    this.setUpCalendarOptions();
+    this.getCurrentAvailability();
   }
 
+  getCurrentAvailability = () => {
+    // Send free time to backend
+    this.setFreeTimeService.getPhysioTherapist(
+      this.physioID
+    )
+      .subscribe(response => {
+        console.log(response);
+        let eventslist = this.generateEventsList(response.physiotherapist.availableTimeSlots);
+        this.setUpCalendarOptions(eventslist);
+      }, error => {
+        console.log(error);
+      });
+  };
+
+  generateEventsList = (eventslist) => {
+    let formatedEventsList = new Array();
+
+    for (let event of eventslist){
+      formatedEventsList.push({
+          title: 'Available',
+          start: event.startDate,
+          end: event.endDate,
+          allDay: false,
+      });
+    }
+
+    return formatedEventsList;
+  };
+
   // Set up calendar options
-  setUpCalendarOptions = () => {
+  setUpCalendarOptions = (eventsList) => {
     this.calendarOptions = {
 
       customButtons: {
@@ -42,13 +77,8 @@ export class SetFreeTimeComponent implements OnInit {
       // selectHelper: true,
       editable: true,
       eventLimit: true,
+      events: eventsList,
 
-      events: [{
-        title: 'Available',
-        start: '2018-03-09T09:30:00-05:00',
-        end: '2018-03-09T17:30:00-05:00',
-        allDay: false,
-      }]
     };
   };
 
