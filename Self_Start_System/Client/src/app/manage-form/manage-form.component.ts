@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Form } from "../models/Form";
 import { FormService} from "../form.service";
 import { DndModule } from "ng2-dnd";
 import { MatDialog, MatDialogRef } from "@angular/material";

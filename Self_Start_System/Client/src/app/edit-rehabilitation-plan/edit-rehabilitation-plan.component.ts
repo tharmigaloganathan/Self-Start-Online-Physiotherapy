@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 import { ExerciseService } from '../services/exercise.service';
 import { ViewEncapsulation } from '@angular/core';
+import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
+import { MatDialog, MatDialogRef } from "@angular/material";
 
 @Component({
   selector: 'app-edit-rehabilitation-plan',
@@ -25,7 +27,15 @@ export class EditRehabilitationPlanComponent implements OnInit {
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
 
-  constructor(private rehabilitationplanService: RehabilitationPlanService, private exerciseService: ExerciseService) {
+  //ASSESSMENT TEST RELATED
+  editAssessmentTestDialogRef: MatDialogRef<EditAssessmentTestDialogComponent>
+
+  assessmentTests = [];
+  //END OF ASSESSMENT TEST RELATED
+
+  constructor(private rehabilitationplanService: RehabilitationPlanService,
+              private exerciseService: ExerciseService,
+              private dialog: MatDialog) {
       console.log("ID", this.editID)
   }
 
@@ -239,4 +249,13 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
 
   }
+
+  //ASSESSMENT TEST STARTS
+  //==================================
+  getAssessmentTests(){
+
+  }
+
+  //==================================
+  //ASSESSMENT TEST ENDS
 }

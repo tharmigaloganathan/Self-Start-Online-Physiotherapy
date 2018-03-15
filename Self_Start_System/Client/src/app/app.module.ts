@@ -69,6 +69,7 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
     BookAppointmentComponent,
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
-		CreateNewAccountComponent
+		CreateNewAccountComponent,
+		EditAssessmentTestDialogComponent
   ],
   imports: [
     HttpModule,
