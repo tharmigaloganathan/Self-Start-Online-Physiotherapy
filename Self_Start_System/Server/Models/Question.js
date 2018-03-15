@@ -6,7 +6,8 @@ var questionsSchema = mongoose.Schema(
         questionType: String,
         form: [{type: mongoose.Schema.ObjectId, ref: 'Form'}],
         answerChoices: [String],
-        range: Number
+        range: Number,
+        type: String
     }
 );
 
@@ -63,6 +64,7 @@ function update(id, updatedDocument){
                     document.form = updatedDocument.form;
                     document.answerChoices = updatedDocument.answerChoices;
                     document.range = updatedDocument.range;
+                    document.type = updatedDocument.type;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
