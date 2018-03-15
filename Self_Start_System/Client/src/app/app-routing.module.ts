@@ -27,6 +27,8 @@ import { CreateNewAccountComponent } from "./create-new-account/create-new-accou
 import { CreateNewEventComponent } from "./set-free-time/create-new-event/create-new-event.component";
 import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
 
+import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
+
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
 
@@ -70,6 +72,10 @@ const appRoutes: Routes = [
   {
     path: 'patient/book-appointment',
     component: BookAppointmentComponent
+  },
+  {
+    path: 'patient/book-appointment/form',
+    component: BookAppointmentFormComponent
   },
   {
     path: 'patient',
@@ -120,7 +126,7 @@ const appRoutes: Routes = [
     component: SetFreeTimeComponent //
   },
   {
-    path: 'physio/create-new-free-time',
+    path: 'physio/set-free-time/create-new-free-time',
     component: CreateNewEventComponent //
   },
   {

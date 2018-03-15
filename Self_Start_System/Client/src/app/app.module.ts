@@ -61,6 +61,8 @@ import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 
+import {MatRadioModule} from '@angular/material/radio';
+
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
@@ -70,6 +72,7 @@ import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 import { SetFreeTimeComponent } from './set-free-time/set-free-time.component';
 import { CreateNewEventComponent } from './set-free-time/create-new-event/create-new-event.component';
+import { BookAppointmentFormComponent } from './book-appointment/book-appointment-form/book-appointment-form.component';
 
 
 @NgModule({
@@ -102,7 +105,8 @@ import { CreateNewEventComponent } from './set-free-time/create-new-event/create
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
 		SetFreeTimeComponent,
-		CreateNewEventComponent
+		CreateNewEventComponent,
+		BookAppointmentFormComponent
   ],
   imports: [
     HttpModule,
@@ -145,6 +149,7 @@ import { CreateNewEventComponent } from './set-free-time/create-new-event/create
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+    MatRadioModule,
   ],
   providers: [ExerciseService,
   FormService],

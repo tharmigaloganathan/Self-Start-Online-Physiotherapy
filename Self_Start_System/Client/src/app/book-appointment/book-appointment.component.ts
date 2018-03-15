@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 
+import { Router } from "@angular/router";
+
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
@@ -11,17 +13,16 @@ export class BookAppointmentComponent implements OnInit {
   calendarOptions: Options;
 
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
-  constructor(private rd: Renderer2) {}
+  constructor(private rd: Renderer2, private router : Router) {}
 
   ngOnInit() {
     this.setUpCalendarOptions();
   }
 
-
   // Set up calendar options
   setUpCalendarOptions = () => {
     this.calendarOptions = {
-      editable: true,
+      editable: false,
       eventLimit: false,
       header: {
         left: 'prev,next today',
@@ -42,6 +43,14 @@ export class BookAppointmentComponent implements OnInit {
   // Event listeners
   eventClick = (detail) => {
     console.log(detail);
+    let startDate = detail.event.start.toDate();
+    let endDate = detail.event.end.toDate();
+    console.log(startDate, endDate);
+    localStorage.setItem('book-appointment-start-time', startDate.toString());
+    localStorage.setItem('book-appointment-end-time', endDate.toString());
+
+    this.router.navigate(['/patient/book-appointment/form']);
+
   };
 }
 

@@ -22,14 +22,6 @@ export class SetFreeTimeComponent implements OnInit {
     this.setUpCalendarOptions();
   }
 
-  // Navigate to new free time page to add event
-  createNewEvent = () => {
-    this.router.navigate(['/physio/create-new-free-time']);
-
-    // Force reload, or else the new component gets layed on top of the old one for some reason
-    window.location.reload();
-  };
-
   // Set up calendar options
   setUpCalendarOptions = () => {
     this.calendarOptions = {
@@ -58,6 +50,17 @@ export class SetFreeTimeComponent implements OnInit {
         allDay: false,
       }]
     };
+  };
+
+  // Navigate to new free time page to add event
+  clickButton = (detail) => {
+    if (detail.buttonType === "createNewButton"){
+      this.router.navigate(['/physio/set-free-time/create-new-free-time']);
+    }
+    console.log(detail);
+  };
+  createNewEvent = () => {
+    this.router.navigate(['/physio/set-free-time/create-new-free-time']);
   };
 
   updateEvent = (detail) => {
