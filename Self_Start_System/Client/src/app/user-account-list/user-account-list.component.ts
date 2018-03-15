@@ -17,15 +17,18 @@ export class UserAccountListComponent implements OnInit {
 	physiotherapists = {};
 	activeUser;
 	activeIndex;
+	isPhysio;
 
 	constructor(userAccountListService: UserAccountListService, router: Router) {
 		this.userAccountListService = userAccountListService;
 		this.router = router;
+
   }
 
   ngOnInit() {
 		this.getPatientAccounts();
 		this.getPhysiotherapistAccounts();
+		this.isPhysio = 0;
   }
 
 	//Route to create account page
@@ -35,7 +38,7 @@ export class UserAccountListComponent implements OnInit {
 
 	//Get all user patient accounts
 	getPatientAccounts() {
-		this.users = this.userAccountListService.getAllPatients().
+		this.userAccountListService.getAllPatients().
 		subscribe(
 			user => {
 				this.users = user;
@@ -48,11 +51,11 @@ export class UserAccountListComponent implements OnInit {
 
 	//Get a physiotherapist accounts
 	getPhysiotherapistAccounts() {
-		this.physiotherapists = this.userAccountListService.getAllPhysiotherapists().
+		this.userAccountListService.getAllPhysiotherapists().
 		subscribe(
 			user => {
 				this.physiotherapists = user;
-				console.log("This is what was returned" + JSON.stringify(user));
+				console.log("This is what was returned for physio" + JSON.stringify(user));
 			},
 			error => {
 				console.log("Error");
@@ -72,6 +75,8 @@ export class UserAccountListComponent implements OnInit {
 			error => {
 				console.log("Error");
 			});
+			//Redirect to users profile
+			this.viewProfile();
 	}
 
 	//Reset patient password
@@ -101,6 +106,12 @@ export class UserAccountListComponent implements OnInit {
 		console.log("Putting this in store for the user" + this.activeUser);
 		localStorage.setItem('selectedAccount', JSON.stringify(this.activeUser));
 		this.router.navigate(['admin/user-accounts/manage']);
+	}
+
+	//Set the user type to display the corresponding user list
+	setUserType(type) {
+		this.isPhysio = type;
+		console.log(this.isPhysio);
 	}
 
 }
