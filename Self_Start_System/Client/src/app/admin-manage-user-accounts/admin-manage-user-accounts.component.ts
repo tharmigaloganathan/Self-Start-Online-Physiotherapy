@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserAccountListService } from '../user-account-list.service';
 
 @Component({
   selector: 'app-admin-manage-user-accounts',
   templateUrl: './admin-manage-user-accounts.component.html',
-  styleUrls: ['./admin-manage-user-accounts.component.scss']
+  styleUrls: ['./admin-manage-user-accounts.component.scss'],
+	providers: [UserAccountListService]
 })
 export class AdminManageUserAccountsComponent implements OnInit {
 	router;
+	userAccountListService;
 	user = {};
-	account = {}
+	account = {};
+	loading = false;
 
-  constructor(router: Router) {
+  constructor(router: Router, userAccountListService: UserAccountListService) {
 		this.router = router;
+		this.userAccountListService = userAccountListService;
 	}
 
   ngOnInit() {
@@ -28,11 +33,31 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	//Reset the users Password
 	resetPassword() {
 		console.log("Reset password clicked");
+		this.loading = true;
+		const patientAccount = {
+			_id: this.account._id,
+			userAccountName: this.account.userAccountName,
+			encryptedPassword: "passwordreset",
+			patientProfile: this.user._id
+		}
+		console.log(patientAccount);
+		this.userAccountListService.updateUserAccount(this.user._id, patientAccount).
+		subscribe(
+			user => {
+				this.activeUser = user;
+				console.log("This was returned for reset password" + JSON.stringify(user));
+				this.loading = false;
+			},
+			error => {
+				console.log("Error");
+				this.loading = false;
+			});
 	}
 
 	//Delete the users account
 	deleteAccount() {
 		console.log("Delete account clicked");
+		this.loading = true;
 	}
 
 }

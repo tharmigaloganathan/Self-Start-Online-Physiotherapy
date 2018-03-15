@@ -1,6 +1,7 @@
 <app-navbar-admin></app-navbar-admin>
 
 <div class="container">
+	  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 	<div class="row">
 		<div class="col">
 			<div class="card-container top">
@@ -68,7 +69,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="col modal-container">
-							<button mat-raised-button class="yes-button" (click)="resetPassword()">Yes</button>
+							<button mat-raised-button class="yes-button" data-dismiss="modal" (click)="resetPassword()">Yes</button>
 							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
 						</div>
 					</div>
@@ -88,7 +89,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="col modal-container">
-							<button mat-raised-button class="yes-button"(click)="deleteAccount()">Yes</button>
+							<button mat-raised-button class="yes-button" data-dismiss="modal" (click)="deleteAccount()">Yes</button>
 							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
 						</div>
 					</div>
