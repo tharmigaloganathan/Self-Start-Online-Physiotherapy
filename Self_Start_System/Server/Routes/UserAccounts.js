@@ -5,69 +5,88 @@ var Administrators = require('../Models/Administrator');
 var Physiotherapists = require('../Models/Physiotherapist');
 var PatientProfiles = require('../Models/PatientProfile');
 
-router.route('/')
+
+
+router.route('/login')
     .post(function (request, response) {
-        console.log(request.body);
-        if(request.body.administrator){
-            Administrators.add(request.body.administrator).then(function(document){
-                request.body.administrator = document._id; // Replace administrator object provided with ID of document created
-                administratorObject = document;
-            }).catch(function(err){
-                console.log(err);
-            });
-        }else if(request.body.physiotherapist){
-            Physiotherapists.add(request.body.physiotherapist).then(function(document){
-                request.body.physiotherapist = document._id; // Replace physiotherapist object provided with ID of document created
-                physiotherapistObject = document;
-            }).catch(function(err){
-                console.log(err);
-            });
-        }else if(request.body.patientProfile){
-            console.log("test");
-            PatientProfiles.add(request.body.patientProfile).then(function(document){
-                console.log("test2");
-                console.log(document);
-                console.log(document._id);
-                request.body.patientProfile = document._id; // Replace patientProfile object provided with ID of document created
-                patientProfileObject = document;
-            }).catch(function(err){
-                console.log(err);
-            });
-        }
+        console.log("in login route");
+        UserAccounts.getByName(response.body.userAccountName).then(function(account){
+            accToBeVerified = account;
+            console.log("retrieved the account from the name: ", accToBeVerified);
+        }).catch(function(err){
+            console.log(err);
+        });
 
+        UserAccounts.login(accToBeVerified).then(function(userAccount){
+            response.json({userAccount: userAccount});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+
+    });
+
+router.route('/')
+    .post(function (request,response) {
+        console.log ("in user account post route, about to add account :", request.body);
         UserAccounts.add(request.body).then(function(userAccount){
+            console.log('account has been made, time to link it to the appropriate profile');
+            var profile;
 
-            if(administratorObject){
-                administratorObject.userAccount = userAccount._id;  // Set the userAccount reference of the administrator just created
-                Administrators.update(administratorObject._id, administratorObject).then(function(document){
-                    console.log(document);
+            if(userAccount.patientProfile){
+                PatientProfiles.getOne(userAccount.patientProfile).then(function(patientProfile){
+                    console.log('found the patient profile to link to', patientProfile);
+                    profile = patientProfile;
+                    profile.userAccount = userAccount._id;
+
+                    PatientProfiles.update(profile._id, profile).then(function(document){
+                        console.log(document);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
                 }).catch(function(err){
                     console.log(err);
                 });
-            }else if(physiotherapistObject){
-                physiotherapistObject.userAccount = userAccount._id;  // Set the userAccount reference of the physiotherapist just created
-                Physiotherapists.update(physiotherapistObject._id, physiotherapistObject).then(function(document){
-                    console.log(document);
+
+            } else if(userAccount.administrator){
+                Administrators.getOne(userAccount.administrator).then(function(adminProfile){
+                    console.log('found the patient profile to link to', adminProfile);
+                    profile = adminProfile;
+                    profile.userAccount = userAccount._id;
+
+                    Administrators.update(profile._id, profile).then(function(document){
+                        console.log(document);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
                 }).catch(function(err){
                     console.log(err);
                 });
-            }else if(patientProfileObject){
-                patientProfileObject.userAccount = userAccount._id;  // Set the userAccount reference of the patientProfile just created
-                PatientProfiles.update(patientProfileObject._id, patientProfileObject).then(function(document){
-                    console.log(document);
+
+            } else if(physiotherapist){
+                Physiotherapists.getOne(userAccount.physiotherapist).then(function(physioProfile){
+                    console.log('found the patient profile to link to', physioProfile);
+                    profile = physioProfile;
+                    profile.userAccount = userAccount._id;
+
+                    Physiotherapists.update(profile._id, profile).then(function(document){
+                        console.log(document);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
                 }).catch(function(err){
                     console.log(err);
                 });
             }
 
-            userAccount.administrator = administrator._id;
-            UserAccounts.update(userAccount._id, userAccount).then(function(userAccount){   // I then update the administrator reference of the associated userAccount
-                console.log(userAccount);
-            }).catch(function(err){
-                console.log(err);
-            });
+            // userAccount.administrator = administrator._id;
+            // UserAccounts.update(userAccount._id, userAccount).then(function(userAccount){   // I then update the administrator reference of the associated userAccount
+            //     console.log(userAccount);
+            // }).catch(function(err){
+            //     console.log(err);
+            // });
 
             response.json({userAccount: userAccount});
+
         }).catch(function(err){
             response.json({success: false, message: err});
         })
@@ -100,6 +119,8 @@ router.route('/')
             response.json({success: false, message: err});
         })
     });
+
+
 
 router.route('/:object_id')
     .get(function (request, response) {
@@ -151,5 +172,6 @@ router.route('/:object_id')
             response.json({success: false, message: err});
         })
     });
+
 
 module.exports = router;

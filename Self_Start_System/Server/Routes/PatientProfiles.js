@@ -4,10 +4,12 @@ var PatientProfiles = require('../Models/PatientProfile');
 
 router.route('/')
     .post(function (request, response) {
+        console.log ("within the PatientProfile route POST")
         PatientProfiles.add(request.body).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
+            console.log("error from backend: ", err);
         })
     })
     .get(function (request, response) {

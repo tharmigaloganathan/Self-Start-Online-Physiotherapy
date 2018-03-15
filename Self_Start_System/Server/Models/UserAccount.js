@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs'); // A native JS bcrypt library for NodeJS
+
 var userAccountSchema = mongoose.Schema(
     {
         userAccountName: String,
@@ -21,6 +23,9 @@ module.exports = {
     update:update,
     deleteOne:deleteOne
 };
+
+
+
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
@@ -118,6 +123,16 @@ function add(object){
             error = "No encryptedPassword detected.";
             reject(error);
         } else {
+            if (!this.isModified('encryptedPassword')){
+                //if it's not modified, no need to run middle ware.
+                next();
+            } else {
+                //make a hash and assign it back to password
+                console.log("before hashing");
+                document.encryptedPassword = bcrypt.hashSync(this.password, 10);
+                //this if hash is working
+                console.log(document.encryptedPassword);
+            }
             document.save(function (error) {
                 if (error){
                     reject(error);
@@ -127,6 +142,37 @@ function add(object){
             });
         }
     });
+}
+
+function checkPassword (password){
+    return bcrypt.compareSync(password, this.password);
+}
+
+// userAccountSchema.methods.comparePassword = function (password){
+//     return bcrypt.compareSync(password, this.password);
+// };
+
+function login(object){
+    return new Promise (function (resolve, reject){
+
+        var document = new UserAccounts(document);
+
+        if (!document.userAccountName){
+            error = "No userAccountName detected.";
+            reject(error);
+        } else if (!document.encryptedPassword){
+            error = "No encryptedPassword detected.";
+            reject(error);
+        } else {
+            const validPassword = checkPassword(document.encryptedPasswordpassword);
+            if (!validPassword) {
+                error = "Password Invalid/Does not match.";
+                reject(error);
+            } else {
+                resolve(document);
+            }
+        }
+    })
 }
 
 

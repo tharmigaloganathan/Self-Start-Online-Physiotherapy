@@ -1,5 +1,4 @@
-<app-navbar-patient></app-navbar-patient>
-
+<app-navbar-general></app-navbar-general>
 
 <h1 class="title">
     Create New Account
@@ -11,30 +10,22 @@
     <b>Fill out your information below!</b>
 </h1>
 <br /><br />
+
+<button *ngIf="!userMade" mat-raised-button (click)="registerUserProfile()">Generate Test User</button>
+<h2 *ngIf="userMade">A Patient User has been made! Ready to create account</h2>
 <div class="example-container2">
     <mat-form-field class="name">
-        <input matInput #name placeholder="Username">
+        <input matInput #name placeholder="Enter your desired username" [(ngModel)]="username">
     </mat-form-field>
 
     <mat-form-field class="authorName">
-        <input matInput #authorName placeholder="Password ">
+        <input matInput #authorName placeholder="Enter you desired password "[(ngModel)]="password">
     </mat-form-field>
 
-    <br /><br />
-
-    <mat-form-field class="description">
-        <input matInput #description placeholder="Email Address">
+    <mat-form-field class="authorName">
+      <input matInput #authorName placeholder="Enter your desired password again "[(ngModel)]="passwordVerify" >
     </mat-form-field>
 
-    <br /><br />
-
-    <mat-form-field class="goal">
-        <input matInput #goal placeholder="First Name">
-    </mat-form-field>
-
-    <mat-form-field class="timeframe">
-        <input matInput #timeframe placeholder="Last Name">
-    </mat-form-field>
 </div>
 
-<button mat-raised-button class="stickToBottom" routerLink="/patient">Create Account!</button>
+<button mat-raised-button class="stickToBottom"  (click)="registerUserAccount()">Create Account!</button>

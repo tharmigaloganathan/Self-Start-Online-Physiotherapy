@@ -50,6 +50,7 @@ export class CreateUserAccountService {
 
 	//Create a new patient profile
 	registerUserProfile(user: any) {
+    console.log("within service")
 		return this.http.post(this.domain+'/PatientProfiles', user)
 		.map((response: Response) => {
 			return response.json();
@@ -66,6 +67,7 @@ export class CreateUserAccountService {
 
 	//Create a new user account
 	registerUserAccount(account: any) {
+    console.log("within service, in registerUserAccount function ");
 		return this.http.post(this.domain+'/UserAccounts', account)
 		.map((response: Response) => {
 			return response.json();

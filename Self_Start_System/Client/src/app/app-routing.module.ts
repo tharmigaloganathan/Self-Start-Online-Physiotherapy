@@ -39,6 +39,11 @@ const appRoutes: Routes = [
     component: LoginComponent
   },
 
+  {
+    path: 'register',
+    component: CreateNewAccountComponent
+  },
+
 
   {
     path: 'admin/home',

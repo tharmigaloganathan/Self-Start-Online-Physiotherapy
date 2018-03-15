@@ -85,6 +85,7 @@ export class CreateUserAccountComponent implements OnInit {
 	}
 
 	registerUserProfile() {
+
 		//JSON object to hold user information
 		const user = {
 				familyName: this.familyName,
