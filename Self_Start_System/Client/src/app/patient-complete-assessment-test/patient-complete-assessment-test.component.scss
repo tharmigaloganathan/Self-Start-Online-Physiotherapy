@@ -1,0 +1,36 @@
+@import '../../scss/_variables';
+
+.top {
+	margin-top: 2.5%;
+}
+
+.header {
+	padding: 2%;
+}
+
+.form-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-container > * {
+	width: 100%;
+}
+
+.button-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+}
+
+.next-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.previous-button {
+	background-color: $flash-of-orange;
+	color: $white;
+}
