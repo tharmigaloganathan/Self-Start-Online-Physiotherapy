@@ -146,9 +146,53 @@ function add(object){
     });
 }
 
+
+// Helper function to combine all overlapping timeslots
+function combineOverLappingDates(document) {
+  // Return if less than 2 elements
+  if (document.availableTimeSlots.length < 2){
+   return document;
+  }
+
+  // Sort by starting date
+  document.availableTimeSlots.sort(function(a,b){
+    return a.startDate.getTime() - b.startDate.getTime();
+  });
+
+  console.log(document.availableTimeSlots);
+
+  // Store the new array, with no overlaps
+  let newAvailableTimeSlot = new Array();
+  // Initialize with one time slot
+  newAvailableTimeSlot.push(document.availableTimeSlots[0]);
+
+  for (let slot of document.availableTimeSlots) {
+
+    // If the current start time is greater than the last end time,
+    // No overlap, so push the new object
+    if (slot.startDate.getTime() > newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate.getTime()){
+      newAvailableTimeSlot.push(new Object(slot));
+    } else {
+      // If current start time is equal or less than the last end time,
+      // Combine the two slots by taking the greatest end date
+      let currentSlotEndDate = slot.endDate;
+      let prevSlotEndDate = newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate;
+
+      // If overlap, take the greater of the two end dates
+      newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate =
+        prevSlotEndDate.getTime() > currentSlotEndDate.getTime()
+          ? new Date(prevSlotEndDate)
+          : new Date(currentSlotEndDate);
+    }
+  }
+
+  document.availableTimeSlots = newAvailableTimeSlot;
+  return document;
+}
+
 function addFreeTimeSlot(id, body){
   return new Promise (function (resolve, reject) {
-      console.log(body);
+      console.log("Hello", body);
       if (!body.startDate){
         error = "No startDate detected.";
         reject(error);
@@ -168,6 +212,8 @@ function addFreeTimeSlot(id, body){
               startDate: body.startDate,
               endDate: body.endDate
             });
+
+            document = combineOverLappingDates(document);
 
             document.save(function (error) {
               if (error) {

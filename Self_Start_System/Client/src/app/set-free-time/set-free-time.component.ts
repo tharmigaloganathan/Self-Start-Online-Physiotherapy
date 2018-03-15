@@ -6,6 +6,8 @@ import {ManagePatientProfileService} from "../manage-patient-profile.service";
 import { Router } from '@angular/router';
 import { SetFreeTimeService } from "../set-free-time.service";
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-set-free-time',
   templateUrl: './set-free-time.component.html',
@@ -48,8 +50,8 @@ export class SetFreeTimeComponent implements OnInit {
     for (let event of eventslist){
       formatedEventsList.push({
           title: 'Available',
-          start: event.startDate,
-          end: event.endDate,
+          start: moment(event.startDate),
+          end: moment(event.endDate),
           allDay: false,
       });
     }
