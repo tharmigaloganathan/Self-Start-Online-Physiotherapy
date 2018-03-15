@@ -50,4 +50,24 @@ router.route('/:object_id')
         })
     });
 
+router.route('/free-time/:object_id')
+  .put(function (request, response) {
+    if (!request.params.object_id) {
+      response.json({success: false, message: 'id was not provided'});
+    }
+    Physiotherapists.addFreeTimeSlot(request.params.object_id, request.body).then(function(physiotherapist){
+      response.json({physiotherapist: physiotherapist});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  })
+  // .get(function (request, response) {
+  //   Physiotherapists.getFreeTimeSlot.then(function(timeSlots){
+  //     response.json({physiotherapist: physiotherapists});
+  //   }).catch(function(err){
+  //     response.json({success: false, message: err});
+  //   })
+  // })
+;
+
 module.exports = router;

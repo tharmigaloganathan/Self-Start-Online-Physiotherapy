@@ -7,7 +7,13 @@ var physiotherapistSchema = mongoose.Schema(
 		dateHired: Date,
 		dateFinished: Date,
 		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatment')}],
-		userAccount: {type: mongoose.Schema.ObjectId, ref: ('UserAccount')}
+		userAccount: {type: mongoose.Schema.ObjectId, ref: ('UserAccount')},
+    // availableTimeSlots: []
+    availableTimeSlots: [{
+		    slotId: String,
+		    startDate: Date,
+        endDate: Date
+    }],
 	}
 );
 
@@ -19,7 +25,8 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    addFreeTimeSlot:addFreeTimeSlot
 };
 
 function deleteOne(id){
@@ -70,7 +77,9 @@ function update(id, updatedDocument){
                     document.dateFinished = updatedDocument.dateFinished;
                     document.treatments = updatedDocument.treatments;
                     document.userAccount = updatedDocument.userAccount;
-                    document.save(function (error) {
+                    document.availableTimeSlots = updatedDocument.availableTimeSlots;
+
+                  document.save(function (error) {
                         if (error) {
                             reject(error);
                         } else {
@@ -137,4 +146,39 @@ function add(object){
     });
 }
 
+function addFreeTimeSlot(id, body){
+  return new Promise (function (resolve, reject) {
+      console.log(body);
+      if (!body.startDate){
+        error = "No startDate detected.";
+        reject(error);
+      } else if (!body.endDate){
+      error = "No endDate detected.";
+      reject(error);
+    } else if (!body.slotId){
+      error = "No slotId detected.";
+      reject(error);
+    } else {
 
+        Physiotherapists.findById(id, function (error, document) {
+          if (error) {
+            reject(error);
+          } else {
+            document.availableTimeSlots.push({
+              slotId: body.slotId,
+              startDate: body.startDate,
+              endDate: body.endDate
+            });
+
+            document.save(function (error) {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(document);
+              }
+            });
+          }
+        });
+      }
+  });
+}
