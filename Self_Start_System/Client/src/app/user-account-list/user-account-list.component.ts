@@ -71,12 +71,13 @@ export class UserAccountListComponent implements OnInit {
 			user => {
 				this.activeUser = user;
 				console.log(this.activeUser);
+				//Redirect to users profile
+				this.viewProfile();
 			},
 			error => {
 				console.log("Error");
 			});
-			//Redirect to users profile
-			this.viewProfile();
+
 	}
 
 	//Reset patient password
@@ -103,7 +104,7 @@ export class UserAccountListComponent implements OnInit {
 		//Store the users information in local storage
 		console.log("Putting this in store for the user" + this.users[this.activeIndex]);
 		localStorage.setItem('selectedPatient', JSON.stringify(this.users[this.activeIndex]));
-		console.log("Putting this in store for the user" + this.activeUser);
+		console.log("Putting this in store for the account" + this.activeUser);
 		localStorage.setItem('selectedAccount', JSON.stringify(this.activeUser));
 		this.router.navigate(['admin/user-accounts/manage']);
 	}
