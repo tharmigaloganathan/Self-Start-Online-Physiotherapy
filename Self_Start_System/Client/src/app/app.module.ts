@@ -32,6 +32,7 @@ import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-re
 import { HttpModule } from '@angular/http';
 import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatDatepickerModule} from '@angular/material/datepicker';
@@ -44,6 +45,7 @@ import { FormService} from "./form.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
+import { LoadingModule } from 'ngx-loading';
 
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -143,6 +145,8 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+		MatDialogModule,
+		LoadingModule
   ],
   providers: [ExerciseService,
   FormService],
