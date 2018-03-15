@@ -71,7 +71,7 @@ import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 import { MessagesService} from "./messages.service";
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -116,6 +116,7 @@ import { MessagesService} from "./messages.service";
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,

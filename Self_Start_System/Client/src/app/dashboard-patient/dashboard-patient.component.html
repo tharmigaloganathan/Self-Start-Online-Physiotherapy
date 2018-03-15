@@ -1,2 +1,47 @@
 <app-navbar-patient></app-navbar-patient>
-<h1>Welcome Sally!</h1>
+
+<div class="grid-container">
+    <div class="welcome-card">Welcome to your dashboard Jane!</div>
+    <div class="row row-height">
+      <div class="col-md-6 col-padding-0">
+          <mat-card class="messages-card">
+              <mat-toolbar>
+                  <b>Your Messages</b>
+                  <span class="navbar-fill-remaining-space"></span>
+                  <span matTooltip="Launch Messages"><mat-icon routerLink="/patient/messages">launch</mat-icon></span>
+              </mat-toolbar>
+              <mat-card-subtitle>You have 0 unread messages! Here is your message history: </mat-card-subtitle>
+              <mat-card-content *ngFor="let message of messages">
+                  <mat-card-content *ngIf="message.patientID != message.sender" class="physio-message-div">
+                      {{message.message}}
+                      <mat-card-subtitle>Physiotherapist - {{message.time}}</mat-card-subtitle>
+                  </mat-card-content>
+                  <mat-card-content *ngIf="message.patientID == message.sender" class="patient-message-div">
+                      {{message.message}}
+                      <mat-card-subtitle>{{message.time}} - You </mat-card-subtitle>
+                  </mat-card-content>
+              </mat-card-content>
+              <mat-form-field class="input-form">
+                <input matInput #message placeholder="Type a message">
+              </mat-form-field>
+              <button class="send-button" (click)="addNewMessage(message.value); message.value=''">SEND</button>
+          </mat-card>
+          <mat-card class="assessment-test-card">
+              <mat-toolbar>
+                  <b>Your Assessment Tests</b>
+                  <span class="navbar-fill-remaining-space"></span>
+                  <span matTooltip="Launch Assessment Test Module"><mat-icon routerLink="">launch</mat-icon></span>
+              </mat-toolbar>
+          </mat-card>
+      </div>
+      <div class="col-md-6 col-padding-0">
+          <mat-card class="rehab-plan-card">
+              <mat-toolbar>
+                  <b>Your Rehabilitation Plan</b>
+                  <span class="navbar-fill-remaining-space"></span>
+                 <span matTooltip="Complete Exercises"><mat-icon routerLink="">launch</mat-icon></span>
+              </mat-toolbar>
+          </mat-card>
+      </div>
+    </div>
+</div>
