@@ -11,7 +11,12 @@ export class EditAssessmentTestDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<EditAssessmentTestDialogComponent>,
               @Inject(MAT_DIALOG_DATA) private data) { }
 
+  assessmentTest: any;
+  newQuestionFlag: boolean;
+
   ngOnInit() {
+    this.assessmentTest = this.data.assessmentTest;
+    this.newQuestionFlag = this.data.newQuestionFlag;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 import { ExerciseService } from '../services/exercise.service';
+import { AssessmentTestService } from "../assessment-test.service";
 import { ViewEncapsulation } from '@angular/core';
 import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
@@ -31,10 +32,12 @@ export class EditRehabilitationPlanComponent implements OnInit {
   editAssessmentTestDialogRef: MatDialogRef<EditAssessmentTestDialogComponent>
 
   assessmentTests = [];
+  selectedAssessmentTest: any;
   //END OF ASSESSMENT TEST RELATED
 
   constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
+              private assessmentTestService: AssessmentTestService,
               private dialog: MatDialog) {
       console.log("ID", this.editID)
   }
@@ -42,7 +45,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
   ngOnInit() {
     this.getRehabilitationPlans();
     this.getExercises();
-
+    this.getAssessmentTests();
   }
 
   getExerciseIDs() {
@@ -252,8 +255,52 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
   //ASSESSMENT TEST STARTS
   //==================================
-  getAssessmentTests(){
 
+  createAssessmentTest(){
+    var assessTest = {
+      name: "Name",
+      description: "Description",
+      authorName: "Author",
+      recommendations: null,
+      form: null,
+      testResults: null,
+      rehabilitationPlan: this.editID,
+      openDate: null,
+      dateCompleted: null
+    }
+    this.openEditAssessmentTestDialog(assessTest, true);
+  }
+
+  editAssessmentTest(){
+
+  }
+
+  openEditAssessmentTestDialog(assessmentTest, newQuestionFlag: boolean){
+    this.editAssessmentTestDialogRef = this.dialog.open(EditAssessmentTestDialogComponent, {
+      width: '50vw',
+      data: {
+        assessmentTest,
+        newQuestionFlag
+      }
+    });
+
+    this.editAssessmentTestDialogRef.afterClosed().subscribe( result => {
+      console.log("save this:", result);
+    });
+  }
+
+  getAssessmentTests(){
+    this.assessmentTestService.getAllAssessmentTests().subscribe(
+      data => {
+        let allAssessmentTests = data.assessmentTest;
+
+        for (let i = 0; i < allAssessmentTests; i++){
+          if(allAssessmentTests[i].rehabilitationPlan = this.editID){
+            this.assessmentTests.push(allAssessmentTests[i]);
+          }
+        }
+      }
+    )
   }
 
   //==================================

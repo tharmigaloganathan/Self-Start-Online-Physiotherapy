@@ -41,6 +41,7 @@ import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
 import { FormService} from "./form.service";
+import { AssessmentTestService } from "./assessment-test.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -147,8 +148,10 @@ import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog
     MatSnackBarModule,
   ],
   providers: [ExerciseService,
-  FormService],
+  FormService,
+  AssessmentTestService],
   bootstrap: [AppComponent],
-  entryComponents: [EditQuestionDialogComponent]
+  entryComponents: [EditQuestionDialogComponent,
+    EditAssessmentTestDialogComponent]
 })
 export class AppModule { }
