@@ -7,4 +7,47 @@
 .previous-button {
 	background-color: $flash-of-orange;
 	color: $white;
+	float: right;
+}
+
+.form-container {
+	padding: 1%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-container > * {
+	width: 100%;
+}
+
+.delete-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.reset-password-button {
+	background-color: $electric-glow;
+	color: $white;
+}
+
+.button-container {
+	padding: 1%;
+}
+
+.modal-container {
+	padding-left: 15%;
+	padding-right: 15%;
+}
+
+.yes-button {
+	background-color: $electric-glow;
+	color: $white;
+	float: left;
+}
+
+.no-button {
+	background-color: $magic-night;
+	color: $white;
+	float: right;
 }

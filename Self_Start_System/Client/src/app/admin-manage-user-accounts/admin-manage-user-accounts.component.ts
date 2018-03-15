@@ -17,12 +17,22 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
   ngOnInit() {
 		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
-		this.account = JSON.parse(localStorage.getItem('account'));
+		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
   }
 
 	//Go back to account list
 	viewAccountList() {
 		this.router.navigate(['/admin/user-accounts']);
+	}
+
+	//Reset the users Password
+	resetPassword() {
+		console.log("Reset password clicked");
+	}
+
+	//Delete the users account
+	deleteAccount() {
+		console.log("Delete account clicked");
 	}
 
 }

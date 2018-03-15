@@ -5,18 +5,93 @@
 		<div class="col">
 			<div class="card-container top">
 				<mat-card>
-					<h1>Viewing: {{ user.givenName + " " + user.familyName }}</h1>
-					<hr>
 					<div class="row">
-						<div class="col-md-10"></div>
+						<div class="col-md-10">
+							<h3>Viewing: {{ user.givenName + " " + user.familyName }}</h3>
+						</div>
 						<div class="col-md-2 col-md-offset-10">
 							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
 						</div>
 					</div>
-					<app-manage-patient-profile></app-manage-patient-profile>
+					<!-- Tabs -->
+					<mat-tab-group>
+						<!-- Personal Information -->
+						<mat-tab label="Personal Information">
+						</mat-tab>
+						<!-- Treatments -->
+						<mat-tab label="Treatments">
+						</mat-tab>
+						<!-- Appointments -->
+						<mat-tab label="Appointments">
+						</mat-tab>
+						<!-- Payments -->
+						<mat-tab label="Payments">
+						</mat-tab>
+						<!-- Account -->
+						<mat-tab label="Account Settings">
+							<form class="form-container">
+								<!-- Row 1 -->
+								<div class="row">
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Usermame" [(ngModel)]="account.userAccountName" name="account.userAccountName" disabled>
+										</mat-form-field>
+									</div>
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Password" type="password" [(ngModel)]="account.encryptedPassword" name="account.encryptedPassword" disabled>
+										</mat-form-field>
+									</div>
+								</div>
+							</form>
+							<div class="col button-container">
+								<button mat-raised-button class="reset-password-button" data-toggle="modal" data-target="#resetPasswordModal">Reset Password</button>
+								<button mat-raised-button class="delete-button" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
+							</div>
+							</mat-tab>
+					</mat-tab-group>
 				</mat-card>
 			</div>
-			<!-- Tabs -->
 		</div>
 	</div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog"
+		 aria-labelledby="resetPasswordLabel" aria-hidden="true">
+		 <div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center">Are you sure?</h6>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<button mat-raised-button class="yes-button" (click)="resetPassword()">Yes</button>
+							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog"
+		 aria-labelledby="deleteAccountLabel" aria-hidden="true">
+		 <div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center">Are you sure you want to delete this account?</h6>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<button mat-raised-button class="yes-button"(click)="deleteAccount()">Yes</button>
+							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
 </div>
