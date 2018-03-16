@@ -9,19 +9,26 @@ var PatientProfiles = require('../Models/PatientProfile');
 
 router.route('/login')
     .post(function (request, response) {
-        console.log("in login route");
-        UserAccounts.getByName(response.body.userAccountName).then(function(account){
-            accToBeVerified = account;
-            console.log("retrieved the account from the name: ", accToBeVerified);
-        }).catch(function(err){
-            console.log(err);
-        });
+        console.log("in login route, will be verifying account with username: ", request.body);
 
-        UserAccounts.login(accToBeVerified).then(function(userAccount){
-            response.json({userAccount: userAccount});
+        //get the account by checking the unique name
+        UserAccounts.getByName(request.body.userAccountName).then(function(userAccount){
+
+            console.log ("password entered by user is: ", request.body.encryptedPassword);
+            console.log ("accToVerifyPasswordOn is: ", userAccount);
+
+            //check to see if the password matches the name
+            UserAccounts.login(userAccount, request.body.encryptedPassword).then(function(userAccount){
+                response.json({success: true, message: "Account authenticated!", userAccount: userAccount});
+            }).catch(function(err){
+                response.json({success: false, message: err});
+            })
+
         }).catch(function(err){
             response.json({success: false, message: err});
         })
+
+
 
     });
 

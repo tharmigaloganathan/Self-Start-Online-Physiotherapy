@@ -24,17 +24,11 @@ export class AuthenticationService {
   ) { }
 
   login(user) {
-    console.log("inside auth service");
-    // return this.http.post(this.domain+'/login', user)
-    //   .map((response: Response) => {
-    //     return response.json();
-    //   });
-
+    console.log("inside auth service, service received: ", user);
     return this.http.post(this.domain+'/UserAccounts/login', user)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+      .map((response: Response) => {
+        return response.json();
+      });
   }
 
   private handleError(error: HttpErrorResponse) {

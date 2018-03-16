@@ -21,7 +21,8 @@ module.exports = {
     getOne:getOne,
     getByName:getByName,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    login:login,
 };
 
 
@@ -91,11 +92,13 @@ function getOne(id){
 
 function getByName(name){
     return new Promise (function (resolve, reject) {
+        console.log("in model, getByName name is: ", name);
         UserAccounts.find({userAccountName: name}, function (error, document) {
             if (error){
                 reject(error);
             }else{
-                resolve(document);
+                console.log ("in Model, getByName: ", document[0]);
+                resolve(document[0]);
             }
         });
     });
@@ -143,35 +146,34 @@ function add(object){
     });
 }
 
-function checkPassword (password){
-    return bcrypt.compareSync(password, this.password);
+function checkPassword (enteredPassword, encryptedPassword){
+    return bcrypt.compareSync(enteredPassword, encryptedPassword);
 }
 
 // userAccountSchema.methods.comparePassword = function (password){
 //     return bcrypt.compareSync(password, this.password);
 // };
 
-function login(object){
-    return new Promise (function (resolve, reject){
+function login(object, userEnteredPassword){
+    return new Promise (function (resolve, reject) {
+        console.log ("in LOGIN in model, object is: ", object);
+        console.log ("in LOGIN in model, the password the user entered is: ", userEnteredPassword);
+        console.log ("in LOGIN in model, encrypted password is: ", object.encryptedPassword);
 
-        var document = new UserAccounts(document);
+        var validPassword = checkPassword(userEnteredPassword, object.encryptedPassword);
+        console.log("the status of the password: ", validPassword);
 
-        if (!document.userAccountName){
-            error = "No userAccountName detected.";
-            reject(error);
-        } else if (!document.encryptedPassword){
-            error = "No encryptedPassword detected.";
+        if (!validPassword) {
+            console.log("in model, password doest not match");
+            error = "Password Invalid/Does not match.";
             reject(error);
         } else {
-            const validPassword = checkPassword(document.encryptedPasswordpassword);
-            if (!validPassword) {
-                error = "Password Invalid/Does not match.";
-                reject(error);
-            } else {
-                resolve(document);
-            }
+            console.log ("in model, password matches!");
+            resolve(object);
         }
+
     })
 }
+
 
 

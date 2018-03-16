@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(user).subscribe(
       user => {
-        console.log("This is what was returned" + JSON.stringify(user));
+        console.log("This is the user that has logged in" + JSON.stringify(user));
 
         if (user.admin_id) {
           this.admin_id = user.admin_id;
