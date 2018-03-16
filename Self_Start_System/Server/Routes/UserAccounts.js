@@ -5,6 +5,11 @@ var Administrators = require('../Models/Administrator');
 var Physiotherapists = require('../Models/Physiotherapist');
 var PatientProfiles = require('../Models/PatientProfile');
 
+//for tokens & verification & login sessions
+const jwt = require('jsonwebtoken');
+const config = require('../Config/Database');
+
+
 
 
 router.route('/login')
@@ -19,7 +24,13 @@ router.route('/login')
 
             //check to see if the password matches the name
             UserAccounts.login(userAccount, request.body.encryptedPassword).then(function(userAccount){
-                response.json({success: true, message: "Account authenticated!", userAccount: userAccount});
+
+                //login success
+
+                //create token, encrypt the id, expire in 24hours
+                const token = jwt.sign({_id: userAccount._id}, config.secret, {expiresIn: '24h'});
+                response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
+
             }).catch(function(err){
                 response.json({success: false, message: err});
             })

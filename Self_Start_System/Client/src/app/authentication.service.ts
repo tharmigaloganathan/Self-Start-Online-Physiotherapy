@@ -16,7 +16,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class AuthenticationService {
   domain = environment.apiURL;
   authToken;
-  user;
+  activeUser;
   options;
 
   constructor(
@@ -26,9 +26,15 @@ export class AuthenticationService {
   login(user) {
     console.log("inside auth service, service received: ", user);
     return this.http.post(this.domain+'/UserAccounts/login', user)
-      .map((response: Response) => {
-        return response.json();
-      });
+      .map(res => res.json());
+
+  }
+
+  storeUserData(token, userAccount){
+    localStorage.setItem('token', token);
+    localStorage.setItem('userAccount', JSON.stringify(userAccount))
+    this.authToken = token;
+    this.activeUser = userAccount;
   }
 
   private handleError(error: HttpErrorResponse) {

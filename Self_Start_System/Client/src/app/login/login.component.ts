@@ -33,18 +33,36 @@ export class LoginComponent implements OnInit {
     };
 
     this.authService.login(user).subscribe(
-      user => {
-        console.log("This is the user that has logged in" + JSON.stringify(user));
+      data => {
+        console.log(data);
+        console.log(data.userAccount["patientProfile_id"]);
+        var acc = data["userAccount"];
+        console.log(acc["patientProfile_id"]);
+        console.log("This is the user that has logged in" + JSON.stringify(data));
 
-        if (user.admin_id) {
-          this.admin_id = user.admin_id;
-          console.log("Admin id " + this.admin_id);
-        } else if (this.physiotherapist_id) {
-          this.physiotherapist_id = user.physiotherapist_id;
-          console.log("Physiotherapist profile id " + this.patientProfile_id);
-        } else if (this.patientProfile_id) {
-          this.patientProfile_id = user.patientProfile._id;
-          console.log("Patient profile id " + this.patientProfile_id);
+        if(!data.success){
+          console.log(data.message);
+        } else {
+          //store user data
+          this.authService.storeUserData(data.token, data.userAccount);
+          console.log ("user's token: ", data.token);
+          console.log("user being stored in local storage: ", data.userAccount);
+
+          //navigate to appropriate home page after 2 second delay
+          console.log(data.userAccount.patientProfile_id);
+          if (data.userAccount.patientProfile_id) {
+            setTimeout(() => {
+              this.router.navigate(['/patient']);
+            }, 1000);
+          } else if (data.userAccount.admin_id) {
+            setTimeout(() => {
+              this.router.navigate(['/admin']);
+            }, 1000);
+          } else if (data.userAccount.physiotherapist_id){
+            setTimeout(() => {
+              this.router.navigate(['/physio']);
+            }, 1000);
+          }
         }
       },
       error => {
