@@ -2,20 +2,45 @@
 @import '~@angular/material/theming';
 @import '../../scss/sidebar';
 
+.radio-group {
+  display: inline-flex;
+}
+
+.radio-button {
+  margin: 5px;
+}
+
+.selected-radio-value {
+  margin: 15px 0;
+}
+
+.search-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 96%;
+}
+
+.search-field {
+  width: 100%;
+}
+
 .title {
-    justify-content: center !important;
     font-family: 'Roboto Condensed', sans-serif;
-    text-align: center;
-    position: relative;
-    top:20px;
+    margin-top:2%;
 }
 mat-card {
     align-items: center;
+    align: center;
     width: 400px;
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
-.planlist {
-    margin-left: 32%;
+.rehab-card {
+    margin-top: 5%
+}
+
+.rehab-plan-list {
+    margin-top: 2%;
 }
 
 mat-card:hover {
@@ -24,6 +49,6 @@ mat-card:hover {
 
 
 button.blue {
-    background-color: $beautiful-blue;
-    // @include mat-elevation(2);
+    background-color: $magic-night;
+    color: #FFFFFF;
 }

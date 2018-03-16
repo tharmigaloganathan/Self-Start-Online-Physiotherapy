@@ -72,6 +72,7 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -117,6 +118,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatRadioModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
