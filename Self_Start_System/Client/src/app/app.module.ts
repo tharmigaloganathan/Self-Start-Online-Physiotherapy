@@ -72,6 +72,10 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
+import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { MessagesService} from "./messages.service";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -104,7 +108,8 @@ import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
-		EditAssessmentTestDialogComponent
+		EditAssessmentTestDialogComponent,
+		PatientMessagesComponent
   ],
   imports: [
     HttpModule,
@@ -116,6 +121,8 @@ import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatTooltipModule,
+    MatRadioModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,

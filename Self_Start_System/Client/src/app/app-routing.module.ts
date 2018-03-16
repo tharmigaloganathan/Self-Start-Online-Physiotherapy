@@ -24,6 +24,7 @@ import { BookAppointmentComponent } from "./book-appointment/book-appointment.co
 import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
 
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
+import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 
 
 // Our Array of Angular 2 Routes
@@ -65,6 +66,10 @@ const appRoutes: Routes = [
   {
     path: 'patient/home',
     component: DashboardPatientComponent
+  },
+  {
+    path: 'patient/messages',
+    component: PatientMessagesComponent
   },
   {
     path: 'patient/book-appointment',
