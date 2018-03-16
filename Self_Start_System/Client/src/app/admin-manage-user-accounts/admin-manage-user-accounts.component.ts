@@ -14,6 +14,9 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	user = {};
 	account = {};
 	loading = false;
+	isChanged = false;
+	today = new Date();
+	age;
 
   constructor(router: Router, userAccountListService: UserAccountListService) {
 		this.router = router;
@@ -23,11 +26,23 @@ export class AdminManageUserAccountsComponent implements OnInit {
   ngOnInit() {
 		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
+		this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
+		this.age = this.age.toFixed(0) + " years";
   }
 
 	//Go back to account list
 	viewAccountList() {
 		this.router.navigate(['/admin/user-accounts']);
+	}
+
+	//Make information editable
+	editPatientInfo() {
+		this.isChanged = true;
+	}
+
+	cancelEdit() {
+		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
+		this.isChanged = false;
 	}
 
 	//Reset the users Password
@@ -44,7 +59,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		this.userAccountListService.updateUserAccount(this.user._id, patientAccount).
 		subscribe(
 			user => {
-				this.activeUser = user;
+				this.account = user;
 				console.log("This was returned for reset password" + JSON.stringify(user));
 				this.loading = false;
 			},
@@ -58,6 +73,18 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	deleteAccount() {
 		console.log("Delete account clicked");
 		this.loading = true;
+		sleep(2000);
+		this.loading = false;
 	}
+
+	//Function to wait to display loading animation
+	function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
 
 }

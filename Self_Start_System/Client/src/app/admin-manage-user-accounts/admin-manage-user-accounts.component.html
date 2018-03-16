@@ -18,6 +18,110 @@
 					<mat-tab-group>
 						<!-- Personal Information -->
 						<mat-tab label="Personal Information">
+							<form class="form-container">
+								<!-- Buttons -->
+								<div class="row">
+									<div *ngIf="!isChanged; else edit" class="col">
+										<div class="col button-container">
+											<button mat-raised-button class="edit-button" (click)="editPatientInfo()">Edit</button>
+										</div>
+									</div>
+									<ng-template #edit>
+										<div class="col button-container">
+											<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
+											<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+										</div>
+									</ng-template>
+								</div>
+								<!-- Row 1 -->
+								<div class="row">
+									<div class="col form-container">
+										<mat-form-field>
+											<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+									<div class="col form-container">
+										<mat-form-field>
+											<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+								</div>
+								<!-- Row 2 -->
+								<div class="row">
+									<div class="col-4 form-container">
+										<mat-form-field>
+											<mat-select [(value)]="user.gender" placeholder="Gender" [disabled]="!isChanged">
+												<mat-option value="Male">Male</mat-option>
+												<mat-option value="Female">Female</mat-option>
+												<mat-option value="Other">Other</mat-option>
+												</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
+											<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+											<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
+										</mat-form-field>
+									</div>
+									<div class="col-2 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Current Age" [value]="age" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+								</div>
+								<!-- Row 3 -->
+								<div class="row">
+									<div class="col-4 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Street" [(ngModel)]="user.street" name="user.street" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+									<div class="col-4 form-container">
+										<mat-form-field>
+											<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+									<div class="col-2 form-container">
+										<mat-form-field>
+											<mat-select [(value)]="user.province" placeholder="Province" [disabled]="!isChanged">
+													<mat-option value="AB">AB</mat-option>
+													<mat-option value="BC">BC</mat-option>
+													<mat-option value="MB">MB</mat-option>
+												<mat-option value="NB">NB</mat-option>
+												<mat-option value="NL">NL</mat-option>
+												<mat-option value="NS">NS</mat-option>
+												<mat-option value="NT">NT</mat-option>
+												<mat-option value="NU">NU</mat-option>
+												<mat-option value="ON">ON</mat-option>
+												<mat-option value="PE">PE</mat-option>
+												<mat-option value="QC">QC</mat-option>
+												<mat-option value="SK">SK</mat-option>
+												<mat-option value="YT">YT</mat-option>
+												</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-2 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+								</div>
+								<!-- Row 4 -->
+								<div class="row">
+									<div class="col-8 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+									<div class="col-4 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+								</div>
+							</form>
+
 						</mat-tab>
 						<!-- Treatments -->
 						<mat-tab label="Treatments">
