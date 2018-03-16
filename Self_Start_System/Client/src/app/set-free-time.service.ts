@@ -61,7 +61,7 @@ export class SetFreeTimeService {
       });
   }
 
-  addNewAppointment(id, startDate, endDate, reason, other, timeslotId, physioID) {
+  addNewAppointment(patientId, startDate, endDate, reason, other, timeslotId, physioID) {
     let body = {
       startDate: startDate,
       endDate: endDate,
@@ -70,7 +70,7 @@ export class SetFreeTimeService {
       timeslotId: timeslotId,
       physioID: physioID
     };
-    return this.http.post(this.domain+'/PatientProfiles/add-appointment/'+id, body)
+    return this.http.post(this.domain+'/PatientProfiles/add-appointment/'+patientId, body)
       .map((response: Response) => {
         return response.json();
       });

@@ -33,7 +33,8 @@ export class BookAppointmentFormComponent implements OnInit {
 
   disableForm = true;
 
-  constructor(public router : Router) { }
+  constructor(public router : Router,
+              private setFreeTimeService: SetFreeTimeService) { }
 
   ngOnInit() {
     // Update View
@@ -80,15 +81,30 @@ export class BookAppointmentFormComponent implements OnInit {
   //
   onClickBook = () => {
     if (!this.hasError){
-      console.log(
+      this.setFreeTimeService.addNewAppointment(
+        this.patientProfileId,
         this.startDate,
         this.endDate,
-        this.assessmentTypeValue,
-        this.contactMethod,
+        'Testing Reason',
+        'Testing Other',
         localStorage.getItem('book-appointment-mongoId'),
-        localStorage.getItem('book-appointment-physioId')
-      );
-      this.onClickCancel();
+        localStorage.getItem('book-appointment-physioId'),
+      ).subscribe(response=>{
+        console.log(response);
+        this.onClickCancel();
+      }, err=>{
+        console.log(err);
+      });
+
+      // console.log(
+      //   this.startDate,
+      //   this.endDate,
+      //   this.assessmentTypeValue,
+      //   this.contactMethod,
+      //   localStorage.getItem('book-appointment-mongoId'),
+      //   localStorage.getItem('book-appointment-physioId')
+      // );
+
     }
   };
 
