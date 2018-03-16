@@ -29,20 +29,33 @@ router.route('/')
     .post(function (request,response) {
         console.log ("in user account post route, about to add account :", request.body);
         UserAccounts.add(request.body).then(function(userAccount){
-            console.log('account has been made, time to link it to the appropriate profile');
-            var profile;
+
+            //temp variables to hold the profile and temp account for updating
+            var tempProfile;
+            var tempAccount = userAccount;
+            console.log ("Success! this is the account that was just added: ", tempAccount)
 
             if(userAccount.patientProfile){
                 PatientProfiles.getOne(userAccount.patientProfile).then(function(patientProfile){
                     console.log('found the patient profile to link to', patientProfile);
-                    profile = patientProfile;
-                    profile.userAccount = userAccount._id;
 
-                    PatientProfiles.update(profile._id, profile).then(function(document){
-                        console.log(document);
+                    //update the reference to the userAccount just created in the patient's profile
+                    tempProfile = patientProfile;
+                    tempProfile.account = userAccount._id;
+                    PatientProfiles.update(tempProfile._id, tempProfile).then(function(document){
+                        console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
                     }).catch(function(err){
                         console.log(err);
                     });
+
+                    //update the reference to the patient profile in the just created UserAccount
+                    tempAccount.patientProfile = tempProfile._id;
+                    UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
+                        console.log ("UserAccount successfully updated! It's patient profile field should be filled! ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+
                 }).catch(function(err){
                     console.log(err);
                 });
@@ -51,7 +64,7 @@ router.route('/')
                 Administrators.getOne(userAccount.administrator).then(function(adminProfile){
                     console.log('found the patient profile to link to', adminProfile);
                     profile = adminProfile;
-                    profile.userAccount = userAccount._id;
+                    profile.account = userAccount._id;
 
                     Administrators.update(profile._id, profile).then(function(document){
                         console.log(document);
@@ -66,7 +79,7 @@ router.route('/')
                 Physiotherapists.getOne(userAccount.physiotherapist).then(function(physioProfile){
                     console.log('found the patient profile to link to', physioProfile);
                     profile = physioProfile;
-                    profile.userAccount = userAccount._id;
+                    profile.account = userAccount._id;
 
                     Physiotherapists.update(profile._id, profile).then(function(document){
                         console.log(document);
@@ -90,6 +103,7 @@ router.route('/')
         }).catch(function(err){
             response.json({success: false, message: err});
         })
+
     })
     .get(function (request, response) {
         UserAccounts.getAll().then(function(userAccounts){
