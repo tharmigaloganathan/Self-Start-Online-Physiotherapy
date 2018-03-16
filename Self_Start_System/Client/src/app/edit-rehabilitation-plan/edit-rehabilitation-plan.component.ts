@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 import { ExerciseService } from '../services/exercise.service';
+import { AssessmentTestService } from "../assessment-test.service";
 import { ViewEncapsulation } from '@angular/core';
+import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
+import { MatDialog, MatDialogRef } from "@angular/material";
 
 @Component({
-  selector: 'app-edit-rehabilitation-plan',
-  templateUrl: './edit-rehabilitation-plan.component.html',
-  styleUrls: ['./edit-rehabilitation-plan.component.scss'],
-  providers: [ RehabilitationPlanService ],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-edit-rehabilitation-plan',
+    templateUrl: './edit-rehabilitation-plan.component.html',
+    styleUrls: ['./edit-rehabilitation-plan.component.scss'],
+    providers: [ RehabilitationPlanService ],
+    encapsulation: ViewEncapsulation.None
 })
 
 export class EditRehabilitationPlanComponent implements OnInit {
@@ -16,7 +19,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     data: Object;
 
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
-    rehabilitationplan = {exercises:[]}; //Temporary fix
+    rehabilitationplan = {exercises:[], assessmentTests:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
     exerciseIDs = [];
@@ -25,14 +28,24 @@ export class EditRehabilitationPlanComponent implements OnInit {
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
 
-  constructor(private rehabilitationplanService: RehabilitationPlanService, private exerciseService: ExerciseService) {
+  //ASSESSMENT TEST RELATED
+  editAssessmentTestDialogRef: MatDialogRef<EditAssessmentTestDialogComponent>
+
+  assessmentTests = [];
+  selectedAssessmentTest: any;
+  //END OF ASSESSMENT TEST RELATED
+
+  constructor(private rehabilitationplanService: RehabilitationPlanService,
+              private exerciseService: ExerciseService,
+              private assessmentTestService: AssessmentTestService,
+              private dialog: MatDialog) {
       console.log("ID", this.editID)
   }
 
   ngOnInit() {
     this.getRehabilitationPlans();
     this.getExercises();
-
+    this.getAssessmentTests();
   }
 
   getExerciseIDs() {
@@ -149,94 +162,159 @@ export class EditRehabilitationPlanComponent implements OnInit {
   //     // }
   // }
 
-  deleteExercises() {
-      for(var i = 0; i < this.deleteList.length; i++) {
-          for(var j = 0; j < this.myExercises.length; j++) {
-              if(this.myExercises[j]._id == this.deleteList[i]) {
-                  this.allExercises.push(this.myExercises[j]);
-                  this.myExercises.splice(j, 1);
-              }
+
+  deleteExercises(){
+      for (var i = 0; i < this.deleteList.length; i++) {
+        for (var j = 0; j < this.myExercises.length; j++) {
+          if (this.myExercises[j]._id == this.deleteList[i]) {
+            this.allExercises.push(this.myExercises[j]);
+            this.myExercises.splice(j, 1);
           }
+        }
       }
       this.deleteList = [];
       console.log(this.deleteList);
       console.log("my exercises", this.myExercises);
+    }
+
+  getRehabilitationPlans(){
+      this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
+          this.rehabilitationplans = data;
+          console.log("REHABILITATION PLANS", this.rehabilitationplans);
+          this.getExercises();
+      });
   }
 
-  getRehabilitationPlans() {
-      this.rehabilitationplanService.getRehabilitationPlans().subscribe(data =>
-          {
-              this.rehabilitationplans = data;
-              console.log("REHABILITATION PLANS", this.rehabilitationplans);
-              this.getExercises();
-          }
-      );
-  }
-
-  getExercises() {
-      for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
-          if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
-              console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
-              this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
-              console.log(this.rehabilitationplan);
-          }
-
+  getExercises(){
+      for (var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
+        if (this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
+          console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
+          this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+          console.log(this.rehabilitationplan);
+        }
       }
 
       console.log("getting all exercises");
 
-      // let exercises =
+      console.log("getting all exercises");
+      this.exerciseService.getAllExercises().subscribe(
+        data => {
+          console.log("all exercises retrieved! ", data.exercise, data.exercise.length);
+          this.allExercises = data.exercise;
 
+          console.log("exercises retrieved! ", data.exercise);
+          let exercises = data.exercise;
+          console.log("EXERCISES", data.exercise);
+          this.allExercises = data.exercise;
 
-        console.log("getting all exercises");
-        this.exerciseService.getAllExercises().subscribe(
-          data => {
-            console.log("all exercises retrieved! ",data.exercise, data.exercise.length);
-            this.allExercises = data.exercise;
-
-            console.log("exercises retrieved! ",data.exercise);
-            let exercises = data.exercise;
-            console.log("EXERCISES", data.exercise);
-            this.allExercises = data.exercise;
-
-            for(var i = 0; i < exercises.length; i++) {
-                for(var j = 0; j < this.rehabilitationplan.exercises.length; j++) {
-                    console.log("ex test", exercises[i]._id, this.rehabilitationplan.exercises[j]);
-                    if(exercises[i]._id == this.rehabilitationplan.exercises[j]) {
-                      this.myExercises.push(exercises[i]);
-                      this.allExercises.splice(i, 1);
-                    }
-                }
+          for (var i = 0; i < exercises.length; i++) {
+            for (var j = 0; j < this.rehabilitationplan.exercises.length; j++) {
+              console.log("ex test", exercises[i]._id, this.rehabilitationplan.exercises[j]);
+              if (exercises[i]._id == this.rehabilitationplan.exercises[j]) {
+                this.myExercises.push(exercises[i]);
+                this.allExercises.splice(i, 1);
+              }
             }
-            console.log("EXERCISES", this.myExercises);
-          },
-          error => console.log(error)
-        );
+          }
+          console.log("EXERCISES", this.myExercises);
+        },
+        error => console.log(error)
+      );
 
+    }
 
-      // this.exerciseService.getAllExercises().subscribe(
-      //   data => {
-      //     console.log("exercises retrieved! ",data.exercises);
-      //     let exercises = data.exercises;
-      //     console.log("EXERCISES", data.exercises);
-      //     this.allExercises = data.exercises;
-      //
-      //     for(var i = 0; i < exercises.length; i++) {
-      //         for(var j = 0; j < this.rehabilitationplan.exercises.length; j++) {
-      //             if(exercises[i]._id == this.rehabilitationplan.exercises[j]) {
-      //               this.myExercises.push(exercises[i]);
-      //               this.allExercises.splice(i, 1);
-      //             }
-      //         }
-      //     }
-      //     console.log("EXERCISES", this.myExercises);
-      //   },
-      //   error => console.log(error)
-      // );
-
-
-
-
-
+  editRehabiliationPlan(){
+      this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.editID).subscribe(
+        res => {
+          console.log(res)
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
+
+  //ASSESSMENT TEST STARTS
+  //==================================
+
+  createAssessmentTest(){
+    var assessTest = {
+      name: "Name",
+      description: "Description",
+      authorName: "Author",
+      recommendations: null,
+      form: null,
+      testResults: null,
+      rehabilitationPlan: this.editID,
+      openDate: null,
+      dateCompleted: null
+    }
+    this.openEditAssessmentTestDialog(assessTest, true);
+  }
+
+  editAssessmentTest(assessmentTest){
+    this.assessmentTestService.editAssessmentTest(assessmentTest).subscribe(
+      res => {
+        //Do something for when you edit a new assessment test
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  addAssessmentTest(assessmentTest){
+    this.assessmentTestService.addAssessmentTest(assessmentTest).subscribe(
+      res => {
+        console.log("LOOK AT THIS RESPONSE:", res);
+        this.rehabilitationplan.assessmentTests.push(res.assessmentTest._id);
+        this.editRehabiliationPlan();
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  openEditAssessmentTestDialog(assessmentTest, newQuestionFlag: boolean){
+    this.editAssessmentTestDialogRef = this.dialog.open(EditAssessmentTestDialogComponent, {
+      width: '50vw',
+      data: {
+        assessmentTest,
+        newQuestionFlag
+      }
+    });
+
+    this.editAssessmentTestDialogRef.afterClosed().subscribe(result => {
+      console.log("AssessmentTest: ", result);
+      if (newQuestionFlag) {
+        this.addAssessmentTest(result);
+      } else {
+        this.editAssessmentTest(result);
+        console.log("REHABILITATION PLAN:", this.rehabilitationplan);
+      }
+    });
+  }
+
+  getAssessmentTests(){
+    this.assessmentTests = [];
+    this.assessmentTestService.getAllAssessmentTests().subscribe(
+      data => {
+        console.log("ASSESSMENTS TESTS", data.assessmentTest);
+        console.log("editID:", this.editID);
+        let allAssessmentTests = data.assessmentTest;
+
+        for (let i = 0; i < allAssessmentTests.length; i++) {
+          if (allAssessmentTests[i].rehabilitationPlan = this.editID) {
+            this.assessmentTests.push(allAssessmentTests[i]);
+          }
+        }
+      }
+    )
+  }
+  //==================================
+  //ASSESSMENT TEST ENDS
+
 }

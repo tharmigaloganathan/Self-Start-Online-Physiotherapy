@@ -1,9 +1,10 @@
 <app-navbar-admin></app-navbar-admin>
 
 <div class="container">
-  <!--Title and description-->
-      <h1>Manage the {{form.name}}</h1>
-      <p>Add, edit, or delete questions of the {{form.name}}. Drag the questions to re-order them.</p>
+
+      <br>
+      <h1>{{form.name}}</h1>
+      <p>Add, edit, or delete questions of the {{form.name}}.</p>
 
   <div>
     <div class="row">
@@ -20,33 +21,50 @@
     </div>
   </div>
 
-
-<ul class="list-group" dnd-sortable-container [sortableData]="formQuestions">
-  <!-- Question List -->
-  <div *ngFor="let question of formQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-    <!-- Card for each question -->
-    <div class="col-md-12 no-left-right-margin no-left-right-padding">
-      <mat-card class="dashboard-card no-left-right-margin">
-        <mat-card-title>{{question.questionText}}</mat-card-title>
-        <mat-card-subtitle>{{question.questionType}}</mat-card-subtitle>
-        <mat-card-actions>
-          <!--<button float-right mat-button class="editQuestion" data-toggle="modal" data-target="#editQuestionModal" (click)="selectQuestion(question)">Edit</button>-->
-          <button float-right mat-button (click)="openEditQuestionDialog(question)">Edit</button>
-          <button float-right mat-button class="deleteQuestion" (click)="deleteQuestion(question)">Delete</button>
-        </mat-card-actions>
-      </mat-card>
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Form Questions</h3>
+          <p>Drag to re-order or remove questions from the form.</p>
+          <ul class="list-group" dnd-sortable-container [sortableData]="formQuestions">
+            <!-- Question List -->
+            <li *ngFor="let question of formQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+              <h6>{{question.questionText}}</h6>
+              <p>{{question.questionType}}</p>
+              <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditQuestionDialog(question)">Edit</button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Available Questions</h3>
+          <p>Drag a question to the other side to add it to the form.</p>
+          <ul class="list-group" dnd-sortable-container [sortableData]="allQuestions">
+            <!-- Question List -->
+            <li *ngFor="let question of allQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+              <h6>{{question.questionText}}</h6>
+              <p>{{question.questionType}}</p>
+              <button *ngIf="question.form.length<1" type="button" class="btn btn-danger btn-sm" style="position:absolute; top:4px; right:4px;" (click)="deleteQuestion(question)">Delete</button>
+              <button *ngIf="question.form.length>=1" type="button" class="btn btn-danger btn-sm disabled" style="position:absolute; top:4px; right:4px;">Delete</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
   </div>
-</ul>
+
 
 
   <br>
   <br>
 
   <div>
-    <!--
-    <button mat-raised-button class="createNewQuestion" data-toggle="modal" data-target="#createQuestionModal">Create New Question</button>
-    -->
     <button mat-raised-button (click)="newQuestion()">Create New Question</button>
   </div>
   <br>
@@ -56,18 +74,4 @@
   <br>
   <br>
 
-
-  <p>Drag existing questions below into the form above to include it.</p>
-  <ul class="list-group" dnd-sortable-container [sortableData]="allQuestions">
-    <!-- Question List -->
-    <div *ngFor="let question of allQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-      <!-- Card for each question -->
-      <div class="col-md-12 no-left-right-margin no-left-right-padding">
-        <mat-card class="dashboard-card no-left-right-margin">
-          <mat-card-title>{{question.questionText}}</mat-card-title>
-          <mat-card-subtitle>{{question.questionType}}</mat-card-subtitle>
-        </mat-card>
-      </div>
-    </div>
-  </ul>
 </div>

@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatAutocompleteModule } from "@angular/material";
 import { PatientListComponent } from './patient-list/patient-list.component';
 
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
@@ -42,6 +43,7 @@ import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
 import { FormService} from "./form.service";
+import { AssessmentTestService } from "./assessment-test.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -71,6 +73,11 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
+import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { MessagesService} from "./messages.service";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -102,7 +109,9 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
     BookAppointmentComponent,
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
-		CreateNewAccountComponent
+		CreateNewAccountComponent,
+		EditAssessmentTestDialogComponent,
+		PatientMessagesComponent
   ],
   imports: [
     HttpModule,
@@ -114,6 +123,8 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatTooltipModule,
+    MatRadioModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
@@ -145,12 +156,18 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+<<<<<<< HEAD
 		MatDialogModule,
 		LoadingModule
+=======
+    MatAutocompleteModule
+>>>>>>> 504f5f54d86b05a534aef5d6269878bc3d223779
   ],
   providers: [ExerciseService,
-  FormService],
+  FormService,
+  AssessmentTestService],
   bootstrap: [AppComponent],
-  entryComponents: [EditQuestionDialogComponent]
+  entryComponents: [EditQuestionDialogComponent,
+    EditAssessmentTestDialogComponent]
 })
 export class AppModule { }

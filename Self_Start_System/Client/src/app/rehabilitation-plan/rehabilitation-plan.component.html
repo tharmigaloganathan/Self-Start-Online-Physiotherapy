@@ -1,24 +1,42 @@
 <app-navbar-physio></app-navbar-physio>
 
-<mat-sidenav-container class="example-container" *ngIf="showSidebar">
-
-  <!--Load sidebar component-->
-  <mat-sidenav mode="side" opened>
-    <app-sidebar-physio></app-sidebar-physio>
-  </mat-sidenav>
-  <!--End load sidebar component-->
-
-  <mat-sidenav-content>
-      <h1 class="title">
-          Manage Rehabilitation Plans <br />
-          <button mat-raised-button class="login-button" routerLink="new">Create a New Rehabilitation Plan</button>
-      </h1>
-      <br /><br /><br />
-      <mat-card class="planlist" *ngFor="let plans of rehabilitationplans.rehabilitationPlan" (click) = "storeID(plans)">
-          <mat-card-title>{{ plans.name }}</mat-card-title>
-          <mat-card-subtitle>Created by: {{ plans.authorName }}</mat-card-subtitle>
-          <mat-card-subtitle>Goal: {{ plans.goal }}</mat-card-subtitle>
-          <mat-card-subtitle>Timeframe: {{ plans.timeFrameToComplete }}</mat-card-subtitle>
-      </mat-card>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="row">
+    <div class="col-md-12" align="center">
+        <h1 class="title">
+            Manage Standard Rehabilitation Plans <br />
+            <button mat-raised-button class="blue" routerLink="new">Create a New Standard Rehabilitation Plan</button>
+        </h1>
+        <form class="search-form">
+            <mat-form-field class="search-field">
+                <input matInput #search placeholder="Search Standard Rehabilitation Plans..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </form>
+        Filter by:
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedfilter">
+            <mat-radio-button class="radio-button" value="name" checked="true">
+                Name
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" value="author">
+                Author
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" value="goal">
+                Goal
+            </mat-radio-button>
+        </mat-radio-group>
+        (only name filter currently works)
+        <!-- <div class="selected-radio-value">Your selected filter is: {{selectedfilter}}</div> -->
+    </div>
+</div>
+<div class="rehab-plan-list">
+    <div class="row">
+        <div class="col-md-3" align="center" *ngFor="let plans of filteredrehabplans">
+            <mat-card class="rehab-card" (click) = "storeID(plans)">
+                <mat-card-title>{{ plans.name }}</mat-card-title>
+                <mat-card-subtitle>Created by: {{ plans.authorName }}</mat-card-subtitle>
+                <mat-card-subtitle>Goal: {{ plans.goal }}</mat-card-subtitle>
+                <mat-card-subtitle>Timeframe: {{ plans.timeFrameToComplete }}</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </div>
+</div>
