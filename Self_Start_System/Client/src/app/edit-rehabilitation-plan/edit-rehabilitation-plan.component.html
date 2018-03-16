@@ -14,7 +14,7 @@
         <br /><br />
         <div class="example-container2">
             <mat-form-field class="name">
-                <input matInput #name placeholder="Name: {{rehabilitationplan.name}}">
+                <input matInput #name placeholder="Name" [(ngModel)]="rehabilitationplan.name">
             </mat-form-field>
 
             <mat-form-field class="authorName">
@@ -43,7 +43,6 @@
         <h1 class="subtitle">
             <b>Exercises</b>
         </h1>
-
         <div class="subtitle">
             <mat-form-field class="selectexercise" style = "font-size: 15px;">
                 <mat-select #exercise placeholder="Add New Exercise">
@@ -72,7 +71,7 @@
         <div class="subtitle">
             <button mat-raised-button class="move" (click)="moveSelectedUp()">Move Selected Exercise Up!</button>
             <button mat-raised-button class="move" (click)="moveSelectedDown()">Move Selected Exercise Down!</button>
-            
+
         </div>
 
         <p style = "font-size: 20px;">
@@ -82,10 +81,26 @@
 
     </mat-tab>
     <mat-tab label="Assessment Tests">
-        <br />
-        <h1 class="subtitle">
-            <b>Assessment Tests</b>
-        </h1>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">Assigned Tests to be Completed</h3>
+                <p>Assessment Tests will only be viewable for the patient after the Open Date.</p>
+                <ul class="list-group">
+                  <li *ngFor="let test of assessmentTests" class="list-group-item">
+                    <h6>{{test.name}}</h6>
+                    <p>Open Date: {{test.openDate | date:'fullDate'}}</p>
+                    <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button mat-raised-button (click)="createAssessmentTest()">Create New Assessment Test</button>
+      </div>
     </mat-tab>
 </mat-tab-group>
 <br />
