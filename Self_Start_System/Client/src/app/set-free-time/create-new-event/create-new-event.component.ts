@@ -64,7 +64,6 @@ export class CreateNewEventComponent implements OnInit {
       // Send free time to backend
       this.setFreeTimeService.addTimeSlot(
         this.physioID,
-        "testing",
         this.startDate,
         this.endDate
       )

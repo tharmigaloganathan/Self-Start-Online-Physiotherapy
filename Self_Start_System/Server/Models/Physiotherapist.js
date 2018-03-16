@@ -10,7 +10,6 @@ var physiotherapistSchema = mongoose.Schema(
 		userAccount: {type: mongoose.Schema.ObjectId, ref: ('UserAccount')},
     // availableTimeSlots: []
     availableTimeSlots: [{
-		    slotId: String,
 		    startDate: Date,
         endDate: Date
     }],
@@ -26,7 +25,8 @@ module.exports = {
     getOne:getOne,
     update:update,
     deleteOne:deleteOne,
-    addFreeTimeSlot:addFreeTimeSlot
+    addFreeTimeSlot:addFreeTimeSlot,
+    changeOneDate:changeOneDate
 };
 
 function deleteOne(id){
@@ -190,6 +190,7 @@ function combineOverLappingDates(document) {
   return document;
 }
 
+// Addes one free time slot
 function addFreeTimeSlot(id, body){
   return new Promise (function (resolve, reject) {
       console.log("Hello", body);
@@ -198,9 +199,6 @@ function addFreeTimeSlot(id, body){
         reject(error);
       } else if (!body.endDate){
       error = "No endDate detected.";
-      reject(error);
-    } else if (!body.slotId){
-      error = "No slotId detected.";
       reject(error);
     } else {
         Physiotherapists.findById(id, function (error, document) {
@@ -225,5 +223,56 @@ function addFreeTimeSlot(id, body){
           }
         });
       }
+  });
+}
+
+// Changes one free time slot
+function changeOneDate(id, body){
+  return new Promise (function (resolve, reject) {
+    console.log("changeOneDate", body);
+    if (!body.startDate){
+      error = "No startDate detected.";
+      reject(error);
+    } else if (!body.endDate){
+      error = "No endDate detected.";
+      reject(error);
+    } else if (!body.mongoId){
+      error = "No mongoId detected.";
+      reject(error);
+    } else {
+      Physiotherapists.findById(id, function (error, document) {
+        if (error) {
+          reject(error);
+        } else {
+          // Find event with the same ID
+          let event = document.availableTimeSlots.find(function(element){
+            return element._id.toString() === body.mongoId.toString();
+          });
+
+          // If even exists, update it. Else, throw an error
+          if (event){
+            // console.log("event", event);
+
+            event.startDate = body.startDate;
+            event.endDate = body.endDate;
+
+            // console.log("event After update", event);
+
+            document = combineOverLappingDates(document);
+
+            document.save(function (error) {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(document);
+              }
+            });
+          } else {
+            error = "Timeslot not found.";
+            reject(error);
+          }
+        }
+      });
+    }
   });
 }

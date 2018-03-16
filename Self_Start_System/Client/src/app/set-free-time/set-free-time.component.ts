@@ -52,6 +52,7 @@ export class SetFreeTimeComponent implements OnInit {
           title: 'Available',
           start: moment(event.startDate),
           end: moment(event.endDate),
+          mongoId: event._id,
           allDay: false,
       });
     }
@@ -97,6 +98,21 @@ export class SetFreeTimeComponent implements OnInit {
 
   updateEvent = (detail) => {
     console.log(detail);
+    // Send new details to backend
+    // NTD HRERERERERER
+    this.setFreeTimeService.changeOneTimeSlot(
+      this.physioID,
+      detail.event.mongoId,
+      detail.event.start,
+      detail.event.end
+    )
+      .subscribe(response => {
+        console.log(response);
+        let eventslist = this.generateEventsList(response.physiotherapist.availableTimeSlots);
+        this.setUpCalendarOptions(eventslist);
+      }, error => {
+        console.log(error);
+      });
   };
 }
 

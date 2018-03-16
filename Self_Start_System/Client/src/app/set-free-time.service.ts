@@ -10,10 +10,14 @@ export class SetFreeTimeService {
 
   constructor(private http: Http) {}
 
+  /**
+   * IMPORTANT, the times can be passed as moments,
+   *  but when received back, it must be converted again to a moment
+   *  **/
+
   //Add free time slot
-  addTimeSlot(id, slotId, startDate, endDate) {
+  addTimeSlot(id, startDate, endDate) {
     let body = {
-      slotId: slotId,
       startDate: startDate,
       endDate: endDate
     };
@@ -26,6 +30,25 @@ export class SetFreeTimeService {
   //Add free time slot
   getPhysioTherapist(id) {
     return this.http.get(this.domain+'/Physiotherapists/'+id)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
+  getAllPhysioTherapist() {
+    return this.http.get(this.domain+'/Physiotherapists/')
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
+  changeOneTimeSlot(id, mongoId, startDate, endDate) {
+    let body = {
+      mongoId: mongoId,
+      startDate: startDate,
+      endDate: endDate
+    };
+    return this.http.put(this.domain+'/Physiotherapists/free-time/change-one-date/'+id,body)
       .map((response: Response) => {
         return response.json();
       });
