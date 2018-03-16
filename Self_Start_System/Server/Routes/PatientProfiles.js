@@ -6,6 +6,7 @@ router.route('/')
     .post(function (request, response) {
         console.log ("within the PatientProfile route POST")
         PatientProfiles.add(request.body).then(function(patientProfile){
+            console.log ("Profile successfully made: ", patientProfile);
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});

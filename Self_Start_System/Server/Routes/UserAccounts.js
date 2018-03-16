@@ -29,7 +29,7 @@ router.route('/')
     .post(function (request,response) {
         console.log ("in user account post route, about to add account :", request.body);
         UserAccounts.add(request.body).then(function(userAccount){
-
+            console.log ('the userAccount registered is: ', userAccount);
             //temp variables to hold the profile and temp account for updating
             var tempProfile;
             var tempAccount = userAccount;

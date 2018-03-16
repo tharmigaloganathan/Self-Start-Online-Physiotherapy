@@ -70,7 +70,8 @@ export class CreateUserAccountService {
     console.log("within service, in registerUserAccount function ");
 		return this.http.post(this.domain+'/UserAccounts', account)
 		.map((response: Response) => {
-			return response.json();
+      console.log("The account has been registered! ", response.json());
+      return response.json();
 		});
 	}
 

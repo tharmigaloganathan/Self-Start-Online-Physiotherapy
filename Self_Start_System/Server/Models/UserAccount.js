@@ -115,7 +115,9 @@ function getAll(){
 
 function add(object){
     return new Promise (function (resolve, reject) {
+        console.log("within add of UserAccount Model");
         var document = new UserAccounts(object);
+
         if (!document.userAccountName){
             error = "No userAccountName detected.";
             reject(error);
@@ -123,16 +125,13 @@ function add(object){
             error = "No encryptedPassword detected.";
             reject(error);
         } else {
-            if (!this.isModified('encryptedPassword')){
-                //if it's not modified, no need to run middle ware.
-                next();
-            } else {
-                //make a hash and assign it back to password
-                console.log("before hashing");
-                document.encryptedPassword = bcrypt.hashSync(this.password, 10);
-                //this if hash is working
-                console.log(document.encryptedPassword);
-            }
+
+            //make a hash and assign it back to password
+            console.log("the password hashing: ", document.encryptedPassword);
+            document.encryptedPassword = bcrypt.hashSync(document.encryptedPassword);
+            //this if hash is working
+            console.log("hashed password: ", document.encryptedPassword);
+
             document.save(function (error) {
                 if (error){
                     reject(error);

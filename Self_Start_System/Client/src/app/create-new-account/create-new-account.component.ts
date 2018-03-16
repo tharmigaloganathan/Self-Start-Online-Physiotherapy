@@ -15,9 +15,9 @@ export class CreateNewAccountComponent implements OnInit {
   username;
   password;
   passwordVerify;
-  patientProfile_id;
-  physiotherapistProfile_id;
-  administrator_id;
+  patientProfile_id = null;
+  physiotherapistProfile_id = null;
+  administrator_id = null;
   userMade = false;
 
   constructor(
@@ -77,7 +77,7 @@ export class CreateNewAccountComponent implements OnInit {
     //Send account data to backend
     this.createUserAccountService.registerUserAccount(account).subscribe(
       user => {
-        console.log("The following account has been registered: " + JSON.stringify(account));
+        //console.log("The following account has been registered: " + JSON.stringify(account));
       },
       error => {
         console.log(error);
