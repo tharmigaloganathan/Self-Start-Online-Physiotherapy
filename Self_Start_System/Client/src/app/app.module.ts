@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatAutocompleteModule } from "@angular/material";
 import { PatientListComponent } from './patient-list/patient-list.component';
 
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
@@ -146,6 +147,7 @@ import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+    MatAutocompleteModule
   ],
   providers: [ExerciseService,
   FormService,

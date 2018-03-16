@@ -21,6 +21,22 @@ export class AssessmentTestService {
       );
   }
 
+  addAssessmentTest(assessmentTest){
+    return this.http.post(this.domain+'/assessmentTests', assessmentTest)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  editAssessmentTest(assessmentTest){
+    return this.http.put(this.domain+'/assessmentTests/'+assessmentTest._id, assessmentTest)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   //=========================================================================
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

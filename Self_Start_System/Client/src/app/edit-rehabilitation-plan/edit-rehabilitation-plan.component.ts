@@ -19,7 +19,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     data: Object;
 
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
-    rehabilitationplan = {exercises:[]}; //Temporary fix
+    rehabilitationplan = {exercises:[], assessmentTests:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
     exerciseIDs = [];
@@ -253,6 +253,17 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
   }
 
+  editRehabiliationPlan(){
+    this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.editID).subscribe(
+      res => {
+        console.log(res)
+    },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
   //ASSESSMENT TEST STARTS
   //==================================
 
@@ -271,8 +282,30 @@ export class EditRehabilitationPlanComponent implements OnInit {
     this.openEditAssessmentTestDialog(assessTest, true);
   }
 
-  editAssessmentTest(){
+  editAssessmentTest(assessmentTest){
+    this.assessmentTestService.editAssessmentTest(assessmentTest).subscribe(
+      res => {
+        //Do something for when you edit a new assessment test
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
 
+  addAssessmentTest(assessmentTest){
+    this.assessmentTestService.addAssessmentTest(assessmentTest).subscribe(
+      res => {
+        console.log("LOOK AT THIS RESPONSE:", res);
+        this.rehabilitationplan.assessmentTests.push(res.assessmentTest._id);
+        this.editRehabiliationPlan();
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
   openEditAssessmentTestDialog(assessmentTest, newQuestionFlag: boolean){
@@ -285,16 +318,25 @@ export class EditRehabilitationPlanComponent implements OnInit {
     });
 
     this.editAssessmentTestDialogRef.afterClosed().subscribe( result => {
-      console.log("save this:", result);
+      console.log("AssessmentTest: ", result);
+      if(newQuestionFlag){
+        this.addAssessmentTest(result);
+      } else {
+        this.editAssessmentTest(result);
+        console.log("REHABILITATION PLAN:", this.rehabilitationplan);
+      }
     });
   }
 
   getAssessmentTests(){
+    this.assessmentTests = [];
     this.assessmentTestService.getAllAssessmentTests().subscribe(
       data => {
+        console.log("ASSESSMENTS TESTS", data.assessmentTest);
+        console.log("editID:", this.editID);
         let allAssessmentTests = data.assessmentTest;
 
-        for (let i = 0; i < allAssessmentTests; i++){
+        for (let i = 0; i < allAssessmentTests.length; i++){
           if(allAssessmentTests[i].rehabilitationPlan = this.editID){
             this.assessmentTests.push(allAssessmentTests[i]);
           }
