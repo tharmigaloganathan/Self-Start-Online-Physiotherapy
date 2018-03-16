@@ -4,23 +4,99 @@ import { Options } from 'fullcalendar';
 
 import { Router } from "@angular/router";
 
+import * as moment from 'moment';
+import {SetFreeTimeService} from "../set-free-time.service";
+import {ExerciseService} from "../services/exercise.service";
+import {ManagePatientProfileService} from "../manage-patient-profile.service";
+
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
-  styleUrls: ['./book-appointment.component.scss']
+  styleUrls: ['./book-appointment.component.scss'],
+  providers: [ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
 export class BookAppointmentComponent implements OnInit {
+  // Temporary client variable for testing
+  patientProfileId = '5a9b3d11e8fb8bbac9887cdd';
+
   calendarOptions: Options;
 
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
-  constructor(private rd: Renderer2, private router : Router) {}
+  constructor(private rd: Renderer2,
+              private router : Router,
+              private setFreeTimeService: SetFreeTimeService) {}
 
   ngOnInit() {
-    this.setUpCalendarOptions();
+    this.getCurrentAvailability();
   }
 
+  getCurrentAvailability = () => {
+    // Retrieve all free times from backend
+    this.setFreeTimeService.getAllPhysioTherapist()
+      .subscribe(response => {
+        console.log(response);
+        this.getBookedTimeSlots(response.physiotherapist);
+      }, error => {
+        console.log(error);
+      });
+  };
+
+  getBookedTimeSlots = (physiotherapists) => {
+    // Retrieve all booked times from backend
+    this.setFreeTimeService.retrieveAllAppointmentsForPatient(this.patientProfileId)
+      .subscribe(response => {
+        console.log(response);
+        // Generate both times into a list
+        let eventslist = this.generateEventsList(physiotherapists);
+        eventslist.push(...this.generateEventsListAppointment(response.appointments));
+
+        this.setUpCalendarOptions(eventslist);
+      }, error => {
+        console.log(error);
+      });
+  };
+
+  // Generates a list of events from the server
+  generateEventsList = (physioList) => {
+    let formatedEventsList = new Array();
+
+    for (let physiotherapist of physioList){
+      for (let event of physiotherapist.availableTimeSlots){
+        formatedEventsList.push({
+          title: physiotherapist.givenName + " " + physiotherapist.familyName,
+          start: moment(event.startDate),
+          end: moment(event.endDate),
+          mongoId: event._id,
+          physioId: physiotherapist._id,
+          allDay: false,
+          canClick: true
+        });
+      }
+    }
+
+    return formatedEventsList;
+  };
+
+  generateEventsListAppointment = (appointmentList) => {
+    let formatedEventsList = new Array();
+
+    for (let appointment of appointmentList){
+      formatedEventsList.push({
+        title: "Booked Appointment",
+        start: moment(appointment.date),
+        end: moment(appointment.endDate),
+        mongoId: appointment._id,
+        allDay: false,
+        color: '#FDA92A',
+        canClick: false
+      });
+    }
+
+    return formatedEventsList;
+  };
+
   // Set up calendar options
-  setUpCalendarOptions = () => {
+  setUpCalendarOptions = (eventslist) => {
     this.calendarOptions = {
       editable: false,
       eventLimit: false,
@@ -30,47 +106,29 @@ export class BookAppointmentComponent implements OnInit {
         right: 'agendaWeek,agendaDay,listMonth'
       },
       defaultView: 'agendaWeek',
-      events: [{
-        title: 'Available',
-        start: '2018-03-09T09:30:00-05:00',
-        end: '2018-03-09T17:30:00-05:00',
-        color: '#000',
-        allDay: false,
-      }]
+      events: eventslist
     };
   };
 
   // Event listeners
   eventClick = (detail) => {
+    if (detail.event.canClick){
+      console.log(detail);
+      let startDate = detail.event.start.toDate();
+      let endDate = detail.event.end.toDate();
+      console.log(startDate, endDate);
+      localStorage.setItem('book-appointment-start-time', startDate.toString());
+      localStorage.setItem('book-appointment-end-time', endDate.toString());
+      localStorage.setItem('book-appointment-mongoId', detail.event.mongoId);
+      localStorage.setItem('book-appointment-physioId', detail.event.physioId);
+
+      this.router.navigate(['/patient/book-appointment/form']);
+    } else {
+      // NTD: Maybe allow edit or delete?
+    }
+  };
+
+  clickButton = (detail) => {
     console.log(detail);
-    let startDate = detail.event.start.toDate();
-    let endDate = detail.event.end.toDate();
-    console.log(startDate, endDate);
-    localStorage.setItem('book-appointment-start-time', startDate.toString());
-    localStorage.setItem('book-appointment-end-time', endDate.toString());
-
-    this.router.navigate(['/patient/book-appointment/form']);
-
   };
 }
-
-// ngAfterViewInit() {
-// console.log(this.rd);
-// console.log(this.ucCalendar);
-//
-// // Example availability data for physiotherapist
-// let el = {
-//   title: 'Available',
-//   start: '2018-03-10T08:00:00+05:00',
-//   end: '2018-03-10T18:00:00+05:00',
-//   allDay: false,
-// };
-// this.ucCalendar.fullCalendar({
-//   eventClick: function(calEvent, jsEvent, view){
-//     console.log(calEvent);
-//   }
-// });
-//
-// this.ucCalendar.fullCalendar('renderEvent', el);
-// this.ucCalendar.fullCalendar('rerenderEvents');
-// }

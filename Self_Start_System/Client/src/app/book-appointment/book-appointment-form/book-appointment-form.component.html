@@ -3,6 +3,14 @@
 <div class="container">
   <form class="create-new-event-form">
 
+    <!--Warning user on what time they can pick-->
+    <p>Please choose an start time after
+      {{minStartTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}
+      and an end time before
+      {{maxEndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}.
+    </p>
+
+    <!--Choosing type of assessment-->
     <p>Type of Assessment: </p>
     <mat-radio-group (change)="onChangeRadioGroup($event)">
       <mat-radio-button checked value="1">Follow-Up Treatment</mat-radio-button>

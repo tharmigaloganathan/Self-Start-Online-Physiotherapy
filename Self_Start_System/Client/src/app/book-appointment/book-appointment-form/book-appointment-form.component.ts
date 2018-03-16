@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import {SetFreeTimeService} from "../../set-free-time.service";
+import {ExerciseService} from "../../services/exercise.service";
+import {ManagePatientProfileService} from "../../manage-patient-profile.service";
 
 @Component({
   selector: 'app-book-appointment-form',
   templateUrl: './book-appointment-form.component.html',
-  styleUrls: ['./book-appointment-form.component.scss']
+  styleUrls: ['./book-appointment-form.component.scss'],
+  providers: [ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
 export class BookAppointmentFormComponent implements OnInit {
+
+  // Temporary client variable for testing
+  patientProfileId = '5a9b3d11e8fb8bbac9887cdd';
 
   // View items
   startDate;
@@ -77,7 +84,9 @@ export class BookAppointmentFormComponent implements OnInit {
         this.startDate,
         this.endDate,
         this.assessmentTypeValue,
-        this.contactMethod
+        this.contactMethod,
+        localStorage.getItem('book-appointment-mongoId'),
+        localStorage.getItem('book-appointment-physioId')
       );
       this.onClickCancel();
     }

@@ -53,5 +53,27 @@ export class SetFreeTimeService {
         return response.json();
       });
   }
+
+  retrieveAllAppointmentsForPatient(id) {
+    return this.http.get(this.domain+'/PatientProfiles/get-all-appointments/'+id)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
+  addNewAppointment(id, startDate, endDate, reason, other, timeslotId, physioID) {
+    let body = {
+      startDate: startDate,
+      endDate: endDate,
+      reason: reason,
+      other: other,
+      timeslotId: timeslotId,
+      physioID: physioID
+    };
+    return this.http.post(this.domain+'/PatientProfiles/add-appointment/'+id, body)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
 }
 

@@ -18,7 +18,6 @@ var physiotherapistSchema = mongoose.Schema(
 
 var Physiotherapists = module.exports =  mongoose.model('Physiotherapist', physiotherapistSchema);
 
-
 module.exports = {
     add:add,
     getAll:getAll,
@@ -26,7 +25,8 @@ module.exports = {
     update:update,
     deleteOne:deleteOne,
     addFreeTimeSlot:addFreeTimeSlot,
-    changeOneDate:changeOneDate
+    changeOneDate:changeOneDate,
+    splitTimeSlotDueToAppointment:splitTimeSlotDueToAppointment
 };
 
 function deleteOne(id){
@@ -190,7 +190,7 @@ function combineOverLappingDates(document) {
   return document;
 }
 
-// Addes one free time slot
+// Adds one free time slot
 function addFreeTimeSlot(id, body){
   return new Promise (function (resolve, reject) {
       console.log("Hello", body);
@@ -206,7 +206,6 @@ function addFreeTimeSlot(id, body){
             reject(error);
           } else {
             document.availableTimeSlots.push({
-              slotId: body.slotId,
               startDate: body.startDate,
               endDate: body.endDate
             });
@@ -276,3 +275,52 @@ function changeOneDate(id, body){
     }
   });
 }
+
+// Splits the TimeSlot due to Patient booked appointments
+function splitTimeSlotDueToAppointment(id, timeslotId, appointmentStart, appointmentEnd ){
+  return new Promise (function (resolve, reject) {
+    console.log("splitTimeSlotDueToAppointment");
+
+    Physiotherapists.findById(id, function (error, document) {
+      if (error) {
+        reject(error);
+      } else {
+        // Find event with the same ID
+        let event = document.availableTimeSlots.find(function (element) {
+          return element._id.toString() === timeslotId.toString();
+        });
+
+        // If even exists, update it. Else, throw an error
+        if (event) {
+          // Create a new event based on the appointment end to the prev end
+          document.availableTimeSlots.push({
+            startDate: appointmentEnd,
+            endDate: event.endDate
+          });
+
+          // endTime is now the appointment's start time
+          event.endDate = appointmentStart;
+
+          console.log("event After update", event);
+
+          document = combineOverLappingDates(document);
+
+          document.save(function (error) {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(document);
+            }
+          });
+        } else {
+          error = "Timeslot not found.";
+          reject(error);
+        }
+      }
+    });
+  });
+}
+
+
+
+
