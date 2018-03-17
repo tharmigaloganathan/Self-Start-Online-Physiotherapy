@@ -14,8 +14,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	assessmentTest = {};
 	form_id;
 	form = {};
-	questions = {};
-	questionText = [];
+	questions = [];
+	questionText = {};
 
   constructor(assessmentTestService: PatientCompleteAssessmentTestService) {
 		this.assessmentTestService = assessmentTestService;
@@ -68,14 +68,15 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 			this.assessmentTestService.getQuestion(this.questions[i]).
 			subscribe(
 				data => {
-					this.questions[i] = data;
-					console.log("Questions:" + this.questions[i]);
+					this.questions.push(data);
+					console.log("Questions:" + JSON.stringify(this.questions[i]));
 					console.log("This is what was returned for the question" + JSON.stringify(data));
 				},
 				error => {
 					console.log("Error");
 				});
 		}
+		console.log("Questions after loop:" + this.questions);
 	}
 
 }
