@@ -75,3 +75,26 @@ app.use('/Photos', Photos);
 app.listen(3700, function () {
     console.log('The Start-up server is listening on port 3700');
 });
+
+//middleware
+router.use(function (req, res, next) {
+    console.log('in authentication middleware');
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        res.json({success: false, message: 'No token provided'}); // Return error
+    } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, function (err, decoded) {
+            // Check if error is expired or invalid
+            if (err) {
+                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+            } else {
+                req.decoded = decoded; // Create global variable to use in any request beyond
+                console.log('authentication middleware complete!');
+                next(); // Exit middleware
+            }
+
+        })
+    }
+});

@@ -23,6 +23,7 @@ router.route('/')
 
 router.route('/:patientprofile_id')
     .get(function (request, response) {
+        console.log("in patient profile get by ID route");
         if (!request.params.patientprofile_id) {
             response.json({success: false, message: 'id was not provided'});
         }
@@ -52,5 +53,19 @@ router.route('/:patientprofile_id')
             response.json({success: false, message: err});
         })
     });
+
+router.route('/')
+    .get(function (request, response) {
+
+        console.log("in patient profile get by ID route");
+        if (!request.params.patientprofile_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        PatientProfiles.getOne({_id: req.decoded._id}).then(function(patientProfile){
+            response.json({patientProfile: patientProfile});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
 
 module.exports = router;
