@@ -2,7 +2,29 @@
 @import '~@angular/material/theming';
 @import '../../../node_modules/ng2-dnd/bundles/style.css';
 
-.list-group {
+.exercises-tab {
+    margin-right:20%;
+    margin-left:20%;
+}
+
+.exercise-card {
+    font-family: 'Roboto Condensed', sans-serif;
+    width: 90%;
+    align: center;
+}
+
+.question {
+  width: 100%;
+}
+.list-group-exercise {
+    font-family: 'Roboto Condensed', sans-serif;
+  height: 500px;
+  // width: 10%;
+  overflow-y: scroll;
+}
+
+
+.list-group-assessment-tests {
     margin-left: 30%;
     margin-right: 30%;
 }
@@ -14,7 +36,8 @@
     font-size: 14px;
 }
 
-.example-container2 {
+.plan-details-tab {
+    font-family: 'Roboto Condensed', sans-serif !important;
   font-size: 20px;
   text-align: center;
   margin-right: 10%;
@@ -23,8 +46,12 @@
   flex-direction: column;
 }
 
-.example-container2 > * {
+.plan-details-tab > * {
   width: 100%;
+}
+
+mat-form-field{
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 mat-form-field.name {
@@ -163,7 +190,8 @@ button.move{
 button.stickToBottom{
     position: fixed;
     bottom: 0px;
-    background-color: $electric-glow;
+    background-color: $magic-night;
+    color: #FFFFFF;
     border-radius: 0px;
     height: 40px;
     font-size: 30px;
