@@ -78,7 +78,10 @@ import { PatientMessagesComponent } from './patient-messages/patient-messages.co
 import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
+import { ViewRehabilitationPlanComponent } from './view-rehabilitation-plan/view-rehabilitation-plan.component';
+import { CompleteAssessmentTestComponent } from './complete-assessment-test/complete-assessment-test.component';
 
+import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 
 @NgModule({
   declarations: [
@@ -111,7 +114,10 @@ import { MatRadioModule } from '@angular/material/radio';
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
 		EditAssessmentTestDialogComponent,
-		PatientMessagesComponent
+		PatientMessagesComponent,
+		ViewRehabilitationPlanComponent,
+		CompleteAssessmentTestComponent,
+		PatientCompleteAssessmentTestComponent
   ],
   imports: [
     HttpModule,
@@ -156,12 +162,8 @@ import { MatRadioModule } from '@angular/material/radio';
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
-<<<<<<< HEAD
 		MatDialogModule,
 		LoadingModule
-=======
-    MatAutocompleteModule
->>>>>>> 504f5f54d86b05a534aef5d6269878bc3d223779
   ],
   providers: [ExerciseService,
   FormService,

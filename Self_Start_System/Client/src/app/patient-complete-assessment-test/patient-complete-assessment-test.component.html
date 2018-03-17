@@ -8,17 +8,22 @@
 				<hr>
 				<!-- Row 1-->
 				<div class="row">
-					<div class="col-4 form-container">
+					<div class="col-6 form-container">
 						<mat-form-field>
-							<input matInput placeholder="Name" [(ngModel)]="name" name="name">
+							<input matInput placeholder="Name" [(ngModel)]="assessmentTest.name" name="assessmentTest.name">
+						</mat-form-field>
+					</div>
+					<div class="col-6 form-container">
+						<mat-form-field>
+							<input matInput placeholder="Author" [(ngModel)]="assessmentTest.authorName" name="assessmentTest.authorName">
 						</mat-form-field>
 					</div>
 				</div>
 				<!-- Row 2 -->
 				<div class="row">
-					<div class="col-10 form-container">
+					<div class="col-12 form-container">
 						<mat-form-field>
-							<input matInput placeholder="Description" [(ngModel)]="description" name="description">
+							<input matInput placeholder="Description" [(ngModel)]="assessmentTest.description" name="assessmentTest.description">
 						</mat-form-field>
 					</div>
 				</div>

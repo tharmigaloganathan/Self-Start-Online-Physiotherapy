@@ -26,6 +26,8 @@ import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/a
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 
+import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
+
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -75,6 +77,10 @@ const appRoutes: Routes = [
     path: 'patient/book-appointment',
     component: BookAppointmentComponent
   },
+	{
+		path: 'patient/assessment-test',
+		component: PatientCompleteAssessmentTestComponent
+	},
   {
     path: 'patient',
     redirectTo: '/patient/home'
