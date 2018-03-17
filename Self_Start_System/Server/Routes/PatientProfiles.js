@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
+//for tokens & verification & login sessions
+const jwt = require('jsonwebtoken');
+const config = require('../Config/Database');
+
 
 router.route('/')
     .post(function (request, response) {
@@ -24,7 +28,8 @@ router.route('/')
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
-    const token = req.headers['authorization'];
+    console.log(req.headers['authorization']);
+    const token = req.headers.authorization;
 
     console.log('token: ', token);
 
@@ -33,7 +38,7 @@ router.use(function (req, res, next) {
     } else {
         // Verify the token is valid
         jwt.verify(token, config.secret, function (err, decoded) {
-            // Check if error is expired or invalid
+            console.log(decoded);
             if (err) {
                 res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
             } else {

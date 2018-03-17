@@ -27,7 +27,19 @@ router.route('/login')
                 console.log ("in UserAccounts login :", userAccount);
                 //login success
                 //create token, encrypt the id, expire in 24hours
+                var profileId;
+                console.log(userAccount._id);
+                if (userAccount.patientProfile){
+                    profileId = userAccount.patientProfile;
+                } else if (userAccount.physiotherapist){
+                    profileId = userAccount.physiotherapist;
+                } else if (userAccount.administrator) {
+                    profileId = userAccount.physiotherapist;
+                }
+
                 const token = jwt.sign({_id: userAccount._id}, config.secret, {expiresIn: '24h'});
+                console.log("token made: ", token);
+
                 response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
 
             }).catch(function(err){
