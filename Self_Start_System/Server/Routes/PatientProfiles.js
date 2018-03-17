@@ -21,23 +21,48 @@ router.route('/')
         })
     });
 
-router.route('/:patientprofile_id')
+//middleware for every route below this one
+router.use(function (req, res, next) {
+    console.log('in authentication middleware');
+    const token = req.headers['authorization'];
+
+    console.log('token: ', token);
+
+    if (!token) {
+        res.json({success: false, message: 'No token provided'}); // Return error
+    } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, function (err, decoded) {
+            // Check if error is expired or invalid
+            if (err) {
+                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+            } else {
+                req.decoded = decoded; // Create global variable to use in any request beyond
+                console.log('authentication middleware complete!');
+                next(); // Exit middleware
+            }
+
+        })
+    }
+});
+
+router.route('/:patientProfile_id')
     .get(function (request, response) {
         console.log("in patient profile get by ID route");
-        if (!request.params.patientprofile_id) {
+        if (!request.params.patientProfile_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        PatientProfiles.getOne(request.params.patientprofile_id).then(function(patientProfile){
+        PatientProfiles.getOne(request.params.patientProfile_id).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .put(function (request, response) {
-        if (!request.params.patientprofile_id) {
+        if (!request.params.patientProfile_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        PatientProfiles.update(request.params.patientprofile_id, request.body).then(function(patientProfile){
+        PatientProfiles.update(request.params.patientProfile_id, request.body).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
@@ -54,18 +79,5 @@ router.route('/:patientprofile_id')
         })
     });
 
-router.route('/')
-    .get(function (request, response) {
-
-        console.log("in patient profile get by ID route");
-        if (!request.params.patientprofile_id) {
-            response.json({success: false, message: 'id was not provided'});
-        }
-        PatientProfiles.getOne({_id: req.decoded._id}).then(function(patientProfile){
-            response.json({patientProfile: patientProfile});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-        })
-    })
 
 module.exports = router;

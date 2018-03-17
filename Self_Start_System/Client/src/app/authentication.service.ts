@@ -41,23 +41,19 @@ export class AuthenticationService {
 
   getProfile(){
     this.createAuthenticationHeaders();
-    this.activeUser = localStorage.getItem("userAccount");
-    console.log(this.activeUser);
-    console.log(this.activeUser[1]);
-    console.log(this.activeUser['patientProfile']);
-
-
-    if(this.activeUser.patientProfile){
-      return this.http.get(this.domain + '/PatientProfiles/'+ this.activeUser.patientProfile,this.options).map(res => res.json());
-    } else if (this.activeUser.physiotherapist){
-      return this.http.get(this.domain +'/Physiotherapists', this.options).map(res=> res.json());
+    console.log("this.options: ", this.options)
+    var retrievedAccount = localStorage.getItem("userAccount");
+    console.log(JSON.parse(retrievedAccount).patientProfile);
+    if(JSON.parse(retrievedAccount).patientProfile){
+      return this.http.get(this.domain + '/PatientProfiles/'+ JSON.parse(retrievedAccount).patientProfile, this.options).map(res => res.json());
+    } else if (JSON.parse(retrievedAccount).physiotherapist){
+      return this.http.get(this.domain +'/Physiotherapists/' + JSON.parse(retrievedAccount).physiotherapist, this.options).map(res=> res.json());
     }
 
   }
 
   createAuthenticationHeaders() {
     this.loadToken(); // Get token so it can be attached to headers
-
     // Headers configuration options
     this.options = new RequestOptions({
       headers: new Headers({

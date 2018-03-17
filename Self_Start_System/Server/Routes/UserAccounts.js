@@ -24,9 +24,8 @@ router.route('/login')
 
             //check to see if the password matches the name
             UserAccounts.login(userAccount, request.body.encryptedPassword).then(function(userAccount){
-
+                console.log ("in UserAccounts login :", userAccount);
                 //login success
-
                 //create token, encrypt the id, expire in 24hours
                 const token = jwt.sign({_id: userAccount._id}, config.secret, {expiresIn: '24h'});
                 response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
@@ -205,5 +204,19 @@ router.route('/:object_id')
         })
     });
 
+router.route('/getProfile', function(req, res) {
+    UserAccounts.getOne({_id: req.decoded._id}).exec(function(err, user) {
+        if (err) {
+            res.json({success: false, message: err});
+        } else if (!user) {
+            res.json({success: false, message: "User not found"});
+        } else {
+            console.log('at end of UserAccounts getProfile route');
+            res.json({success: true, userAccount: userAccount});
+        }
+    })
+
+
+})
 
 module.exports = router;
