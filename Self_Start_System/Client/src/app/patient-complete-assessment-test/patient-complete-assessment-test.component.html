@@ -31,13 +31,14 @@
 				<div class="row">
 					<div class="col-10 form-container">
 						<h6>Please answer the questions below:</h6>
-						<div *ngFor="let question of questions">
-							<mat-list>
+						<mat-list>
+							<div *ngFor="let question of questions">
 								<mat-list-item>
 									{{ question.questionText }}
 								</mat-list-item>
-							</mat-list>
-						</div>
+								<mat-divider></mat-divider>
+							</div>
+						</mat-list>
 					</div>
 				</div>
 			</mat-card>

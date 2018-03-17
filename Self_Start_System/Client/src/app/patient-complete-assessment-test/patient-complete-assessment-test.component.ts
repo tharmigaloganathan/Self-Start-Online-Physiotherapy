@@ -36,13 +36,10 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 				console.log("This is the form id: " + this.form_id);
 				console.log("This is what was returned" + JSON.stringify(data));
 				this.getForm();
-				console.log(this.form);
 			},
 			error => {
 				console.log("Error");
 			});
-		//Get the form data
-
 	}
 
 	//Get the assessment test form
@@ -68,7 +65,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 			this.assessmentTestService.getQuestion(this.questions[i]).
 			subscribe(
 				data => {
-					this.questions.push(data);
+					this.questions.push(i, data);
 					console.log("Questions:" + JSON.stringify(this.questions[i]));
 					console.log("This is what was returned for the question" + JSON.stringify(data));
 				},
@@ -76,7 +73,6 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 					console.log("Error");
 				});
 		}
-		console.log("Questions after loop:" + this.questions);
 	}
 
 }
