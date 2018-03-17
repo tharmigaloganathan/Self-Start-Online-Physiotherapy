@@ -10,6 +10,8 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
   username;
   password;
+  triedLogin = false;
+  statusMessage= false;
   patientProfile_id;
   physiotherapist_id;
   admin_id
@@ -34,34 +36,39 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(user).subscribe(
       data => {
-        console.log(data);
-        console.log(data.userAccount["patientProfile_id"]);
-        var acc = data["userAccount"];
-        console.log(acc["patientProfile_id"]);
-        console.log("This is the user that has logged in" + JSON.stringify(data));
+
+        console.log("This is the user that tried logged in" + JSON.stringify(data));
 
         if(!data.success){
+          //if password isn't right
           console.log(data.message);
+          this.triedLogin=true;
+          this.statusMessage = data.message;
+
         } else {
+          this.triedLogin=true;
+          this.statusMessage=false;
+
           //store user data
           this.authService.storeUserData(data.token, data.userAccount);
           console.log ("user's token: ", data.token);
           console.log("user being stored in local storage: ", data.userAccount);
 
           //navigate to appropriate home page after 2 second delay
-          console.log(data.userAccount.patientProfile_id);
-          if (data.userAccount.patientProfile_id) {
+          console.log(data.userAccount.patientProfile);
+
+          if (data.userAccount.patientProfile) {
             setTimeout(() => {
               this.router.navigate(['/patient']);
-            }, 1000);
-          } else if (data.userAccount.admin_id) {
+            }, 2000);
+          } else if (data.userAccount.patientProfile) {
             setTimeout(() => {
               this.router.navigate(['/admin']);
-            }, 1000);
-          } else if (data.userAccount.physiotherapist_id){
+            }, 2000);
+          } else if (data.userAccount.patientProfile){
             setTimeout(() => {
               this.router.navigate(['/physio']);
-            }, 1000);
+            }, 2000);
           }
         }
       },

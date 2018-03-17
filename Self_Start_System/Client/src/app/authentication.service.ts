@@ -26,7 +26,9 @@ export class AuthenticationService {
   login(user) {
     console.log("inside auth service, service received: ", user);
     return this.http.post(this.domain+'/UserAccounts/login', user)
-      .map(res => res.json());
+      .map((response: Response) => {
+        return response.json();
+      });
 
   }
 
