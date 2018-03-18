@@ -38,6 +38,9 @@ export class AuthenticationService {
     console.log("End of logout() in AuthService. Successfully logged out!");
   }
 
+  loggedIn(){
+    return tokenNotExpired();
+  }
   storeUserData(token, userAccount){
     localStorage.setItem('token', token);
     localStorage.setItem('userAccount', JSON.stringify(userAccount))
