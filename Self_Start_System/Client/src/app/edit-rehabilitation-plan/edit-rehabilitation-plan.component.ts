@@ -307,7 +307,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
         let allAssessmentTests = data.assessmentTest;
 
         for (let i = 0; i < allAssessmentTests.length; i++) {
-          if (allAssessmentTests[i].rehabilitationPlan = this.editID) {
+          if (allAssessmentTests[i].rehabilitationPlan == this.editID) {
             this.assessmentTests.push(allAssessmentTests[i]);
           }
         }
