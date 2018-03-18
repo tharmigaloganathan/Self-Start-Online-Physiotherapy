@@ -42,7 +42,11 @@ import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
 import { FormService} from "./form.service";
+
+import { AuthenticationService} from "./authentication.service";
+
 import { AssessmentTestService } from "./assessment-test.service";
+
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -71,12 +75,16 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+
+import { LoginComponent } from './login/login.component';
+
 import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
+import {FlashMessagesModule} from "angular2-flash-messages";
 
 @NgModule({
   declarations: [
@@ -108,8 +116,10 @@ import { MatRadioModule } from '@angular/material/radio';
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
+		LoginComponent
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent
+
   ],
   imports: [
     HttpModule,
@@ -154,6 +164,10 @@ import { MatRadioModule } from '@angular/material/radio';
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+    FlashMessagesModule.forRoot(),
+  ],
+  providers: [ExerciseService,
+  FormService, AuthenticationService],
     MatAutocompleteModule
   ],
   providers: [ExerciseService,

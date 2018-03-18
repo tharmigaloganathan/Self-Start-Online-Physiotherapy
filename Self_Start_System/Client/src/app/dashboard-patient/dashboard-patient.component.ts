@@ -1,18 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService} from "../authentication.service";
 import { MessagesService } from '../messages.service';
 
 @Component({
-    selector: 'app-dashboard-patient',
-    templateUrl: './dashboard-patient.component.html',
-    styleUrls: ['./dashboard-patient.component.scss'],
-    providers: [ MessagesService ]
+  selector: 'app-dashboard-patient',
+  templateUrl: './dashboard-patient.component.html',
+  styleUrls: ['./dashboard-patient.component.scss'],
+  providers:[AuthenticationService,MessagesService]
 })
 export class DashboardPatientComponent implements OnInit {
     messages: Object[] = [];
     patientID: String;
+    user;
+  
+  constructor(
+    private authService: AuthenticationService)
+  {
+    this.authService = authService;
+  }
+
+  ngOnInit() {
+    this.authService.getProfile().subscribe(profile => {
+      console.log(profile);
+      this.user = profile.patientProfile;
+      console.log("The current user is: ", this.user);
+
+    });
+  }
 
     constructor(private messagesService: MessagesService) {
-        this.patientID = "5a80aae5734d1d0d42e9f930";
+        this.patientID = this.user._id; //gets id of the current patient that is logged in
         this.getMessages();
     }
 
@@ -55,10 +72,6 @@ export class DashboardPatientComponent implements OnInit {
         //order the messages by date/time
     }
 
-    getPatientIDFromLocalStorage() {
-
-    }
-
     addNewMessage(message: String) {
         console.log("NEW MESSAGE", message);
         //create message object
@@ -68,7 +81,7 @@ export class DashboardPatientComponent implements OnInit {
         //call getMessages again
     }
 
-    ngOnInit() {
-    }
+   
+
 
 }
