@@ -12,6 +12,7 @@ export class EditQuestionDialogComponent implements OnInit {
     {value: 'Short Answer', viewValue: 'Short Answer'},
     {value: 'Multiple Choice', viewValue: 'Multiple Choice'},
     {value: 'Range', viewValue: 'Range'},
+    {value: 'Image Upload', viewValue: 'Image Upload'}
   ]
 
   newOption: string;
