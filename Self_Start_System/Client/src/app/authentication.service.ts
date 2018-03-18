@@ -29,7 +29,13 @@ export class AuthenticationService {
       .map((response: Response) => {
         return response.json();
       });
+  }
 
+  logout(){
+    this.authToken = null;
+    this.activeUser = null;
+    localStorage.clear();
+    console.log("End of logout() in AuthService. Successfully logged out!");
   }
 
   storeUserData(token, userAccount){
@@ -72,9 +78,7 @@ export class AuthenticationService {
     this.authToken = localStorage.getItem('token');
   }
 
-  logOut(){
 
-  }
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

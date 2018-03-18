@@ -71,6 +71,7 @@ import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
 import { LoginComponent } from './login/login.component';
 
+import {FlashMessagesModule} from "angular2-flash-messages";
 
 @NgModule({
   declarations: [
@@ -145,6 +146,7 @@ import { LoginComponent } from './login/login.component';
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+    FlashMessagesModule.forRoot(),
   ],
   providers: [ExerciseService,
   FormService, AuthenticationService],
