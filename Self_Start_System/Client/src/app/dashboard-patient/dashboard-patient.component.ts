@@ -12,9 +12,10 @@ export class DashboardPatientComponent implements OnInit {
     messages: Object[] = [];
     patientID: String;
     user;
-  
+
   constructor(
-    private authService: AuthenticationService)
+    private authService: AuthenticationService,
+    private messagesService: MessagesService)
   {
     this.authService = authService;
   }
@@ -24,14 +25,14 @@ export class DashboardPatientComponent implements OnInit {
       console.log(profile);
       this.user = profile.patientProfile;
       console.log("The current user is: ", this.user);
+      this.patientID = this.user._id; //gets id of the current patient that is logged in
+      this.getMessages();
+
 
     });
   }
 
-    constructor(private messagesService: MessagesService) {
-        this.patientID = this.user._id; //gets id of the current patient that is logged in
-        this.getMessages();
-    }
+
 
     setAllMessagesAsSeen() {
         //loop through messages array
@@ -81,7 +82,7 @@ export class DashboardPatientComponent implements OnInit {
         //call getMessages again
     }
 
-   
+
 
 
 }

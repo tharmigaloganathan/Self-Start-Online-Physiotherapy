@@ -116,10 +116,9 @@ import {FlashMessagesModule} from "angular2-flash-messages";
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
-		LoginComponent
+		LoginComponent,
 		EditAssessmentTestDialogComponent,
-		PatientMessagesComponent
-
+		PatientMessagesComponent,
   ],
   imports: [
     HttpModule,
@@ -165,14 +164,10 @@ import {FlashMessagesModule} from "angular2-flash-messages";
 	  MatStepperModule,
     MatSnackBarModule,
     FlashMessagesModule.forRoot(),
+    MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService],
-    MatAutocompleteModule
-  ],
-  providers: [ExerciseService,
-  FormService,
-  AssessmentTestService],
+  FormService, AuthenticationService,AssessmentTestService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent]
