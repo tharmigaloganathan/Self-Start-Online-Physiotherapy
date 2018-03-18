@@ -97,8 +97,8 @@ function getByName(name){
             if (error){
                 reject(error);
             }else{
-                console.log ("in Model, getByName: ", document);
-                resolve(document);
+                console.log ("in Model, getByName: ", document[0]);
+                resolve(document[0]);
             }
         });
     });
