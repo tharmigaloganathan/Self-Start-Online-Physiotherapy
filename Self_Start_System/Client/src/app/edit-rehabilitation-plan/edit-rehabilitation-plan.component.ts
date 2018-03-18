@@ -5,6 +5,7 @@ import { AssessmentTestService } from "../assessment-test.service";
 import { ViewEncapsulation } from '@angular/core';
 import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
     selector: 'app-edit-rehabilitation-plan',
@@ -28,6 +29,8 @@ export class EditRehabilitationPlanComponent implements OnInit {
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
 
+    user: any;
+
   //ASSESSMENT TEST RELATED
   editAssessmentTestDialogRef: MatDialogRef<EditAssessmentTestDialogComponent>
 
@@ -38,14 +41,19 @@ export class EditRehabilitationPlanComponent implements OnInit {
   constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
               private assessmentTestService: AssessmentTestService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authService: AuthenticationService) {
       console.log("ID", this.editID)
   }
 
   ngOnInit() {
     this.getRehabilitationPlans();
     this.getExercises();
-    this.getAssessmentTests();
+    this.authService.getProfile().subscribe(
+      res => {
+        this.user = res;
+      }
+    );
   }
 
   getExerciseIDs() {
@@ -182,6 +190,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
           this.rehabilitationplans = data;
           console.log("REHABILITATION PLANS", this.rehabilitationplans);
           this.getExercises();
+          this.getAssessmentTests();
       });
   }
 
@@ -238,10 +247,11 @@ export class EditRehabilitationPlanComponent implements OnInit {
   //==================================
 
   createAssessmentTest(){
+    console.log("NICK YOUR USER:", this.user);
     var assessTest = {
       name: "Name",
       description: "Description",
-      authorName: "Author",
+      authorName: this.user.physiotherapist.familyName,
       recommendations: null,
       form: null,
       testResults: null,
