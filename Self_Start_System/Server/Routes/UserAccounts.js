@@ -29,13 +29,14 @@ router.route('/login')
                 //create token, encrypt the id, expire in 24hours
                 var profileId;
                 console.log(userAccount._id);
-                if (userAccount.patientProfile){
-                    profileId = userAccount.patientProfile;
-                } else if (userAccount.physiotherapist){
-                    profileId = userAccount.physiotherapist;
-                } else if (userAccount.administrator) {
-                    profileId = userAccount.physiotherapist;
-                }
+                // var profileId;
+                // if (userAccount.patientProfile){
+                //     profileId = userAccount.patientProfile;
+                // } else if (userAccount.physiotherapist){
+                //     profileId = userAccount.physiotherapist;
+                // } else if (userAccount.administrator) {
+                //     profileId = userAccount.physiotherapist;
+                // }
 
                 const token = jwt.sign({_id: userAccount._id}, config.secret, {expiresIn: '24h'});
                 console.log("token made: ", token);

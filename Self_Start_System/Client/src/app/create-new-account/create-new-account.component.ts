@@ -18,7 +18,13 @@ export class CreateNewAccountComponent implements OnInit {
   patientProfile_id = null;
   physiotherapistProfile_id = null;
   administrator_id = null;
-  userMade = false;
+  madePatient = false;
+  madePhysio = false;
+
+  //variables to store filler family names to distringuish fake profiles for testing
+  familyName = null;
+
+  adminName;
 
   constructor(
     private createUserAccountService: CreateUserAccountService,
@@ -26,13 +32,14 @@ export class CreateNewAccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userMade = false;
+    this.madePatient = false;
+    this.madePhysio = false;
   }
 
-  registerUserProfile() {
+  registerPatientProfile() {
     //JSON object to hold user information
-    const user = {
-      familyName: "TestUserLeo",
+    const testPatientUser = {
+      familyName: this.familyName,
       givenName: "Zhang",
       email: "leozhang47@Hotmail.com",
       DOB: "2014-02-10T10:50:42.389Z",
@@ -49,20 +56,48 @@ export class CreateNewAccountComponent implements OnInit {
       gender: "5a9d6e84f36d280590251e97",
       appointments: null
     }
-    console.log(user);
+    console.log(testPatientUser);
     //Send user data to backend
-    this.createUserAccountService.registerUserProfile(user).
+    this.createUserAccountService.registerUserProfile(testPatientUser).
     subscribe(
       user => {
-        console.log("The following profile has been registered: " + JSON.stringify(user));
+        console.log("The following patient has been registered: " + JSON.stringify(user));
         this.patientProfile_id = user.patientProfile._id;
         console.log("Patient profile id " + this.patientProfile_id);
       },
       error => {
         console.log(error);
       });
-    this.userMade = true;
+    this.madePatient = true;
   }
+
+  registerPhysiotherapistProfile() {
+    //JSON object to hold user information
+    const testPhysioUser = {
+      familyName: this.familyName,
+      givenName: "Zhang",
+      email: "leozhang47@Hotmail.com",
+      dateHired: "2014-02-10T10:50:42.389Z",
+      dateFinished: "2015-02-10T10:50:42.389Z",
+      userAccount: null,
+      treatments: null,
+    }
+
+    console.log(testPhysioUser);
+    //Send user data to backend
+    this.createUserAccountService.registerPhysiotherapist(testPhysioUser).
+    subscribe(
+      user => {
+        console.log("The following physiotherapist has been registered: " + JSON.stringify(user));
+        this.physiotherapistProfile_id = user.physiotherapist._id;
+        console.log("Physiotherapist profile id " + this.physiotherapistProfile_id);
+      },
+      error => {
+        console.log(error);
+      });
+    this.madePhysio = true;
+  }
+
 
   registerUserAccount() {
     const account = {

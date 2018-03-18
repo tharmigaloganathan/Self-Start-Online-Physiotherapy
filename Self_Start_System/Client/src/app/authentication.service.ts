@@ -52,6 +52,8 @@ export class AuthenticationService {
       return this.http.get(this.domain + '/PatientProfiles/'+ JSON.parse(retrievedAccount).patientProfile, this.options).map(res => res.json());
     } else if (JSON.parse(retrievedAccount).physiotherapist){
       return this.http.get(this.domain +'/Physiotherapists/' + JSON.parse(retrievedAccount).physiotherapist, this.options).map(res=> res.json());
+    } else if (JSON.parse(retrievedAccount).administrator){
+      return this.http.get(this.domain +'/Administrators/' + JSON.parse(retrievedAccount).administrator, this.options).map(res=> res.json());
     }
 
   }

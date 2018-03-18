@@ -65,6 +65,12 @@ export class CreateUserAccountService {
 		});
 	}
 
+	registerAdmin(administrator: any){
+    return this.http.post(this.domain+'/Administrators', administrator).map((response: Response) => {
+      return response.json();
+    });
+  }
+
 	//Create a new user account
 	registerUserAccount(account: any) {
     console.log("within service, in registerUserAccount function ");

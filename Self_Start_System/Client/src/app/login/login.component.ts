@@ -55,17 +55,16 @@ export class LoginComponent implements OnInit {
           console.log("user being stored in local storage: ", data.userAccount);
 
           //navigate to appropriate home page after 2 second delay
-          console.log(data.userAccount.patientProfile);
 
           if (data.userAccount.patientProfile) {
             setTimeout(() => {
               this.router.navigate(['/patient']);
             }, 2000);
-          } else if (data.userAccount.patientProfile) {
+          } else if (data.userAccount.administrator) {
             setTimeout(() => {
               this.router.navigate(['/admin']);
             }, 2000);
-          } else if (data.userAccount.patientProfile){
+          } else if (data.userAccount.physiotherapist){
             setTimeout(() => {
               this.router.navigate(['/physio']);
             }, 2000);
