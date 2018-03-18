@@ -71,7 +71,8 @@ router.route('/')
 
                     //update the reference to the userAccount just created in the patient's profile
                     tempProfile = patientProfile;
-                    tempProfile.account = userAccount._id;
+                    tempProfile.account = userAccount._id; //for physio & admin, its tempProfile.userAccount, naming differences in model
+
                     PatientProfiles.update(tempProfile._id, tempProfile).then(function(document){
                         console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
                     }).catch(function(err){
@@ -81,7 +82,7 @@ router.route('/')
                     //update the reference to the patient profile in the just created UserAccount
                     tempAccount.patientProfile = tempProfile._id;
                     UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
-                        console.log ("UserAccount successfully updated! It's patient profile field should be filled! ", document);
+                        console.log ("UserAccount successfully updated! It's patientProfile field should be filled! ", document);
                     }).catch(function(err){
                         console.log(err);
                     })
@@ -92,31 +93,51 @@ router.route('/')
 
             } else if(userAccount.administrator){
                 Administrators.getOne(userAccount.administrator).then(function(adminProfile){
-                    console.log('found the patient profile to link to', adminProfile);
-                    profile = adminProfile;
-                    profile.account = userAccount._id;
+                    console.log('found the administrator to link to', adminProfile);
+                    tempProfile = adminProfile;
+                    tempProfile.userAccount = userAccount._id;
 
-                    Administrators.update(profile._id, profile).then(function(document){
-                        console.log(document);
+                    //update the profile with the ref to the user Account
+                    Administrators.update(tempProfile._id, tempProfile).then(function(document){
+                        console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
                     }).catch(function(err){
                         console.log(err);
                     });
+
+                    //update the reference to the admin profile in the just created UserAccount
+                    tempAccount.administrator = tempProfile._id;
+                    UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
+                        console.log ("UserAccount successfully updated! It's administrator field should be filled! ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+
                 }).catch(function(err){
                     console.log(err);
                 });
 
-            } else if(physiotherapist){
+            } else if(userAccount.physiotherapist){
                 Physiotherapists.getOne(userAccount.physiotherapist).then(function(physioProfile){
-                    console.log('found the patient profile to link to', physioProfile);
-                    profile = physioProfile;
-                    profile.account = userAccount._id;
+                    console.log('found the physiotherapist profile to link to', physioProfile);
 
-                    Physiotherapists.update(profile._id, profile).then(function(document){
-                        console.log(document);
+                    tempProfile = physioProfile;
+                    tempProfile.userAccount = userAccount._id;
+
+                    //update the reference to useraccount in the profile
+                    Physiotherapists.update(tempProfile._id, tempProfile).then(function(document){
+                        console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
                     }).catch(function(err){
                         console.log(err);
                     });
-                }).catch(function(err){
+
+                    tempAccount.physiotherapist= tempProfile._id;
+
+                    //update the reference to the physiotherapist profile in the just created UserAccount
+                    UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
+                        console.log ("UserAccount successfully updated! It's physiotherapist field should be filled! ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    })                }).catch(function(err){
                     console.log(err);
                 });
             }

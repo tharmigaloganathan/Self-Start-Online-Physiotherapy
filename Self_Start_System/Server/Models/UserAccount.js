@@ -92,13 +92,13 @@ function getOne(id){
 
 function getByName(name){
     return new Promise (function (resolve, reject) {
-        console.log("in model, getByName name is: ", name);
+        console.log("in Model, getByName name is: ", name);
         UserAccounts.find({userAccountName: name}, function (error, document) {
             if (error){
                 reject(error);
             }else{
-                console.log ("in Model, getByName: ", document[0]);
-                resolve(document[0]);
+                console.log ("in Model, getByName: ", document);
+                resolve(document);
             }
         });
     });

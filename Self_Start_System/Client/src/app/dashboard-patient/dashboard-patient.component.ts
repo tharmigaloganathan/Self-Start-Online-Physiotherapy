@@ -20,7 +20,7 @@ export class DashboardPatientComponent implements OnInit {
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       console.log(profile);
-      this.user = profile.physiotherapist;
+      this.user = profile.patientProfile;
       console.log("The current user is: ", this.user);
 
     });

@@ -10,17 +10,20 @@
     <b>Fill out your information below!</b>
 </h1>
 <br /><br />
+
 <div class = "example-container2">
-<mat-form-field class="familyName">
-  <input matInput #name placeholder="Enter your familyName, make it unique to distinguish ex: (TestPatient1)" [(ngModel)]="familyName">
-</mat-form-field>
-<br /><br />
-<button *ngIf="!madePatient && !madePhysio" mat-raised-button (click)="registerPatientProfile()">Generate a Patient</button>
-<h4 *ngIf="madePatient">A Patient Profile has been made! Please proceed to enter his/her's user account info</h4>
-<br /><br />
-<button *ngIf="!madePatient && !madePhysio" mat-raised-button (click)="registerPhysiotherapistProfile()">Generate a Physiotherapist</button>
-<h4 *ngIf="madePhysio">A Physiotherapist Profile has been made! Please proceed to enter his/her's user account info</h4>
+  <mat-form-field class="familyName">
+    <input matInput #name placeholder="Enter your given name/first name, make it unique to distinguish ex: (TestPatient1)" [(ngModel)]="givenName">
+  </mat-form-field>
+  <br /><br />
+  <button *ngIf="!madeAdmin && !madePatient && !madePhysio" color = "primary" mat-raised-button (click)="registerPatientProfile()">Generate a Patient</button>
+  <p *ngIf="madePatient">A Patient Profile has been made! Please proceed to enter his/her's user account info</p>
+  <button *ngIf="!madeAdmin && !madePatient && !madePhysio" color = "primary" mat-raised-button (click)="registerPhysiotherapistProfile()">Generate a Physiotherapist</button>
+  <p *ngIf="madePhysio">A Physiotherapist Profile has been made! Please proceed to enter his/her's user account info</p>
+  <button *ngIf="!madeAdmin && !madePatient && !madePhysio" color = "primary" mat-raised-button (click)="registerAdministratorProfile()">Generate a Administrator</button>
+  <p *ngIf="madeAdmin">An Administrator Profile has been made! Please proceed to enter his/her's user account info</p>
 </div>
+
 <div class="example-container2">
     <mat-form-field class="name">
         <input matInput #name placeholder="Enter your desired username" [(ngModel)]="username">
@@ -33,7 +36,8 @@
     <mat-form-field class="authorName">
       <input matInput #authorName placeholder="Enter your desired password again "[(ngModel)]="passwordVerify" >
     </mat-form-field>
+    <br /><br />
+  <button mat-raised-button color="accent"(click)="registerUserAccount()">Create Account!</button>
 
 </div>
 
-<button mat-raised-button class="stickToBottom"  (click)="registerUserAccount()">Create Account!</button>

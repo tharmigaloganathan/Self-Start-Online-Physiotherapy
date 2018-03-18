@@ -45,8 +45,7 @@ export class AuthenticationService {
     console.log("this.options: ", this.options)
 
     var retrievedAccount = localStorage.getItem("userAccount");
-
-    console.log(JSON.parse(retrievedAccount).patientProfile);
+    console.log("here is the retrieved account from localstorage: ", retrievedAccount);
 
     if(JSON.parse(retrievedAccount).patientProfile){
       return this.http.get(this.domain + '/PatientProfiles/'+ JSON.parse(retrievedAccount).patientProfile, this.options).map(res => res.json());

@@ -57,7 +57,7 @@ export class CreateUserAccountService {
 		});
 	}
 
-	//Create a new physiotherapist
+	//Create a new physiotherapist profile
 	registerPhysiotherapist(physiotherapist: any) {
 		return this.http.post(this.domain+'/Physiotherapists', physiotherapist)
 		.map((response: Response) => {
@@ -65,7 +65,8 @@ export class CreateUserAccountService {
 		});
 	}
 
-	registerAdmin(administrator: any){
+	//Create a new administrator profile
+	registerAdministrator(administrator: any){
     return this.http.post(this.domain+'/Administrators', administrator).map((response: Response) => {
       return response.json();
     });

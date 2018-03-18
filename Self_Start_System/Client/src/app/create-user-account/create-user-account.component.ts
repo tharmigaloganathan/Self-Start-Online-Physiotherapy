@@ -120,7 +120,7 @@ export class CreateUserAccountComponent implements OnInit {
 	}
 
 	//Register the phyiotherpists account
-	registerPhyioProfile() {
+	registerPhysioProfile() {
 		const physiotherapist = {
 			familyName: this.familyName,
 			givenName: this.givenName,

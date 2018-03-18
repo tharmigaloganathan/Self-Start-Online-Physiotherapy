@@ -20,9 +20,10 @@ export class CreateNewAccountComponent implements OnInit {
   administrator_id = null;
   madePatient = false;
   madePhysio = false;
+  madeAdmin = false;
 
   //variables to store filler family names to distringuish fake profiles for testing
-  familyName = null;
+  givenName = null;
 
   adminName;
 
@@ -36,11 +37,12 @@ export class CreateNewAccountComponent implements OnInit {
     this.madePhysio = false;
   }
 
+  //makes a profile for the patient
   registerPatientProfile() {
     //JSON object to hold user information
     const testPatientUser = {
-      familyName: this.familyName,
-      givenName: "Zhang",
+      familyName: "Zhang",
+      givenName: this.givenName,
       email: "leozhang47@Hotmail.com",
       DOB: "2014-02-10T10:50:42.389Z",
       postalCode: "N6J 1T6",
@@ -71,11 +73,12 @@ export class CreateNewAccountComponent implements OnInit {
     this.madePatient = true;
   }
 
+  //makes a profile for the physiotherapist
   registerPhysiotherapistProfile() {
     //JSON object to hold user information
     const testPhysioUser = {
-      familyName: this.familyName,
-      givenName: "Zhang",
+      familyName: "Zhang",
+      givenName: this.givenName,
       email: "leozhang47@Hotmail.com",
       dateHired: "2014-02-10T10:50:42.389Z",
       dateFinished: "2015-02-10T10:50:42.389Z",
@@ -98,7 +101,35 @@ export class CreateNewAccountComponent implements OnInit {
     this.madePhysio = true;
   }
 
+  //makes a profile for the admin
+  registerAdministratorProfile() {
+    //JSON object to hold user information
+    const testAdminUser = {
+      familyName: "Zhang",
+      givenName: this.givenName,
+      email: "leozhang47@Hotmail.com",
+      dateHired: "2014-02-10T10:50:42.389Z",
+      dateFinished: "2015-02-10T10:50:42.389Z",
+      forms: [],
+      userAccount: null,
+    }
 
+    console.log(testAdminUser);
+    //Send user data to backend
+    this.createUserAccountService.registerAdministrator(testAdminUser).
+    subscribe(
+      user => {
+        console.log("The following administrator has been registered: " + JSON.stringify(user));
+        this.administrator_id= user.administrator._id;
+        console.log("Administrator profile id " + this.administrator_id);
+      },
+      error => {
+        console.log(error);
+      });
+    this.madeAdmin = true;
+  }
+
+  //make the actual user account and password needed to log on
   registerUserAccount() {
     const account = {
       userAccountName: this.username,
