@@ -223,7 +223,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
     }
 
-  editRehabiliationPlan(){
+  editRehabilitationPlan(){
       this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.editID).subscribe(
         res => {
           console.log(res)
@@ -245,7 +245,6 @@ export class EditRehabilitationPlanComponent implements OnInit {
       recommendations: null,
       form: null,
       testResults: null,
-      rehabilitationPlan: this.editID,
       openDate: null,
       dateCompleted: null
     }
@@ -269,7 +268,24 @@ export class EditRehabilitationPlanComponent implements OnInit {
       res => {
         console.log("LOOK AT THIS RESPONSE:", res);
         this.rehabilitationplan.assessmentTests.push(res.assessmentTest._id);
-        this.editRehabiliationPlan();
+        this.editRehabilitationPlan();
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  deleteAssessmentTest(assessmentTest){
+    for (let i = 0; i < this.rehabilitationplan.assessmentTests.length; i++){
+      if(this.rehabilitationplan.assessmentTests[i] == assessmentTest._id){
+        this.rehabilitationplan.assessmentTests.splice(i, 1);
+      }
+    }
+    this.editRehabilitationPlan();
+    this.assessmentTestService.deleteAssessmentTest(assessmentTest).subscribe(
+      res => {
         this.getAssessmentTests();
       },
       error => {
@@ -307,7 +323,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
         let allAssessmentTests = data.assessmentTest;
 
         for (let i = 0; i < allAssessmentTests.length; i++) {
-          if (allAssessmentTests[i].rehabilitationPlan == this.editID) {
+          if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
             this.assessmentTests.push(allAssessmentTests[i]);
           }
         }

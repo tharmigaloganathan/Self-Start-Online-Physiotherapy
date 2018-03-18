@@ -85,6 +85,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
 import {FlashMessagesModule} from "angular2-flash-messages";
+import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import {FlashMessagesModule} from "angular2-flash-messages";
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		EditCustomRehabilitationPlanComponent,
   ],
   imports: [
     HttpModule,
