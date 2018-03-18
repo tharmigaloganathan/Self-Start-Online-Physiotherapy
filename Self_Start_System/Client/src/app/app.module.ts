@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatAutocompleteModule } from "@angular/material";
 import { PatientListComponent } from './patient-list/patient-list.component';
 
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
@@ -41,7 +42,12 @@ import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
 import { FormService} from "./form.service";
+
 import { AuthenticationService} from "./authentication.service";
+
+import { AssessmentTestService } from "./assessment-test.service";
+
+
 
 import { HttpClientModule} from '@angular/common/http';
 
@@ -69,7 +75,14 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+
 import { LoginComponent } from './login/login.component';
+
+import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
+import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { MessagesService} from "./messages.service";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
 
 import {FlashMessagesModule} from "angular2-flash-messages";
 
@@ -104,6 +117,9 @@ import {FlashMessagesModule} from "angular2-flash-messages";
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
 		LoginComponent
+		EditAssessmentTestDialogComponent,
+		PatientMessagesComponent
+
   ],
   imports: [
     HttpModule,
@@ -115,6 +131,8 @@ import {FlashMessagesModule} from "angular2-flash-messages";
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatTooltipModule,
+    MatRadioModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
@@ -150,7 +168,13 @@ import {FlashMessagesModule} from "angular2-flash-messages";
   ],
   providers: [ExerciseService,
   FormService, AuthenticationService],
+    MatAutocompleteModule
+  ],
+  providers: [ExerciseService,
+  FormService,
+  AssessmentTestService],
   bootstrap: [AppComponent],
-  entryComponents: [EditQuestionDialogComponent]
+  entryComponents: [EditQuestionDialogComponent,
+    EditAssessmentTestDialogComponent]
 })
 export class AppModule { }

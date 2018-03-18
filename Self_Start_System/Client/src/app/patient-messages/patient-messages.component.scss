@@ -1,0 +1,65 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+.new-message {
+    margin: 1%;
+    position: fixed;
+    bottom: 0px;
+    width: 98%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.mat-card {
+    padding: 10px;
+}
+
+.messages {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.physio-message {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    text-align: left;
+    margin-top: 2%;
+    width: 50%;
+    // align right, different color
+}
+
+.patient-message{
+    font-family: 'Roboto Condensed', sans-serif !important;
+    text-align: right;
+    background-color: $cobalt;
+    color: #FFFFFF;
+    margin-top: 2%;
+    width: 50%;
+    margin-left: 50%;
+    // alight left different color
+}
+
+.mat-card-subtitle {
+    color: #AAAAAA;
+}
+
+.input-form {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    margin-right: 1%;
+    width: 90%;
+}
+
+.send-button {
+  width: 8%;
+  background-color: $cobalt;
+  color: #FFFFFF;
+  border-color: $cobalt;
+  border-radius: 2px;
+  margin-right: 0px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.no-message-placeholder-text {
+    margin-top: 5%;
+    text-align: center;
+}

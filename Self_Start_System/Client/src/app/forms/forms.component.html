@@ -11,6 +11,7 @@
     <div class="col-md-12 no-left-right-margin no-left-right-padding">
       <mat-card class="dashboard-card no-left-right-margin">
         <mat-card-title>{{form.name}}</mat-card-title>
+        <mat-card-subtitle>{{form.description}}</mat-card-subtitle>
         <mat-card-actions>
           <button mat-button class="editForm" (click)="storeFormID(form._id)" routerLink="/admin/edit-form">Edit</button>
           <button mat-button class="deleteForm" (click)="deleteForm(form)">Delete</button>
