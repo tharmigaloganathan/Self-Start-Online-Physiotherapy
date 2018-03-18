@@ -14,8 +14,9 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	assessmentTest = {};
 	form_id;
 	form = {};
+	question_id = [];
 	questions = [];
-	questionText = {};
+	answers = [];
 
   constructor(assessmentTestService: PatientCompleteAssessmentTestService) {
 		this.assessmentTestService = assessmentTestService;
@@ -49,9 +50,9 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 		subscribe(
 			data => {
 				this.form = data;
-				this.questions = this.form.questions;
+				this.question_id = this.form.questions;
 				this.getQuestions();
-				console.log("Questions:" + this.questions);
+				console.log("Questions:" + this.question_id);
 				console.log("This is what was returned for the form" + JSON.stringify(data));
 			},
 			error => {
@@ -61,18 +62,23 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 
 	//Get the questions
 	getQuestions() {
-		for(var i = 0; i<this.questions.length; i++) {
-			this.assessmentTestService.getQuestion(this.questions[i]).
+		for(var i = 0; i<this.question_id.length; i++) {
+			this.assessmentTestService.getQuestion(this.question_id[i]).
 			subscribe(
 				data => {
-					this.questions.push(i, data);
+					this.questions.push(data);
 					console.log("Questions:" + JSON.stringify(this.questions[i]));
 					console.log("This is what was returned for the question" + JSON.stringify(data));
 				},
 				error => {
 					console.log("Error");
 				});
+			}
 		}
-	}
+
+		//Submit assessment test
+		submit() {
+			console.log(this.answers);
+		}
 
 }
