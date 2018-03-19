@@ -134,18 +134,24 @@
         </div>
 
         <div class="col-8">
-          <div class="card" style="height: 300px; overflow-y:scroll">
+          <div class="card" style="height: 500px; overflow-y:scroll">
             <div class="card-body">
               <p *ngIf="selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>
             </div>
           </div>
         </div>
 
-        <div class="col-8">
+        <div class="col-2">
           <div class="card" style="height: 200px; overflow-y:scroll">
             <button mat-raised-button class="blue" (click)="createRecommendation()">Add New Recommendation</button>
             <div class="card-body">
               <p *ngIf="selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>
+              <ul class="">
+                <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="list-group-item" (click)="openEditRecommendationDialog(recommendation)">
+                  <p>{{recommendation.decision}}</p>
+                  <p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

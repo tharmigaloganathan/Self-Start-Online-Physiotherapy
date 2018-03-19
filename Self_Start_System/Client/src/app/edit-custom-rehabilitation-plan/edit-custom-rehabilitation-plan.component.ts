@@ -43,6 +43,9 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   allRecommendations = [];
   selectedAssessmentRecommendations = [];
+  allResults = [];
+  selectedAssessmentResult = [];
+
   //END OF ASSESSMENT TEST RELATED
 
   constructor(private rehabilitationplanService: RehabilitationPlanService,
@@ -332,6 +335,28 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     });
   }
 
+  getAssessmentTests(){
+    this.incompleteAssessmentTests = [];
+    this.assessmentTestService.getAllAssessmentTests().subscribe(
+      data => {
+        console.log("ASSESSMENTS TESTS", data.assessmentTest);
+        console.log("editID:", this.editID);
+        let allAssessmentTests = data.assessmentTest;
+
+        for (let i = 0; i < allAssessmentTests.length; i++) {
+          if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
+            if(allAssessmentTests[i].dateCompleted != null){ this.incompleteAssessmentTests.push(allAssessmentTests[i]); }
+            else { this.completeAssessmentTests.push(allAssessmentTests[i]); }
+          }
+        }
+      }
+    )
+  }
+  //==================================
+  //ASSESSMENT TEST ENDS
+
+  //RECOMMENDATIONS STARTS
+  //==================================
   createRecommendation(){
     var recommendation = {
       timeStamp: Date.now(),
@@ -409,23 +434,21 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     )
   }
 
-  getAssessmentTests(){
-    this.incompleteAssessmentTests = [];
-    this.assessmentTestService.getAllAssessmentTests().subscribe(
-      data => {
-        console.log("ASSESSMENTS TESTS", data.assessmentTest);
-        console.log("editID:", this.editID);
-        let allAssessmentTests = data.assessmentTest;
+  //===================================
+  //RECOMMENDATIONS ENDS
 
-        for (let i = 0; i < allAssessmentTests.length; i++) {
-          if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
-            if(allAssessmentTests[i].dateCompleted != null){ this.incompleteAssessmentTests.push(allAssessmentTests[i]); }
-            else { this.completeAssessmentTests.push(allAssessmentTests[i]); }
-          }
-        }
+  //TEST RESULTS STARTS
+  //===================================
+
+  //COMPLETE THIS FUNCTION IN THE MORNING
+  getTestResults(){
+    this.assessmentTestService.getTestResults().subscribe(
+      data => {
+        this.allResults = data.testResults;
       }
     )
   }
-  //==================================
-  //ASSESSMENT TEST ENDS
+
+  //===================================
+  //TEST RESULTS ENDS
 }
