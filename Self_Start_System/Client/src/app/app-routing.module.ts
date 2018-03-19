@@ -25,6 +25,8 @@ import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/a
 import {LoginComponent} from "./login/login.component";
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
+import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 
 // Our Array of Angular 2 Routes
@@ -141,6 +143,14 @@ const appRoutes: Routes = [
   {
     path: 'image-test',
     component: ImageUploadTestComponent
+  },
+  {
+    path: 'physio/patient-plan-list',
+    component: PatientPlanListComponent //
+  },
+  {
+    path: 'physio/patient-plan-list/:id', // This ID field will be an auto-incremented ID
+    component: EditPatientPlanListComponent
   },
   {
     path: 'physio',

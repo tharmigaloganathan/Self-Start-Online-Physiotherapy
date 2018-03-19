@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+var autoIncrement = require('mongoose-plugin-autoinc');
 const cors = require('cors');
 
 app.use(cors());
@@ -18,6 +19,13 @@ app.use(function (request, response, next) {
 // the following 2 middleware convert the URL req and res to json format
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+
+// connect to mongoDB using mongoose driver
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://SE3350Testing:ademidun@ds111648.mlab.com:11648/se3350testing', { useMongoClient: true });
+var goose = mongoose;
+var conn = mongoose.connection;
+
 
 //our defined routes
 const Administrators = require('./Routes/Administrators');
@@ -67,11 +75,6 @@ app.use('/TestResults', TestResults);
 app.use('/Treatments', Treatments);
 app.use('/UserAccounts', UserAccounts);
 
-// connect to mongoDB using mongoose driver
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://SE3350Testing:ademidun@ds111648.mlab.com:11648/se3350testing', { useMongoClient: true });
-var goose = mongoose;
-var conn = mongoose.connection;
 
 const Photos = require('./Routes/Photos')(router, goose, conn);
 app.use('/Photos', Photos);

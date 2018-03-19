@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-plugin-autoinc');
 var patientProfileSchema = mongoose.Schema(
     {
-
         familyName: String,
         givenName: String,
         email: String,
@@ -20,6 +20,8 @@ var patientProfileSchema = mongoose.Schema(
         appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}]
     }
 );
+
+// patientProfileSchema.plugin(autoIncrement.plugin,{model: 'PatientProfile', field: 'patientID'});
 var PatientProfiles = module.exports = mongoose.model('PatientProfile', patientProfileSchema);
 
 

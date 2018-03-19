@@ -1,0 +1,41 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="row">
+  <div class="col-md-12" align="center">
+    <h1 class="title">
+      Edit {{currentPatient.givenName + " " + currentPatient.familyName + "'s "}} Treatment Plans <br />
+    </h1>
+  </div>
+</div>
+
+<div class="treatment-list">
+  <div class="row">
+    <div class="col-md-12" align="center" *ngFor="let treatment of treatments">
+      <mat-card class="rehab-plan-card" (click) = "editTreatment(treatment)">
+        <mat-card-title>Rehabilitation Plan: {{ treatment.rehabilitationPlan.name }}</mat-card-title>
+        <mat-card-subtitle>Assigned By: {{ treatment.physiotherapist.name }}</mat-card-subtitle>
+        <mat-card-subtitle>Date Assigned: {{ treatment.dateAssign }}</mat-card-subtitle>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div class="rehab-plan-list">
+  <div class="row">
+    <div class="col-md-12" align="center">
+      <form class="search-form">
+        <mat-form-field class="search-field">
+          <input matInput #search placeholder="Search Rehabilitation Plans..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-md-4" align="center" *ngFor="let rehabPlans of filteredRehabPlans">
+      <mat-card class="rehab-plan-card" (click) = "addTreatment(rehabPlans)">
+        <mat-card-title>{{ rehabPlans.name }}</mat-card-title>
+        <mat-card-subtitle>Created by: {{ rehabPlans.authorName }}</mat-card-subtitle>
+        <!--<mat-card-subtitle>Exercises: {{ listOfExercises(rehabPlans) }}</mat-card-subtitle>-->
+      </mat-card>
+    </div>
+  </div>
+</div>

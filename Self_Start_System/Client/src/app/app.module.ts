@@ -85,6 +85,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
 import {FlashMessagesModule} from "angular2-flash-messages";
+import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
+import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +121,8 @@ import {FlashMessagesModule} from "angular2-flash-messages";
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		PatientPlanListComponent,
+		EditPatientPlanListComponent,
   ],
   imports: [
     HttpModule,
@@ -167,7 +171,7 @@ import {FlashMessagesModule} from "angular2-flash-messages";
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService,AssessmentTestService],
+  FormService, AuthenticationService, AssessmentTestService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent]

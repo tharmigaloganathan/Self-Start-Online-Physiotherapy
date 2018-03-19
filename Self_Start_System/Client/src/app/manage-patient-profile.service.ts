@@ -4,16 +4,25 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ManagePatientProfileService {
+  private baseURL = 'http://localhost:3700/PatientProfiles';
 
 	constructor(private http: Http) {}
 
   	//Function to get all patients
 	getPatients() {
-  		return this.http.get('http://localhost:3700/PatientProfiles')
+  		return this.http.get(this.baseURL)
   		.map((response: Response) => {
 	 	return response.json().patientProfile;
   		});
 	}
+
+  // Function to get all patients
+  getPatient(patientID) {
+    return this.http.get(this.baseURL + '/' + patientID)
+      .map((response: Response) => {
+        return response.json().patientProfile;
+      });
+  }
 
 	//Function to update patient
 	updatePatient(patient: any) {
