@@ -5,12 +5,13 @@ import { ViewEncapsulation } from '@angular/core';
 import { DndModule } from "ng2-dnd";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
     selector: 'app-edit-rehabilitation-plan',
     templateUrl: './edit-rehabilitation-plan.component.html',
     styleUrls: ['./edit-rehabilitation-plan.component.scss'],
-    providers: [ RehabilitationPlanService ],
+    providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService ],
     encapsulation: ViewEncapsulation.None
 })
 
@@ -19,7 +20,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     data: Object;
 
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
-    rehabilitationplan = { exerciseOrders: []}; //Temporary fix
+    rehabilitationplan = { exerciseOrders: [], assessmentTests:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
     exerciseIDs = [];
@@ -29,14 +30,34 @@ export class EditRehabilitationPlanComponent implements OnInit {
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
     editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
+  
+    user: any;
 
-    constructor(private rehabilitationplanService: RehabilitationPlanService,
-        private exerciseService: ExerciseService,
-        private dialog: MatDialog) {}
+    //ASSESSMENT TEST RELATED
+    editAssessmentTestDialogRef: MatDialogRef<EditAssessmentTestDialogComponent>
 
-    ngOnInit() {
-        this.getRehabilitationPlans();
-    }
+    assessmentTests = [];
+    selectedAssessmentTest: any;
+    //END OF ASSESSMENT TEST RELATED
+
+  constructor(private rehabilitationplanService: RehabilitationPlanService,
+              private exerciseService: ExerciseService,
+              private assessmentTestService: AssessmentTestService,
+              private dialog: MatDialog,
+              private authService: AuthenticationService) {
+      console.log("ID", this.editID)
+  }
+
+  ngOnInit() {
+    this.getRehabilitationPlans();
+    this.getExercises();
+    this.authService.getProfile().subscribe(
+      res => {
+        this.user = res;
+      }
+    );
+  }
+
 
     openEditExerciseDialog(exercise){
         this.selectedExercise = exercise;
@@ -44,8 +65,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
         this.editExerciseDialogRef = this.dialog.open(EditExerciseDialogComponent, {
             width: '50vw',
             data: {
-                exercise: this.selectedExercise
-            }
+                exercise: this.selectedExercise}
         });
 
         this.editExerciseDialogRef.afterClosed().subscribe(result => {
@@ -80,22 +100,131 @@ export class EditRehabilitationPlanComponent implements OnInit {
             }
         );
     }
-
+      
     //gets all rehab plan information and extracts info for this specific rehab plan
     getRehabilitationPlans() {
-        this.rehabilitationplanService.getRehabilitationPlans().subscribe(data =>
-            {
+        this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
                 this.rehabilitationplans = data;
                 for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
                     if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
                         this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
                     }
-
                 }
                 this.getExercises();
-            }
-        );
+                this.getAssessmentTests();
+         });
     }
+
+  editRehabilitationPlan(){
+      this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.editID).subscribe(
+        res => {
+          console.log(res)
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  //ASSESSMENT TEST STARTS
+  //==================================
+
+  createAssessmentTest(){
+    console.log("NICK YOUR USER:", this.user);
+    var assessTest = {
+      name: "Name",
+      description: "Description",
+      authorName: this.user.physiotherapist.familyName,
+      recommendations: null,
+      form: null,
+      testResults: null,
+      openDate: null,
+      dateCompleted: null
+    }
+    this.openEditAssessmentTestDialog(assessTest, true);
+  }
+  
+  editAssessmentTest(assessmentTest){
+    this.assessmentTestService.editAssessmentTest(assessmentTest).subscribe(
+      res => {
+        //Do something for when you edit a new assessment test
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  addAssessmentTest(assessmentTest){
+    this.assessmentTestService.addAssessmentTest(assessmentTest).subscribe(
+      res => {
+        console.log("LOOK AT THIS RESPONSE:", res);
+        this.rehabilitationplan.assessmentTests.push(res.assessmentTest._id);
+        this.editRehabilitationPlan();
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  deleteAssessmentTest(assessmentTest){
+    for (let i = 0; i < this.rehabilitationplan.assessmentTests.length; i++){
+      if(this.rehabilitationplan.assessmentTests[i] == assessmentTest._id){
+        this.rehabilitationplan.assessmentTests.splice(i, 1);
+      }
+    }
+    this.editRehabilitationPlan();
+    this.assessmentTestService.deleteAssessmentTest(assessmentTest).subscribe(
+      res => {
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  openEditAssessmentTestDialog(assessmentTest, newQuestionFlag: boolean){
+    this.editAssessmentTestDialogRef = this.dialog.open(EditAssessmentTestDialogComponent, {
+      width: '50vw',
+      data: {
+        assessmentTest,
+        newQuestionFlag
+      }
+    });
+
+    this.editAssessmentTestDialogRef.afterClosed().subscribe(result => {
+      console.log("AssessmentTest: ", result);
+      if (newQuestionFlag) {
+        this.addAssessmentTest(result);
+      } else {
+        this.editAssessmentTest(result);
+        console.log("REHABILITATION PLAN:", this.rehabilitationplan);
+      }
+    });
+  }
+
+  getAssessmentTests(){
+    this.assessmentTests = [];
+    this.assessmentTestService.getAllAssessmentTests().subscribe(
+      data => {
+        console.log("ASSESSMENTS TESTS", data.assessmentTest);
+        console.log("editID:", this.editID);
+        let allAssessmentTests = data.assessmentTest;
+
+        for (let i = 0; i < allAssessmentTests.length; i++) {
+          if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
+            this.assessmentTests.push(allAssessmentTests[i]);
+          }
+        }
+      }
+    )
+  }
+  //==================================
+  //ASSESSMENT TEST ENDS
 
     //gets exercises of this rehab plan
     getExercises() {
