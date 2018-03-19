@@ -25,8 +25,10 @@ export class EditRehabilitationPlanComponent implements OnInit {
     rehabilitationplan = { exerciseOrders: [], assessmentTests:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
+    oldExercises = [];
     exerciseIDs = [];
     selectedExercise = {};
+    newExercises = [];
 
     deleteList = [];
     editID = localStorage.getItem('edit_rehabilitation_id');
@@ -52,7 +54,6 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
   ngOnInit() {
     this.getRehabilitationPlans();
-    this.getExercises();
     this.authService.getProfile().subscribe(
       res => {
         this.user = res;
@@ -78,8 +79,26 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
     //get all exercise ids from myExercises, pushes to exerciseIDs
     getExerciseIDs() {
-        for(var i = 0; i < this.myExercises.length; i++) {
-            this.exerciseIDs.push(this.myExercises[i]._id);
+        //compare myExercises to oldExercises
+        //for every element in myExercises, but not in oldExercises
+            //do a post request to exercises, get the returning ID
+        if(this.myExercises.length > 100) {
+            for(var i = 0; i < this.myExercises.length; i++) {
+                for(var j = 0; j < this.oldExercises.length; j++){
+                    if(this.myExercises[i] == this.oldExercises[j]) {
+                        this.newExercises.push(this.myExercises[i]);
+                        continue;
+                    }
+                }
+                this.exerciseService.registerExercise(this.myExercises[i]).subscribe(
+                  res=> {console.log("response received: ", res), this.newExercises.push(res);},
+                  error => {console.log(error)}
+                );
+            }
+        } else {
+            for(var i = 0; i < this.myExercises.length; i++) {
+                this.exerciseIDs.push(this.myExercises[i]._id);
+            }
         }
     }
 
@@ -230,6 +249,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
     //gets exercises of this rehab plan
     getExercises() {
+        this.myExercises = [];
         this.exerciseService.getAllExercises().subscribe(
             data => {
                 this.allExercises = data.exercise;
@@ -237,12 +257,26 @@ export class EditRehabilitationPlanComponent implements OnInit {
                     data2 => {
                         let exercises = data2.exercise;
                         let k = 0; //keeps track of the number of objects deleted from this.allExercises
+                        console.log(this.myExercises);
+                        for(var i = 0; i < this.rehabilitationplan.exerciseOrders.length; i++) {
+                            console.log(exercises.length);
+                            for(var j = 0; j < exercises.length; j++) {
+                                console.log(j,exercises[j]._id, this.rehabilitationplan.exerciseOrders[i]);
+                                if(exercises[j]._id == this.rehabilitationplan.exerciseOrders[i]) {
+                                    this.myExercises.push(exercises[j]);
+                                    console.log(this.myExercises);
+                                    this.allExercises.splice(j-k, 1); //should be j?
+                                    console.log(exercises, j);
+                                    k++;
+                                }
+                            }
+                        }
+
+                        //keep a copy of all myExercises in the begining in oldExercises
                         for(var i = 0; i < this.rehabilitationplan.exerciseOrders.length; i++) {
                             for(var j = 0; j < exercises.length; j++) {
                                 if(exercises[j]._id == this.rehabilitationplan.exerciseOrders[i]) {
-                                    this.myExercises.push(exercises[j]);
-                                    this.allExercises.splice(j-k, 1); //should be j?
-                                    k++;
+                                    this.oldExercises.push(exercises[j]);
                                 }
                             }
                         }

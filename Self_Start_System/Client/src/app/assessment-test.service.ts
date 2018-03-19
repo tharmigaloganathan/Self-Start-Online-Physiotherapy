@@ -45,6 +45,14 @@ export class AssessmentTestService {
       );
   }
 
+  getTestResults(){
+    return this.http.get(this.domain+'/testResults')
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   //=========================================================================
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
