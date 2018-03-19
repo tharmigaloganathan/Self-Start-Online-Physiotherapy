@@ -56,8 +56,8 @@
 								<!-- Row 4 -->
 								<div class="row">
 									<div class="col">
-										<button mat-raised-button class="next-button" (click)="getExercises()">View Exercises</button>
-										<button mat-raised-button class="previous-button" (click)="getAssessmentTests()">View Assessment Tests</button>
+										<button mat-raised-button class="next-button" (click)="viewExercises()">View Exercises</button>
+										<button mat-raised-button class="previous-button" (click)="viewAssessmentTests()">View Assessment Tests</button>
 									</div>
 								</div>
 						</div>
@@ -70,7 +70,7 @@
 										<mat-divider></mat-divider>
 										<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
 											<mat-list-item>
-											<input matInput [(ngModel)]="exercise[i].name" name="exercise.[i].name" readonly>
+											<input matInput [(ngModel)]="exercise.name" name="exercise.name" readonly>
 											<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
 											</mat-list-item>
 											<mat-divider></mat-divider>
@@ -81,7 +81,7 @@
 							<div class="row">
 								<div class="col">
 									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
-									<button mat-raised-button class="previous-button" (click)="getAssessmentTests()">View Assessment Tests</button>
+									<button mat-raised-button class="previous-button" (click)="viewAssessmentTests()">View Assessment Tests</button>
 								</div>
 							</div>
 						</div>
@@ -105,8 +105,8 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<button mat-raised-button class="next-button" (click)="getExercises()">View Exercises</button>
-									<button mat-raised-button class="previous-button" (click)="viewPlanDetails()">View Plan Details</button>
+									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
+									<button mat-raised-button class="previous-button" (click)="viewExercises()">View Exercises</button>
 								</div>
 							</div>
 						</div>

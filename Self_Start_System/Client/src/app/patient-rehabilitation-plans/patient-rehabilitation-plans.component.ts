@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientRehabilitationPlansService } from '../patient-rehabilitation-plans.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
   selector: 'app-patient-rehabilitation-plans',
   templateUrl: './patient-rehabilitation-plans.component.html',
   styleUrls: ['./patient-rehabilitation-plans.component.scss'],
-	providers: [PatientRehabilitationPlansService]
+	providers: [PatientRehabilitationPlansService, AuthenticationService]
 })
 export class PatientRehabilitationPlansComponent implements OnInit {
 
 	router;
+	authenticationService;
 	rehabilitationPlansService;
 	showDetails = 1;
 	showExercises = 0;
 	viewExerciseDetails = 0;
-	showAssessmentTest = 0;
+	showAssessmentTests = 0;
 	account: any;
 	data = ["5a817b6d734d1d0d42ea62c6"];
 	treatments = [];
@@ -25,23 +27,57 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	assessmentTests = [];
 	selected: any;
 	activeExercise;
+	patientProfile;
 
-  constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router) {
+  constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router, authenticationService: AuthenticationService) {
 		this.router = router;
+		this.authenticationService = authenticationService;
 		this.rehabilitationPlansService = rehabilitationPlansService;
 	}
 
   ngOnInit() {
 		this.account = localStorage.getItem("userAccount");
-		//this.getTreatments();
-		this.getRehabilitationPlans();
-		//this.getTreatments();
+		console.log(this.account);
+		this.authenticationService.getProfile().subscribe(
+			data => {
+				this.patientProfile = data;
+				console.log("Patient profile" + this.patientProfile);
+				console.log("Inside" + JSON.stringify(this.patientProfile.patientProfile.treatments));
+				this.treatments = this.patientProfile.patientProfile.treatments;
+				console.log("Treatments length" + this.treatments.length);
+				this.populateRehabPlans();
+		});
   }
+
+	//Populate Rehab Plan
+	populateRehabPlans() {
+		for(var i=0; i<this.treatments.length; i++) {
+			this.rehabilitationPlans.push(this.treatments[i].rehabilitationPlan);
+		}
+		console.log(this.rehabilitationPlans);
+		console.log(JSON.stringify(this.rehabilitationPlans));
+		this.selected = this.rehabilitationPlans[0];
+		this.getExercises();
+		this.getAssessmentTests();
+		console.log("Selected" + JSON.stringify(this.selected));
+	}
 
 	//Show the plan details
 	viewPlanDetails() {
-		this.showAssessmentTest = 0;
+		this.showAssessmentTests = 0;
 		this.showDetails = 1;
+		this.showExercises = 0;
+	}
+
+	viewExercises() {
+		this.showAssessmentTests = 0;
+		this.showDetails = 0;
+		this.showExercises = 1;
+	}
+
+	viewAssessmentTests() {
+		this.showAssessmentTests = 1;
+		this.showDetails = 0;
 		this.showExercises = 0;
 	}
 
@@ -62,72 +98,39 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		}
 	}
 
-	//Get exercises
+	//Get selected rehab plan data
 	getExercises() {
-<<<<<<< HEAD
-		console.log("Get exercises clicked");
-		console.log(this.selected.exercises);
-		console.log(this.selected.exercises.length);
-=======
->>>>>>> c19f2024da392429d32ccb4f886ed5a1983b7913
-		for(var i=0; i<this.selected.exercises.length; i++) {
-			this.rehabilitationPlansService.getExercise(this.selected.exercises[i]).
+		console.log("Get data executing");
+		for(var i=0; i<this.selected.exerciseOrders.length; i++) {
+			this.rehabilitationPlansService.getExercise(this.selected.exerciseOrders[i]).
 			subscribe(
 				data => {
 					console.log("Exercise: " + JSON.stringify(data));
 					this.exercises.push(data);
 					console.log(this.exercises);
-					this.showAssessmentTest = 0;
-					this.showDetails = 0;
-					this.showExercises = 1;
 				},
 				error => {
 					console.log("Error");
 				});
+			}
 		}
-	}
 
-	//Get assessment tests
-	getAssessmentTests() {
-		console.log("Get assessment tests pressed");
-		this.showAssessmentTests = 1;
-		this.showDetails = 0;
-		this.showExercises = 0;
-		this.viewExerciseDetails = 0;
-		for(var i=0; i<this.selected.assessmentTests.length; i++) {
-			this.rehabilitationPlansService.getAssessmentTest(this.selected.assessmentTests[i]).
-			subscribe(
-				data => {
-					console.log("Assessment test: " + JSON.stringify(data));
-					this.assessmentTests.push(data);
-					console.log(this.assessmentTests);
-<<<<<<< HEAD
-
-=======
-					this.showAssessmentTest = 1;
-					this.showDetails = 0;
-					this.showExercises = 0;
->>>>>>> c19f2024da392429d32ccb4f886ed5a1983b7913
-				},
-				error => {
-					console.log("Error");
-				});
+		//Get the selected rehab plan assessment tests
+		getAssessmentTests() {
+			console.log("Get assessments tests executing");
+			for(var i=0; i<this.selected.assessmentTests.length; i++) {
+				this.rehabilitationPlansService.getAssessmentTest(this.selected.assessmentTests[i]).
+				subscribe(
+					data => {
+						console.log("Assessment Test: " + JSON.stringify(data));
+						this.assessmentTests.push(data);
+						console.log(this.assessmentTests);
+					},
+					error => {
+						console.log("Error");
+					});
+			}
 		}
-	}
-
-	//Get Treatments
-	getTreatments(){
-		this.rehabilitationPlansService.getTreatments().
-		subscribe(
-			data => {
-				console.log("Treatments: " + JSON.stringify(data));
-				this.treatments = data;
-				this.sortTreatments();
-			},
-			error => {
-				console.log("Error");
-			});
-	}
 
 	//Route to complete assessment test component
 	viewAssessmentTest(index) {
@@ -144,30 +147,11 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	//Show the exercise details
 	showExerciseDetails(index) {
 		this.viewExerciseDetails = 1;
-		this.showAssessmentTest = 0;
+		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 0;
 		console.log("Show exercise clicked" + index);
-		console.log(this.exercises[index][index]);
-		this.activeExercise = this.exercises[index][index];
-	}
-
-	//Show exercise list
-	showExerciseList() {
-		this.viewExerciseDetails = 0;
-		this.showAssessmentTest = 0;
-		this.showDetails = 0;
-		this.showExercises = 1;
-	}
-
-	//Get patients treatments
-	sortTreatments(){
-		for(var i=0; i<this.treatments.length; i++) {
-			if(this.treatments[i].patientProfile == this.account.patientProfile) {
-				this.plans.push(JSON.stringify(this.treatments[i]));
-			}
-		}
-		console.log("Patients treatments" + this.plans);
+		this.activeExercise = this.exercises[i];
 	}
 
 }
