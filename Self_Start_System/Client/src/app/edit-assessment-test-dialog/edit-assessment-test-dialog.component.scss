@@ -1,3 +1,11 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+@import '../../../node_modules/ng2-dnd/bundles/style.css';
+
 .question {
   width: 100%;
+}
+
+.yellowButton{
+  background-color: $electric-glow;
 }

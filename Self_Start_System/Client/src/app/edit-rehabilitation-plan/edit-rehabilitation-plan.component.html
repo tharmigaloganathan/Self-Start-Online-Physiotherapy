@@ -89,7 +89,7 @@
       <h1 class="subtitle">
         <b>Assigned Assessments to be Completed</b>
         <br><br>
-        <button mat-raised-button class="blue" (click)="createAssessmentTest()">Create New Assessment Test</button>
+        <button mat-raised-button class="yellowButton" (click)="createAssessmentTest()">Create New Assessment Test</button>
       </h1>
       <br>
       <div class="container">
@@ -102,7 +102,7 @@
                   <li *ngFor="let test of assessmentTests" class="list-group-item">
                     <h5>{{test.name}}</h5>
                     <p>Open Date: {{test.openDate | date:'fullDate'}}</p>
-                    <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
+                    <button type="button" class="btn btn-light btn-sm yellowButton" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
                     <button type="button" class="btn btn-danger btn-sm" style="position:absolute; top:38px; right:4px;" (click)="deleteAssessmentTest(test)">Delete</button>
                   </li>
                 </ul>

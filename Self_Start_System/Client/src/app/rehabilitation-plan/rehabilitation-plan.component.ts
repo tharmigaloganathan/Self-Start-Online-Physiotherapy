@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
     providers: [ RehabilitationPlanService ]
 })
 export class RehabilitationPlanComponent implements OnInit {
-    rehabilitationplans = {};
+    rehabilitationplans = [];
     selectedfilter= "name";
     filteredrehabplans = {};
     router;
@@ -32,7 +32,12 @@ export class RehabilitationPlanComponent implements OnInit {
     loadPlans() {
         this.rehabilitationplanService.getRehabilitationPlans().subscribe(data =>
             {
-                this.rehabilitationplans = data.rehabilitationPlan;
+              for(let i = 0; i< data.rehabilitationPlan.length; i++){
+                if(!data.rehabilitationPlan[i].custom){
+                  this.rehabilitationplans.push(data.rehabilitationPlan[i]);
+                }
+              }
+                // this.rehabilitationplans = data.rehabilitationPlan;
                 console.log(data);
                 this.assignCopy();
             }
