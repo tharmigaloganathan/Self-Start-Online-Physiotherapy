@@ -1,0 +1,169 @@
+<app-navbar-patient></app-navbar-patient>
+
+<div class="container top">
+	<div class="row">
+		<div class="col">
+			<mat-card>
+				<h2>My Rehabilitation Plans</h2>
+				<hr>
+				<div class="row">
+					<div class="col-md-2 border-right">
+						<mat-list class="plan-list">
+							<h6>Current Plans</h6>
+							<mat-divider></mat-divider>
+							<mat-list-item *ngFor="let plan of rehabilitationPlans" class="list">
+								{{ plan.name }}
+							</mat-list-item>
+							<mat-divider></mat-divider>
+					</mat-list>
+					</div>
+					<div class="col-md-10 col-md-offset-2">
+						<div *ngIf="showDetails">
+								<!-- Row 1 -->
+								<div class="row">
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Name" [(ngModel)]="selected.name" name="selected.name" readonly>
+										</mat-form-field>
+									</div>
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Author Name" [(ngModel)]="selected.authorName" name="selected.authorName"  readonly>
+										</mat-form-field>
+									</div>
+								</div>
+								<!-- Row 2 -->
+								<div class="row">
+									<div class="col form-container">
+										<mat-form-field>
+											<input matInput placeholder="Description" [(ngModel)]="selected.description" name="selected.description" readonly>
+										</mat-form-field>
+									</div>
+								</div>
+								<!-- Row 3 -->
+								<div class="row">
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Goal" [(ngModel)]="selected.goal" name="selected.goal" readonly>
+										</mat-form-field>
+									</div>
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Time Frame" [(ngModel)]="selected.timeFrameToComplete" name="selected.timeFrameToComplete" readonly>
+										</mat-form-field>
+									</div>
+								</div>
+								<!-- Row 4 -->
+								<div class="row">
+									<div class="col">
+										<button mat-raised-button class="next-button" (click)="getExercises()">View Exercises</button>
+										<button mat-raised-button class="previous-button" (click)="getAssessmentTests()">View Assessment Tests</button>
+									</div>
+								</div>
+						</div>
+						<!-- Show then exercises button is clicked -->
+						<div *ngIf="showExercises">
+							<div class="row">
+								<div class="col form-container">
+									<h6>My Exercises</h6>
+									<mat-list>
+										<mat-divider></mat-divider>
+										<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
+											<mat-list-item>
+											<input matInput [(ngModel)]="exercise[i].name" name="exercise.[i].name" readonly>
+											<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
+											</mat-list-item>
+											<mat-divider></mat-divider>
+										</div>
+									</mat-list>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
+									<button mat-raised-button class="previous-button" (click)="getAssessmentTests()">View Assessment Tests</button>
+								</div>
+							</div>
+						</div>
+						<!-- Show when assessment tests button is clicked -->
+						<div *ngIf="showAssessmentTests">
+							<div class="row">
+								<div class="col form-container">
+									<h6>My Assessment Tests</h6>
+									<mat-list>
+										<mat-divider></mat-divider>
+										<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list">
+											<mat-list-item>
+											<input matInput [(ngModel)]="test.name" name="test.name" readonly>
+											<input matInput [(ngModel)]="test.openDate" name="test.openDate" readonly>
+											<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">View</button>
+											</mat-list-item>
+											<mat-divider></mat-divider>
+										</div>
+									</mat-list>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<button mat-raised-button class="next-button" (click)="getExercises()">View Exercises</button>
+									<button mat-raised-button class="previous-button" (click)="viewPlanDetails()">View Plan Details</button>
+								</div>
+							</div>
+						</div>
+						<!-- Show then exercises button is clicked -->
+						<div *ngIf="viewExerciseDetails">
+							<div class="row">
+								<div class="col">
+									<button mat-raised-button class="back-button" (click)="showExerciseList()">Exercise List</button>
+									<h6>{{ activeExercise.name }}</h6>
+									<!-- Row 2 -->
+									<div class="row">
+										<div class="col-12 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Description" [(ngModel)]="activeExercise.description" name="activeExercise.description" readonly>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 3 -->
+									<div class="row">
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Objectives" [(ngModel)]="activeExercise.objectives" name="activeExercise.objectives" readonly>
+											</mat-form-field>
+										</div>
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Action Steps" [(ngModel)]="activeExercise.actionSteps" name="activeExercise.actionSteps" readonly>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 4 -->
+									<div class="row">
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Frequency" [(ngModel)]="activeExercise.frequency" name="activeExercise.frequency" readonly>
+											</mat-form-field>
+										</div>
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Duration" [(ngModel)]="activeExercise.duration" name="activeExercise.duration" readonly>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 5 -->
+									<div class="row">
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="Link" [(ngModel)]="activeExercise.multimediaURL" name="activeExercise.multimediaURL" readonly>
+											</mat-form-field>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+</div>

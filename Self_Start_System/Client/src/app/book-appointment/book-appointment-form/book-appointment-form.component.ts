@@ -3,12 +3,13 @@ import { Router } from "@angular/router";
 import {SetFreeTimeService} from "../../set-free-time.service";
 import {ExerciseService} from "../../services/exercise.service";
 import {ManagePatientProfileService} from "../../manage-patient-profile.service";
+import {AuthenticationService} from "../../authentication.service";
 
 @Component({
   selector: 'app-book-appointment-form',
   templateUrl: './book-appointment-form.component.html',
   styleUrls: ['./book-appointment-form.component.scss'],
-  providers: [ManagePatientProfileService, ExerciseService, SetFreeTimeService],
+  providers: [AuthenticationService, ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
 export class BookAppointmentFormComponent implements OnInit {
 
@@ -34,9 +35,16 @@ export class BookAppointmentFormComponent implements OnInit {
   disableForm = true;
 
   constructor(public router : Router,
-              private setFreeTimeService: SetFreeTimeService) { }
+              private setFreeTimeService: SetFreeTimeService,
+              private authenticationService:AuthenticationService) { }
 
   ngOnInit() {
+    this.authenticationService.getProfile().subscribe(data=>{
+      this.patientProfileId = data.patientProfile._id;
+    },err=>{
+      console.log(err);
+    });
+
     // Update View
     this.startDate = new Date(localStorage.getItem('book-appointment-start-time'));
     this.startTime = this.convertIntTimeToString(this.startDate.getHours(), this.startDate.getMinutes());
