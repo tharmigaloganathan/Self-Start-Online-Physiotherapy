@@ -36,9 +36,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Show the plan details
 	viewPlanDetails() {
-	this.showAssessmentTests = 0;
-	this.showDetails = 1;
-	this.showExercises = 0;
+		this.showAssessmentTests = 0;
+		this.showDetails = 1;
+		this.showExercises = 0;
 	}
 
 	//Get rehabilitation plans
@@ -70,6 +70,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					console.log("Exercise: " + JSON.stringify(data));
 					this.exercises.push(data);
 					console.log(this.exercises);
+					this.showAssessmentTests = 0;
+					this.showDetails = 0;
+					this.showExercises = 1;
 				},
 				error => {
 					console.log("Error");
@@ -109,12 +112,19 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 			});
 	}
 
+	//Route to complete assessment test component
 	viewAssessmentTest(index) {
 			console.log("View Assessment test pressed " + index);
 			 var test = JSON.stringify(this.assessmentTests[index]);
 			console.log("Putting this in local storage" + test);
 			localStorage.setItem('assessmentTest', test);
 			this.router.navigate(['/patient/assessment-test']);
+	}
+
+	//Show the exercise details
+	showExerciseDetails(index) {
+		console.log("Show exercise clicked" + index);
+		console.log(this.exercises[index][index]);
 	}
 
 }

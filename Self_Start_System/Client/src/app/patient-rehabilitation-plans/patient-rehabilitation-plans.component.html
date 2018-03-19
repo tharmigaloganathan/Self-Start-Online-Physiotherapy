@@ -63,6 +63,21 @@
 						</div>
 						<!-- Show then exercises button is clicked -->
 						<div *ngIf="showExercises">
+							<div class="row">
+								<div class="col form-container">
+									<h6>My Exercises</h6>
+									<mat-list>
+										<mat-divider></mat-divider>
+										<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
+											<mat-list-item>
+											<input matInput [(ngModel)]="exercise[i].name" name="exercise.[i].name" readonly>
+											<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Show Details</button>
+											</mat-list-item>
+											<mat-divider></mat-divider>
+										</div>
+									</mat-list>
+								</div>
+							</div>
 						</div>
 						<!-- Show when assessment tests button is clicked -->
 						<div *ngIf="showAssessmentTests">
