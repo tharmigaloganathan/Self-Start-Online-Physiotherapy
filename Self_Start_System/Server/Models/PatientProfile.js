@@ -234,6 +234,7 @@ function addAppointment(id, body) {
   })
 }
 
+// Retrieves more appointments
 function getAllAppointments(id) {
   console.log("getAllAppointments ");
   return new Promise (function (resolve, reject) {
@@ -242,7 +243,6 @@ function getAllAppointments(id) {
         reject(error);
       }
       else {
-
         // Stores all appointments in a list
         let allAppointmentList = new Array();
 
