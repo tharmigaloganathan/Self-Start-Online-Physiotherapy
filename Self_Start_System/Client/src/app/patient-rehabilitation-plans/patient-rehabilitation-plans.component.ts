@@ -19,6 +19,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	account = [];
 	data = ["5a817b6d734d1d0d42ea62c6"];
 	treatments = [];
+	plans = [];
 	rehabilitationPlans = [];
 	exercises = [];
 	assessmentTests = [];
@@ -34,6 +35,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		this.account = localStorage.getItem("userAccount");
 		//this.getTreatments();
 		this.getRehabilitationPlans();
+		//this.getTreatments();
   }
 
 	//Show the plan details
@@ -62,7 +64,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Get exercises
 	getExercises() {
-		console.log(:"Get exercises clicked");
+		console.log("Get exercises clicked");
 		console.log(this.selected.exercises);
 		console.log(this.selected.exercises.length);
 		for(var i=0; i<this.selected.exercises.length; i++) {
@@ -84,6 +86,11 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Get assessment tests
 	getAssessmentTests() {
+		console.log("Get assessment tests pressed");
+		this.showAssessmentTests = 1;
+		this.showDetails = 0;
+		this.showExercises = 0;
+		this.viewExerciseDetails = 0;
 		for(var i=0; i<this.selected.assessmentTests.length; i++) {
 			this.rehabilitationPlansService.getAssessmentTest(this.selected.assessmentTests[i]).
 			subscribe(
@@ -91,9 +98,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					console.log("Assessment test: " + JSON.stringify(data));
 					this.assessmentTests.push(data);
 					console.log(this.assessmentTests);
-					this.showAssessmentTests = 1;
-					this.showDetails = 0;
-					this.showExercises = 0;
+
 				},
 				error => {
 					console.log("Error");
@@ -107,7 +112,8 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		subscribe(
 			data => {
 				console.log("Treatments: " + JSON.stringify(data));
-				this.data = data;
+				this.treatments = data;
+				this.sortTreatments();
 			},
 			error => {
 				console.log("Error");
@@ -143,6 +149,16 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 1;
+	}
+
+	//Get patients treatments
+	sortTreatments(){
+		for(var i=0; i<this.treatments.length; i++) {
+			if(this.treatments[i].patientProfile == this.account.patientProfile) {
+				this.plans.push(JSON.stringify(this.treatments[i]));
+			}
+		}
+		console.log("Patients treatments" + this.plans);
 	}
 
 }
