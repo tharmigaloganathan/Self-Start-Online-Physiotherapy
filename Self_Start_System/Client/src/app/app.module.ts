@@ -75,6 +75,9 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+import { SetFreeTimeComponent } from './set-free-time/set-free-time.component';
+import { CreateNewEventComponent } from './set-free-time/create-new-event/create-new-event.component';
+import { BookAppointmentFormComponent } from './book-appointment/book-appointment-form/book-appointment-form.component';
 
 import { LoginComponent } from './login/login.component';
 
@@ -84,7 +87,8 @@ import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
-import {FlashMessagesModule} from "angular2-flash-messages";
+import { FlashMessagesModule } from "angular2-flash-messages";
+
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 
@@ -119,6 +123,9 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
+		SetFreeTimeComponent,
+		CreateNewEventComponent,
+		BookAppointmentFormComponent,
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
@@ -168,6 +175,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+    MatRadioModule,
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],

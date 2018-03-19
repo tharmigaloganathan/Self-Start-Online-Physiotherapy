@@ -1,0 +1,72 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="container">
+  <form class="create-new-event-form">
+
+    <!--Warning user on what time they can pick-->
+    <p>Please choose an start time after
+      {{minStartTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}
+      and an end time before
+      {{maxEndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}.
+    </p>
+
+    <!--Choosing type of assessment-->
+    <p>Type of Assessment: </p>
+    <mat-radio-group (change)="onChangeRadioGroup($event)">
+      <mat-radio-button checked value="1">Follow-Up Treatment</mat-radio-button>
+      <br />
+      <mat-radio-button value="2">Initial Assessment</mat-radio-button>
+    </mat-radio-group>
+
+    <br />
+
+    <!--Start Beginning date-->
+    <mat-form-field>
+      <input matInput disabled name="startDateInput" [(ngModel)]="startDate"
+             [matDatepicker]="startDatePicker" placeholder="Start Date">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput name="startTimeInput" [(ngModel)]="startTime"
+             (change)="onStartTimeChange()"
+             type="time" placeholder="Start Time" value="">
+    </mat-form-field>
+    <!--End Beginning date-->
+
+    <mat-form-field>
+      <input matInput disabled name="endTimeInput" [(ngModel)]="endTime"
+             (change)="onChangeEndTime()"
+             type="time" placeholder="End Time" value="">
+    </mat-form-field>
+    <!--End End date-->
+
+    <!--Communication method-->
+    <mat-form-field>
+      <mat-select placeholder="Contact Method" [(ngModel)]="contactMethod" name="contactMethod">
+        <mat-option value="phone">Phone</mat-option>
+        <mat-option value="videoConference">Video Conference</mat-option>
+        <mat-option value="emailConference">Email</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--End of Communication method-->
+
+    <!--Warning message-->
+    <p *ngIf="hasError">
+      {{errorMsg}}
+    </p>
+
+    <div class="row">
+      <button mat-raised-button (click)="onClickCancel()">Cancel</button>
+      <button mat-raised-button [disabled]="hasError" (click)="onClickBook()">Book</button>
+      <button mat-raised-button (click)="onClickOpenForms()"> {{disableForm ? 'Form' : 'Close Form' }}</button>
+    </div>
+
+    <!--RESERVED SPACE FOR NICK'S FORM-->
+    <div *ngIf="!disableForm">
+      <p>Nick's Form</p>
+    </div>
+
+  </form>
+</div>

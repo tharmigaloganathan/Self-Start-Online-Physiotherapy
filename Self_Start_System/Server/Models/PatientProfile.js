@@ -22,14 +22,18 @@ var patientProfileSchema = mongoose.Schema(
 );
 var PatientProfiles = module.exports = mongoose.model('PatientProfile', patientProfileSchema);
 
-
 module.exports = {
     add:add,
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+  addAppointment:addAppointment,
+  getAllAppointments:getAllAppointments
 };
+
+var Appointments = require("./Appointment");
+var Physiotherapists = require("./Physiotherapist");
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
@@ -171,4 +175,107 @@ function add(object){
             });
         }
     });
+}
+
+// Added 1 appointment to the body of the thing
+function addAppointment(id, body) {
+  return new Promise (function (resolve, reject) {
+    if (!body.startDate) {
+      error = "No startDate detected.";
+      reject(error);
+    } else if (!body.endDate) {
+      error = "No endDate detected.";
+      reject(error);
+    } else if (!body.physioID){
+      error = "No physioID detected.";
+      reject(error);
+    } else if (!body.timeslotId){
+      error = "No timeslotId detected.";
+      reject(error);
+    }else {
+      PatientProfiles.findById(id, function (error, document) {
+        if (error) {
+          reject(error);
+        }
+        else {
+          // Add new appointment
+          Appointments.add({
+            date: body.startDate,
+            endDate: body.endDate,
+            reason: "testingReason",
+            other: "otherReason",
+            patientProfile: document._id
+          }).then(function (appointment) {
+            // Add the appointment to the patient profile
+            document.appointments.push(appointment._id);
+
+            // Block off the time occupied by appointment
+            Physiotherapists.splitTimeSlotDueToAppointment(
+              body.physioID,
+              body.timeslotId,
+              appointment.date,
+              appointment.endDate
+            );
+
+            // Save the patient profile document
+            document.save(function (error) {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(document);
+              }
+            });
+          }).catch(function (error) {
+            reject(error);
+          });
+        }
+      });
+    }
+  })
+}
+
+// Retrieves more appointments
+function getAllAppointments(id) {
+  console.log("getAllAppointments ");
+  return new Promise (function (resolve, reject) {
+    PatientProfiles.findById(id, function (error, document) {
+      if (error) {
+        reject(error);
+      }
+      else {
+        // Stores all appointments in a list
+        let allAppointmentList = new Array();
+
+        // Function to gather appointments one-by-one
+        let getAppointments = index => {
+          console.log("starting ", index);
+          return new Promise((resolve, reject)=>{
+            if (index < document.appointments.length){
+              Appointments.getOne(document.appointments[index]).then( response => {
+                allAppointmentList.push(response);
+                getAppointments(index+1).then(response=>{
+                  resolve(response);
+                }).catch(err=>{
+                  reject(err);
+                });
+              }).catch(err => {
+                reject(err);
+              });
+            } else {
+              resolve("Done");
+            }
+          })
+        };
+
+        // Start function
+        getAppointments(0).then(response=>{
+          resolve(
+            allAppointmentList
+          )
+        }).catch(err=>{
+          reject(err);
+        });
+      }
+    });
+  })
 }

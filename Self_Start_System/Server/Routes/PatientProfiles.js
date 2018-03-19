@@ -84,5 +84,28 @@ router.route('/:patientProfile_id')
         })
     });
 
+router.route('/add-appointment/:patientprofile_id')
+  .post(function (request, response) {
+    if (!request.params.patientprofile_id) {
+      response.json({success: false, message: 'id was not provided'});
+    }
+    PatientProfiles.addAppointment(request.params.patientprofile_id, request.body).then(function(patientProfile){
+      response.json({patientProfile: patientProfile});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  });
+
+router.route('/get-all-appointments/:patientprofile_id')
+  .get(function (request, response) {
+    if (!request.params.patientprofile_id) {
+      response.json({success: false, message: 'id was not provided'});
+    }
+    PatientProfiles.getAllAppointments(request.params.patientprofile_id).then(function(appointments){
+      response.json({appointments: appointments});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  });
 
 module.exports = router;

@@ -44,5 +44,4 @@ export class UserAccountListService {
 			return response.json().physiotherapist;
 		});
 	}
-
 }
