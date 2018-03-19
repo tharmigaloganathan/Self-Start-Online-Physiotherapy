@@ -27,7 +27,7 @@ router.route('/')
         })
     });
 
-middleware for every route below this one
+//middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
     console.log(req.headers['authorization']);
