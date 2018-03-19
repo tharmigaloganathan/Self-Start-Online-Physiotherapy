@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import { ExerciseService } from "../services/exercise.service";
@@ -6,6 +6,9 @@ import {ManagePatientProfileService} from "../manage-patient-profile.service";
 import { Router } from '@angular/router';
 import { SetFreeTimeService } from "../set-free-time.service";
 import { AuthenticationService } from "../authentication.service";
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
+import {ConfirmDeleteDialogBoxComponent} from "../confirm-delete-dialog-box/confirm-delete-dialog-box.component";
 
 import * as moment from 'moment';
 
@@ -20,13 +23,16 @@ export class SetFreeTimeComponent implements OnInit {
   // temp PhysioTherapistID, for testing
   physioID = '5aa9fa5b0f39cbb0213e2182';
 
+  eventType = ["freeTime", "appointments"];
+
   calendarOptions: Options;
 
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
   constructor(private rd: Renderer2,
               private router : Router,
               private setFreeTimeService: SetFreeTimeService,
-              private authenticationService: AuthenticationService) {}
+              private authenticationService: AuthenticationService,
+              public dialog: MatDialog) {}
 
   ngOnInit() {
     this.authenticationService.getProfile().subscribe(data =>{
@@ -62,10 +68,15 @@ export class SetFreeTimeComponent implements OnInit {
           end: moment(event.endDate),
           mongoId: event._id,
           allDay: false,
+          eventType: this.eventType[0]
       });
     }
 
     return formatedEventsList;
+  };
+
+  alerts = () => {
+    alert("hello")
   };
 
   // Set up calendar options
@@ -105,9 +116,8 @@ export class SetFreeTimeComponent implements OnInit {
   };
 
   updateEvent = (detail) => {
-    console.log(detail);
+    // console.log(detail);
     // Send new details to backend
-    // NTD HRERERERERER
     this.setFreeTimeService.changeOneTimeSlot(
       this.physioID,
       detail.event.mongoId,
@@ -122,7 +132,31 @@ export class SetFreeTimeComponent implements OnInit {
         console.log(error);
       });
   };
+
+  eventClick = detail => {
+    let event = detail.event;
+
+    // If clicked item was free time, give option to delete
+    if (event.eventType === this.eventType[0]){
+      this.openDialog(event.mongoId);
+    }
+  };
+
+  // Helper functions for dialog box //
+  openDialog(mongoId): void {
+    let dialogRef = this.dialog.open(ConfirmDeleteDialogBoxComponent, {
+      width: '250px',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log(mongoId);
+      }
+    });
+  }
 }
+
 
 // ngAfterViewInit() {
   // console.log(this.rd);
