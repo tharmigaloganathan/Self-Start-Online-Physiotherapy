@@ -80,10 +80,12 @@ router.route('/:administrator_id')
             response.json({success: false, message: 'id was not provided'});
         }
         Administrators.getOne(request.params.administrator_id).then(function(administrator){
+            console.log("retreived profile: ", administrator);
             response.json({administrator: administrator});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
+
     })
     .put(function (request, response) {
         if (!request.params.administrator_id) {

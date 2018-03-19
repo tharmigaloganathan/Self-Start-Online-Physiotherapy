@@ -52,6 +52,7 @@ router.route('/:object_id')
             response.json({success: false, message: 'id was not provided'});
         }
         Physiotherapists.getOne(request.params.object_id).then(function(physiotherapist){
+            console.log("retreived profile: ", physiotherapist);
             response.json({physiotherapist: physiotherapist});
         }).catch(function(err){
             response.json({success: false, message: err});
