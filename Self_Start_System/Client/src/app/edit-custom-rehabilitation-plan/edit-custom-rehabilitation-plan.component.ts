@@ -263,7 +263,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       name: "Name",
       description: "Description",
       authorName: this.user.physiotherapist.familyName,
-      recommendations: null,
+      recommendations: [],
       form: null,
       testResults: null,
       openDate: null,
@@ -337,6 +337,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   getAssessmentTests(){
     this.incompleteAssessmentTests = [];
+    this.completeAssessmentTests = [];
     this.assessmentTestService.getAllAssessmentTests().subscribe(
       data => {
         console.log("ASSESSMENTS TESTS", data.assessmentTest);
@@ -388,6 +389,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   selectCompleteAssessmentTest(test){
     this.selectedCompleteAssessmentTest = test;
     this.getRecommendations();
+    this.getTestResultsByAssessmentTestID(test);
   }
 
   editRecommendation(recommendation){
@@ -405,9 +407,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   addRecommendation(recommendation){
     this.recommendationService.addRecommendation(recommendation).subscribe(
       res => {
-        this.selectedCompleteAssessmentTest.push(res.recommendation._id);
+        this.selectedCompleteAssessmentTest.recommendations.push(res.recommendation._id);
         this.editAssessmentTest(this.selectedCompleteAssessmentTest);
-        this.getAssessmentTests();
         this.getRecommendations();
       },
       error => {
@@ -443,11 +444,12 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //TEST RESULTS STARTS
   //===================================
 
-  //COMPLETE THIS FUNCTION IN THE MORNING
-  getTestResults(){
-    this.assessmentTestService.getTestResults().subscribe(
+  getTestResultsByAssessmentTestID(test){
+    this.assessmentTestService.getTestResultsByAssessmentTestID(test).subscribe(
       data => {
-        this.allResults = data.testResults;
+        console.log("DATA:", data);
+        this.allResults = data.testResult;
+        console.log("RESULTS:", this.allResults);
       }
     )
   }
