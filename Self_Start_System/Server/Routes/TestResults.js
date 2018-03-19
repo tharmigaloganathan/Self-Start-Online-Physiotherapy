@@ -50,4 +50,16 @@ router.route('/:object_id')
         })
     });
 
+router.route('/assessmentTest/:object_id')
+    .get(function (request, response) {
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        TestResults.getByAssessmentTestID(request.params.object_id).then(function(testResult){
+            response.json({testResult: testResult});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
 module.exports = router;

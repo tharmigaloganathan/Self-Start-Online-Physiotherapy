@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { RehabilitationPlanService } from '../rehabilitation-plan.service';
 import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-patient-plan-list',
@@ -15,11 +16,13 @@ export class EditPatientPlanListComponent implements OnInit {
   treatments = [];
   filteredRehabPlans = [];
   allRehabPlans = [];
+  router;
 
   constructor(private managePatientProfileService: ManagePatientProfileService,
               private rehabilitationPlanService: RehabilitationPlanService,
-              private authService: AuthenticationService) {
-
+              private authService: AuthenticationService,
+              router: Router) {
+        this.router = router;
   }
 
   getCurrentPatient() {
@@ -91,7 +94,10 @@ export class EditPatientPlanListComponent implements OnInit {
   }
 
   editTreatment(treatment) {
-    console.log(treatment);
+    console.log("edit treatment",treatment);
+    localStorage.setItem('edit_rehabilitation_id', treatment.rehabilitationPlan._id);
+    this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+
   }
 
   renewTreatment(treatment) {

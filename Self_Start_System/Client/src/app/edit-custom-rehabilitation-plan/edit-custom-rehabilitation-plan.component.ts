@@ -9,6 +9,7 @@ import { AuthenticationService } from "../authentication.service";
 import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog/edit-recommendation-dialog.component";
 import { RecommendationService } from "../recommendation.service";
 import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   editID = localStorage.getItem('edit_rehabilitation_id');
   moveList = [];
   editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
+  router;
 
 
   user: any;
@@ -60,8 +62,10 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
               private assessmentTestService: AssessmentTestService,
               private dialog: MatDialog,
               private authService: AuthenticationService,
-              private recommendationService: RecommendationService) {
-    console.log("ID", this.editID)
+              private recommendationService: RecommendationService,
+              router: Router) {
+    console.log("ID", this.editID);
+    this.router = router;
   }
 
   ngOnInit() {
@@ -131,6 +135,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         console.log("RESULT",res);
       }
     );
+    let patient_id = localStorage.getItem('patient_id')
+    this.router.navigate(['physio/patient-plan-list/'+ patient_id]);
   }
 
   //gets all rehab plan information and extracts info for this specific rehab plan
@@ -207,7 +213,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       name: "Name",
       description: "Description",
       authorName: this.user.physiotherapist.familyName,
-      recommendations: null,
+      recommendations: [],
       form: null,
       testResults: null,
       openDate: null,
@@ -281,6 +287,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   getAssessmentTests(){
     this.incompleteAssessmentTests = [];
+    this.completeAssessmentTests = [];
     this.assessmentTestService.getAllAssessmentTests().subscribe(
       data => {
         console.log("ASSESSMENTS TESTS", data.assessmentTest);
@@ -332,6 +339,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   selectCompleteAssessmentTest(test){
     this.selectedCompleteAssessmentTest = test;
     this.getRecommendations();
+    this.getTestResultsByAssessmentTestID(test);
   }
 
   editRecommendation(recommendation){
@@ -349,9 +357,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   addRecommendation(recommendation){
     this.recommendationService.addRecommendation(recommendation).subscribe(
       res => {
-        this.selectedCompleteAssessmentTest.push(res.recommendation._id);
+        this.selectedCompleteAssessmentTest.recommendations.push(res.recommendation._id);
         this.editAssessmentTest(this.selectedCompleteAssessmentTest);
-        this.getAssessmentTests();
         this.getRecommendations();
       },
       error => {
@@ -387,11 +394,12 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //TEST RESULTS STARTS
   //===================================
 
-  //COMPLETE THIS FUNCTION IN THE MORNING
-  getTestResults(){
-    this.assessmentTestService.getTestResults().subscribe(
+  getTestResultsByAssessmentTestID(test){
+    this.assessmentTestService.getTestResultsByAssessmentTestID(test).subscribe(
       data => {
-        this.allResults = data.testResults;
+        console.log("DATA:", data);
+        this.allResults = data.testResult;
+        console.log("RESULTS:", this.allResults);
       }
     )
   }
