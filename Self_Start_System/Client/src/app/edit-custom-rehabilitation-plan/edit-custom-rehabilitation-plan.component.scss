@@ -204,6 +204,10 @@ button.delete-button{
   border-radius: 0px;
 }
 
+.selectedTest:focus {
+  background-color: #cccccc;
+}
+
 $custom-typography: mat-typography-config(
   $font-family: 'Roboto Condensed, sans-serif',
   $headline: mat-typography-level(50px, 48px, 300),
