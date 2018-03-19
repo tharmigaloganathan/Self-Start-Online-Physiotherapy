@@ -7,7 +7,6 @@ import { NavbarPhysioComponent } from './navbar-physio/navbar-physio.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -93,15 +92,12 @@ import { PatientCompleteAssessmentTestComponent } from "./patient-complete-asses
 
 import { FlashMessagesModule } from "angular2-flash-messages";
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
-import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { PatientRehabilitationPlansComponent } from './patient-rehabilitation-plans/patient-rehabilitation-plans.component';
 import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
-import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
 import {RecommendationService} from "./recommendation.service";
-import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 
 
 @NgModule({
