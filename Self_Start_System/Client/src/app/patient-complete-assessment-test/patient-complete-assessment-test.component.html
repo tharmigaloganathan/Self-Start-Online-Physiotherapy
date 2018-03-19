@@ -30,34 +30,41 @@
 				<!-- Row 3 -->
 				<div class="row">
 					<div class="col-12 form-container">
-						<mat-list>
-							<div *ngFor="let question of questions; let i = index" [attr.data-index]="i">
-								<mat-list-item>
-									{{ question.questionText }}
-								</mat-list-item>
-								<!-- Dislay the corresponding answer input field -->
-								<div *ngIf="question.questionType == 'Short Answer'" class="form-container">
-									<mat-form-field>
-										<input matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" required>
-									</mat-form-field>
-								</div>
-									<div *ngIf="question.questionType == 'Multiple Choice'" class="form-container">
-										<mat-form-field>
-											<input matInput placeholder="Answer" required>
-										</mat-form-field>
-									</div>
-									<div *ngIf="question.questionType == 'Range'" class="form-container">
-										<mat-form-field>
-											<input matInput placeholder="Answer" type="number" required>
-										</mat-form-field>
-									</div>
+						<form (ngSubmit)="submit()" #assessmentTestForm="ngForm">
+							<mat-list>
 								<mat-divider></mat-divider>
+								<div *ngFor="let question of questions; let i = index" [attr.data-index]="i">
+									<mat-list-item>
+									<b> Question  {{ i+1 }} :	{{ question.questionText }} </b>
+									</mat-list-item>
+									<!-- Dislay the corresponding answer input field -->
+									<div *ngIf="question.questionType == 'Short Answer'" class="form-container">
+										<mat-form-field>
+											<input matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" required>
+										</mat-form-field>
+									</div>
+										<div *ngIf="question.questionType == 'Multiple Choice'" class="form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="answers[i]" name="answers[i]" required>
+													<mat-option *ngFor="let choice of question.answerChoices; let n = index" [attr.data-index]="i" [value]="question.answerChoices[n]">
+														{{ question.answerChoices[n] }}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div *ngIf="question.questionType == 'Range'" class="form-container">
+											<mat-form-field>
+												<input matInput placeholder="Answer" type="number" required>
+											</mat-form-field>
+										</div>
+									<mat-divider></mat-divider>
+								</div>
+							</mat-list>
+							<!-- Submit Button -->
+							<div class="button-container">
+								<button mat-raised-button class="next-button" type="submit" [disabled]="!assessmentTestForm.form.valid">Submit</button>
 							</div>
-						</mat-list>
-					</div>
-					<!-- Submit Button -->
-					<div class="form-container">
-						<button mat-raised-button class="next-button" (click)="submit()">Submit</button>
+						</form>
 					</div>
 				</div>
 			</mat-card>
