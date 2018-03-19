@@ -15,7 +15,7 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/AssessmentTests/'+id)
 		.map((response: Response) => {
 		return response.json().assessmentTest;
-		}
+    });
 	}
 
 	//Get the specific exercise
@@ -23,7 +23,7 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/Exercises/')
 		.map((response: Response) => {
 		return response.json().exercise;
-		}
+		});
 	}
 
 	//Get the specific rehab plan
@@ -31,7 +31,7 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/RehabilitationPlans/'+id)
 		.map((response: Response) => {
 		return response.json().rehabilitationPlan;
-		}
+		});
 	}
 
 	//Get the treatments
@@ -39,7 +39,7 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/Treatments/')
 		.map((response: Response) => {
 		return response.json().treatment;
-		}
+		});
 	}
 
 }
