@@ -9,6 +9,7 @@ import { AuthenticationService } from "../authentication.service";
 import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog/edit-recommendation-dialog.component";
 import { RecommendationService } from "../recommendation.service";
 import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   editID = localStorage.getItem('edit_rehabilitation_id');
   moveList = [];
   editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
+  router;
 
 
   user: any;
@@ -60,8 +62,10 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
               private assessmentTestService: AssessmentTestService,
               private dialog: MatDialog,
               private authService: AuthenticationService,
-              private recommendationService: RecommendationService) {
-    console.log("ID", this.editID)
+              private recommendationService: RecommendationService,
+              router: Router) {
+    console.log("ID", this.editID);
+    this.router = router;
   }
 
   ngOnInit() {
@@ -131,6 +135,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         console.log("RESULT",res);
       }
     );
+    let patient_id = localStorage.getItem('patient_id')
+    this.router.navigate(['physio/patient-plan-list/'+ patient_id]);
   }
 
   //gets all rehab plan information and extracts info for this specific rehab plan
