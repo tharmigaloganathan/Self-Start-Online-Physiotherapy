@@ -149,6 +149,7 @@ function add(object){
 
 
 // Helper function to combine all overlapping timeslots
+// And delete slots where start date equals end date
 function combineOverLappingDates(document) {
   // Return if less than 2 elements
   if (document.availableTimeSlots.length < 2){
@@ -169,21 +170,24 @@ function combineOverLappingDates(document) {
 
   for (let slot of document.availableTimeSlots) {
 
-    // If the current start time is greater than the last end time,
-    // No overlap, so push the new object
-    if (slot.startDate.getTime() > newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate.getTime()){
-      newAvailableTimeSlot.push(new Object(slot));
-    } else {
-      // If current start time is equal or less than the last end time,
-      // Combine the two slots by taking the greatest end date
-      let currentSlotEndDate = slot.endDate;
-      let prevSlotEndDate = newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate;
+    // Only consider adding time slot if the duration is more than 2 seconds long
+    if (slot.endDate.getTime() - slot.startDate.getTime() > 2000){
+      // If the current start time is greater than the last end time,
+      // No overlap, so push the new object
+      if (slot.startDate.getTime() > newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate.getTime()){
+        newAvailableTimeSlot.push(new Object(slot));
+      } else {
+        // If current start time is equal or less than the last end time,
+        // Combine the two slots by taking the greatest end date
+        let currentSlotEndDate = slot.endDate;
+        let prevSlotEndDate = newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate;
 
-      // If overlap, take the greater of the two end dates
-      newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate =
-        prevSlotEndDate.getTime() > currentSlotEndDate.getTime()
-          ? new Date(prevSlotEndDate)
-          : new Date(currentSlotEndDate);
+        // If overlap, take the greater of the two end dates
+        newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate =
+          prevSlotEndDate.getTime() > currentSlotEndDate.getTime()
+            ? new Date(prevSlotEndDate)
+            : new Date(currentSlotEndDate);
+      }
     }
   }
 
@@ -332,14 +336,25 @@ function splitTimeSlotDueToAppointment(id, timeslotId, appointmentStart, appoint
 
         // If even exists, update it. Else, throw an error
         if (event) {
-          // Create a new event based on the appointment end to the prev end
-          document.availableTimeSlots.push({
-            startDate: appointmentEnd,
-            endDate: event.endDate
-          });
+          // if (event.startDate.getTime() === appointmentStart.getTime()){
+          //   console.log("Start Date equal", event);
+          //   // New start time is now the appointment's end time
+          //   event.startDate = appointmentEnd;
+          // } else if (event.endDate.getTime() === appointmentEnd.getTime()){
+          //   console.log("End Date equal", event);
+          //   // New end is now the appointment's start time
+          //   event.endDate = appointmentStart;
+          // } else {
+            console.log("No Date equal", event);
+            // Create a new event based on the appointment end to the prev end
+            document.availableTimeSlots.push({
+              startDate: appointmentEnd,
+              endDate: event.endDate
+            });
 
-          // endTime is now the appointment's start time
-          event.endDate = appointmentStart;
+            // endTime is now the appointment's start time
+            event.endDate = appointmentStart;
+          // }
 
           console.log("event After update", event);
 
