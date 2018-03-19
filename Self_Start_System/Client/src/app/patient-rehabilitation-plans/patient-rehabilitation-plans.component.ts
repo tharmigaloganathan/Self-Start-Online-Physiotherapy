@@ -14,6 +14,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	rehabilitationPlansService;
 	showDetails = 1;
 	showExercises = 0;
+	viewExerciseDetails = 0;
 	showAssessmentTest = 0;
 	account = [];
 	data = ["5a817b6d734d1d0d42ea62c6"];
@@ -22,6 +23,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	exercises = [];
 	assessmentTests = [];
 	selected = [];
+	activeExercise;
 
   constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router) {
 		this.router = router;
@@ -123,8 +125,21 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Show the exercise details
 	showExerciseDetails(index) {
+		this.viewExerciseDetails = 1;
+		this.showAssessmentTests = 0;
+		this.showDetails = 0;
+		this.showExercises = 0;
 		console.log("Show exercise clicked" + index);
 		console.log(this.exercises[index][index]);
+		this.activeExercise = this.exercises[index][index];
+	}
+
+	//Show exercise list
+	showExerciseList() {
+		this.viewExerciseDetails = 0;
+		this.showAssessmentTests = 0;
+		this.showDetails = 0;
+		this.showExercises = 1;
 	}
 
 }
