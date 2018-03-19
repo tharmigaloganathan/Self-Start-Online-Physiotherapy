@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Form } from "../models/Form";
 import { FormService} from "../form.service";
 import { DndModule } from "ng2-dnd";
+import { MatDialog, MatDialogRef } from "@angular/material";
+import { EditQuestionDialogComponent } from "../edit-question-dialog/edit-question-dialog.component";
 
 @Component({
   selector: 'app-introduction-form',
@@ -15,30 +16,43 @@ export class ManageFormComponent implements OnInit {
   formQuestions = []; // Holds all question objects belonging to this form
   allQuestions: any[]; //Holds all other question objects not belonging to this form
   selectedQuestion: any; //Necessary to focus the modal on the selected question
-  newOption: string;
 
-  questionTypeOptions = [
-    {value: 'Short Answer', viewValue: 'Short Answer'},
-    {value: 'Multiple Choice', viewValue: 'Multiple Choice'},
-    {value: 'Range', viewValue: 'Range'},
-  ]
+  editQuestionDialogRef: MatDialogRef<EditQuestionDialogComponent>
 
-  newQuestionText;
-  newHelpDescription;
-  newQuestionType;
-  newAnswerChoices;
-  newRange;
-  openEditModal;
-
-
-
-  constructor(private formService: FormService) { }
+  constructor(private formService: FormService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.selectedQuestion = null;
     this.formID =  localStorage.getItem('edit_form_id');
-    this.getForm();
-    this.openEditModal = false;
+    if(this.formID != "empty"){
+      this.getForm();
+    } else {
+      this.createForm();
+    }
+  }
+
+  //FORM RELATED
+  //==================================
+  createForm(){
+    var form = {
+      name: "Template",
+      description: "Template",
+      administrator: "5aa3575df36d280504b4fa38",
+      assessmentTests: [],
+      questions: [],
+      type: "Standard"
+    };
+    this.form = form;
+    console.log("form: ", form);
+
+    this.formService.createForm(form).subscribe(
+      res=> {console.log("new form", res),
+        localStorage.setItem('edit_form_id', res.form._id),
+        this.formID = res.form._id,
+        this.getForm();},
+      error => {console.log(error)}
+    );
   }
 
   getForm(){
@@ -53,77 +67,46 @@ export class ManageFormComponent implements OnInit {
     );
   }
 
-  deleteQuestion(selectedQuestion){
-    this.formService.deleteQuestion(selectedQuestion._id).subscribe(
-      res=> {console.log("response received: ", res),
-      //reload all questions
-        this.getAllQuestions();},
-      error => {console.log(error)}
-    );
-
-  }
-
-  selectQuestion(question){
-    this.selectedQuestion = question;
-    this.openEditModal = true;
-  }
-
-  editQuestion(selectedQuestion) {
-    this.formService.editQuestion(selectedQuestion).subscribe(
-      res => {
-        console.log("response received: ", res),
-          //reload all questions
-          this.getAllQuestions();
-      },
-      error => {
-        console.log(error)
-      }
-    )
-  }
-
-  addOption(option: string){
-    console.log("this is the selected question", this.selectedQuestion);
-    this.selectedQuestion.answerChoices.push(option);
-    this.newOption = null;
-  }
-
-  addNewOption(option: string){
-    this.newAnswerChoices.push(option);
-    this.newOption = null;
-  }
-
-  deleteOption(option: string){
-    for (let i = 0; i < this.selectedQuestion.answerChoices.length; i++){
-      if(this.selectedQuestion.answerChoices[i] == option){
-        this.selectedQuestion.answerChoices.splice(i, 1);
+  saveForm(){
+    //Loop below ensures the form question FK array is up to date and pushes the ID onto the array
+    //Then it saves that new question with form's ID in it
+    for(let i = 0; i<this.formQuestions.length; i++){
+      this.form.questions[i] = this.formQuestions[i]._id;
+      if(!this.formQuestions[i].form.includes(this.formID)){
+        this.formQuestions[i].form.push(this.formID);
+        this.formService.editQuestion(this.formQuestions[i]).subscribe(
+          res => {
+            console.log(res)
+          },
+          error => {
+            console.log(error)
+          }
+        )
       }
     }
-  }
+    //Remove all questions from the list that aren't supposed to be on it
+    if(this.form.questions.length > this.formQuestions.length){
+      this.form.questions.splice(this.formQuestions.length);
+    }
 
-  addQuestion(){
-    console.log("tect:", this.newQuestionText);
-    var question = {
-      questionText: this.newQuestionText,
-      helpDescription: this.newHelpDescription,
-      questionType: this.newQuestionType,
-      answerChoices: this.newAnswerChoices,
-      range: this.newRange,
-      form: this.formID
-    };
-    console.log("NEW QUESTION: ", question);
+    //This loop will ensure that all of the questions in allQuestions array do not have this form's ID
+    //If they do, it will be resaved without the form ID
+    for(let i = 0; i<this.allQuestions.length; i++){
+      if(this.allQuestions[i].form.includes(this.formID)){
+        let index = this.allQuestions[i].form.indexOf(this.formID);
+        this.allQuestions[i].form.splice(index, 1);
+        this.formService.editQuestion(this.allQuestions[i]).subscribe(
+          res => {
+            console.log(res)
+          },
+          error => {
+            console.log(error)
+          }
+        )
+      }
+    }
 
-    this.formService.addQuestion(question).subscribe(
-      res=> {console.log("new question ID: ", res.data.question._id),
-        this.form.questions.push(res.question._id),
-      //reload all questions
-        this.getAllQuestions();},
-      error => {console.log(error)}
-    );
-  }
-
-  saveForm(){
     console.log("Nick this is the form you are saving:", this.form);
-    this.form.administrator = {};
     this.formService.saveForm(this.form).subscribe(
       res => {
         console.log("response received: ", res)
@@ -134,6 +117,12 @@ export class ManageFormComponent implements OnInit {
     )
   }
 
+  //===========================================
+  //END OF FORM RELATED
+
+  //QUESTION RELATED
+  //===========================================
+
   newQuestion(){
     var question = {
       questionText: "Template",
@@ -141,14 +130,17 @@ export class ManageFormComponent implements OnInit {
       questionType: "Short Answer",
       answerChoices: [],
       range: "0",
-      form: this.formID
+      form: [this.formID],
+      type: "Standard"
     };
-    console.log("formID: ", question.form);
 
     this.formService.addQuestion(question).subscribe(
       res=> {console.log("new question ID: ", res),
         this.form.questions.push(res.question._id),
+        this.formQuestions.push(res.question),
         //reload all questions
+        this.saveForm(),
+        //need to then save form with the new ID in the questions list
         this.getAllQuestions();},
       error => {console.log(error)}
     );
@@ -158,15 +150,11 @@ export class ManageFormComponent implements OnInit {
     //Set to nothing so that it doesn't get double-populated
     this.formQuestions = [];
     this.allQuestions = [];
-    console.log("getting all questions for this form");
     this.formService.getAllQuestions().subscribe(
       data => {
-        console.log("questions retrieved!");
         let questions = data.question;
         this.allQuestions = data.question;
 
-        console.log("form.Questions", this.form.questions);
-        console.log("all Questions", this.allQuestions);
         //Places the formQuestion objects in order, splices it out of rest of questions
         for (let i = 0; i < this.form.questions.length; i++) {
           for (let j = 0; j < this.allQuestions.length; j++){
@@ -176,9 +164,68 @@ export class ManageFormComponent implements OnInit {
             }
           }
         }
-        console.log("formQuestions", this.formQuestions);
       },
       error => console.log(error)
     );
   }
+
+  //Can only be pressed if the question does not belong to one or more forms
+  deleteQuestion(q){
+    //remove this question from the array
+    // for(let i = 0; i < this.allQuestions.length; i++){
+    //   if(this.allQuestions[i]._id == q._id){
+    //     this.allQuestions.splice(i, 1);
+    //   }
+    // }
+    this.formService.deleteQuestion(q._id).subscribe(
+      res => {
+        console.log(res),
+        this.saveForm(),
+        this.getAllQuestions();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  openEditQuestionDialog(question){
+    this.selectQuestion(question);
+    this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
+      width: '50vw',
+      data: {
+        question: this.selectedQuestion
+      }
+    });
+
+    this.editQuestionDialogRef.afterClosed().subscribe(result => {
+      this.selectedQuestion = result;
+      this.editQuestion(this.selectedQuestion);
+    });
+  }
+
+  selectQuestion(question){
+    this.selectedQuestion = question;
+  }
+
+  editQuestion(selectedQuestion) {
+    this.formService.editQuestion(selectedQuestion).subscribe(
+      res => {
+          //First save the form in case there were changes to it
+          this.saveForm(),
+          //reload all questions
+          this.getAllQuestions();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+
+
+
+
+
+
 }

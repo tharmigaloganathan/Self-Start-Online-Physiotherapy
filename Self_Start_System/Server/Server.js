@@ -3,6 +3,9 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+const cors = require('cors');
+
+app.use(cors());
 
 //setting request headers
 app.use(function (request, response, next) {
@@ -26,6 +29,7 @@ const Exercises = require('./Routes/Exercises');
 const ExerciseOrders = require('./Routes/ExerciseOrders');
 const Forms = require('./Routes/Forms');
 const Genders = require('./Routes/Genders');
+const Messages = require('./Routes/Messages');
 const PatientProfiles = require('./Routes/PatientProfiles');
 const Payments = require('./Routes/Payments');
 const Physiotherapists = require('./Routes/Physiotherapists');
@@ -49,6 +53,7 @@ app.use('/Exercises', Exercises);
 app.use('/ExerciseOrders', ExerciseOrders);
 app.use('/Forms', Forms);
 app.use('/Genders', Genders);
+app.use('/Messages', Messages);
 app.use('/PatientProfiles', PatientProfiles);
 app.use('/Payments', Payments);
 app.use('/Physiotherapists', Physiotherapists);
@@ -75,3 +80,4 @@ app.use('/Photos', Photos);
 app.listen(3700, function () {
     console.log('The Start-up server is listening on port 3700');
 });
+

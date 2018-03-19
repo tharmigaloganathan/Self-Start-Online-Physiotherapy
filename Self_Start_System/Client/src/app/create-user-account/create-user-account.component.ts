@@ -85,6 +85,7 @@ export class CreateUserAccountComponent implements OnInit {
 	}
 
 	registerUserProfile() {
+
 		//JSON object to hold user information
 		const user = {
 				familyName: this.familyName,
@@ -119,7 +120,7 @@ export class CreateUserAccountComponent implements OnInit {
 	}
 
 	//Register the phyiotherpists account
-	registerPhyioProfile() {
+	registerPhysioProfile() {
 		const physiotherapist = {
 			familyName: this.familyName,
 			givenName: this.givenName,

@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatAutocompleteModule } from "@angular/material";
 import { PatientListComponent } from './patient-list/patient-list.component';
 
 import { RehabilitationPlanComponent } from './rehabilitation-plan/rehabilitation-plan.component';
@@ -41,6 +42,11 @@ import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
 import { FormService} from "./form.service";
+
+import { AuthenticationService} from "./authentication.service";
+
+import { AssessmentTestService } from "./assessment-test.service";
+
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -61,11 +67,10 @@ import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 
-import {MatRadioModule} from '@angular/material/radio';
-
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
+import { EditQuestionDialogComponent } from './edit-question-dialog/edit-question-dialog.component';
 
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
@@ -73,6 +78,19 @@ import { CreateNewAccountComponent } from './create-new-account/create-new-accou
 import { SetFreeTimeComponent } from './set-free-time/set-free-time.component';
 import { CreateNewEventComponent } from './set-free-time/create-new-event/create-new-event.component';
 import { BookAppointmentFormComponent } from './book-appointment/book-appointment-form/book-appointment-form.component';
+
+import { LoginComponent } from './login/login.component';
+
+import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
+import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { MessagesService} from "./messages.service";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
+
+import { FlashMessagesModule } from "angular2-flash-messages";
+
+import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
+import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 
 
 @NgModule({
@@ -102,11 +120,17 @@ import { BookAppointmentFormComponent } from './book-appointment/book-appointmen
     ImageUploadTestComponent,
     FileSelectDirective,
     BookAppointmentComponent,
+    EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
 		SetFreeTimeComponent,
 		CreateNewEventComponent,
-		BookAppointmentFormComponent
+		BookAppointmentFormComponent,
+		LoginComponent,
+		EditAssessmentTestDialogComponent,
+		PatientMessagesComponent,
+		EditExerciseDialogComponent,
+		EditCustomRehabilitationPlanComponent,
   ],
   imports: [
     HttpModule,
@@ -118,6 +142,8 @@ import { BookAppointmentFormComponent } from './book-appointment/book-appointmen
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatTooltipModule,
+    MatRadioModule,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
@@ -150,9 +176,14 @@ import { BookAppointmentFormComponent } from './book-appointment/book-appointmen
 	  MatStepperModule,
     MatSnackBarModule,
     MatRadioModule,
+    FlashMessagesModule.forRoot(),
+    MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService],
-  bootstrap: [AppComponent]
+  FormService, AuthenticationService,AssessmentTestService],
+  bootstrap: [AppComponent],
+  entryComponents: [EditQuestionDialogComponent,
+    EditAssessmentTestDialogComponent,
+    EditExerciseDialogComponent]
 })
 export class AppModule { }

@@ -47,6 +47,14 @@ export class FormService {
       );
   }
 
+  deleteForm(form){
+    return this.http.delete(this.domain+'/forms/'+form._id)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   //======END OF FORM ROUTES=========
 
   //======QUESTION ROUTES==========

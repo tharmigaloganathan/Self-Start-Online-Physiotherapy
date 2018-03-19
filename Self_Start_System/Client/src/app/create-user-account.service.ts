@@ -50,13 +50,14 @@ export class CreateUserAccountService {
 
 	//Create a new patient profile
 	registerUserProfile(user: any) {
+    console.log("within service")
 		return this.http.post(this.domain+'/PatientProfiles', user)
 		.map((response: Response) => {
 			return response.json();
 		});
 	}
 
-	//Create a new physiotherapist
+	//Create a new physiotherapist profile
 	registerPhysiotherapist(physiotherapist: any) {
 		return this.http.post(this.domain+'/Physiotherapists', physiotherapist)
 		.map((response: Response) => {
@@ -64,11 +65,20 @@ export class CreateUserAccountService {
 		});
 	}
 
+	//Create a new administrator profile
+	registerAdministrator(administrator: any){
+    return this.http.post(this.domain+'/Administrators', administrator).map((response: Response) => {
+      return response.json();
+    });
+  }
+
 	//Create a new user account
 	registerUserAccount(account: any) {
+    console.log("within service, in registerUserAccount function ");
 		return this.http.post(this.domain+'/UserAccounts', account)
 		.map((response: Response) => {
-			return response.json();
+      console.log("The account has been registered! ", response.json());
+      return response.json();
 		});
 	}
 

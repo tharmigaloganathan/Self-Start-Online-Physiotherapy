@@ -5,7 +5,8 @@ var formsSchema = mongoose.Schema(
         description: String,
         questions: [{type: mongoose.Schema.ObjectId, ref: 'Question'}],
         administrator: {type: mongoose.Schema.ObjectId, ref: ('Administrator')},
-        assessmentTests: [{type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}]
+        assessmentTests: [{type: mongoose.Schema.ObjectId, ref: 'AssessmentTest'}],
+        type: String
     }
 );
 
@@ -56,8 +57,10 @@ function update(id, updatedDocument){
                     document.questions = updatedDocument.questions;
                     document.administrator = updatedDocument.administrator;
                     document.assessmentTests = updatedDocument.assessmentTests;
+                    document.type = updatedDocument.type;
                     document.save(function (error) {
                         if (error) {
+                            console.log("There was an error saving:", document.name);
                             reject(error);
                         } else {
                             resolve(document);

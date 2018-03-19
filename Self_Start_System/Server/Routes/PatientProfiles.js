@@ -1,13 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
+//for tokens & verification & login sessions
+const jwt = require('jsonwebtoken');
+const config = require('../Config/Database');
+
 
 router.route('/')
     .post(function (request, response) {
+        console.log ("within the PatientProfile route POST")
         PatientProfiles.add(request.body).then(function(patientProfile){
+            console.log ("Profile successfully made: ", patientProfile);
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
+            console.log("error from backend: ", err);
         })
     })
     .get(function (request, response) {
@@ -18,22 +25,49 @@ router.route('/')
         })
     });
 
-router.route('/:patientprofile_id')
+//middleware for every route below this one
+router.use(function (req, res, next) {
+    console.log('in authentication middleware');
+    console.log(req.headers['authorization']);
+    const token = req.headers.authorization;
+
+    console.log('token: ', token);
+
+    if (!token) {
+        res.json({success: false, message: 'No token provided'}); // Return error
+    } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, function (err, decoded) {
+            console.log(decoded);
+            if (err) {
+                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+            } else {
+                req.decoded = decoded; // Create global variable to use in any request beyond
+                console.log('authentication middleware complete!');
+                next(); // Exit middleware
+            }
+
+        })
+    }
+});
+
+router.route('/:patientProfile_id')
     .get(function (request, response) {
-        if (!request.params.patientprofile_id) {
+        console.log("in patient profile get by ID route");
+        if (!request.params.patientProfile_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        PatientProfiles.getOne(request.params.patientprofile_id).then(function(patientProfile){
+        PatientProfiles.getOne(request.params.patientProfile_id).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
     })
     .put(function (request, response) {
-        if (!request.params.patientprofile_id) {
+        if (!request.params.patientProfile_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        PatientProfiles.update(request.params.patientprofile_id, request.body).then(function(patientProfile){
+        PatientProfiles.update(request.params.patientProfile_id, request.body).then(function(patientProfile){
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
