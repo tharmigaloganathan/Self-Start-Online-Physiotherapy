@@ -152,10 +152,7 @@ const appRoutes: Routes = [
     path: 'physio/set-free-time/create-new-free-time',
     component: CreateNewEventComponent //
   },
-  {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
+
   {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
