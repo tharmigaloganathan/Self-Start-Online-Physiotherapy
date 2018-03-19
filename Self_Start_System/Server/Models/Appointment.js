@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var appointmentSchema = mongoose.Schema(
     {
         date: Date,
+        endDate: Date,
         reason: String,
         other: String,
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}
@@ -16,6 +17,8 @@ module.exports = {
     update:update,
     deleteOne:deleteOne
 };
+
+var PatientProfiles = require("./PatientProfile");
 
 
 function deleteOne(id){
@@ -85,6 +88,7 @@ function getOne(id){
 function getAll(){
     return new Promise (function (resolve, reject) {
         Appointments.find({},function (error, appointments) {
+            console.log(appointments);
             if (error){
                 reject(error);
             }else{
@@ -100,20 +104,26 @@ function add(appointment){
         if (!newAppointment.date){
             error = "No date detected.";
             reject(error);
+        } else if (!newAppointment.endDate) {
+            error = "No endDate detected.";
+            reject(error);
         } else if (!newAppointment.reason){
             error = "No reason detected.";
             reject(error);
-        } else if (!newAppointment.other){
-            error = "No other detected.";
-            reject(error);
+        } else if (!newAppointment.other) {
+          error = "No other detected.";
+          reject(error);
+        } else if (!newAppointment.patientProfile) {
+          error = "No patientProfile detected.";
+          reject(error);
         } else {
-            newAppointment.save(function (error) {
-                if (error){
-                    reject(error);
-                }else{
-                    resolve(newAppointment);
-                }
-            });
+          newAppointment.save(function (error) {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(newAppointment);
+            }
+          });
         }
     });
 }

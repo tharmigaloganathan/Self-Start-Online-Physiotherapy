@@ -75,6 +75,9 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+import { SetFreeTimeComponent } from './set-free-time/set-free-time.component';
+import { CreateNewEventComponent } from './set-free-time/create-new-event/create-new-event.component';
+import { BookAppointmentFormComponent } from './book-appointment/book-appointment-form/book-appointment-form.component';
 
 import { LoginComponent } from './login/login.component';
 
@@ -84,10 +87,14 @@ import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
-import {FlashMessagesModule} from "angular2-flash-messages";
+import { FlashMessagesModule } from "angular2-flash-messages";
+import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
+import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
+
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
+import {RecommendationService} from "./recommendation.service";
 
 
 @NgModule({
@@ -120,9 +127,14 @@ import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
+		SetFreeTimeComponent,
+		CreateNewEventComponent,
+		BookAppointmentFormComponent,
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		PatientPlanListComponent,
+		EditPatientPlanListComponent,
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
 		EditRecommendationDialogComponent,
@@ -170,14 +182,16 @@ import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+    MatRadioModule,
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService,AssessmentTestService],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
-    EditExerciseDialogComponent]
+    EditExerciseDialogComponent,
+    EditRecommendationDialogComponent]
 })
 export class AppModule { }

@@ -11,6 +11,7 @@ router.route('/')
         })
     })
     .get(function (request, response) {
+      console.log('Reached it');
         Appointment.getAll().then(function(appointments){
             response.json({appointment: appointments});
         }).catch(function(err){
