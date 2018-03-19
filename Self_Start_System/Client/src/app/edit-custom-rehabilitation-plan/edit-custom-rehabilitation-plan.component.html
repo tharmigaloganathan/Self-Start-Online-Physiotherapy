@@ -127,7 +127,7 @@
             <div class="card-body">
               <p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
               <ul class="">
-                <li *ngFor="let test of completeAssessmentTests" class="list-group-item" (click)="selectCompleteAssessmentTest(test)">
+                <li *ngFor="let test of completeAssessmentTests" class="list-group-item selectedTest" (click)="selectCompleteAssessmentTest(test)">
                   <h5>{{test.name}}</h5>
                   <p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>
                 </li>
@@ -140,16 +140,24 @@
           <div class="card" style="height: 500px; overflow-y:scroll">
             <div class="card-body">
               <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>
+              <ul class="">
+                <li *ngFor="let result of allResults" class="list-group-item">
+                  <p>Question: {{result.question}}</p>
+                  <p>Answer: {{result.answer}}</p>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-
+      </div>
+      <br>
+      <div class="row">
         <div class="col-12">
           <div class="card" style="height: 300px; overflow-y:scroll">
             <h1 class="subtitle">
               <b>Recommendations</b>
               <br><br>
-              <button mat-raised-button class="blue" (click)="createRecommendation()">Add New Recommendation</button>
+              <button *ngIf="selectedCompleteAssessmentTest" mat-raised-button class="blue" (click)="createRecommendation()">Add New Recommendation</button>
             </h1>
             <div class="card-body">
               <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>

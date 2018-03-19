@@ -15,6 +15,7 @@ module.exports = {
     add:add,
     getAll:getAll,
     getOne:getOne,
+    getByAssessmentTestID:getByAssessmentTestID,
     update:update,
     deleteOne:deleteOne
 };
@@ -77,6 +78,24 @@ function getOne(id){
             }
         });
     });
+}
+
+function getByAssessmentTestID(id){
+    return new Promise (function (resolve, reject) {
+        console.log("ID:", id);
+        TestResults.find(
+            {
+                assessmentTest: { $in: id}
+            },
+            function(error, document) {
+                if(error){
+                    reject(error);
+                } else {
+                    resolve(document);
+                }
+            }
+        )
+    })
 }
 
 function getAll(){

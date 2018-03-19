@@ -11,12 +11,12 @@ import { UserAccountListService } from '../user-account-list.service';
 export class AdminManageUserAccountsComponent implements OnInit {
 	router;
 	userAccountListService;
-	user = {};
+	user;
 	account = {};
 	loading = false;
 	isChanged = false;
 	today = new Date();
-	age;
+	age: any;
 
   constructor(router: Router, userAccountListService: UserAccountListService) {
 		this.router = router;
@@ -26,7 +26,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
   ngOnInit() {
 		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
-		this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
+		//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 		this.age = this.age.toFixed(0) + " years";
   }
 
@@ -50,8 +50,8 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		console.log("Reset password clicked");
 		this.loading = true;
 		const patientAccount = {
-			_id: this.account._id,
-			userAccountName: this.account.userAccountName,
+			//_id: this.account._id,
+			//userAccountName: this.account.userAccountName,
 			encryptedPassword: "passwordreset",
 			patientProfile: this.user._id
 		}
@@ -73,7 +73,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	deleteAccount() {
 		console.log("Delete account clicked");
 		this.loading = true;
-		sleep(2000);
+		//sleep(2000);
 		this.loading = false;
 	}
 
