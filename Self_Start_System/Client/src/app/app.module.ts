@@ -87,12 +87,14 @@ import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
-import {FlashMessagesModule} from "angular2-flash-messages";
+import { FlashMessagesModule } from "angular2-flash-messages";
 import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
+import {RecommendationService} from "./recommendation.service";
 
 
 @NgModule({
@@ -135,6 +137,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 		EditPatientPlanListComponent,
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
+		EditRecommendationDialogComponent,
   ],
   imports: [
     HttpModule,
@@ -184,10 +187,11 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
-    EditExerciseDialogComponent]
+    EditExerciseDialogComponent,
+    EditRecommendationDialogComponent]
 })
 export class AppModule { }

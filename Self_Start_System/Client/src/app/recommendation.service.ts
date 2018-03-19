@@ -7,46 +7,30 @@ import { catchError, retry } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 @Injectable()
-export class AssessmentTestService {
+export class RecommendationService {
 
   domain = environment.apiURL;
 
   constructor(private http: HttpClient) { }
 
-  getAllAssessmentTests(){
-    return this.http.get(this.domain+'/assessmentTests')
+  getAllRecommendations(){
+    return this.http.get(this.domain+'/recommendations')
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  addAssessmentTest(assessmentTest){
-    return this.http.post(this.domain+'/assessmentTests', assessmentTest)
+  addRecommendation(recommendation){
+    return this.http.post(this.domain+'/recommendations', recommendation)
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  editAssessmentTest(assessmentTest){
-    return this.http.put(this.domain+'/assessmentTests/'+assessmentTest._id, assessmentTest)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
-
-  deleteAssessmentTest(assessmentTest){
-    return this.http.delete(this.domain+'/assessmentTests/'+assessmentTest._id)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
-
-  getTestResults(){
-    return this.http.get(this.domain+'/testResults')
+  editRecommendation(recommendation){
+    return this.http.put(this.domain+'/recommendations/'+recommendation._id, recommendation)
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -69,4 +53,5 @@ export class AssessmentTestService {
     return new ErrorObservable(
       'Something bad happened; please try again later.');
   };
+
 }

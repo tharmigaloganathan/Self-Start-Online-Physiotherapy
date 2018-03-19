@@ -9,7 +9,8 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
-import { EditCustomRehabilitationPlanComponent} from "./edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component";
+import { EditCustomRehabilitationPlanComponent } from "./edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component";
+
 
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
@@ -142,12 +143,12 @@ const appRoutes: Routes = [
     component: NewRehabilitationPlanComponent //
   },
   {
-    path: 'physio/rehabilitation-plans/:name',
-    component: EditRehabilitationPlanComponent //
-  },
-  {
     path: 'physio/rehabilitation-plans/edit-custom',
     component: EditCustomRehabilitationPlanComponent //
+  },
+  {
+    path: 'physio/rehabilitation-plans/:name',
+    component: EditRehabilitationPlanComponent //
   },
   {
     path: 'physio/set-free-time',
@@ -158,14 +159,9 @@ const appRoutes: Routes = [
     component: CreateNewEventComponent //
   },
   {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
-  {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
   },
-
   {
     path: 'image-test',
     component: ImageUploadTestComponent
