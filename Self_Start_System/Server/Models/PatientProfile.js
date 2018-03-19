@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-plugin-autoinc');
 var patientProfileSchema = mongoose.Schema(
     {
-
         familyName: String,
         givenName: String,
         email: String,
@@ -20,6 +20,8 @@ var patientProfileSchema = mongoose.Schema(
         appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}]
     }
 );
+
+// patientProfileSchema.plugin(autoIncrement.plugin,{model: 'PatientProfile', field: 'patientID'});
 var PatientProfiles = module.exports = mongoose.model('PatientProfile', patientProfileSchema);
 
 module.exports = {
@@ -116,7 +118,7 @@ function update(id, updatedDocument){
 
 function getOne(id){
     return new Promise (function (resolve, reject) {
-        PatientProfiles.findById(id, function (error, document) {
+        PatientProfiles.findById(id).populate({path: 'treatments', populate: {path: 'rehabilitationPlan'}}).exec(function (error, document) {
             if (error){
                 reject(error);
             }else{

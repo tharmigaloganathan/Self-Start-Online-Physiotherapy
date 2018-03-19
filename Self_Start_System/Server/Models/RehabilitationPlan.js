@@ -8,7 +8,8 @@ var rehabilitationPlansSchema = mongoose.Schema(
 		timeFrameToComplete: String,
 		exerciseOrders: [{type: mongoose.Schema.ObjectId, ref: ('ExerciseOrder')}],
 		assessmentTests: [{type: mongoose.Schema.ObjectId, ref: ('AssessmentTest')}],
-		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatment')}]
+		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatment')}],
+        custom: {type: Boolean, default: false}
 	}
 );
 
@@ -73,6 +74,7 @@ function update(id, updatedDocument){
                     document.exerciseOrders = updatedDocument.exerciseOrders;
                     document.assessmentTests = updatedDocument.assessmentTests;
                     document.treatments = updatedDocument.treatments;
+                    document.customer = updatedDocument.custom;
                     document.save(function (error) {
                         if (error) {
                             reject(error);

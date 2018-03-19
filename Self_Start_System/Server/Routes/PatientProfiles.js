@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
+var Treatments = require('../Models/Treatment');
+var RehabilitationPlans = require('../Models/RehabilitationPlan');
 //for tokens & verification & login sessions
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
@@ -26,30 +28,30 @@ router.route('/')
     });
 
 //middleware for every route below this one
-router.use(function (req, res, next) {
-    console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
-    const token = req.headers.authorization;
-
-    console.log('token: ', token);
-
-    if (!token) {
-        res.json({success: false, message: 'No token provided'}); // Return error
-    } else {
-        // Verify the token is valid
-        jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
-            if (err) {
-                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
-            } else {
-                req.decoded = decoded; // Create global variable to use in any request beyond
-                console.log('authentication middleware complete!');
-                next(); // Exit middleware
-            }
-
-        })
-    }
-});
+// router.use(function (req, res, next) {
+//     console.log('in authentication middleware');
+//     console.log(req.headers['authorization']);
+//     const token = req.headers.authorization;
+//
+//     console.log('token: ', token);
+//
+//     if (!token) {
+//         res.json({success: false, message: 'No token provided'}); // Return error
+//     } else {
+//         // Verify the token is valid
+//         jwt.verify(token, config.secret, function (err, decoded) {
+//             console.log(decoded);
+//             if (err) {
+//                 res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+//             } else {
+//                 req.decoded = decoded; // Create global variable to use in any request beyond
+//                 console.log('authentication middleware complete!');
+//                 next(); // Exit middleware
+//             }
+//
+//         })
+//     }
+// });
 
 router.route('/:patientProfile_id')
     .get(function (request, response) {
@@ -58,10 +60,11 @@ router.route('/:patientProfile_id')
             response.json({success: false, message: 'id was not provided'});
         }
         PatientProfiles.getOne(request.params.patientProfile_id).then(function(patientProfile){
+            console.log(patientProfile);
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
-        })
+        });
     })
     .put(function (request, response) {
         if (!request.params.patientProfile_id) {

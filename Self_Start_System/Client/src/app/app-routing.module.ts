@@ -9,6 +9,8 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
+import { EditCustomRehabilitationPlanComponent } from "./edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component";
+
 
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
@@ -29,6 +31,8 @@ import { CreateNewEventComponent } from "./set-free-time/create-new-event/create
 import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
 
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
+import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
@@ -139,6 +143,10 @@ const appRoutes: Routes = [
     component: NewRehabilitationPlanComponent //
   },
   {
+    path: 'physio/rehabilitation-plans/edit-custom',
+    component: EditCustomRehabilitationPlanComponent //
+  },
+  {
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
   },
@@ -151,18 +159,25 @@ const appRoutes: Routes = [
     component: CreateNewEventComponent //
   },
   {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
-  {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
   },
-
   {
     path: 'image-test',
     component: ImageUploadTestComponent
   },
+  {
+    path: 'physio/patient-plan-list',
+    component: PatientPlanListComponent //
+  },
+  {
+    path: 'physio/patient-plan-list/:id', // This ID field will be an auto-incremented ID
+    component: EditPatientPlanListComponent
+  },
+  {
+    path: 'physio',
+    redirectTo: '/physio/home'
+  }, //the last physio route
   {
     path: '**',
     redirectTo: '/home'

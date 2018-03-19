@@ -83,7 +83,7 @@
             </div>
         </div>
     </mat-tab>
-  
+
     <mat-tab label="Assigned Assessments">
       <br>
       <h1 class="subtitle">
@@ -112,29 +112,7 @@
        </div>
      </div>
    </mat-tab>
-          
-      <mat-tab label="Assessment Tests">
-          <div class="container">
-              <div class="row">
-                  <div class="col-6">
-                      <div class="card">
-                          <div class="card-body">
-                              <h3 class="card-title">Assigned Tests to be Completed</h3>
-                              <p>Assessment Tests will only be viewable for the patient after the Open Date.</p>
-                              <ul class="list-group list-group-assessment-tests">
-                                  <li *ngFor="let test of assessmentTests" class="list-group-item">
-                                      <h6>{{test.name}}</h6>
-                                      <p>Open Date: {{test.openDate | date:'fullDate'}}</p>
-                                      <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <button mat-raised-button (click)="createAssessmentTest()">Create New Assessment Test</button>
-          </div>
-      </mat-tab>
+
     </mat-tab-group>
     <br />
 

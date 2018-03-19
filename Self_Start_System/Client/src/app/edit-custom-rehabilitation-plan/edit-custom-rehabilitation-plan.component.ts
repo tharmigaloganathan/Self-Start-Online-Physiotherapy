@@ -6,6 +6,8 @@ import { ViewEncapsulation } from '@angular/core';
 import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { AuthenticationService } from "../authentication.service";
+import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog/edit-recommendation-dialog.component";
+import { RecommendationService } from "../recommendation.service";
 
 @Component({
   selector: 'app-edit-custom-rehabilitation-plan',
@@ -35,13 +37,23 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   incompleteAssessmentTests = [];
   completeAssessmentTests = [];
+  selectedCompleteAssessmentTest: any;
+
+  editRecommendationDialogRef: MatDialogRef<EditRecommendationDialogComponent>
+
+  allRecommendations = [];
+  selectedAssessmentRecommendations = [];
+  allResults = [];
+  selectedAssessmentResult = [];
+
   //END OF ASSESSMENT TEST RELATED
 
   constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
               private assessmentTestService: AssessmentTestService,
               private dialog: MatDialog,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private recommendationService: RecommendationService) {
     console.log("ID", this.editID)
   }
 
@@ -333,7 +345,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
         for (let i = 0; i < allAssessmentTests.length; i++) {
           if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
-            if(allAssessmentTests[i].dateCompleted != null){ this.incompleteAssessmentTests.push(allAssessmentTests[i]); }
+            if(allAssessmentTests[i].dateCompleted == null){ this.incompleteAssessmentTests.push(allAssessmentTests[i]); }
             else { this.completeAssessmentTests.push(allAssessmentTests[i]); }
           }
         }
@@ -342,4 +354,104 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
   //==================================
   //ASSESSMENT TEST ENDS
+
+  //RECOMMENDATIONS STARTS
+  //==================================
+  createRecommendation(){
+    var recommendation = {
+      timeStamp: Date.now(),
+      decision: "The patient should...",
+      assessmentTest: this.selectedCompleteAssessmentTest._id
+    }
+
+    this.openEditRecommendationDialog(recommendation, true);
+  }
+
+  openEditRecommendationDialog(recommendation, newRecommendationFlag: boolean){
+    this.editRecommendationDialogRef = this.dialog.open(EditRecommendationDialogComponent, {
+      width: '50vw',
+      data: {
+        recommendation,
+        newRecommendationFlag
+      }
+    });
+
+    this.editRecommendationDialogRef.afterClosed().subscribe( result => {
+      if (newRecommendationFlag) {
+        this.addRecommendation(result);
+      } else {
+        this.editRecommendation(result);
+      }
+    });
+  }
+
+  selectCompleteAssessmentTest(test){
+    this.selectedCompleteAssessmentTest = test;
+    this.getRecommendations();
+  }
+
+  editRecommendation(recommendation){
+    this.recommendationService.editRecommendation(recommendation).subscribe(
+      res => {
+        //Do something for when you edit a recommendation
+        this.getRecommendations();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  addRecommendation(recommendation){
+    this.recommendationService.addRecommendation(recommendation).subscribe(
+      res => {
+        this.selectedCompleteAssessmentTest.push(res.recommendation._id);
+        this.editAssessmentTest(this.selectedCompleteAssessmentTest);
+        this.getAssessmentTests();
+        this.getRecommendations();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getRecommendations(){
+    this.allRecommendations = [];
+    this.selectedAssessmentRecommendations = [];
+    this.recommendationService.getAllRecommendations().subscribe(
+      data => {
+        this.allRecommendations = data.recommendation;
+        console.log("ALL RECOS:", this.allRecommendations);
+
+        if(this.selectedCompleteAssessmentTest != null){
+          for(let i = 0; i < this.allRecommendations.length; i++){
+            if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
+              this.selectedAssessmentRecommendations.push(this.allRecommendations[i]);
+            }
+          }
+        }
+      }
+    )
+    console.log(this.allRecommendations);
+    console.log(this.selectedAssessmentRecommendations);
+  }
+
+  //===================================
+  //RECOMMENDATIONS ENDS
+
+  //TEST RESULTS STARTS
+  //===================================
+
+  //COMPLETE THIS FUNCTION IN THE MORNING
+  getTestResults(){
+    this.assessmentTestService.getTestResults().subscribe(
+      data => {
+        this.allResults = data.testResults;
+      }
+    )
+  }
+
+  //===================================
+  //TEST RESULTS ENDS
 }
