@@ -112,8 +112,13 @@ export class ExerciseComponent implements OnInit {
       data => {
         console.log("all exercises retrieved! ",data.exercise);
         console.log(data);
-        this.allExercises = data.exercise;
-
+        this.allExercises = [];
+        //only display exercises with standard flag set to true!
+        for(var i = 0; i < data.exercise.length; i++) {
+            if(data.exercise[i].standard == true) {
+                this.allExercises.push(data.exercise[i]);
+            }
+        }
       },
       error => console.log(error)
     );
