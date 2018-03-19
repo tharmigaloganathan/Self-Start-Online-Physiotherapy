@@ -5,7 +5,8 @@
 }
 
 .card-container {
-	padding-bottom: 1%;
+	padding-bottom: 0.5%;
+	//border-bottom: solid, 3px, grey;
 }
 
 .view-button {
@@ -13,9 +14,19 @@
 	color: $white;
 }
 
+.view-button:hover {
+	background-color: $white;
+	color: $beautiful-blue;
+}
+
 .create-account-button {
 	background-color: $flash-of-orange;
 	color: $white;
+}
+
+.create-account-button:hover {
+	background-color: $white;
+	color: $flash-of-orange;
 }
 
 .reset-button {
@@ -26,4 +37,12 @@
 .view-profile-button {
 	background-color: $beautiful-blue;
 	color: $white;
+}
+
+.card-item:hover {
+	background-color: #F5F5F5;
+}
+
+.row-border {
+	border-bottom: solid 3px, grey
 }

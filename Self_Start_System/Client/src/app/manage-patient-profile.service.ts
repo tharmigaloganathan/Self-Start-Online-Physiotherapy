@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import {AuthenticationService} from './authentication.service';
 
 @Injectable()
 export class ManagePatientProfileService {
   private baseURL = 'http://localhost:3700/';
+  options;
 
-	constructor(private http: Http) {}
+	constructor(private authenticationService: AuthenticationService, private http: Http) {}
 
   	//Function to get all patients
 	getPatients() {
@@ -19,6 +21,7 @@ export class ManagePatientProfileService {
 
   // Function to get all patients
   getPatient(patientID) {
+	  this.options = this.authenticationService.createAuthenticationHeaders();
     return this.http.get(this.baseURL + 'PatientProfiles/' + patientID)
       .map((response: Response) => {
         return response.json().patientProfile;

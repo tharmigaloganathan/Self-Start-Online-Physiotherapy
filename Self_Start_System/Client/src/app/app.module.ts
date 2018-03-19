@@ -33,6 +33,7 @@ import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-re
 import { HttpModule } from '@angular/http';
 import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatDatepickerModule} from '@angular/material/datepicker';
@@ -50,6 +51,7 @@ import { AssessmentTestService } from "./assessment-test.service";
 
 
 import { HttpClientModule} from '@angular/common/http';
+import { LoadingModule } from 'ngx-loading';
 
 import { SidebarPhysioComponent } from './sidebar-physio/sidebar-physio.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -86,15 +88,20 @@ import { PatientMessagesComponent } from './patient-messages/patient-messages.co
 import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
+import { ViewRehabilitationPlanComponent } from './view-rehabilitation-plan/view-rehabilitation-plan.component';
+import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 
 import { FlashMessagesModule } from "angular2-flash-messages";
+import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
+import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+import { PatientRehabilitationPlansComponent } from './patient-rehabilitation-plans/patient-rehabilitation-plans.component';
 import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
-
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
 import {RecommendationService} from "./recommendation.service";
+import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 
 
 @NgModule({
@@ -133,11 +140,13 @@ import {RecommendationService} from "./recommendation.service";
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		PatientCompleteAssessmentTestComponent,
 		PatientPlanListComponent,
 		EditPatientPlanListComponent,
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
 		EditRecommendationDialogComponent,
+		PatientRehabilitationPlansComponent
   ],
   imports: [
     HttpModule,
@@ -182,7 +191,10 @@ import {RecommendationService} from "./recommendation.service";
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,
+		MatDialogModule,
+		LoadingModule,
     MatRadioModule,
+
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],

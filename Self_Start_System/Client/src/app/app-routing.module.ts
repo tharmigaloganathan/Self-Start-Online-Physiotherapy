@@ -34,6 +34,8 @@ import { PatientMessagesComponent } from './patient-messages/patient-messages.co
 import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
 import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
+import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
+import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 
@@ -96,6 +98,14 @@ const appRoutes: Routes = [
     path: 'patient/book-appointment',
     component: BookAppointmentComponent
   },
+	{
+		path: 'patient/assessment-test',
+		component: PatientCompleteAssessmentTestComponent
+	},
+	{
+		path: 'patient/rehabilitation-plans',
+		component: PatientRehabilitationPlansComponent
+	},
   {
     path: 'patient/book-appointment/form',
     component: BookAppointmentFormComponent

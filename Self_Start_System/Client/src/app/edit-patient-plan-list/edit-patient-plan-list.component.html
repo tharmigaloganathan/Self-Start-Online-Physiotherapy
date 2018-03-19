@@ -19,7 +19,7 @@
             <div class="col-md-8">
               <mat-card-title>Rehabilitation Plan: {{ treatment.rehabilitationPlan.name }}</mat-card-title>
               <!--<mat-card-subtitle>Assigned By: {{ treatment.physiotherapist.givenName + " " + treatment.physiotherapist.familyName }}</mat-card-subtitle>-->
-              <mat-card-subtitle>Date Treatment Started: {{ treatment.dateStart }}</mat-card-subtitle>
+              <mat-card-subtitle>Date Treatment Started: {{ treatment.dateStart | date:'fullDate' }}</mat-card-subtitle>
             </div>
             <div class="col-md-4 col-md-offset-10">
               <button mat-raised-button class="view-button" (click)="closeTreatment(treatment)">Close Treatment</button>

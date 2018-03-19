@@ -8,12 +8,13 @@ import * as moment from 'moment';
 import {SetFreeTimeService} from "../set-free-time.service";
 import {ExerciseService} from "../services/exercise.service";
 import {ManagePatientProfileService} from "../manage-patient-profile.service";
+import {AuthenticationService} from "../authentication.service";
 
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
   styleUrls: ['./book-appointment.component.scss'],
-  providers: [ManagePatientProfileService, ExerciseService, SetFreeTimeService],
+  providers: [AuthenticationService, ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
 export class BookAppointmentComponent implements OnInit {
   // Temporary client variable for testing
@@ -24,10 +25,17 @@ export class BookAppointmentComponent implements OnInit {
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
   constructor(private rd: Renderer2,
               private router : Router,
-              private setFreeTimeService: SetFreeTimeService) {}
+              private setFreeTimeService: SetFreeTimeService,
+              private authenticationService:AuthenticationService) {}
 
   ngOnInit() {
-    this.getCurrentAvailability();
+    this.authenticationService.getProfile().subscribe(data=>{
+      this.patientProfileId = data.patientProfile._id;
+      this.getCurrentAvailability();
+    }, err=>{
+      console.log(err);
+    });
+
   }
 
   getCurrentAvailability = () => {
