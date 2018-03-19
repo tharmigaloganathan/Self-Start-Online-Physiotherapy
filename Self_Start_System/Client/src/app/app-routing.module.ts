@@ -143,12 +143,12 @@ const appRoutes: Routes = [
     component: NewRehabilitationPlanComponent //
   },
   {
-    path: 'physio/rehabilitation-plans/:name',
-    component: EditRehabilitationPlanComponent //
-  },
-  {
     path: 'physio/rehabilitation-plans/edit-custom',
     component: EditCustomRehabilitationPlanComponent //
+  },
+  {
+    path: 'physio/rehabilitation-plans/:name',
+    component: EditRehabilitationPlanComponent //
   },
   {
     path: 'physio/set-free-time',
@@ -159,14 +159,9 @@ const appRoutes: Routes = [
     component: CreateNewEventComponent //
   },
   {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
-  {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
   },
-
   {
     path: 'image-test',
     component: ImageUploadTestComponent

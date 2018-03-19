@@ -345,7 +345,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
         for (let i = 0; i < allAssessmentTests.length; i++) {
           if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
-            if(allAssessmentTests[i].dateCompleted != null){ this.incompleteAssessmentTests.push(allAssessmentTests[i]); }
+            if(allAssessmentTests[i].dateCompleted == null){ this.incompleteAssessmentTests.push(allAssessmentTests[i]); }
             else { this.completeAssessmentTests.push(allAssessmentTests[i]); }
           }
         }
@@ -422,16 +422,19 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     this.recommendationService.getAllRecommendations().subscribe(
       data => {
         this.allRecommendations = data.recommendation;
+        console.log("ALL RECOS:", this.allRecommendations);
 
         if(this.selectedCompleteAssessmentTest != null){
           for(let i = 0; i < this.allRecommendations.length; i++){
-            if(this.selectedCompleteAssessmentTest.recommendation.includes(this.allRecommendations[i]._id)){
+            if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
               this.selectedAssessmentRecommendations.push(this.allRecommendations[i]);
             }
           }
         }
       }
     )
+    console.log(this.allRecommendations);
+    console.log(this.selectedAssessmentRecommendations);
   }
 
   //===================================
