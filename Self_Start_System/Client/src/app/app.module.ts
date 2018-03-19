@@ -79,8 +79,6 @@ import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 import { ViewRehabilitationPlanComponent } from './view-rehabilitation-plan/view-rehabilitation-plan.component';
-import { CompleteAssessmentTestComponent } from './complete-assessment-test/complete-assessment-test.component';
-
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 
 @NgModule({
@@ -116,7 +114,6 @@ import { PatientCompleteAssessmentTestComponent } from "./patient-complete-asses
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
 		ViewRehabilitationPlanComponent,
-		CompleteAssessmentTestComponent,
 		PatientCompleteAssessmentTestComponent
   ],
   imports: [
