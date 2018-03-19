@@ -5,12 +5,13 @@ import { AssessmentTestService } from "../assessment-test.service";
 import { ViewEncapsulation } from '@angular/core';
 import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
     selector: 'app-edit-rehabilitation-plan',
     templateUrl: './edit-rehabilitation-plan.component.html',
     styleUrls: ['./edit-rehabilitation-plan.component.scss'],
-    providers: [ RehabilitationPlanService ],
+    providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService ],
     encapsulation: ViewEncapsulation.None
 })
 
@@ -28,6 +29,8 @@ export class EditRehabilitationPlanComponent implements OnInit {
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
 
+    user: any;
+
   //ASSESSMENT TEST RELATED
   editAssessmentTestDialogRef: MatDialogRef<EditAssessmentTestDialogComponent>
 
@@ -38,14 +41,19 @@ export class EditRehabilitationPlanComponent implements OnInit {
   constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
               private assessmentTestService: AssessmentTestService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authService: AuthenticationService) {
       console.log("ID", this.editID)
   }
 
   ngOnInit() {
     this.getRehabilitationPlans();
     this.getExercises();
-    this.getAssessmentTests();
+    this.authService.getProfile().subscribe(
+      res => {
+        this.user = res;
+      }
+    );
   }
 
   getExerciseIDs() {
@@ -182,6 +190,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
           this.rehabilitationplans = data;
           console.log("REHABILITATION PLANS", this.rehabilitationplans);
           this.getExercises();
+          this.getAssessmentTests();
       });
   }
 
@@ -223,7 +232,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
     }
 
-  editRehabiliationPlan(){
+  editRehabilitationPlan(){
       this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.editID).subscribe(
         res => {
           console.log(res)
@@ -238,14 +247,14 @@ export class EditRehabilitationPlanComponent implements OnInit {
   //==================================
 
   createAssessmentTest(){
+    console.log("NICK YOUR USER:", this.user);
     var assessTest = {
       name: "Name",
       description: "Description",
-      authorName: "Author",
+      authorName: this.user.physiotherapist.familyName,
       recommendations: null,
       form: null,
       testResults: null,
-      rehabilitationPlan: this.editID,
       openDate: null,
       dateCompleted: null
     }
@@ -269,7 +278,24 @@ export class EditRehabilitationPlanComponent implements OnInit {
       res => {
         console.log("LOOK AT THIS RESPONSE:", res);
         this.rehabilitationplan.assessmentTests.push(res.assessmentTest._id);
-        this.editRehabiliationPlan();
+        this.editRehabilitationPlan();
+        this.getAssessmentTests();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  deleteAssessmentTest(assessmentTest){
+    for (let i = 0; i < this.rehabilitationplan.assessmentTests.length; i++){
+      if(this.rehabilitationplan.assessmentTests[i] == assessmentTest._id){
+        this.rehabilitationplan.assessmentTests.splice(i, 1);
+      }
+    }
+    this.editRehabilitationPlan();
+    this.assessmentTestService.deleteAssessmentTest(assessmentTest).subscribe(
+      res => {
         this.getAssessmentTests();
       },
       error => {
@@ -307,7 +333,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
         let allAssessmentTests = data.assessmentTest;
 
         for (let i = 0; i < allAssessmentTests.length; i++) {
-          if (allAssessmentTests[i].rehabilitationPlan = this.editID) {
+          if (this.rehabilitationplan.assessmentTests.includes(allAssessmentTests[i]._id)) {
             this.assessmentTests.push(allAssessmentTests[i]);
           }
         }
