@@ -64,6 +64,17 @@ export class SetFreeTimeService {
       });
   }
 
+  deleteOneTimeSlot(id, mongoId) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    let body = {
+      mongoId: mongoId
+    };
+    return this.http.put(this.domain+'/Physiotherapists/free-time/delete-one-date/'+id,body,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
   retrieveAllAppointmentsForPatient(id) {
     this.options = this.authenticationService.createAuthenticationHeaders();
     return this.http.get(this.domain+'/PatientProfiles/get-all-appointments/'+id,this.options)
@@ -83,6 +94,17 @@ export class SetFreeTimeService {
       physioID: physioID
     };
     return this.http.post(this.domain+'/PatientProfiles/add-appointment/'+patientId, body,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
+  deleteAppointment(id, mongoId) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    let body = {
+      timeslotId: mongoId
+    };
+    return this.http.post(this.domain+'/PatientProfiles/delete-appointment/'+id,body,this.options)
       .map((response: Response) => {
         return response.json();
       });

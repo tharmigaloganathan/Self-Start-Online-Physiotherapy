@@ -9,6 +9,10 @@ import {SetFreeTimeService} from "../set-free-time.service";
 import {ExerciseService} from "../services/exercise.service";
 import {ManagePatientProfileService} from "../manage-patient-profile.service";
 import {AuthenticationService} from "../authentication.service";
+import {ConfirmDeleteDialogBoxComponent} from "../confirm-delete-dialog-box/confirm-delete-dialog-box.component";
+
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
 
 @Component({
   selector: 'app-book-appointment',
@@ -22,11 +26,14 @@ export class BookAppointmentComponent implements OnInit {
 
   calendarOptions: Options;
 
+  eventType = ["freeTime", "appointments"];
+
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
   constructor(private rd: Renderer2,
               private router : Router,
               private setFreeTimeService: SetFreeTimeService,
-              private authenticationService:AuthenticationService) {}
+              private authenticationService:AuthenticationService,
+              public dialog: MatDialog) {}
 
   ngOnInit() {
     this.authenticationService.getProfile().subscribe(data=>{
@@ -77,7 +84,7 @@ export class BookAppointmentComponent implements OnInit {
           mongoId: event._id,
           physioId: physiotherapist._id,
           allDay: false,
-          canClick: true
+          eventType: this.eventType[0]
         });
       }
     }
@@ -96,7 +103,7 @@ export class BookAppointmentComponent implements OnInit {
         mongoId: appointment._id,
         allDay: false,
         color: '#FDA92A',
-        canClick: false
+        eventType: this.eventType[1]
       });
     }
 
@@ -120,23 +127,53 @@ export class BookAppointmentComponent implements OnInit {
 
   // Event listeners
   eventClick = (detail) => {
-    if (detail.event.canClick){
+    // If click was a free time event, the start booking form
+    if (detail.event.eventType === this.eventType[0]){
+      // Calculate the start and end date of the event clicked
       console.log(detail);
       let startDate = detail.event.start.toDate();
       let endDate = detail.event.end.toDate();
       console.log(startDate, endDate);
+
+      // Store items in local storage for the next component
       localStorage.setItem('book-appointment-start-time', startDate.toString());
       localStorage.setItem('book-appointment-end-time', endDate.toString());
       localStorage.setItem('book-appointment-mongoId', detail.event.mongoId);
       localStorage.setItem('book-appointment-physioId', detail.event.physioId);
 
+      // Navigate to the next component
       this.router.navigate(['/patient/book-appointment/form']);
-    } else {
-      // NTD: Maybe allow edit or delete?
+    // If event was an appointment, open dialog box to delete.
+    } else if (detail.event.eventType === this.eventType[1]){
+      this.openDialog(detail.event.mongoId);
+    } else { // It shouldn't be possible to each this point. Something is wrong if it did.
+      console.log("Invalid event", detail);
     }
   };
 
   clickButton = (detail) => {
     console.log(detail);
   };
+
+  // Helper functions for dialog box //
+  openDialog(mongoId): void {
+    let dialogRef = this.dialog.open(ConfirmDeleteDialogBoxComponent, {
+      width: '250px',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log(mongoId);
+        // Delete the event and reload the page
+        this.setFreeTimeService.deleteAppointment(this.patientProfileId, mongoId)
+          .subscribe(data=>{
+            console.log("delete service",data);
+            location.reload();
+          }, err=>{
+            console.log(err);
+          });
+      }
+    });
+  }
 }
