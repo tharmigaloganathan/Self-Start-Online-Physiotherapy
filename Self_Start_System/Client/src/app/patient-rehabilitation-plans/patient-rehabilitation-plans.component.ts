@@ -118,8 +118,11 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	viewAssessmentTest(index) {
 			console.log("View Assessment test pressed " + index);
 			 var test = JSON.stringify(this.assessmentTests[index]);
+			 var plan = JSON.stringify(this.selected);
 			console.log("Putting this in local storage" + test);
 			localStorage.setItem('assessmentTest', test);
+			console.log("Putting this in local storage for rehab plan" + test);
+			localStorage.setItem('rehabPlan', plan )
 			this.router.navigate(['/patient/assessment-test']);
 	}
 

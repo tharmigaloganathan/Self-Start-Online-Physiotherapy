@@ -23,6 +23,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	testResults = [];
 	dateCompleted = new Date();
 	loading = false;
+	rehabilitationPlan =[];
+	newAssessmentTest_id;
 
   constructor(assessmentTestService: PatientCompleteAssessmentTestService, router: Router) {
 		this.router = router;
@@ -34,6 +36,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 		this.assessmentTest_id = this.assessmentTest._id;
 		this.form_id = this.assessmentTest.form;
 		this.getForm();
+		this.rehabilitationPlan = JSON.parse(localStorage.getItem('rehabPlan'));
   }
 
 	//Gets the specific assessment test
@@ -90,7 +93,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 		//Update the assessment test information
 		updateAssessmentTest() {
 			const data = {
-				_id: this.assessmentTest_id,
+				//_id: this.assessmentTest_id,
 				name: this.assessmentTest.name,
 				authorName: this.assessmentTest.authorName,
 				description: this.assessmentTest.description,
@@ -101,11 +104,14 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 				dateCompleted: this.dateCompleted,
 			}
 			console.log("This is the data being sent for assessment test: " + JSON.stringify(data));
-			this.assessmentTestService.updateAssessmentTest(this.assessmentTest_id, data).
+			this.assessmentTestService.completeAssessmentTest(data).
 			subscribe(
 				data => {
 					console.log("Update Assessment Test: " + JSON.stringify(data));
-					//this.loading = false;
+					this.newAssessmentTest_id = data._id;
+					console.log("New assessment test id" + this.newAssessmentTest_id);
+					this.removeOldTest();
+
 				},
 				error => {
 					console.log("Error");
@@ -143,8 +149,28 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 
 		//Route back to the user rehab plans page
 		back() {
-		console.log("Back button pressed");
 			this.router.navigate(['/patient/rehabilitation-plans']);
 		}
 
+		//Update rehabPlan
+		updateRehabPlan() {
+			this.assessmentTestService.updateRehabPlan(this.rehabilitationPlan._id, this.rehabilitationPlan).
+			subscribe(
+				data => {
+					console.log("New rehab plan: " + data);
+				},
+				error => {
+					console.log("Error");
+				});
+		}
+
+		//Remove old test from rehab plan
+		removeOldTest() {
+			var index = this.rehabilitationPlan.assessmentTests.indexOf(this.assessmentTest_id);
+			if(index > -1) {
+				this.rehabilitationPlan.assessmentTests.splice(index, 1);
+			}
+			this.rehabilitationPlan.assessmentTests.push(this.newAssessmentTest_id);
+			this.updateRehabPlan();
+		}
 }

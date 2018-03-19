@@ -50,4 +50,20 @@ export class PatientCompleteAssessmentTestService {
 		});
 	}
 
+	//Post a new assessment test with completed answerChoices
+	completeAssessmentTest(data) {
+		return this.http.post(this.domain+'/AssessmentTests/', data)
+		.map((response: Response) => {
+		return response.json().assessmentTest;
+		});
+	}
+
+	//Update rehab plan
+	updateRehabPlan(id, data) {
+		return this.http.put(this.domain+'/RehabilitationPlans/'+id, data)
+		.map((response: Response) => {
+		return response.json().rehabilitationPlan;
+		});
+	}
+
 }
