@@ -103,7 +103,7 @@
                                 <li *ngFor="let exercise of myExercises; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
                                     <h6>{{exercise.name}}</h6>
                                     <!-- <p>{{question.questionType}}</p> -->
-                                    <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditQuestionDialog(question)">Edit</button>
+                                    <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditExerciseDialog(exercise)">Edit</button>
                                 </li>
                             </ul>
                         </div>
@@ -140,4 +140,4 @@
     <br />
     <br />
 
-    <button mat-raised-button class="stickToBottom" routerLink="/rehabilitation-plan" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>
+    <button mat-raised-button class="stickToBottom" routerLink="/physio/rehabilitation-plans" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>

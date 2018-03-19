@@ -85,6 +85,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
 import {FlashMessagesModule} from "angular2-flash-messages";
+import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import {FlashMessagesModule} from "angular2-flash-messages";
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		EditExerciseDialogComponent,
   ],
   imports: [
     HttpModule,
@@ -170,6 +172,7 @@ import {FlashMessagesModule} from "angular2-flash-messages";
   FormService, AuthenticationService,AssessmentTestService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
-    EditAssessmentTestDialogComponent]
+    EditAssessmentTestDialogComponent,
+    EditExerciseDialogComponent]
 })
 export class AppModule { }

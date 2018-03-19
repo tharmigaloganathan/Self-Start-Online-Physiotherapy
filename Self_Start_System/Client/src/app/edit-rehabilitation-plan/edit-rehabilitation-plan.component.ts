@@ -4,6 +4,7 @@ import { ExerciseService } from '../services/exercise.service';
 import { ViewEncapsulation } from '@angular/core';
 import { DndModule } from "ng2-dnd";
 import { MatDialog, MatDialogRef } from "@angular/material";
+import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
 
 @Component({
     selector: 'app-edit-rehabilitation-plan',
@@ -18,7 +19,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     data: Object;
 
     rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
-    rehabilitationplan = {exercises:[]}; //Temporary fix
+    rehabilitationplan = { exerciseOrders: []}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
     exerciseIDs = [];
@@ -27,32 +28,31 @@ export class EditRehabilitationPlanComponent implements OnInit {
     deleteList = [];
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
-    // editQuestionDialogRef: MatDialogRef<EditQuestionDialogComponent>
+    editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
 
-    constructor(private rehabilitationplanService: RehabilitationPlanService, private exerciseService: ExerciseService) {
-        console.log("ID", this.editID)
-    }
+    constructor(private rehabilitationplanService: RehabilitationPlanService,
+        private exerciseService: ExerciseService,
+        private dialog: MatDialog) {}
 
     ngOnInit() {
         this.getRehabilitationPlans();
-        this.getExercises();
     }
 
-    // openEditQuestionDialog(exercise){
-    //     this.selectedExercise = exercise;
-    //     // this.selectQuestion(exercise);
-    //     this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
-    //         width: '50vw',
-    //         data: {
-    //             exercise: this.selectedExercise
-    //         }
-    //     });
-    //
-    //     this.editQuestionDialogRef.afterClosed().subscribe(result => {
-    //         this.selectedExercise = result;
-    //         // this.editQuestion(this.selectedExercise);
-    //     });
-    // }
+    openEditExerciseDialog(exercise){
+        this.selectedExercise = exercise;
+        // this.selectQuestion(exercise);
+        this.editExerciseDialogRef = this.dialog.open(EditExerciseDialogComponent, {
+            width: '50vw',
+            data: {
+                exercise: this.selectedExercise
+            }
+        });
+
+        this.editExerciseDialogRef.afterClosed().subscribe(result => {
+            this.selectedExercise = result;
+            // this.editQuestion(this.selectedExercise);
+        });
+    }
 
     //get all exercise ids from myExercises, pushes to exerciseIDs
     getExerciseIDs() {
@@ -64,72 +64,62 @@ export class EditRehabilitationPlanComponent implements OnInit {
     //push changes made to rehab plan to database
     putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
         this.getExerciseIDs();
-        console.log("my exercises", this.myExercises);
         this.data = {
             name: name,
             authorName: authorName,
             description: description,
             goal: goal,
             timeFrameToComplete: timeframe,
-            exercises: this.exerciseIDs
+            exerciseOrders: this.exerciseIDs
         };
 
-        console.log("data: ",this.data);
+        console.log("PUT DATA: ",this.data);
         this.rehabilitationplanService.updateRehabilitationPlan(this.data, this.editID).subscribe(res =>
             {
-                console.log("RESULT",res);
+                console.log("PUT RESULT:",res);
             }
         );
     }
 
-    //gets all rehab plan information
+    //gets all rehab plan information and extracts info for this specific rehab plan
     getRehabilitationPlans() {
         this.rehabilitationplanService.getRehabilitationPlans().subscribe(data =>
             {
                 this.rehabilitationplans = data;
-                console.log("REHABILITATION PLANS", this.rehabilitationplans);
+                for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
+                    if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
+                        this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+                    }
+
+                }
                 this.getExercises();
             }
         );
     }
 
-    //gets specific rehab plan and it's exercises
+    //gets exercises of this rehab plan
     getExercises() {
-        for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
-            if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
-                console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
-                this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
-                console.log(this.rehabilitationplan);
-            }
-
-        }
-
-        console.log("getting all exercises");
-
-        console.log("getting all exercises");
         this.exerciseService.getAllExercises().subscribe(
             data => {
-                console.log("all exercises retrieved! ",data.exercise, data.exercise.length);
                 this.allExercises = data.exercise;
-
-                console.log("exercises retrieved! ",data.exercise);
-                let exercises = data.exercise;
-                console.log("EXERCISES", data.exercise);
-                this.allExercises = data.exercise;
-
-                for(var i = 0; i < exercises.length; i++) {
-                    for(var j = 0; j < this.rehabilitationplan.exercises.length; j++) {
-                        console.log("ex test", exercises[i]._id, this.rehabilitationplan.exercises[j]);
-                        if(exercises[i]._id == this.rehabilitationplan.exercises[j]) {
-                            this.myExercises.push(exercises[i]);
-                            this.allExercises.splice(i, 1);
+                this.exerciseService.getAllExercises().subscribe(
+                    data2 => {
+                        let exercises = data2.exercise;
+                        let k = 0; //keeps track of the number of objects deleted from this.allExercises
+                        for(var i = 0; i < this.rehabilitationplan.exerciseOrders.length; i++) {
+                            for(var j = 0; j < exercises.length; j++) {
+                                if(exercises[j]._id == this.rehabilitationplan.exerciseOrders[i]) {
+                                    this.myExercises.push(exercises[j]);
+                                    this.allExercises.splice(j-k, 1); //should be j?
+                                    k++;
+                                }
+                            }
                         }
-                    }
-                }
-                console.log("EXERCISES", this.myExercises);
+                    },
+                    error => console.log(error)
+                );
             },
             error => console.log(error)
         );
-
     }
 }

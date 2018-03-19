@@ -188,6 +188,7 @@ button.move{
 }
 
 button.stickToBottom{
+    z-index: 1;
     position: fixed;
     bottom: 0px;
     background-color: $magic-night;
