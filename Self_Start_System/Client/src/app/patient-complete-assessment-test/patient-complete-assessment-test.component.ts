@@ -20,6 +20,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	answers = [];
 	testResults = [];
 	dateCompleted = new Date();
+	loading = false;
 
   constructor(assessmentTestService: PatientCompleteAssessmentTestService) {
 		this.assessmentTestService = assessmentTestService;
@@ -97,6 +98,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 			subscribe(
 				data => {
 					console.log("Update Assessment Test: " + JSON.stringify(data));
+					//this.loading = false;
 				},
 				error => {
 					console.log("Error");
@@ -123,19 +125,12 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 						console.log("Error");
 					});
 			}
-			//this.updateAssessmentTest();
 		}
-
-
 
 		//Submit assessment test
 		submit() {
-			//First submit the TestResults
+			//this.loading = true;
 			this.populateTestResults();
-			//setTimeout(function(){
-				//this.updateAssessmentTest();
-			//}, 3000);
-
 		}
 
 }

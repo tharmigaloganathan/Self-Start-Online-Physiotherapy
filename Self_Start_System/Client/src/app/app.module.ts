@@ -127,7 +127,8 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
 		ViewRehabilitationPlanComponent,
-		PatientCompleteAssessmentTestComponent
+		PatientCompleteAssessmentTestComponent,
+		EditExerciseDialogComponent
 
   ],
   imports: [
