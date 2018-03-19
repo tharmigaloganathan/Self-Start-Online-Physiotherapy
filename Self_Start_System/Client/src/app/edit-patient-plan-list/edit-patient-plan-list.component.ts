@@ -69,8 +69,6 @@ export class EditPatientPlanListComponent implements OnInit {
 
   // store ID of patient in local storage when clicked
   addTreatment(rehabPlan) {
-      localStorage.setItem('edit_rehabilitation_id', rehabPlan._id);
-      this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
     rehabPlan.custom = true;
     delete rehabPlan._id;
     console.log('Rehab Plan Name:', rehabPlan);
@@ -96,7 +94,10 @@ export class EditPatientPlanListComponent implements OnInit {
   }
 
   editTreatment(treatment) {
-    console.log(treatment);
+    console.log("edit treatment",treatment);
+    localStorage.setItem('edit_rehabilitation_id', treatment.rehabilitationPlan._id);
+    this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+
   }
 
   renewTreatment(treatment) {
