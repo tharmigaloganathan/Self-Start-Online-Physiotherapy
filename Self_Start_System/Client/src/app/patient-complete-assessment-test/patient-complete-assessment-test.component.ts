@@ -29,8 +29,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 
   ngOnInit() {
 		this.assessmentTest = JSON.parse(localStorage.getItem('assessmentTest'));
-		//console.log(this.assessmentTest);
-		//console.log("Form id" + this.assessmentTest.form);
+		console.log(this.assessmentTest);
+		console.log("Form id" + this.assessmentTest.form);
 		this.rehabilitationPlan = JSON.parse(localStorage.getItem('rehabPlan'));
 		//console.log(this.rehabilitationPlan);
 		this.getForm();
@@ -67,6 +67,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 
 	 	//Update the assessment test information
 	 	updateAssessmentTest() {
+			console.log("Update assessment test has been called");
 	 		const data = {
 	 			name: this.assessmentTest.name,
 	 			authorName: this.assessmentTest.authorName,
@@ -105,7 +106,11 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 				data => {
 	 					this.testResults.push(data);
 	 					console.log("Test results: " + this.testResults);
-	 					this.updateAssessmentTest();
+						//Only update in after the last test result
+						//console.log("I "+ i + "length " + (this.questions.length-1));
+						//if( == (this.questions.length -1)) {
+							this.updateAssessmentTest();
+						//}
 	 				},
 	 				error => {
 	 					console.log("Error");
@@ -116,6 +121,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 	//Submit assessment test
 	 	submit() {
 	 		this.populateTestResults();
+			this.router.navigate(['/patient/rehabilitation-plans']);
 	 	}
 
 	 	//Route back to the user rehab plans page
@@ -129,7 +135,6 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 		subscribe(
 	 			data => {
 	 				console.log("New rehab plan: " + data);
-					this.router.navigate[('/patient/home')];
 	 			},
 	 			error => {
 	 				console.log("Error");
