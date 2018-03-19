@@ -5,7 +5,9 @@ import { ViewEncapsulation } from '@angular/core';
 import { DndModule } from "ng2-dnd";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
+import { EditAssessmentTestDialogComponent } from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
 import { AuthenticationService } from "../authentication.service";
+import { AssessmentTestService } from "../assessment-test.service";
 
 @Component({
     selector: 'app-edit-rehabilitation-plan',
@@ -30,7 +32,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     editID = localStorage.getItem('edit_rehabilitation_id');
     moveList = [];
     editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
-  
+
     user: any;
 
     //ASSESSMENT TEST RELATED
@@ -100,7 +102,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
             }
         );
     }
-      
+
     //gets all rehab plan information and extracts info for this specific rehab plan
     getRehabilitationPlans() {
         this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
@@ -143,7 +145,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     }
     this.openEditAssessmentTestDialog(assessTest, true);
   }
-  
+
   editAssessmentTest(assessmentTest){
     this.assessmentTestService.editAssessmentTest(assessmentTest).subscribe(
       res => {
