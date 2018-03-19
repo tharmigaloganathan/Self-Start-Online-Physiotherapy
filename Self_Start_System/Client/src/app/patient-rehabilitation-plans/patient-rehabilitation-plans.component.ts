@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientRehabilitationPlansService } from '../patient-rehabilitation-plans.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-rehabilitation-plans',
@@ -9,6 +10,7 @@ import { PatientRehabilitationPlansService } from '../patient-rehabilitation-pla
 })
 export class PatientRehabilitationPlansComponent implements OnInit {
 
+	router;
 	rehabilitationPlansService;
 	showDetails = 1;
 	showExercises = 0;
@@ -21,7 +23,8 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	assessmentTests = [];
 	selected = [];
 
-  constructor(rehabilitationPlansService: PatientRehabilitationPlansService) {
+  constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router) {
+		this.router = router;
 		this.rehabilitationPlansService = rehabilitationPlansService;
 	}
 
@@ -30,6 +33,13 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		//this.getTreatments();
 		this.getRehabilitationPlans();
   }
+
+	//Show the plan details
+	viewPlanDetails() {
+	this.showAssessmentTests = 0;
+	this.showDetails = 1;
+	this.showExercises = 0;
+	}
 
 	//Get rehabilitation plans
 	getRehabilitationPlans(){
@@ -97,6 +107,14 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 			error => {
 				console.log("Error");
 			});
+	}
+
+	viewAssessmentTest(index) {
+			console.log("View Assessment test pressed " + index);
+			 var test = JSON.stringify(this.assessmentTests[index]);
+			console.log("Putting this in local storage" + test);
+			localStorage.setItem('assessmentTest', test);
+			this.router.navigate(['/patient/assessment-test']);
 	}
 
 }

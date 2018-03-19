@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientCompleteAssessmentTestService } from "../patient-complete-assessment-test.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-complete-assessment-test',
@@ -10,8 +11,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PatientCompleteAssessmentTestComponent implements OnInit {
 
+	router;
 	assessmentTestService;
-	assessmentTest_id = "5aaec9f3734d1d1b828911d6";
+	assessmentTest_id;
 	assessmentTest = {};
 	form_id;
 	form = {};
@@ -22,17 +24,22 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	dateCompleted = new Date();
 	loading = false;
 
-  constructor(assessmentTestService: PatientCompleteAssessmentTestService) {
+  constructor(assessmentTestService: PatientCompleteAssessmentTestService, router: Router) {
+		this.router = router;
 		this.assessmentTestService = assessmentTestService;
 	}
 
   ngOnInit() {
-		this.getAssessmentTest();
-		console.log(this.assessmentTest);
+		this.assessmentTest = JSON.parse(localStorage.getItem('assessmentTest'));
+		this.assessmentTest_id = this.assessmentTest._id;
+		this.form_id = this.assessmentTest.form;
+		this.getForm();
   }
 
 	//Gets the specific assessment test
 	getAssessmentTest() {
+		this.assessmentTest = localStorage.getItem('assessmentTest');
+		this.assessmentTest_id = this.assessmentTest._id;
 		this.assessmentTestService.getAssessmentTest(this.assessmentTest_id).
 		subscribe(
 			data => {
@@ -131,6 +138,13 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 		submit() {
 			//this.loading = true;
 			this.populateTestResults();
+			this.router.navigate[('/patient/home')];
+		}
+
+		//Route back to the user rehab plans page
+		back() {
+		console.log("Back button pressed");
+			this.router.navigate(['/patient/rehabilitation-plans']);
 		}
 
 }

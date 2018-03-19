@@ -71,15 +71,21 @@
 									<h6>My Assessment Tests</h6>
 									<mat-list>
 										<mat-divider></mat-divider>
-										<div *ngFor="let test of assessmentTests" class="list">
+										<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list">
 											<mat-list-item>
 											<input matInput [(ngModel)]="test.name" name="test.name" readonly>
 											<input matInput [(ngModel)]="test.openDate" name="test.openDate" readonly>
-											<button mat-raised-button class="view-button">View</button>
+											<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">View</button>
 											</mat-list-item>
 											<mat-divider></mat-divider>
 										</div>
 									</mat-list>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<button mat-raised-button class="next-button" (click)="getExercises()">View Exercises</button>
+									<button mat-raised-button class="previous-button" (click)="viewPlanDetails()">View Plan Details</button>
 								</div>
 							</div>
 						</div>
