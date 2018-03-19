@@ -10,12 +10,25 @@
 
 <div class="treatment-list">
   <div class="row">
-    <div class="col-md-12" align="center" *ngFor="let treatment of treatments">
-      <mat-card class="rehab-plan-card" (click) = "editTreatment(treatment)">
-        <mat-card-title>Rehabilitation Plan: {{ treatment.rehabilitationPlan.name }}</mat-card-title>
-        <mat-card-subtitle>Assigned By: {{ treatment.physiotherapist.name }}</mat-card-subtitle>
-        <mat-card-subtitle>Date Assigned: {{ treatment.dateAssign }}</mat-card-subtitle>
-      </mat-card>
+    <div class="col" align="center">
+      <!-- Individual Treatments -->
+      <div *ngFor="let treatment of treatments" class="card-container">
+        <mat-card>
+
+          <div class="row">
+            <div class="col-md-8">
+              <mat-card-title>Rehabilitation Plan: {{ treatment.rehabilitationPlan.name }}</mat-card-title>
+              <!--<mat-card-subtitle>Assigned By: {{ treatment.physiotherapist.givenName + " " + treatment.physiotherapist.familyName }}</mat-card-subtitle>-->
+              <mat-card-subtitle>Date Treatment Started: {{ treatment.dateStart }}</mat-card-subtitle>
+            </div>
+            <div class="col-md-4 col-md-offset-10">
+              <button mat-raised-button class="view-button" (click)="closeTreatment(treatment)">Close Treatment</button>
+              <button mat-raised-button class="view-button" (click)="renewTreatment(treatment)">Renew Treatment</button>
+              <button mat-raised-button class="view-button" (click)="editTreatment(treatment)">Edit Treatment</button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

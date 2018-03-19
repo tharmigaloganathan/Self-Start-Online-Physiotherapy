@@ -1,11 +1,13 @@
 var mongoose = require('mongoose');
 var treatmentsSchema = mongoose.Schema(
 	{
-		dateAssign: Date,
+        dateAssign: {type: Date, default: Date.now},
+        dateStart: {type: Date, default: Date.now},
 		physiotherapist: {type: mongoose.Schema.ObjectId, ref: ('Physiotherapist')},
 		patientProfile: {type: mongoose.Schema.ObjectId, ref: ('PatientProfile')},
 		rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: ('RehabilitationPlan')},
-		recommendations: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}]
+		recommendations: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}],
+        active: {type: Boolean, default: true}
 	}
 );
 
@@ -55,6 +57,8 @@ function update(id, updatedDocument){
                     document.patientProfile = updatedDocument.patientProfile;
                     document.rehabilitationPlan = updatedDocument.rehabilitationPlan;
                     document.recommendations = updatedDocument.recommendations;
+                    document.active = updatedDocument.active;
+                    document.dateStart = updatedDocument.dateStart;
                     document.save(function (error) {
                         if (error) {
                             reject(error);

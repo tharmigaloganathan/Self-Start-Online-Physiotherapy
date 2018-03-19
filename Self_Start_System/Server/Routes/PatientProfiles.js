@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
+var Treatments = require('../Models/Treatment');
+var RehabilitationPlans = require('../Models/RehabilitationPlan');
 //for tokens & verification & login sessions
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
@@ -58,10 +60,11 @@ router.route('/:patientProfile_id')
             response.json({success: false, message: 'id was not provided'});
         }
         PatientProfiles.getOne(request.params.patientProfile_id).then(function(patientProfile){
+            console.log(patientProfile);
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
-        })
+        });
     })
     .put(function (request, response) {
         if (!request.params.patientProfile_id) {
