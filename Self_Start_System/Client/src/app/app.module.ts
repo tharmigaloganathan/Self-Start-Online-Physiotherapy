@@ -85,7 +85,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
 import {FlashMessagesModule} from "angular2-flash-messages";
+import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+
 
 @NgModule({
   declarations: [
@@ -120,6 +122,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
   ],
   imports: [
@@ -172,6 +175,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
   FormService, AuthenticationService,AssessmentTestService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
-    EditAssessmentTestDialogComponent]
+    EditAssessmentTestDialogComponent,
+    EditExerciseDialogComponent]
 })
 export class AppModule { }
