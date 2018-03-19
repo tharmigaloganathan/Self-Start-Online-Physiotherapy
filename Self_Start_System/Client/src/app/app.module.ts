@@ -98,6 +98,7 @@ import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-pati
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
 import {RecommendationService} from "./recommendation.service";
+import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
 
 @NgModule({
@@ -142,7 +143,8 @@ import {RecommendationService} from "./recommendation.service";
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
 		EditRecommendationDialogComponent,
-		PatientRehabilitationPlansComponent
+		PatientRehabilitationPlansComponent,
+		ConfirmDeleteDialogBoxComponent,
   ],
   imports: [
     HttpModule,
@@ -200,6 +202,8 @@ import {RecommendationService} from "./recommendation.service";
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
     EditExerciseDialogComponent,
-    EditRecommendationDialogComponent]
+    EditRecommendationDialogComponent,
+    ConfirmDeleteDialogBoxComponent
+  ]
 })
 export class AppModule { }
