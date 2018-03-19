@@ -202,6 +202,8 @@ function addFreeTimeSlot(id, body){
       reject(error);
     } else {
         Physiotherapists.findById(id, function (error, document) {
+          console.log("FindById", document);
+
           if (error) {
             reject(error);
           } else {

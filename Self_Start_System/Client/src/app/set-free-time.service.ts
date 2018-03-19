@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from './../environments/environment';
+import { AuthenticationService } from "./authentication.service";
+import { tokenNotExpired } from 'angular2-jwt';
+import { AuthHttp } from "angular2-jwt";
 
 @Injectable()
 export class SetFreeTimeService {
 
+  options;
   domain = environment.apiURL;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http,
+              private authenticationService: AuthenticationService) {};
 
   /**
    * IMPORTANT, the times can be passed as moments,
@@ -17,51 +22,58 @@ export class SetFreeTimeService {
 
   //Add free time slot
   addTimeSlot(id, startDate, endDate) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
     let body = {
       startDate: startDate,
       endDate: endDate
     };
-    return this.http.put(this.domain+'/Physiotherapists/free-time/'+id, body)
+    return this.http.put(this.domain+'/Physiotherapists/free-time/'+id, body, this.options)
       .map((response: Response) => {
         return response.json();
       });
   }
 
-  //Add free time slot
+  // Get physiotherapist
   getPhysioTherapist(id) {
-    return this.http.get(this.domain+'/Physiotherapists/'+id)
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/Physiotherapists/'+id, this.options)
       .map((response: Response) => {
+        console.log("In service", response.json());
         return response.json();
       });
   }
 
   getAllPhysioTherapist() {
-    return this.http.get(this.domain+'/Physiotherapists/')
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/Physiotherapists/',this.options)
       .map((response: Response) => {
         return response.json();
       });
   }
 
   changeOneTimeSlot(id, mongoId, startDate, endDate) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
     let body = {
       mongoId: mongoId,
       startDate: startDate,
       endDate: endDate
     };
-    return this.http.put(this.domain+'/Physiotherapists/free-time/change-one-date/'+id,body)
+    return this.http.put(this.domain+'/Physiotherapists/free-time/change-one-date/'+id,body,this.options)
       .map((response: Response) => {
         return response.json();
       });
   }
 
   retrieveAllAppointmentsForPatient(id) {
-    return this.http.get(this.domain+'/PatientProfiles/get-all-appointments/'+id)
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/PatientProfiles/get-all-appointments/'+id,this.options)
       .map((response: Response) => {
         return response.json();
       });
   }
 
   addNewAppointment(patientId, startDate, endDate, reason, other, timeslotId, physioID) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
     let body = {
       startDate: startDate,
       endDate: endDate,
@@ -70,7 +82,7 @@ export class SetFreeTimeService {
       timeslotId: timeslotId,
       physioID: physioID
     };
-    return this.http.post(this.domain+'/PatientProfiles/add-appointment/'+patientId, body)
+    return this.http.post(this.domain+'/PatientProfiles/add-appointment/'+patientId, body,this.options)
       .map((response: Response) => {
         return response.json();
       });

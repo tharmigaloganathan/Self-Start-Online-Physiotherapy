@@ -5,6 +5,7 @@ import { ExerciseService } from "../services/exercise.service";
 import {ManagePatientProfileService} from "../manage-patient-profile.service";
 import { Router } from '@angular/router';
 import { SetFreeTimeService } from "../set-free-time.service";
+import { AuthenticationService } from "../authentication.service";
 
 import * as moment from 'moment';
 
@@ -12,7 +13,7 @@ import * as moment from 'moment';
   selector: 'app-set-free-time',
   templateUrl: './set-free-time.component.html',
   styleUrls: ['./set-free-time.component.scss'],
-  providers: [ManagePatientProfileService, ExerciseService, SetFreeTimeService],
+  providers: [AuthenticationService, ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
 export class SetFreeTimeComponent implements OnInit {
 
@@ -24,10 +25,17 @@ export class SetFreeTimeComponent implements OnInit {
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
   constructor(private rd: Renderer2,
               private router : Router,
-              private setFreeTimeService: SetFreeTimeService) {}
+              private setFreeTimeService: SetFreeTimeService,
+              private authenticationService: AuthenticationService) {}
 
   ngOnInit() {
-    this.getCurrentAvailability();
+    this.authenticationService.getProfile().subscribe(data =>{
+      console.log("Authen", data);
+      this.physioID = data.physiotherapist._id;
+      this.getCurrentAvailability();
+    }, err => {
+      console.log(err);
+    });
   }
 
   getCurrentAvailability = () => {
