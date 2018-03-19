@@ -11,6 +11,7 @@ import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
 import { EditCustomRehabilitationPlanComponent } from "./edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component";
 
+
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
 import { FormsComponent } from "./forms/forms.component";
@@ -144,6 +145,10 @@ const appRoutes: Routes = [
   {
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
+  },
+  {
+    path: 'physio/rehabilitation-plans/edit-custom',
+    component: EditCustomRehabilitationPlanComponent //
   },
   {
     path: 'physio/set-free-time',
