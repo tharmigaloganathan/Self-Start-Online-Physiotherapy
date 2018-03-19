@@ -1,4 +1,4 @@
-<mat-toolbar class="z-depth-5">
+<mat-toolbar>
   <span class="full-height">
     <img class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
   </span>
@@ -11,6 +11,6 @@
     <button routerLink="/physio/rehabilitation-plans" mat-button class="full-height">Rehabilitation Plan</button>
     <button mat-button routerLink="/physio/home" class="full-height">Appointments</button>
     <button mat-button routerLink="/physio/patients" class="full-height">Patients</button>
-    <button mat-raised-button routerLink ="/home" class="logout-button">Logout</button>
+    <button mat-raised-button (click)="logout()" class="logout-button">Logout</button>
   </span>
 </mat-toolbar>

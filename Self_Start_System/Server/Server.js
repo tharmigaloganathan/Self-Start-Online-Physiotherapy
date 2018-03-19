@@ -3,6 +3,9 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+const cors = require('cors');
+
+app.use(cors());
 
 //setting request headers
 app.use(function (request, response, next) {
@@ -77,3 +80,4 @@ app.use('/Photos', Photos);
 app.listen(3700, function () {
     console.log('The Start-up server is listening on port 3700');
 });
+

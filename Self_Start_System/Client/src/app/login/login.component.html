@@ -1,0 +1,25 @@
+<app-navbar-general></app-navbar-general>
+
+<h1 class="title">
+  Login<br /><br />
+</h1>
+
+
+<div class="container">
+  <div class ="fields">
+  <mat-form-field>
+    <input matInput #name placeholder="Username" [(ngModel)]="username">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="password" #description placeholder="Password"[(ngModel)]="password">
+  </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" class="login-button"  (click)="submitLogin()">Submit</button>
+  <button mat-raised-button color="accent" class="login-button"  >Forgot Password</button>
+  <br />
+  <h2 style="color:Tomato" *ngIf="statusMessage && triedLogin">{{statusMessage}}</h2>
+  <h2 style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...</h2>
+</div>
+
+

@@ -5,72 +5,156 @@ var Administrators = require('../Models/Administrator');
 var Physiotherapists = require('../Models/Physiotherapist');
 var PatientProfiles = require('../Models/PatientProfile');
 
-router.route('/')
+//for tokens & verification & login sessions
+const jwt = require('jsonwebtoken');
+const config = require('../Config/Database');
+
+
+
+
+router.route('/login')
     .post(function (request, response) {
-        console.log(request.body);
-        if(request.body.administrator){
-            Administrators.add(request.body.administrator).then(function(document){
-                request.body.administrator = document._id; // Replace administrator object provided with ID of document created
-                administratorObject = document;
-            }).catch(function(err){
-                console.log(err);
-            });
-        }else if(request.body.physiotherapist){
-            Physiotherapists.add(request.body.physiotherapist).then(function(document){
-                request.body.physiotherapist = document._id; // Replace physiotherapist object provided with ID of document created
-                physiotherapistObject = document;
-            }).catch(function(err){
-                console.log(err);
-            });
-        }else if(request.body.patientProfile){
-            console.log("test");
-            PatientProfiles.add(request.body.patientProfile).then(function(document){
-                console.log("test2");
-                console.log(document);
-                console.log(document._id);
-                request.body.patientProfile = document._id; // Replace patientProfile object provided with ID of document created
-                patientProfileObject = document;
-            }).catch(function(err){
-                console.log(err);
-            });
-        }
+        console.log("in login route, will be verifying account with username: ", request.body);
 
+        //get the account by checking the unique name
+        UserAccounts.getByName(request.body.userAccountName).then(function(userAccount){
+
+            console.log ("password entered by user is: ", request.body.encryptedPassword);
+            console.log ("accToVerifyPasswordOn is: ", userAccount);
+
+            //check to see if the password matches the name
+            UserAccounts.login(userAccount, request.body.encryptedPassword).then(function(userAccount){
+                console.log ("in UserAccounts login :", userAccount);
+                //login success
+                //create token, encrypt the id, expire in 24hours
+                var profileId;
+                console.log(userAccount._id);
+                // var profileId;
+                // if (userAccount.patientProfile){
+                //     profileId = userAccount.patientProfile;
+                // } else if (userAccount.physiotherapist){
+                //     profileId = userAccount.physiotherapist;
+                // } else if (userAccount.administrator) {
+                //     profileId = userAccount.physiotherapist;
+                // }
+
+                const token = jwt.sign({_id: userAccount._id}, config.secret, {expiresIn: '24h'});
+                console.log("token made: ", token);
+
+                response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
+
+            }).catch(function(err){
+                response.json({success: false, message: err});
+            })
+
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+
+
+
+    });
+
+router.route('/')
+    .post(function (request,response) {
+        console.log ("in user account post route, about to add account :", request.body);
         UserAccounts.add(request.body).then(function(userAccount){
+            console.log ('the userAccount registered is: ', userAccount);
+            //temp variables to hold the profile and temp account for updating
+            var tempProfile;
+            var tempAccount = userAccount;
+            console.log ("Success! this is the account that was just added: ", tempAccount)
 
-            if(administratorObject){
-                administratorObject.userAccount = userAccount._id;  // Set the userAccount reference of the administrator just created
-                Administrators.update(administratorObject._id, administratorObject).then(function(document){
-                    console.log(document);
+            if(userAccount.patientProfile){
+                PatientProfiles.getOne(userAccount.patientProfile).then(function(patientProfile){
+                    console.log('found the patient profile to link to', patientProfile);
+
+                    //update the reference to the userAccount just created in the patient's profile
+                    tempProfile = patientProfile;
+                    tempProfile.account = userAccount._id; //for physio & admin, its tempProfile.userAccount, naming differences in model
+
+                    PatientProfiles.update(tempProfile._id, tempProfile).then(function(document){
+                        console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+
+                    //update the reference to the patient profile in the just created UserAccount
+                    tempAccount.patientProfile = tempProfile._id;
+                    UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
+                        console.log ("UserAccount successfully updated! It's patientProfile field should be filled! ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+
                 }).catch(function(err){
                     console.log(err);
                 });
-            }else if(physiotherapistObject){
-                physiotherapistObject.userAccount = userAccount._id;  // Set the userAccount reference of the physiotherapist just created
-                Physiotherapists.update(physiotherapistObject._id, physiotherapistObject).then(function(document){
-                    console.log(document);
+
+            } else if(userAccount.administrator){
+                Administrators.getOne(userAccount.administrator).then(function(adminProfile){
+                    console.log('found the administrator to link to', adminProfile);
+                    tempProfile = adminProfile;
+                    tempProfile.userAccount = userAccount._id;
+
+                    //update the profile with the ref to the user Account
+                    Administrators.update(tempProfile._id, tempProfile).then(function(document){
+                        console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+
+                    //update the reference to the admin profile in the just created UserAccount
+                    tempAccount.administrator = tempProfile._id;
+                    UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
+                        console.log ("UserAccount successfully updated! It's administrator field should be filled! ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+
                 }).catch(function(err){
                     console.log(err);
                 });
-            }else if(patientProfileObject){
-                patientProfileObject.userAccount = userAccount._id;  // Set the userAccount reference of the patientProfile just created
-                PatientProfiles.update(patientProfileObject._id, patientProfileObject).then(function(document){
-                    console.log(document);
-                }).catch(function(err){
+
+            } else if(userAccount.physiotherapist){
+                Physiotherapists.getOne(userAccount.physiotherapist).then(function(physioProfile){
+                    console.log('found the physiotherapist profile to link to', physioProfile);
+
+                    tempProfile = physioProfile;
+                    tempProfile.userAccount = userAccount._id;
+
+                    //update the reference to useraccount in the profile
+                    Physiotherapists.update(tempProfile._id, tempProfile).then(function(document){
+                        console.log("Success! Here is the updated profile with the ref to the userAccount: ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+
+                    tempAccount.physiotherapist= tempProfile._id;
+
+                    //update the reference to the physiotherapist profile in the just created UserAccount
+                    UserAccounts.update(tempAccount._id, tempAccount).then(function(document) {
+                        console.log ("UserAccount successfully updated! It's physiotherapist field should be filled! ", document);
+                    }).catch(function(err){
+                        console.log(err);
+                    })                }).catch(function(err){
                     console.log(err);
                 });
             }
 
-            userAccount.administrator = administrator._id;
-            UserAccounts.update(userAccount._id, userAccount).then(function(userAccount){   // I then update the administrator reference of the associated userAccount
-                console.log(userAccount);
-            }).catch(function(err){
-                console.log(err);
-            });
+            // userAccount.administrator = administrator._id;
+            // UserAccounts.update(userAccount._id, userAccount).then(function(userAccount){   // I then update the administrator reference of the associated userAccount
+            //     console.log(userAccount);
+            // }).catch(function(err){
+            //     console.log(err);
+            // });
 
             response.json({userAccount: userAccount});
+
         }).catch(function(err){
             response.json({success: false, message: err});
         })
+
     })
     .get(function (request, response) {
         UserAccounts.getAll().then(function(userAccounts){
@@ -100,6 +184,8 @@ router.route('/')
             response.json({success: false, message: err});
         })
     });
+
+
 
 router.route('/:object_id')
     .get(function (request, response) {
@@ -151,5 +237,20 @@ router.route('/:object_id')
             response.json({success: false, message: err});
         })
     });
+
+router.route('/getProfile', function(req, res) {
+    UserAccounts.getOne({_id: req.decoded._id}).exec(function(err, user) {
+        if (err) {
+            res.json({success: false, message: err});
+        } else if (!user) {
+            res.json({success: false, message: "User not found"});
+        } else {
+            console.log('at end of UserAccounts getProfile route');
+            res.json({success: true, userAccount: userAccount});
+        }
+    })
+
+
+})
 
 module.exports = router;

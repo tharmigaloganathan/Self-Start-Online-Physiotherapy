@@ -37,6 +37,14 @@ export class AssessmentTestService {
       );
   }
 
+  deleteAssessmentTest(assessmentTest){
+    return this.http.delete(this.domain+'/assessmentTests/'+assessmentTest._id)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   //=========================================================================
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

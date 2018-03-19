@@ -43,7 +43,11 @@ import { ExerciseComponent } from './exercise/exercise.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ExerciseService} from "./services/exercise.service";
 import { FormService} from "./form.service";
+
+import { AuthenticationService} from "./authentication.service";
+
 import { AssessmentTestService } from "./assessment-test.service";
+
 
 
 import { HttpClientModule} from '@angular/common/http';
@@ -73,6 +77,9 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+
+import { LoginComponent } from './login/login.component';
+
 import { EditAssessmentTestDialogComponent } from './edit-assessment-test-dialog/edit-assessment-test-dialog.component';
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 import { MessagesService} from "./messages.service";
@@ -80,6 +87,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 import { ViewRehabilitationPlanComponent } from './view-rehabilitation-plan/view-rehabilitation-plan.component';
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
+
+import { FlashMessagesModule } from "angular2-flash-messages";
+import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
+import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+
 
 @NgModule({
   declarations: [
@@ -111,10 +123,12 @@ import { PatientCompleteAssessmentTestComponent } from "./patient-complete-asses
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
+		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
 		ViewRehabilitationPlanComponent,
 		PatientCompleteAssessmentTestComponent
+
   ],
   imports: [
     HttpModule,
@@ -161,12 +175,14 @@ import { PatientCompleteAssessmentTestComponent } from "./patient-complete-asses
     MatSnackBarModule,
 		MatDialogModule,
 		LoadingModule
+    FlashMessagesModule.forRoot(),
+    MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService,
-  AssessmentTestService],
+  FormService, AuthenticationService,AssessmentTestService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
-    EditAssessmentTestDialogComponent]
+    EditAssessmentTestDialogComponent,
+    EditExerciseDialogComponent]
 })
 export class AppModule { }
