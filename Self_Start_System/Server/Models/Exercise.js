@@ -7,6 +7,7 @@ var exercisesSchema = mongoose.Schema(
 		authorName: String,
 		actionSteps: String,
 		location: String,
+		standard: Boolean,
 		frequency: Number,
 		duration: Number,
 		targetDate: Date,
@@ -91,6 +92,7 @@ function update(id, updatedDocument){
                     document.location = updatedDocument.location;
                     document.frequency = updatedDocument.frequency;
                     document.duration = updatedDocument.duration;
+					document.standard = updatedDocument.standard;
                     document.targetDate = updatedDocument.targetDate;
                     document.multimediaURL = updatedDocument.multimediaURL;
                     document.exerciseOrders = updatedDocument.exerciseOrders;
@@ -175,5 +177,3 @@ function add(object){
         }
     });
 }
-
-

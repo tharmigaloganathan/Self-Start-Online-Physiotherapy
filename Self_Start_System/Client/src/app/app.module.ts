@@ -90,7 +90,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import {FlashMessagesModule} from "angular2-flash-messages";
 import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
-import { FlashMessagesModule } from "angular2-flash-messages";
 
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
