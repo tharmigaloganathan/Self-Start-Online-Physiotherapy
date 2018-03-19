@@ -152,6 +152,14 @@ export class SetFreeTimeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         console.log(mongoId);
+        // Delete the event and reload the page
+        this.setFreeTimeService.deleteOneTimeSlot(this.physioID,mongoId).subscribe(
+          data=>{
+            console.log("deleteOne return data", data);
+            location.reload();
+          }, err=>{
+            console.log(err);
+          });
       }
     });
   }

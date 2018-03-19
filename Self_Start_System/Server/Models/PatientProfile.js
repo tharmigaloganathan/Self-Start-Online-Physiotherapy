@@ -31,7 +31,8 @@ module.exports = {
     update:update,
     deleteOne:deleteOne,
   addAppointment:addAppointment,
-  getAllAppointments:getAllAppointments
+  getAllAppointments:getAllAppointments,
+  deleteAppointment:deleteAppointment
 };
 
 var Appointments = require("./Appointment");
@@ -279,5 +280,65 @@ function getAllAppointments(id) {
         });
       }
     });
+  })
+}
+
+// Delete 1 appointment
+function deleteAppointment(id, body) {
+  return new Promise (function (resolve, reject) {
+    if (!body.timeslotId){
+      error = "No timeslotId detected.";
+      reject(error);
+    // } else if (!body.physioID){
+    //   error = "No physioID detected.";
+    //   reject(error);
+    }else {
+      PatientProfiles.findById(id, function (error, document) {
+        if (error) {
+          reject(error);
+        }
+        else {
+          // Add new appointment
+          Appointments.deleteOne(body.timeslotId)
+            .then(function (appointment) {
+              let deleteIndex = -1;
+            // Add the appointment to the patient profile
+            for (let i = 0; i < document.appointments.length; i++){
+              if (document.appointments[i].toString() === body.timeslotId.toString()){
+                deleteIndex = i;
+              }
+            }
+
+            if (deleteIndex < 0){
+              error = "No appointmentId not found.";
+              reject(error);
+            } else {
+              // Add back the time occupied by appointment
+              // Physiotherapists.addFreeTimeSlot(
+              //   body.physioID,
+              //   {
+              //     startDate: appointment.date,
+              //     endDate: appointment.endDate
+              //   }
+              // );
+
+              // Delete time slot
+              document.appointments.splice(deleteIndex,1)
+
+              // Save the patient profile document
+              document.save(function (error) {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(document);
+                }
+              });
+            }
+          }).catch(function (error) {
+            reject(error);
+          });
+        }
+      });
+    }
   })
 }

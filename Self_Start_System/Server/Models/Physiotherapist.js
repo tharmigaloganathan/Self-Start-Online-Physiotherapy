@@ -26,7 +26,8 @@ module.exports = {
     deleteOne:deleteOne,
     addFreeTimeSlot:addFreeTimeSlot,
     changeOneDate:changeOneDate,
-    splitTimeSlotDueToAppointment:splitTimeSlotDueToAppointment
+    splitTimeSlotDueToAppointment:splitTimeSlotDueToAppointment,
+  deleteOneDate:deleteOneDate
 };
 
 function deleteOne(id){
@@ -272,6 +273,43 @@ function changeOneDate(id, body){
             error = "Timeslot not found.";
             reject(error);
           }
+        }
+      });
+    }
+  });
+}
+
+
+// Changes one free time slot
+function deleteOneDate(id, body){
+  return new Promise (function (resolve, reject) {
+    console.log("deleteOneDate", body);
+    if (!body.mongoId){
+      error = "No mongoId detected.";
+      reject(error);
+    } else {
+      Physiotherapists.findById(id, function (error, document) {
+        if (error) {
+          reject(error);
+        } else {
+          // Delete the element with the matching ID
+          for (let i = 0; i < document.availableTimeSlots.length; i++){
+            if (document.availableTimeSlots[i]._id.toString() === body.mongoId.toString()){
+              document.availableTimeSlots.splice(i,1);
+            }
+          }
+
+          // Recombine date
+          document = combineOverLappingDates(document);
+
+          // Save document
+          document.save(function (error) {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(document);
+            }
+          });
         }
       });
     }
