@@ -91,6 +91,7 @@ import { PatientCompleteAssessmentTestComponent } from "./patient-complete-asses
 import { FlashMessagesModule } from "angular2-flash-messages";
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+import { PatientRehabilitationPlansComponent } from './patient-rehabilitation-plans/patient-rehabilitation-plans.component';
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 		PatientMessagesComponent,
 		ViewRehabilitationPlanComponent,
 		PatientCompleteAssessmentTestComponent,
-		EditExerciseDialogComponent
+		EditExerciseDialogComponent,
+		PatientRehabilitationPlansComponent
 
   ],
   imports: [

@@ -1,0 +1,51 @@
+@import '../../scss/_variables';
+
+.top {
+	margin-top: 2.5%;
+}
+
+.plan-list {
+	margin-top: 12%;
+	border-right: solid, grey, 5px;
+}
+
+.header {
+	padding: 2%;
+}
+
+.form-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-container > * {
+	width: 100%;
+}
+
+.button-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+}
+
+.next-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.previous-button {
+	background-color: $flash-of-orange;
+	color: $white;
+}
+
+.view-button {
+	background-color: $flash-of-orange;
+	color: $white;
+	margin-right: 5%;
+}
+
+.list:hover {
+	background-color: #D3D3D3;
+}

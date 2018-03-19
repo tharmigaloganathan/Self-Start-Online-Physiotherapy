@@ -27,7 +27,7 @@ import { CreateNewAccountComponent } from "./create-new-account/create-new-accou
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
-
+import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -91,6 +91,10 @@ const appRoutes: Routes = [
 	{
 		path: 'patient/assessment-test',
 		component: PatientCompleteAssessmentTestComponent
+	},
+	{
+		path: 'patient/rehabilitation-plans',
+		component: PatientRehabilitationPlansComponent
 	},
   {
     path: 'patient',
