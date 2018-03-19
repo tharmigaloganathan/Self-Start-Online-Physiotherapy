@@ -17,12 +17,17 @@
   width: 100%;
 }
 .list-group {
-  height: 500px;
+  height: 700px;
   overflow-y: scroll;
 }
 
 .list-group-reco {
-  height: 300px;
+  height: 250px;
+  overflow-y: scroll;
+  padding-left: 0px;
+}
+.list-group-ans {
+  height: 250px;
   overflow-y: scroll;
   padding-left: 0px;
 }
@@ -217,7 +222,7 @@ button.delete-button{
   border-radius: 0px;
 }
 
-.selectedTest:focus {
+.selectedTest:active, .selectedTest:focus {
   background-color: #cccccc;
 }
 
