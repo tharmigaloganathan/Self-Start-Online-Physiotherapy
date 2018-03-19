@@ -87,6 +87,9 @@ import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 
+import {FlashMessagesModule} from "angular2-flash-messages";
+import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
+import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 import { FlashMessagesModule } from "angular2-flash-messages";
 
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
@@ -129,6 +132,8 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
+		PatientPlanListComponent,
+		EditPatientPlanListComponent,
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
   ],
@@ -180,7 +185,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService,AssessmentTestService],
+  FormService, AuthenticationService, AssessmentTestService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,

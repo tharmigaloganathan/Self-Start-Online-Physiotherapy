@@ -29,6 +29,8 @@ import { CreateNewEventComponent } from "./set-free-time/create-new-event/create
 import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
 
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
+import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
@@ -163,6 +165,18 @@ const appRoutes: Routes = [
     path: 'image-test',
     component: ImageUploadTestComponent
   },
+  {
+    path: 'physio/patient-plan-list',
+    component: PatientPlanListComponent //
+  },
+  {
+    path: 'physio/patient-plan-list/:id', // This ID field will be an auto-incremented ID
+    component: EditPatientPlanListComponent
+  },
+  {
+    path: 'physio',
+    redirectTo: '/physio/home'
+  }, //the last physio route
   {
     path: '**',
     redirectTo: '/home'
