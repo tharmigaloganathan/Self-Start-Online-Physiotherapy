@@ -8,6 +8,8 @@ import { MatDialog, MatDialogRef } from "@angular/material";
 import { AuthenticationService } from "../authentication.service";
 import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog/edit-recommendation-dialog.component";
 import { RecommendationService } from "../recommendation.service";
+import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
+
 
 @Component({
   selector: 'app-edit-custom-rehabilitation-plan',
@@ -21,14 +23,19 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   data: Object;
 
   rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
-  rehabilitationplan = {exercises:[], assessmentTests:[]}; //Temporary fix
+  rehabilitationplan = {exerciseOrders:[], assessmentTests:[]}; //Temporary fix
   allExercises = [];//nullaaaaa
   myExercises = [];//nullasaaaa
+  oldExercises = [];
   exerciseIDs = [];
+  selectedExercise = {};
+  newExercises = [];
 
   deleteList = [];
   editID = localStorage.getItem('edit_rehabilitation_id');
   moveList = [];
+  editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
+
 
   user: any;
 
@@ -59,7 +66,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   ngOnInit() {
     this.getRehabilitationPlans();
-    this.getExercises();
     this.authService.getProfile().subscribe(
       res => {
         this.user = res;
@@ -67,10 +73,44 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     );
   }
 
+  openEditExerciseDialog(exercise){
+      this.selectedExercise = exercise;
+      // this.selectQuestion(exercise);
+      this.editExerciseDialogRef = this.dialog.open(EditExerciseDialogComponent, {
+          width: '50vw',
+          data: {
+              exercise: this.selectedExercise}
+      });
+
+      this.editExerciseDialogRef.afterClosed().subscribe(result => {
+          this.selectedExercise = result;
+          // this.editQuestion(this.selectedExercise);
+      });
+  }
+
+  //get all exercise ids from myExercises, pushes to exerciseIDs
   getExerciseIDs() {
-    for(var i = 0; i < this.myExercises.length; i++) {
-      this.exerciseIDs.push(this.myExercises[i]._id);
-    }
+      //compare myExercises to oldExercises
+      //for every element in myExercises, but not in oldExercises
+          //do a post request to exercises, get the returning ID
+      if(this.myExercises.length > 100) {
+          for(var i = 0; i < this.myExercises.length; i++) {
+              for(var j = 0; j < this.oldExercises.length; j++){
+                  if(this.myExercises[i] == this.oldExercises[j]) {
+                      this.newExercises.push(this.myExercises[i]);
+                      continue;
+                  }
+              }
+              this.exerciseService.registerExercise(this.myExercises[i]).subscribe(
+                res=> {console.log("response received: ", res), this.newExercises.push(res);},
+                error => {console.log(error)}
+              );
+          }
+      } else {
+          for(var i = 0; i < this.myExercises.length; i++) {
+              this.exerciseIDs.push(this.myExercises[i]._id);
+          }
+      }
   }
 
   putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
@@ -82,7 +122,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       description: description,
       goal: goal,
       timeFrameToComplete: timeframe,
-      exercises: this.exerciseIDs
+      exerciseOrders: this.exerciseIDs
     };
 
     console.log("data: ",this.data);
@@ -93,154 +133,58 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     );
   }
 
-  addExercise(name: String) {
-    console.log(this.allExercises);
-    console.log(name);
-    for(var i = 0; i < this.allExercises.length; i++) {
-      if(this.allExercises[i].name == name) {
-        this.myExercises.push(this.allExercises[i]);
-        this.allExercises.splice(i,1);
-        console.log(this.myExercises);
-      }
-    }
-    console.log("my exercises", this.myExercises);
-  }
-
-  addToDeleteList(id: String) {
-    for(var i = 0 ; i < this.deleteList.length; i++) {
-      //if the exercise is already in the delete list, remove it from the list
-      if(this.deleteList[i] == id) {
-        this.deleteList.splice(i,1);
-        return;
-      }
-    }
-    this.deleteList.push(id);
-    console.log("my exercises", this.myExercises);
-  }
-
-  addToMoveList(id: String) {
-    for(var i = 0 ; i < this.moveList.length; i++) {
-      //if the exercise is already in the delete list, remove it from the list
-      if(this.moveList[i] == id) {
-        console.log(this.moveList[i], id);
-        this.moveList.splice(i,1);
-        return;
-      }
-    }
-    this.moveList.push(id);
-    console.log("my exercises", this.myExercises);
-  }
-
-  moveSelectedUp() {
-    if(this.moveList.length == 1) {
-      let index = 0;
-
-      for(var i = 0; i < this.myExercises.length; i++) {
-        if(this.moveList[this.moveList.length-1] == this.myExercises[i]._id) {
-
-          index = i;
-        }
-      }
-      if(index > 0) {
-        let temp = this.myExercises[index];
-        let newIndex = index-1;
-        this.myExercises[index] = this.myExercises[newIndex];
-        this.myExercises[newIndex] = temp;
-      }
-    }
-    console.log("my exercises", this.myExercises);
-  }
-
-  moveSelectedDown() {
-    if(this.moveList.length == 1) {
-      let index = 0;
-
-      for(var i = 0; i < this.myExercises.length; i++) {
-        if(this.moveList[this.moveList.length-1] == this.myExercises[i]._id) {
-
-          index = i;
-        }
-      }
-      if(index < (this.myExercises.length-1)) {
-        let temp = this.myExercises[index];
-        let newIndex = index+1;
-        this.myExercises[index] = this.myExercises[newIndex];
-        this.myExercises[newIndex] = temp;
-      }
-    }
-    console.log("my exercises", this.myExercises);
-
-  }
-
-  // deleteExercises(id: any) {
-  //     console.log(id);
-  //     // for(var i = 0; i < this.myExercises.length; i++) {
-  //     //     if(this.myExercises[i]._id == id) {
-  //     //         this.myExercises.splice(i, 1);
-  //     //     }
-  //     // }
-  // }
-
-
-  deleteExercises(){
-    for (var i = 0; i < this.deleteList.length; i++) {
-      for (var j = 0; j < this.myExercises.length; j++) {
-        if (this.myExercises[j]._id == this.deleteList[i]) {
-          this.allExercises.push(this.myExercises[j]);
-          this.myExercises.splice(j, 1);
-        }
-      }
-    }
-    this.deleteList = [];
-    console.log(this.deleteList);
-    console.log("my exercises", this.myExercises);
-  }
-
+  //gets all rehab plan information and extracts info for this specific rehab plan
   getRehabilitationPlans(){
     this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
       this.rehabilitationplans = data;
-      console.log("REHABILITATION PLANS", this.rehabilitationplans);
+      for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
+          if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
+              this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+          }
+      }
       this.getExercises();
       this.getAssessmentTests();
     });
   }
+  //gets exercises of this rehab plan
+  getExercises() {
+      this.myExercises = [];
+      this.exerciseService.getAllExercises().subscribe(
+          data => {
+              this.allExercises = data.exercise;
+              this.exerciseService.getAllExercises().subscribe(
+                  data2 => {
+                      let exercises = data2.exercise;
+                      let k = 0; //keeps track of the number of objects deleted from this.allExercises
+                      console.log(this.myExercises);
+                      for(var i = 0; i < this.rehabilitationplan.exerciseOrders.length; i++) {
+                          console.log(exercises.length);
+                          for(var j = 0; j < exercises.length; j++) {
+                              console.log(j,exercises[j]._id, this.rehabilitationplan.exerciseOrders[i]);
+                              if(exercises[j]._id == this.rehabilitationplan.exerciseOrders[i]) {
+                                  this.myExercises.push(exercises[j]);
+                                  console.log(this.myExercises);
+                                  this.allExercises.splice(j-k, 1); //should be j?
+                                  console.log(exercises, j);
+                                  k++;
+                              }
+                          }
+                      }
 
-  getExercises(){
-    for (var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
-      if (this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
-        console.log("MATCH", this.rehabilitationplans.rehabilitationPlan[i]._id);
-        this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
-        console.log(this.rehabilitationplan);
-      }
-    }
-
-    console.log("getting all exercises");
-
-    console.log("getting all exercises");
-    this.exerciseService.getAllExercises().subscribe(
-      data => {
-        console.log("all exercises retrieved! ", data.exercise, data.exercise.length);
-        this.allExercises = data.exercise;
-
-        console.log("exercises retrieved! ", data.exercise);
-        let exercises = data.exercise;
-        console.log("EXERCISES", data.exercise);
-        this.allExercises = data.exercise;
-
-        for (var i = 0; i < exercises.length; i++) {
-          for (var j = 0; j < this.rehabilitationplan.exercises.length; j++) {
-            console.log("ex test", exercises[i]._id, this.rehabilitationplan.exercises[j]);
-            if (exercises[i]._id == this.rehabilitationplan.exercises[j]) {
-              this.myExercises.push(exercises[i]);
-              this.allExercises.splice(i, 1);
-            }
-          }
-        }
-        console.log("EXERCISES", this.myExercises);
-      },
-      error => console.log(error)
-    );
-
+                      //keep a copy of all myExercises in the begining in oldExercises
+                      for(var i = 0; i < this.rehabilitationplan.exerciseOrders.length; i++) {
+                          for(var j = 0; j < exercises.length; j++) {
+                              if(exercises[j]._id == this.rehabilitationplan.exerciseOrders[i]) {
+                                  this.oldExercises.push(exercises[j]);
+                              }
+                          }
+                      }
+                  },
+                  error => console.log(error)
+              );
+          },
+          error => console.log(error)
+      );
   }
 
   editRehabilitationPlan(){
