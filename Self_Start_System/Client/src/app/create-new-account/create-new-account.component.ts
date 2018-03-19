@@ -50,13 +50,13 @@ export class CreateNewAccountComponent implements OnInit {
       phone: "905-543-4879",
       others: "",
       account: null,
-      treatments: null,
-      payments: null,
+      treatments: [],
+      payments: [],
       country: "5a679e0b734d1d7c679791c8",
       province: "5a9d6910f36d2805902517fc",
       city: "London",
       gender: "5a9d6e84f36d280590251e97",
-      appointments: null
+      appointments: []
     }
     console.log(testPatientUser);
     //Send user data to backend
@@ -83,8 +83,9 @@ export class CreateNewAccountComponent implements OnInit {
       dateHired: "2014-02-10T10:50:42.389Z",
       dateFinished: "2015-02-10T10:50:42.389Z",
       userAccount: null,
-      treatments: null,
-    }
+      treatments: [],
+      availableTimeSlots: [],
+    };
 
     console.log(testPhysioUser);
     //Send user data to backend

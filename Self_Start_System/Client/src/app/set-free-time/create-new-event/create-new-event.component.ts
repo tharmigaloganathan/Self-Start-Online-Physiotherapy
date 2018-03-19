@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { SetFreeTimeService } from "../../set-free-time.service";
 import { Router } from "@angular/router";
+import { AuthenticationService } from "../../authentication.service";
 
 @Component({
   selector: 'app-create-new-event',
   templateUrl: './create-new-event.component.html',
   styleUrls: ['./create-new-event.component.scss'],
-  providers: [SetFreeTimeService]
+  providers: [AuthenticationService,SetFreeTimeService]
 })
 export class CreateNewEventComponent implements OnInit {
 
@@ -22,10 +23,16 @@ export class CreateNewEventComponent implements OnInit {
   numWeeksSentToBackend = 0;
 
   constructor(private setFreeTimeService : SetFreeTimeService,
-              private router : Router) { }
+              private router : Router,
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.initializeCurrentTime()
+    this.authenticationService.getProfile().subscribe(data=>{
+      this.physioID = data.physiotherapist._id;
+      this.initializeCurrentTime();
+    }, err=>{
+      console.log(err);
+    });
   }
 
   initializeCurrentTime = () => {
