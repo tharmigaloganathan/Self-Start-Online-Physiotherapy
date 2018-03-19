@@ -45,8 +45,8 @@ export class AssessmentTestService {
       );
   }
 
-  getTestResults(){
-    return this.http.get(this.domain+'/testResults')
+  getTestResultsByAssessmentTestID(test){
+    return this.http.get(this.domain+'/TestResults/assessmentTest/' + test._id)
       .pipe(
         retry(3),
         catchError(this.handleError)

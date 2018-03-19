@@ -16,14 +16,14 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	showExercises = 0;
 	viewExerciseDetails = 0;
 	showAssessmentTest = 0;
-	account = [];
+	account: any;
 	data = ["5a817b6d734d1d0d42ea62c6"];
 	treatments = [];
 	plans = [];
 	rehabilitationPlans = [];
 	exercises = [];
 	assessmentTests = [];
-	selected = [];
+	selected: any;
 	activeExercise;
 
   constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router) {
@@ -40,7 +40,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Show the plan details
 	viewPlanDetails() {
-		this.showAssessmentTests = 0;
+		this.showAssessmentTest = 0;
 		this.showDetails = 1;
 		this.showExercises = 0;
 	}
@@ -64,9 +64,12 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Get exercises
 	getExercises() {
+<<<<<<< HEAD
 		console.log("Get exercises clicked");
 		console.log(this.selected.exercises);
 		console.log(this.selected.exercises.length);
+=======
+>>>>>>> c19f2024da392429d32ccb4f886ed5a1983b7913
 		for(var i=0; i<this.selected.exercises.length; i++) {
 			this.rehabilitationPlansService.getExercise(this.selected.exercises[i]).
 			subscribe(
@@ -74,7 +77,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					console.log("Exercise: " + JSON.stringify(data));
 					this.exercises.push(data);
 					console.log(this.exercises);
-					this.showAssessmentTests = 0;
+					this.showAssessmentTest = 0;
 					this.showDetails = 0;
 					this.showExercises = 1;
 				},
@@ -98,7 +101,13 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					console.log("Assessment test: " + JSON.stringify(data));
 					this.assessmentTests.push(data);
 					console.log(this.assessmentTests);
+<<<<<<< HEAD
 
+=======
+					this.showAssessmentTest = 1;
+					this.showDetails = 0;
+					this.showExercises = 0;
+>>>>>>> c19f2024da392429d32ccb4f886ed5a1983b7913
 				},
 				error => {
 					console.log("Error");
@@ -135,7 +144,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	//Show the exercise details
 	showExerciseDetails(index) {
 		this.viewExerciseDetails = 1;
-		this.showAssessmentTests = 0;
+		this.showAssessmentTest = 0;
 		this.showDetails = 0;
 		this.showExercises = 0;
 		console.log("Show exercise clicked" + index);
@@ -146,7 +155,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	//Show exercise list
 	showExerciseList() {
 		this.viewExerciseDetails = 0;
-		this.showAssessmentTests = 0;
+		this.showAssessmentTest = 0;
 		this.showDetails = 0;
 		this.showExercises = 1;
 	}

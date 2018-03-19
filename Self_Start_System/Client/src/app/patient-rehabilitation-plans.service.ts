@@ -15,7 +15,11 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/AssessmentTests/'+id)
 		.map((response: Response) => {
 		return response.json().assessmentTest;
+<<<<<<< HEAD
 		});
+=======
+    });
+>>>>>>> c19f2024da392429d32ccb4f886ed5a1983b7913
 	}
 
 	//Get the specific exercise
@@ -39,7 +43,11 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/Treatments/')
 		.map((response: Response) => {
 		return response.json().treatment;
+<<<<<<< HEAD
 	});
+=======
+		});
+>>>>>>> c19f2024da392429d32ccb4f886ed5a1983b7913
 	}
 
 }
