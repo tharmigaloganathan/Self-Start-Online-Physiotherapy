@@ -87,6 +87,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import {FlashMessagesModule} from "angular2-flash-messages";
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
 
 
 @NgModule({
@@ -124,6 +125,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 		PatientMessagesComponent,
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
+		EditRecommendationDialogComponent,
   ],
   imports: [
     HttpModule,

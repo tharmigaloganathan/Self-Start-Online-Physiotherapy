@@ -93,9 +93,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <p *ngIf="assessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
+              <p *ngIf="incompleteAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
               <ul class="">
-                <li *ngFor="let test of assessmentTests" class="list-group-item">
+                <li *ngFor="let test of incompleteAssessmentTests" class="list-group-item">
                   <h5>{{test.name}}</h5>
                   <p>Open Date: {{test.openDate | date:'fullDate'}}</p>
                   <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
@@ -107,6 +107,49 @@
         </div>
       </div>
 
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Completed Assessments">
+    <br>
+    <h1 class="subtitle">
+      <b>Completed Assessments</b>
+      <br>
+    </h1>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <div class="card" style="height: 500px; overflow-y:scroll">
+            <div class="card-body">
+              <p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
+              <ul class="">
+                <li *ngFor="let test of completeAssessmentTests" class="list-group-item" (click)="selectCompleteAssessmentTest(test)">
+                  <h5>{{test.name}}</h5>
+                  <p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="card" style="height: 300px; overflow-y:scroll">
+            <div class="card-body">
+              <p *ngIf="selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="card" style="height: 200px; overflow-y:scroll">
+            <button mat-raised-button class="blue" (click)="createRecommendation()">Add New Recommendation</button>
+            <div class="card-body">
+              <p *ngIf="selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-tab>
 </mat-tab-group>
