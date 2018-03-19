@@ -67,18 +67,21 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		this.showAssessmentTests = 0;
 		this.showDetails = 1;
 		this.showExercises = 0;
+		this.viewExerciseDetails = 0;
 	}
 
 	viewExercises() {
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 1;
+		this.viewExerciseDetails = 0;
 	}
 
 	viewAssessmentTests() {
 		this.showAssessmentTests = 1;
 		this.showDetails = 0;
 		this.showExercises = 0;
+		this.viewExerciseDetails = 0;
 	}
 
 	//Get rehabilitation plans
@@ -146,12 +149,12 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Show the exercise details
 	showExerciseDetails(index) {
+		this.activeExercise = this.exercises[index];
 		this.viewExerciseDetails = 1;
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 0;
 		console.log("Show exercise clicked" + index);
-		this.activeExercise = this.exercises[i];
 	}
 
 }
