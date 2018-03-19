@@ -11,7 +11,7 @@ import { AuthenticationService } from "../authentication.service";
     selector: 'app-edit-rehabilitation-plan',
     templateUrl: './edit-rehabilitation-plan.component.html',
     styleUrls: ['./edit-rehabilitation-plan.component.scss'],
-    providers: [ RehabilitationPlanService ],
+    providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService ],
     encapsulation: ViewEncapsulation.None
 })
 

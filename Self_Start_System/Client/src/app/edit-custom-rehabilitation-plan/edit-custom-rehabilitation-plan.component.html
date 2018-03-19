@@ -1,3 +1,118 @@
-<p>
-  edit-custom-rehabilitation-plan works!
-</p>
+<app-navbar-physio></app-navbar-physio>
+
+<h1 class="title">
+  Edit Standard Rehabilitation Plan
+  <p style="font-size:16px">
+  </p>
+</h1>
+<mat-tab-group>
+  <mat-tab label="Plan Details">
+    <br />
+    <h1 class="subtitle">
+      <b>Plan Details</b>
+    </h1>
+    <br /><br />
+    <div class="example-container2">
+      <mat-form-field class="name">
+        <input matInput #name placeholder="Name" [(ngModel)]="rehabilitationplan.name">
+      </mat-form-field>
+
+      <mat-form-field class="authorName">
+        <input matInput #authorName placeholder="Author Name: {{rehabilitationplan.authorName}}">
+      </mat-form-field>
+
+      <br /><br />
+
+      <mat-form-field class="description">
+        <textarea matInput #description placeholder="Description: {{rehabilitationplan.description}}"></textarea>
+      </mat-form-field>
+
+      <br /><br />
+
+      <mat-form-field class="goal">
+        <textarea matInput #goal placeholder="Goal: {{rehabilitationplan.goal}}"></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="timeframe">
+        <textarea matInput #timeframe placeholder="Time Frame To Complete: {{rehabilitationplan.timeFrameToComplete}}"></textarea>
+      </mat-form-field>
+    </div>
+  </mat-tab>
+  <mat-tab label="Exercises">
+    <br />
+    <h1 class="subtitle">
+      <b>Exercises</b>
+    </h1>
+    <div class="subtitle">
+      <mat-form-field class="selectexercise" style = "font-size: 15px;">
+        <mat-select #exercise placeholder="Add New Exercise">
+          <mat-option *ngFor="let exercise of allExercises" [value]="exercise.name" >
+            {{ exercise.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+      <button mat-raised-button class="addexercise" (click) = "addExercise(exercise.value)">Add Exercise!</button>
+      <button mat-raised-button class="delete-button" (click)="deleteExercises()">Delete Selected Exercises ({{selectedexercises.selectedOptions.selected.length}})</button>
+      <br />
+    </div>
+
+
+    <br />
+
+    <ul class="list-group" dnd-sortable-container [sortableData]="formQuestions">
+      <mat-selection-list  style = "font-size: 15px;" #selectedexercises>
+        <mat-list-option *ngFor="let exercise of myExercises; let i = index" class="list-group-item" (click)="addToDeleteList(exercise._id); addToMoveList(exercise._id)" dnd-sortable [sortableIndex]="i">
+          {{exercise.name}}
+
+        </mat-list-option>
+      </mat-selection-list>
+    </ul>
+    <div class="subtitle">
+      <button mat-raised-button class="move" (click)="moveSelectedUp()">Move Selected Exercise Up!</button>
+      <button mat-raised-button class="move" (click)="moveSelectedDown()">Move Selected Exercise Down!</button>
+
+    </div>
+
+    <p style = "font-size: 20px;">
+      <br />
+    </p>
+
+
+  </mat-tab>
+  <mat-tab label="Assigned Assessments">
+    <br>
+    <h1 class="subtitle">
+      <b>Assigned Assessments to be Completed</b>
+      <br><br>
+      <button mat-raised-button class="blue" (click)="createAssessmentTest()">Create New Assessment Test</button>
+    </h1>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <p *ngIf="assessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
+              <ul class="">
+                <li *ngFor="let test of assessmentTests" class="list-group-item">
+                  <h5>{{test.name}}</h5>
+                  <p>Open Date: {{test.openDate | date:'fullDate'}}</p>
+                  <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
+                  <button type="button" class="btn btn-danger btn-sm" style="position:absolute; top:38px; right:4px;" (click)="deleteAssessmentTest(test)">Delete</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-tab>
+</mat-tab-group>
+<br />
+
+<br />
+<br />
+
+<button mat-raised-button class="stickToBottom" routerLink="/rehabilitation-plan" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>
