@@ -20,7 +20,7 @@ export class PatientRehabilitationPlansService {
 
 	//Get the specific exercise
 	getExercise(id) {
-		return this.http.get(this.domain+'/Exercises/')
+		return this.http.get(this.domain+'/Exercises/'+id)
 		.map((response: Response) => {
 		return response.json().exercise;
 		});
