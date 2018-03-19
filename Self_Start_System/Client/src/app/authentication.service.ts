@@ -49,7 +49,7 @@ export class AuthenticationService {
   }
 
   getProfile(){
-    this.createAuthenticationHeaders();
+    this.options = this.createAuthenticationHeaders();
 
     console.log("this.options: ", this.options)
 
@@ -63,7 +63,6 @@ export class AuthenticationService {
     } else if (JSON.parse(retrievedAccount).administrator){
       return this.http.get(this.domain +'/Administrators/' + JSON.parse(retrievedAccount).administrator, this.options).map(res=> res.json());
     }
-
   }
 
   createAuthenticationHeaders() {
@@ -75,6 +74,7 @@ export class AuthenticationService {
         'authorization': this.authToken // Attach token
       })
     });
+    return this.options;
   }
 
   loadToken(){

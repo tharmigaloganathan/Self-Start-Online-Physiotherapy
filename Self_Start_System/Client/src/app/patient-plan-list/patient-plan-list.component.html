@@ -1,0 +1,27 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="row">
+  <div class="col-md-12" align="center">
+    <h1 class="title">
+      Edit Patient Treatment Plans <br />
+    </h1>
+    <form class="search-form">
+      <mat-form-field class="search-field">
+        <input matInput #search placeholder="Search Patient List..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </form>
+
+  </div>
+</div>
+<div class="patient-list">
+  <div class="row">
+    <div class="col-md-4" align="center" *ngFor="let patients of filteredPatientList">
+      <mat-card class="patient-card" (click) = "storeID(patients)">
+        <mat-card-title>{{ patients.givenName + " " + patients.familyName }}</mat-card-title>
+        <mat-card-subtitle>Email Address: {{ patients.email }}</mat-card-subtitle>
+        <mat-card-subtitle>Number of Treatments: {{ numberOfTreatments(patients) }}</mat-card-subtitle>
+      </mat-card>
+    </div>
+  </div>
+</div>

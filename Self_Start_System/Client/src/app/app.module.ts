@@ -77,6 +77,9 @@ import { EditQuestionDialogComponent } from './edit-question-dialog/edit-questio
 // Calendar
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { CreateNewAccountComponent } from './create-new-account/create-new-account.component';
+import { SetFreeTimeComponent } from './set-free-time/set-free-time.component';
+import { CreateNewEventComponent } from './set-free-time/create-new-event/create-new-event.component';
+import { BookAppointmentFormComponent } from './book-appointment/book-appointment-form/book-appointment-form.component';
 
 import { LoginComponent } from './login/login.component';
 
@@ -92,6 +95,13 @@ import { FlashMessagesModule } from "angular2-flash-messages";
 import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { PatientRehabilitationPlansComponent } from './patient-rehabilitation-plans/patient-rehabilitation-plans.component';
+import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.component';
+import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
+import { EditExerciseDialogComponent } from './edit-exercise-dialog/edit-exercise-dialog.component';
+import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
+import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
+import {RecommendationService} from "./recommendation.service";
+import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 
 
 @NgModule({
@@ -124,14 +134,19 @@ import { PatientRehabilitationPlansComponent } from './patient-rehabilitation-pl
     EditQuestionDialogComponent,
 		AdminManageUserAccountsComponent,
 		CreateNewAccountComponent,
+		SetFreeTimeComponent,
+		CreateNewEventComponent,
+		BookAppointmentFormComponent,
 		LoginComponent,
 		EditAssessmentTestDialogComponent,
 		PatientMessagesComponent,
-		ViewRehabilitationPlanComponent,
 		PatientCompleteAssessmentTestComponent,
+		PatientPlanListComponent,
+		EditPatientPlanListComponent,
 		EditExerciseDialogComponent,
+		EditCustomRehabilitationPlanComponent,
+		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent
-
   ],
   imports: [
     HttpModule,
@@ -177,15 +192,18 @@ import { PatientRehabilitationPlansComponent } from './patient-rehabilitation-pl
 	  MatStepperModule,
     MatSnackBarModule,
 		MatDialogModule,
-		LoadingModule
+		LoadingModule,
+    MatRadioModule,
+
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService,AssessmentTestService],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
-    EditExerciseDialogComponent]
+    EditExerciseDialogComponent,
+    EditRecommendationDialogComponent]
 })
 export class AppModule { }

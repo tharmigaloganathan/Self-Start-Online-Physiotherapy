@@ -9,6 +9,8 @@ import { ExerciseComponent} from "./exercise/exercise.component";
 import { RehabilitationPlanComponent} from "./rehabilitation-plan/rehabilitation-plan.component";
 import { EditRehabilitationPlanComponent} from "./edit-rehabilitation-plan/edit-rehabilitation-plan.component";
 import { NewRehabilitationPlanComponent} from "./new-rehabilitation-plan/new-rehabilitation-plan.component";
+import { EditCustomRehabilitationPlanComponent } from "./edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component";
+
 
 import { CreateUserAccountComponent } from "./create-user-account/create-user-account.component";
 import { UserAccountListComponent } from "./user-account-list/user-account-list.component";
@@ -24,10 +26,18 @@ import { BookAppointmentComponent } from "./book-appointment/book-appointment.co
 import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
 import {LoginComponent} from "./login/login.component";
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
+
+import { CreateNewEventComponent } from "./set-free-time/create-new-event/create-new-event.component";
+import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
+
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
+import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
+
+import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -97,6 +107,10 @@ const appRoutes: Routes = [
 		component: PatientRehabilitationPlansComponent
 	},
   {
+    path: 'patient/book-appointment/form',
+    component: BookAppointmentFormComponent
+  },
+  {
     path: 'patient',
     redirectTo: '/patient/home'
   }, //the last patient route
@@ -139,18 +153,36 @@ const appRoutes: Routes = [
     component: NewRehabilitationPlanComponent //
   },
   {
+    path: 'physio/rehabilitation-plans/edit-custom',
+    component: EditCustomRehabilitationPlanComponent //
+  },
+  {
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
   },
-
+  {
+    path: 'physio/set-free-time',
+    component: SetFreeTimeComponent //
+  },
+  {
+    path: 'physio/set-free-time/create-new-free-time',
+    component: CreateNewEventComponent //
+  },
   {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent
   },
-
   {
     path: 'image-test',
     component: ImageUploadTestComponent
+  },
+  {
+    path: 'physio/patient-plan-list',
+    component: PatientPlanListComponent //
+  },
+  {
+    path: 'physio/patient-plan-list/:id', // This ID field will be an auto-incremented ID
+    component: EditPatientPlanListComponent
   },
   {
     path: 'physio',

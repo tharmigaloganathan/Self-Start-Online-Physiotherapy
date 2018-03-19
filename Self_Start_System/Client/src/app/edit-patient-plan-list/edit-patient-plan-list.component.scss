@@ -1,0 +1,71 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+@import '../../scss/sidebar';
+
+.radio-group {
+  display: inline-flex;
+}
+
+.radio-button {
+  margin: 5px;
+}
+
+.selected-radio-value {
+  margin: 15px 0;
+}
+
+.search-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 96%;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.title {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin-top:2%;
+}
+mat-card {
+  align-items: center;
+  align: center;
+  width: 90%;
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.rehab-plan-card {
+  margin-top: 5%
+}
+
+.rehab-plan-list {
+  margin-top: 2%;
+}
+
+.treatment-list {
+   margin-top: 0%;
+ }
+
+mat-card:hover {
+  background-color: #d3d3d3;
+}
+
+
+button.blue {
+  background-color: $magic-night;
+  color: #FFFFFF;
+}
+
+.top {
+  margin-top: 2.5%;
+}
+
+.card-container {
+  padding-bottom: 1%;
+}
+
+.view-button {
+  background-color: $magic-night;
+  color: $white;
+}
