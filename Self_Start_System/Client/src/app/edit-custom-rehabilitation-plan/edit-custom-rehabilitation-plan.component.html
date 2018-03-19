@@ -166,7 +166,7 @@
                 <br>
                 <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>
                 <ul class="list-group-reco">
-                  <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="list-group-item" (click)="openEditRecommendationDialog(recommendation)">
+                  <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">
                     <p>{{recommendation.decision}}</p>
                     <p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>
                   </li>
