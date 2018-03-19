@@ -24,10 +24,16 @@ import { BookAppointmentComponent } from "./book-appointment/book-appointment.co
 import { AdminManageUserAccountsComponent } from "./admin-manage-user-accounts/admin-manage-user-accounts.component";
 import {LoginComponent} from "./login/login.component";
 import { CreateNewAccountComponent } from "./create-new-account/create-new-account.component";
+
+import { CreateNewEventComponent } from "./set-free-time/create-new-event/create-new-event.component";
+import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
+
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
 import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
 import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
+
+import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -89,6 +95,10 @@ const appRoutes: Routes = [
     component: BookAppointmentComponent
   },
   {
+    path: 'patient/book-appointment/form',
+    component: BookAppointmentFormComponent
+  },
+  {
     path: 'patient',
     redirectTo: '/patient/home'
   }, //the last patient route
@@ -134,7 +144,18 @@ const appRoutes: Routes = [
     path: 'physio/rehabilitation-plans/:name',
     component: EditRehabilitationPlanComponent //
   },
-
+  {
+    path: 'physio/set-free-time',
+    component: SetFreeTimeComponent //
+  },
+  {
+    path: 'physio/set-free-time/create-new-free-time',
+    component: CreateNewEventComponent //
+  },
+  {
+    path: 'physio',
+    redirectTo: '/physio/home'
+  }, //the last physio route
   {
 	  path: 'create-account',
 	  component: CreateUserAccountComponent

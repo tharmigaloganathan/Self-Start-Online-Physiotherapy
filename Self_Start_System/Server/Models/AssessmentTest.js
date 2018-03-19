@@ -7,7 +7,6 @@ var assessmentTestsSchema = mongoose.Schema(
         recommendations: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}],
         form: {type: mongoose.Schema.ObjectId, ref: 'Form'},
         testResults: [{type: mongoose.Schema.ObjectId, ref: ('TestResult')}],
-        rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: 'RehabilitationPlan'},
         openDate: Date,
         dateCompleted: Date
     }
@@ -65,7 +64,6 @@ function update(id, updatedAssessmentTest){
                     assessmentTest.recommendations = updatedAssessmentTest.recommendations;
                     assessmentTest.form = updatedAssessmentTest.form;
                     assessmentTest.testResults = updatedAssessmentTest.testResults;
-                    assessmentTest.rehabilitationPlan = updatedAssessmentTest.rehabilitationPlan;
                     assessmentTest.openDate = updatedAssessmentTest.openDate;
                     assessmentTest.dateCompleted = updatedAssessmentTest.dateCompleted;
                     assessmentTest.save(function (error) {

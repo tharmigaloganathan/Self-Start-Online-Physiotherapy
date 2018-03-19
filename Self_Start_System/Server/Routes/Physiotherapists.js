@@ -78,4 +78,28 @@ router.route('/:object_id')
         })
     });
 
+router.route('/free-time/:object_id')
+  .put(function (request, response) {
+    if (!request.params.object_id) {
+      response.json({success: false, message: 'id was not provided'});
+    }
+    Physiotherapists.addFreeTimeSlot(request.params.object_id, request.body).then(function(physiotherapist){
+      response.json({physiotherapist: physiotherapist});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  });
+
+router.route('/free-time/change-one-date/:object_id')
+  .put(function (request, response) {
+    if (!request.params.object_id) {
+      response.json({success: false, message: 'id was not provided'});
+    }
+    Physiotherapists.changeOneDate(request.params.object_id, request.body).then(function(physiotherapist){
+      response.json({physiotherapist: physiotherapist});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  });
+
 module.exports = router;
