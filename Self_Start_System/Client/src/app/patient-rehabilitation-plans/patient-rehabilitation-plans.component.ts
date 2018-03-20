@@ -126,8 +126,11 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 				subscribe(
 					data => {
 						console.log("Assessment Test: " + JSON.stringify(data));
-						this.assessmentTests.push(data);
-						console.log(this.assessmentTests);
+						//Don't show completed tests
+						if(data.dateCompleted == null) {
+							this.assessmentTests.push(data);
+							console.log(this.assessmentTests);
+						}
 					},
 					error => {
 						console.log("Error");

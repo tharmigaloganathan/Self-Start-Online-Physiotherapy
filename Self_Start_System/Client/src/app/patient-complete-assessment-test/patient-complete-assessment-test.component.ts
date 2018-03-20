@@ -107,7 +107,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 					this.testResults.push(data);
 	 					console.log("Test results: " + this.testResults);
 						//Only update in after the last test result
-						//console.log("I "+ i + "length " + (this.questions.length-1));
+						console.log("I "+ i + "length " + (this.questions.length-1));
 						//if( == (this.questions.length -1)) {
 							this.updateAssessmentTest();
 						//}
