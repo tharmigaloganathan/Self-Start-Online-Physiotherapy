@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
+var UserAccounts = require('../Models/UserAccount');
 var Treatments = require('../Models/Treatment');
 var RehabilitationPlans = require('../Models/RehabilitationPlan');
 //for tokens & verification & login sessions
@@ -52,6 +53,17 @@ router.use(function (req, res, next) {
         })
     }
 });
+
+// router.route('/getProfileByToken')
+//     .get(function (request, response) {
+//
+//         PatientProfiles.getOne(loggedInUserAcc.patientProfile).then(function(patientProfile){
+//             console.log("retreived profile: ", patientProfile);
+//             response.json({patientProfile: patientProfile});
+//         }).catch(function(err){
+//             response.json({success: false, message: err});
+//         });
+// });
 
 router.route('/:patientProfile_id')
     .get(function (request, response) {
