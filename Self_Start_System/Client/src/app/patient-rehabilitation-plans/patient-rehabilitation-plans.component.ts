@@ -127,10 +127,10 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					data => {
 						console.log("Assessment Test: " + JSON.stringify(data));
 						//Don't show completed tests
-						if(data.dateCompleted == null) {
+						//if(data.dateCompleted == null) {
 							this.assessmentTests.push(data);
 							console.log(this.assessmentTests);
-						}
+						//}
 					},
 					error => {
 						console.log("Error");

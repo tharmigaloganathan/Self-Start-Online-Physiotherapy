@@ -107,10 +107,10 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 					this.testResults.push(data);
 	 					console.log("Test results: " + this.testResults);
 						//Only update in after the last test result
-						console.log("I "+ i + "length " + (this.questions.length-1));
-						//if( == (this.questions.length -1)) {
+						console.log("Test results "+ this.testResults.length + "questions " + this.questions.length);
+						if(this.testResults.length  == this.questions.length) {
 							this.updateAssessmentTest();
-						//}
+						}
 	 				},
 	 				error => {
 	 					console.log("Error");
@@ -134,7 +134,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 		this.assessmentTestService.updateRehabPlan(this.rehabilitationPlan._id, this.rehabilitationPlan).
 	 		subscribe(
 	 			data => {
-	 				console.log("New rehab plan: " + data);
+	 				console.log("New rehab plan: " + JSON.stringify(data));
 	 			},
 	 			error => {
 	 				console.log("Error");
