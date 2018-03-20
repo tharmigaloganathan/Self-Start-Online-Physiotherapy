@@ -111,6 +111,18 @@ router.route('/add-appointment/:patientprofile_id')
     })
   });
 
+router.route('/delete-appointment/:patientprofile_id')
+  .post(function (request, response) {
+    if (!request.params.patientprofile_id) {
+      response.json({success: false, message: 'id was not provided'});
+    }
+    PatientProfiles.deleteAppointment(request.params.patientprofile_id, request.body).then(function(patientProfile){
+      response.json({patientProfile: patientProfile});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  });
+
 router.route('/get-all-appointments/:patientprofile_id')
   .get(function (request, response) {
     if (!request.params.patientprofile_id) {

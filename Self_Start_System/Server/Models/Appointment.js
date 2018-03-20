@@ -5,7 +5,7 @@ var appointmentSchema = mongoose.Schema(
         endDate: Date,
         reason: String,
         other: String,
-        patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}
+        patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'},
     }
 );
 var Appointments = module.exports = mongoose.model('Appointment', appointmentSchema);

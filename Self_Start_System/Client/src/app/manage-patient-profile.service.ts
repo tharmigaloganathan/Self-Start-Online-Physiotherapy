@@ -22,7 +22,7 @@ export class ManagePatientProfileService {
   // Function to get all patients
   getPatient(patientID) {
 	  this.options = this.authenticationService.createAuthenticationHeaders();
-    return this.http.get(this.baseURL + 'PatientProfiles/' + patientID)
+    return this.http.get(this.baseURL + 'PatientProfiles/' + patientID, this.options)
       .map((response: Response) => {
         return response.json().patientProfile;
       });
@@ -45,12 +45,13 @@ export class ManagePatientProfileService {
     let bodyString = JSON.stringify(body); //Stringify payload
     let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
     let options       = new RequestOptions({ headers: headers }); // Create a request option
+    this.options = this.authenticationService.createAuthenticationHeaders();
     let Url = this.baseURL + "PatientProfiles/" + id;
     console.log("JSON body: ", bodyString);
     console.log("URL", Url, id);
 
     // ...using post request
-    return this.http.put(Url, bodyString, options)
+    return this.http.put(Url, bodyString, this.options)
     // ...and calling .json() on the response to return data
       .map((res:Response) => res.json())
       //...errors if any

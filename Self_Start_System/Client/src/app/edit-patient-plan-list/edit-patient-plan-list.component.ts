@@ -75,8 +75,8 @@ export class EditPatientPlanListComponent implements OnInit {
     this.rehabilitationPlanService.addRehabilitationPlan(rehabPlan).subscribe( data => {
       let treatment = { // dateAssign and active fields are populated by default
         patientProfile: this.currentPatient._id,
-        physiotherapist: '5a80ad15734d1d0d42e9f9e6',
-        // physiotherapist: this.currentUser.physiotherapist,
+        // physiotherapist: '5a80ad15734d1d0d42e9f9e6',
+        physiotherapist: this.currentUser.physiotherapist,
         rehabilitationPlan: data.rehabilitationPlan._id
       };
       console.log(treatment);

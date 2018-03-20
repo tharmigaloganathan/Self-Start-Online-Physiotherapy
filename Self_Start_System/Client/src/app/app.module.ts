@@ -97,12 +97,16 @@ import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
+
 import { RecommendationService} from "./recommendation.service";
 import { AuthGuard} from "./guards/auth.guard";
 import { NotAuthGuard} from "./guards/not-auth.guard";
 import { PatientGuard} from "./guards/patient.guard";
 import { PhysioGuard} from "./guards/physio.guard";
 import { AdminGuard} from "./guards/admin.guard";
+import {RecommendationService} from "./recommendation.service";
+import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
+
 
 @NgModule({
   declarations: [
@@ -146,7 +150,8 @@ import { AdminGuard} from "./guards/admin.guard";
 		EditExerciseDialogComponent,
 		EditCustomRehabilitationPlanComponent,
 		EditRecommendationDialogComponent,
-		PatientRehabilitationPlansComponent
+		PatientRehabilitationPlansComponent,
+		ConfirmDeleteDialogBoxComponent,
   ],
   imports: [
     HttpModule,
@@ -204,6 +209,8 @@ import { AdminGuard} from "./guards/admin.guard";
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
     EditExerciseDialogComponent,
-    EditRecommendationDialogComponent]
+    EditRecommendationDialogComponent,
+    ConfirmDeleteDialogBoxComponent
+  ]
 })
 export class AppModule { }
