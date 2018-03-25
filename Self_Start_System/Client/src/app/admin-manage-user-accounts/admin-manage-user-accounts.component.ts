@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAccountListService } from '../user-account-list.service';
+import { AuthenticationService } from "../authentication.service";
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-admin-manage-user-accounts',
   templateUrl: './admin-manage-user-accounts.component.html',
   styleUrls: ['./admin-manage-user-accounts.component.scss'],
-	providers: [UserAccountListService]
+	providers: [UserAccountListService, AuthenticationService]
 })
 export class AdminManageUserAccountsComponent implements OnInit {
 	router;
 	userAccountListService;
+	authenticationService;
 	user;
 	account = {};
 	loading = false;
@@ -18,16 +21,23 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	today = new Date();
 	age: any;
 
-  constructor(router: Router, userAccountListService: UserAccountListService) {
+
+  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
+		this.authenticationService = authenticationService;
 	}
 
   ngOnInit() {
-		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
-		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
+		this.account = JSON.parse(localStorage.getItem('userAccount'));
 		//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-		this.age = this.age.toFixed(0) + " years";
+		//this.age = this.age.toFixed(0) + " years";
+		this.authenticationService.getProfile().subscribe(
+			data => {
+				this.user = data.patientProfile;
+				console.log(this.user);
+				console.log("Patient profile" + JSON.stringify(this.user));
+		});
   }
 
 	//Go back to account list
@@ -75,6 +85,11 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		this.loading = true;
 		//sleep(2000);
 		this.loading = false;
+	}
+
+	//Show the select rehab plan
+	showRehabPlan() {
+		console.log("Show rehab plan clicked");
 	}
 
 

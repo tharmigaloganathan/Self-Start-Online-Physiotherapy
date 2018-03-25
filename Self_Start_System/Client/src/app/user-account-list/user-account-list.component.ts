@@ -105,7 +105,7 @@ export class UserAccountListComponent implements OnInit {
 		console.log("Putting this in store for the user" + this.users[this.activeIndex]);
 		localStorage.setItem('selectedPatient', JSON.stringify(this.users[this.activeIndex]));
 		console.log("Putting this in store for the account" + this.activeUser);
-		localStorage.setItem('selectedAccount', JSON.stringify(this.activeUser));
+		localStorage.setItem('userAccount', JSON.stringify(this.activeUser));
 		this.router.navigate(['admin/user-accounts/manage']);
 	}
 

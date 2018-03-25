@@ -8,7 +8,7 @@
 				<mat-card>
 					<div class="row">
 						<div class="col-md-10">
-							<h3>Viewing: {{ user.givenName + " " + user.familyName }}</h3>
+							<h3>{{ user.givenName + " " + user.familyName }}</h3>
 						</div>
 						<div class="col-md-2 col-md-offset-10">
 							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
@@ -125,9 +125,39 @@
 						</mat-tab>
 						<!-- Treatments -->
 						<mat-tab label="Treatments">
+							<div *ngIf="user.treatments.length == 0 else treatmentList">
+								<p>This patient has no treatment history!</p>
+							</div>
+							<ng-template #treatmentList>
+								<mat-divider></mat-divider>
+								<mat-list>
+									<mat-list-item *ngFor="let treatment of user.treatments" class="treatment" (click)="showRehabPlan()">
+										<div class="col-3">
+											<b>Assignment Date: </b> {{ treatment.dateAssign | date : "dd.MM.y" }}
+										</div>
+										<div class="col-3">
+											<b>Start Date: </b> {{ treatment.dateStart | date : "dd.MM.y" }}
+										</div>
+										<div class="col-2">
+											<b>Active: </b> {{ treatment.active }}
+										</div>
+										<div class="col-4">
+											<b>Rehabilitation Plan: </b> {{ treatment.rehabilitationPlan.name }}
+										</div>
+
+										<mat-divider></mat-divider>
+									</mat-list-item>
+									<mat-divider></mat-divider>
+							</mat-list>
+							</ng-template>
 						</mat-tab>
 						<!-- Appointments -->
 						<mat-tab label="Appointments">
+							<!--
+							<div *ngIf="user.appointments.length == 0">
+								<p>This patient has no appointment history!</p>
+							</div>
+						-->
 						</mat-tab>
 						<!-- Payments -->
 						<mat-tab label="Payments">
