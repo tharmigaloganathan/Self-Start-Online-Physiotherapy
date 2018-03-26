@@ -37,9 +37,17 @@
 
 .row-item:hover {
 	background-color: #F5F5F5;
-	cursor: grabbing;
+	cursor: pointer;
 }
 
 .row-border {
 	border-bottom: solid 3px, grey
+}
+
+.search-area {
+	width: 100%;
+}
+
+.radio-button {
+  margin: 5px;
 }

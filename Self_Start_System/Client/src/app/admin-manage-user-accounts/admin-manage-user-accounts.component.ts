@@ -21,7 +21,6 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	today = new Date();
 	age: any;
 
-
   constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
