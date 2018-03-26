@@ -39,6 +39,7 @@
 
 .button-container {
 	padding: 1%;
+	//float: right;
 }
 
 .modal-container {
@@ -67,13 +68,15 @@
 .save-button {
 	background-color: $electric-glow;
 	color: $white;
-	float: left;
+	float: right;
+	margin-right: 1%;
 }
 
 .cancel-button {
 	background-color: $magic-night;
 	color: $white;
 	float: right;
+	margin-right: 1%;
 }
 
 .treatment:hover {

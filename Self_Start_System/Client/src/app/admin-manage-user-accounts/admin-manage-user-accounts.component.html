@@ -30,8 +30,8 @@
 									</div>
 									<ng-template #edit>
 										<div class="col button-container">
+															<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
 											<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
-											<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
 										</div>
 									</ng-template>
 								</div>
@@ -52,10 +52,13 @@
 								<div class="row">
 									<div class="col-4 form-container">
 										<mat-form-field>
-											<mat-select [(value)]="user.gender" placeholder="Gender" [disabled]="!isChanged">
+											<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
+												<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender.name}}</mat-option>
+												<!--
 												<mat-option value="Male">Male</mat-option>
 												<mat-option value="Female">Female</mat-option>
 												<mat-option value="Other">Other</mat-option>
+											-->
 												</mat-select>
 										</mat-form-field>
 									</div>
@@ -74,38 +77,33 @@
 								</div>
 								<!-- Row 3 -->
 								<div class="row">
-									<div class="col-4 form-container">
+									<div class="col-3 form-container">
 										<mat-form-field>
-											<input matInput placeholder="Street" [(ngModel)]="user.street" name="user.street" [disabled]="!isChanged">
+											<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [disabled]="!isChanged">
 										</mat-form-field>
 									</div>
-									<div class="col-4 form-container">
+									<div class="col-3 form-container">
 										<mat-form-field>
 											<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
 										</mat-form-field>
 									</div>
 									<div class="col-2 form-container">
 										<mat-form-field>
-											<mat-select [(value)]="user.province" placeholder="Province" [disabled]="!isChanged">
-													<mat-option value="AB">AB</mat-option>
-													<mat-option value="BC">BC</mat-option>
-													<mat-option value="MB">MB</mat-option>
-												<mat-option value="NB">NB</mat-option>
-												<mat-option value="NL">NL</mat-option>
-												<mat-option value="NS">NS</mat-option>
-												<mat-option value="NT">NT</mat-option>
-												<mat-option value="NU">NU</mat-option>
-												<mat-option value="ON">ON</mat-option>
-												<mat-option value="PE">PE</mat-option>
-												<mat-option value="QC">QC</mat-option>
-												<mat-option value="SK">SK</mat-option>
-												<mat-option value="YT">YT</mat-option>
+											<mat-select [(ngModel)]="user.province" name="user.province" placeholder="Province" [disabled]="!isChanged">
+												 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
 												</mat-select>
 										</mat-form-field>
 									</div>
 									<div class="col-2 form-container">
 										<mat-form-field>
 											<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
+										</mat-form-field>
+									</div>
+									<div class="col-2 form-container">
+										<mat-form-field>
+											<mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
+												<mat-option *ngFor="let country of countries" [value]="country._id">{{country.name}}</mat-option>
+												</mat-select>
 										</mat-form-field>
 									</div>
 								</div>
