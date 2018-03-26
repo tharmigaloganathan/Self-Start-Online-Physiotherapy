@@ -1,32 +1,28 @@
 @import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+* {
+	 font-family: 'Roboto Condensed', sans-serif;
+}
 
 .top {
 	margin-top: 2.5%;
+	margin-bottom: 2.5%;
 }
 
 .card-container {
 	padding-bottom: 0.5%;
-	//border-bottom: solid, 3px, grey;
-}
-
-.view-button {
-	background-color: $magic-night;
-	color: $white;
-}
-
-.view-button:hover {
-	background-color: $white;
-	color: $beautiful-blue;
 }
 
 .create-account-button {
 	background-color: $flash-of-orange;
 	color: $white;
+	float: right;
 }
 
 .create-account-button:hover {
-	background-color: $white;
-	color: $flash-of-orange;
+	background-color: $beautiful-blue;
+	color: $white;
 }
 
 .reset-button {
@@ -39,8 +35,9 @@
 	color: $white;
 }
 
-.card-item:hover {
+.row-item:hover {
 	background-color: #F5F5F5;
+	cursor: grabbing;
 }
 
 .row-border {

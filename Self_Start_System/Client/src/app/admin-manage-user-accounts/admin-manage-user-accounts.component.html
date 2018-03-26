@@ -129,6 +129,7 @@
 								<p>This patient has no treatment history!</p>
 							</div>
 							<ng-template #treatmentList>
+								<h6 class="top">Treatment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
 								<mat-divider></mat-divider>
 								<mat-list>
 									<mat-list-item *ngFor="let treatment of user.treatments" class="treatment" (click)="showRehabPlan()">
@@ -144,7 +145,6 @@
 										<div class="col-4">
 											<b>Rehabilitation Plan: </b> {{ treatment.rehabilitationPlan.name }}
 										</div>
-
 										<mat-divider></mat-divider>
 									</mat-list-item>
 									<mat-divider></mat-divider>
@@ -157,14 +157,19 @@
 							<div *ngIf="user.appointments.length == 0">
 								<p>This patient has no appointment history!</p>
 							</div>
-						-->
+							-->
 						</mat-tab>
 						<!-- Payments -->
 						<mat-tab label="Payments">
+							<!--
+							<div *ngIf="user.payments.length == 0 || user.payments == null">
+								<p>This patient has no payment history!</p>
+							</div>
+							-->
 						</mat-tab>
 						<!-- Account -->
 						<mat-tab label="Account Settings">
-							<form class="form-container">
+							<form class="form-container top">
 								<!-- Row 1 -->
 								<div class="row">
 									<div class="col-6 form-container">

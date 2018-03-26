@@ -1,7 +1,13 @@
 @import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+* {
+	 font-family: 'Roboto Condensed', sans-serif;
+}
 
 .top {
 	margin-top: 2.5%;
+	margin-bottom: 2.5%;
 }
 
 .previous-button {
