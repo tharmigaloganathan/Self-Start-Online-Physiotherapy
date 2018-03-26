@@ -10,7 +10,7 @@
 				<mat-card>
 					<div class="row">
 						<div class="col-md-10">
-							<h3>{{ user.givenName + " " + user.familyName }}</h3>
+							<h1>{{ user.givenName + " " + user.familyName }}</h1>
 						</div>
 						<div class="col-md-2 col-md-offset-10">
 							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
@@ -127,8 +127,8 @@
 						</mat-tab>
 						<!-- Treatments -->
 						<mat-tab label="Treatments">
-							<div *ngIf="user.treatments.length == 0 else treatmentList">
-								<p>This patient has no treatment history!</p>
+							<div *ngIf="user.treatments.length == 0 else treatmentList" class="empty">
+								<h6> {{ user.givenName + " " + user.familyName }} has no treatment history</h6>
 							</div>
 							<ng-template #treatmentList>
 								<h6 class="top">Treatment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
@@ -155,19 +155,16 @@
 						</mat-tab>
 						<!-- Appointments -->
 						<mat-tab label="Appointments">
-							<!--
-							<div *ngIf="user.appointments.length == 0">
-								<p>This patient has no appointment history!</p>
+							<div *ngIf="user.appointments.length == 0" class="empty">
+								<h6> {{ user.givenName + " " + user.familyName }} has no appointment history</h6>
 							</div>
 							-->
 						</mat-tab>
 						<!-- Payments -->
 						<mat-tab label="Payments">
-							<!--
-							<div *ngIf="user.payments.length == 0 || user.payments == null">
-								<p>This patient has no payment history!</p>
+							<div *ngIf="user.payments.length == 0" class="empty">
+								<h6> {{ user.givenName + " " + user.familyName }} has no payment history</h6>
 							</div>
-							-->
 						</mat-tab>
 						<!-- Account -->
 						<mat-tab label="Account Settings">
@@ -176,12 +173,12 @@
 								<div class="row">
 									<div class="col-6 form-container">
 										<mat-form-field>
-											<input matInput placeholder="Usermame" [(ngModel)]="account.userAccountName" name="account.userAccountName" disabled>
+											<input matInput placeholder="Usermame" [(ngModel)]="account.userAccountName" name="account.userAccountName" readonly>
 										</mat-form-field>
 									</div>
 									<div class="col-6 form-container">
 										<mat-form-field>
-											<input matInput placeholder="Password" type="password" [(ngModel)]="account.encryptedPassword" name="account.encryptedPassword" disabled>
+											<input matInput placeholder="Password" type="password" [(ngModel)]="account.encryptedPassword" name="account.encryptedPassword" readonly>
 										</mat-form-field>
 									</div>
 								</div>

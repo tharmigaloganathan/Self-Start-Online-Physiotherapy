@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-admin-manage-user-accounts',
@@ -29,11 +30,12 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
   ngOnInit() {
 		this.account = JSON.parse(localStorage.getItem('userAccount'));
-		//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-		//this.age = this.age.toFixed(0) + " years";
+
 		this.authenticationService.getProfile().subscribe(
 			data => {
 				this.user = data.patientProfile;
+				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
+				//this.age = this.age.toFixed(0) + " years";
 				console.log(this.user);
 				console.log("Patient profile" + JSON.stringify(this.user));
 		});
