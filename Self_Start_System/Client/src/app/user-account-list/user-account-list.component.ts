@@ -15,6 +15,7 @@ export class UserAccountListComponent implements OnInit {
 	userAccountListService;
 	router;
 	users = {};
+	filteredUsers = {};
 	physiotherapists = {};
 	isPhysio;
 	displayedColumns = ['givenName', 'familyName', 'DOB', 'email'];
@@ -120,5 +121,13 @@ export class UserAccountListComponent implements OnInit {
 	selectedRowPhysio = row=> {
 		console.log("Physio row" + row);
 	};
+
+	//Filter search results
+	filterItem(value: string) {
+		value = value.trim();
+		value = value.toLowerCase();
+		this.patientDataSource.filter = value;
+		this.physioDataSource.filter = value;
+	}
 
 }
