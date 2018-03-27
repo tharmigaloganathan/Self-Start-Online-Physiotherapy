@@ -242,8 +242,8 @@ export class CreateNewAccountComponent implements OnInit {
   // }
 
   getPasswordVerifyErrorMessage(){
-    return this.accountInfoForm.controls.passwordVerify.hasError('required')? 'This field is required' :
-      this.accountInfoForm.hasError('validateMatchingPasswords')? 'Passwords do not match! Please try again!':
+    return this.accountInfoForm.get('passwords').get('passwordVerify').hasError('required')? 'This field is required' :
+      this.accountInfoForm.get('passwords').get('passwordVerify').hasError('notMatching')? 'Passwords do not match! Please try again!':
         ''
   }
 

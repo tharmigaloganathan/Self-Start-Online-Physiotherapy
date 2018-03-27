@@ -137,7 +137,8 @@
                 <div class="col form-group">
                   <mat-form-field>
                     <input matInput type="password" placeholder="Confirm Password" class = "form-control" formControlName="passwordVerify" name="passwordVerify" required>
-                    <mat-error *ngIf="accountInfoForm.get('passwords').get('passwordVerify').errors?.notMatching && accountInfoForm.get('passwords').get('passwordVerify').dirty">Passwords do not match! Please try again</mat-error>
+                    <mat-error *ngIf="accountInfoForm.get('passwords').get('passwordVerify').invalid && accountInfoForm.get('passwords').get('passwordVerify').dirty">{{getPasswordVerifyErrorMessage()}}</mat-error>
+                    <!--<mat-error *ngIf="accountInfoForm.get('passwords').get('passwordVerify').errors?.notMatching && accountInfoForm.get('passwords').get('passwordVerify').dirty">Passwords do not match! Please try again</mat-error>-->
                   </mat-form-field>
                 </div>
               </div>
