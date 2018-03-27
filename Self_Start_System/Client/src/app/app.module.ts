@@ -97,13 +97,6 @@ import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
-
-import { RecommendationService} from "./recommendation.service";
-import { AuthGuard} from "./guards/auth.guard";
-import { NotAuthGuard} from "./guards/not-auth.guard";
-import { PatientGuard} from "./guards/patient.guard";
-import { PhysioGuard} from "./guards/physio.guard";
-import { AdminGuard} from "./guards/admin.guard";
 import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
@@ -204,7 +197,7 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
