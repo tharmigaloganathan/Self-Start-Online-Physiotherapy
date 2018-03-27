@@ -26,12 +26,12 @@ export class CreateNewAccountComponent implements OnInit {
   provinces; //Populates province dropdown
   createUserAccountService;
   router;
-
   //User input fields
   personalInfoForm: FormGroup;
   accountInfoForm: FormGroup;
   userAccounts;
-  passwordMatching = false;
+
+  toolTipPosition = "above";
 
   //form status tools
   processing = false;
@@ -227,20 +227,6 @@ export class CreateNewAccountComponent implements OnInit {
       }
     };
   }
-  // validateMatchingPasswords(group: FormGroup){
-  //   let password = group.controls['password'].value; // to get value in input tag
-  //   console.log("here's the password: ", password);
-  //   let confirmPassword = group.controls['passwordVerify'].value; // to get value in input tag
-  //   console.log("here's the password verification: ", confirmPassword);
-  //   if(password === confirmPassword) {
-  //     console.log('passwords match!');
-  //     return null;
-  //   } else {
-  //     console.log('passwords do not match!');
-  //     return {'validateMatchingPasswords': true};
-  //   }
-  // }
-
   getPasswordVerifyErrorMessage(){
     return this.accountInfoForm.get('passwords').get('passwordVerify').hasError('required')? 'This field is required' :
       this.accountInfoForm.get('passwords').get('passwordVerify').hasError('notMatching')? 'Passwords do not match! Please try again!':
