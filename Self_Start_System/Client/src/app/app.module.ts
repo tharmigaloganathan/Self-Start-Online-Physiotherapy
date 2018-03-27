@@ -100,7 +100,6 @@ import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/
 import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

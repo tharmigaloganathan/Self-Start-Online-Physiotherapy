@@ -4,6 +4,7 @@ import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-admin-manage-user-accounts',
@@ -25,7 +26,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	provinces;
 	countries;
 
-  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
+  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, private snackBar: MatSnackBar) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
@@ -87,13 +88,17 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			user => {
 				this.user = user;
 				console.log("This was returned for the patient" + JSON.stringify(user));
-				this.loading = false;
+				this.snackBar.open("Information updated sucessfully!", "", {
+					duration: 1500
+				});
+				this.isChanged = false;
 			},
 			error => {
 				console.log("Error");
-				this.loading = false;
+				this.snackBar.open("Error!" + error, "", {
+					duration: 1500
+				});
 			});
-			console.log(this.user);
 }
 
 	//Reset the users Password
@@ -101,8 +106,6 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		console.log("Reset password clicked");
 		this.loading = true;
 		const patientAccount = {
-			//_id: this.account._id,
-			//userAccountName: this.account.userAccountName,
 			encryptedPassword: "passwordreset",
 			patientProfile: this.user._id
 		}
