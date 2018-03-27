@@ -22,13 +22,13 @@
                   <div class="col form-group">
                     <mat-form-field>
                       <input class = "form-control" matInput placeholder="First Name" formControlName="givenName" name="givenName" required>
-                      <mat-error *ngIf="personalInfoForm.controls.givenName.invalid && personalInfoForm.controls.givenName.dirty">{{getNameErrorMessage(personalInfoForm.controls.givenName)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.givenName.invalid && (personalInfoForm.controls.givenName.dirty || personalInfoForm.controls.givenName.touched)">{{getNameErrorMessage(personalInfoForm.controls.givenName)}}</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col form-group">
                     <mat-form-field>
                       <input class = "form-control" matInput placeholder="Last Name" formControlName="familyName" name="familyName" required>
-                      <mat-error *ngIf="personalInfoForm.controls.familyName.invalid && personalInfoForm.controls.familyName.dirty">{{getNameErrorMessage(personalInfoForm.controls.familyName)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.familyName.invalid && (personalInfoForm.controls.familyName.dirty || personalInfoForm.controls.familyName.touched)">{{getNameErrorMessage(personalInfoForm.controls.familyName)}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -57,13 +57,13 @@
                   <div class="col-3 form-group">
                     <mat-form-field>
                       <input matInput placeholder="address" class = "form-control" formControlName="address" name="address" required>
-                      <mat-error *ngIf="personalInfoForm.controls.address.invalid && personalInfoForm.controls.address.dirty">{{getAddressErrorMessage(personalInfoForm.controls.address)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.address.invalid && (personalInfoForm.controls.address.dirty || personalInfoForm.controls.address.touched)">{{getAddressErrorMessage(personalInfoForm.controls.address)}}</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col-3 form-group">
                     <mat-form-field>
                       <input matInput placeholder="City" class = "form-control" formControlName="city" name="city" required>
-                      <mat-error *ngIf="personalInfoForm.controls.city.invalid && personalInfoForm.controls.city.dirty">{{getNameErrorMessage(personalInfoForm.controls.city)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.city.invalid && (personalInfoForm.controls.city.dirty || personalInfoForm.controls.city.touched)">{{getNameErrorMessage(personalInfoForm.controls.city)}}</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col-3 form-group">
@@ -77,7 +77,7 @@
                   <div class="col-3 form-group">
                     <mat-form-field>
                       <input matInput placeholder="Postal Code" class = "form-control" formControlName="postalCode" name="postalCode" required>
-                      <mat-error *ngIf="personalInfoForm.controls.postalCode.invalid && personalInfoForm.controls.postalCode.dirty">{{getAddressErrorMessage(personalInfoForm.controls.postalCode)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.postalCode.invalid && (personalInfoForm.controls.postalCode.dirty || personalInfoForm.controls.postalCode.touched)">{{getAddressErrorMessage(personalInfoForm.controls.postalCode)}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -86,13 +86,13 @@
                   <div class="col-8 form-group">
                     <mat-form-field hintLabel="Example: example@email.com">
                       <input matInput  placeholder="Email" class = "form-control" formControlName="email" name="email" required>
-                      <mat-error *ngIf="personalInfoForm.controls.email.invalid && personalInfoForm.controls.email.dirty">{{getEmailErrorMessage(personalInfoForm.controls.email)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.email.invalid && (personalInfoForm.controls.email.dirty || personalInfoForm.controls.email.touched)">{{getEmailErrorMessage(personalInfoForm.controls.email)}}</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col-4 form-group">
                     <mat-form-field>
                       <input matInput placeholder="Phone Number" class = "form-control" formControlName="phone" name="phone" required>
-                      <mat-error *ngIf="personalInfoForm.controls.phone.invalid && personalInfoForm.controls.phone.dirty">{{getPhoneErrorMessage(personalInfoForm.controls.phone)}}</mat-error>
+                      <mat-error *ngIf="personalInfoForm.controls.phone.invalid && (personalInfoForm.controls.phone.dirty || personalInfoForm.controls.phone.touched)">{{getPhoneErrorMessage(personalInfoForm.controls.phone)}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -118,17 +118,17 @@
                 <div class="col form-group">
                   <mat-form-field hintLabel="Alphanumeric only">
                     <input matInput placeholder="User Name" class = "form-control" formControlName="userName" name="userName" required>
-                    <mat-error *ngIf="accountInfoForm.controls.userName.invalid && accountInfoForm.controls.userName.dirty">{{getUserNameErrorMessage(accountInfoForm.controls.userName)}}</mat-error>
-                    <mat-error *ngIf="accountInfoForm.errors?.checkUniqueUserName && accountInfoForm.controls.userName.dirty">Username already taken! Please try another one!</mat-error>
+                    <mat-error *ngIf="accountInfoForm.controls.userName.invalid && (accountInfoForm.controls.userName.dirty || accountInfoForm.controls.userName.touched)">{{getUserNameErrorMessage(accountInfoForm.controls.userName)}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <!-- Row 2 -->
+              <div formGroupName="passwords">
               <div class="row">
                 <div class="col form-group">
                   <mat-form-field hintLabel="Must be at least 6 characters long and contain one number, one uppercase letter, and one lowercase letter. Example: MyPassword1">
                     <input matInput autocomplete="off" type="password" placeholder="Password" class = "form-control" formControlName="password" name="password" required>
-                    <mat-error *ngIf="accountInfoForm.controls.password.invalid && accountInfoForm.controls.password.dirty">{{getPasswordErrorMessage(accountInfoForm.controls.password)}}</mat-error>
+                    <mat-error *ngIf="accountInfoForm.get('passwords').get('password').invalid && (accountInfoForm.get('passwords').get('password').dirty || accountInfoForm.get('passwords').get('password').touched)">{{getPasswordErrorMessage(accountInfoForm.get('passwords').get('password'))}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -137,9 +137,10 @@
                 <div class="col form-group">
                   <mat-form-field>
                     <input matInput type="password" placeholder="Confirm Password" class = "form-control" formControlName="passwordVerify" name="passwordVerify" required>
-                    <mat-error *ngIf="accountInfoForm.controls.passwordVerify.invalid && accountInfoForm.controls.passwordVerify.dirty">{{getPasswordVerifyErrorMessage(accountInfoForm.controls.passwordVerify)}}</mat-error>
+                    <mat-error *ngIf="accountInfoForm.get('passwords').get('passwordVerify').errors?.notMatching && accountInfoForm.get('passwords').get('passwordVerify').dirty">Passwords do not match! Please try again</mat-error>
                   </mat-form-field>
                 </div>
+              </div>
               </div>
             </form>
             <div class="row">
@@ -147,7 +148,7 @@
                 <button mat-button matStepperPrevious class="previous-button">Back</button>
               </div>
               <div class="col-3 button-container">
-                <button mat-button matStepperNext class="next-button" (click)="registerUserAccount()">Register</button>
+                <button mat-button matStepperNext [disabled]="!accountInfoForm.valid" class="next-button" (click)="registerUserAccount()">Register</button>
               </div>
             </div>
           </div>

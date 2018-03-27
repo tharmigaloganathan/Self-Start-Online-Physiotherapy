@@ -3,8 +3,11 @@ import 'rxjs/add/operator/map';
 import {AuthenticationService} from "../authentication.service";
 import {CreateUserAccountService} from "../create-user-account.service";
 import {Router} from "@angular/router";
-import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormBuilder, Validators, AsyncValidatorFn, AbstractControl} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Observable";
+import { of} from "rxjs/observable/of";
 
 
 @Component({
@@ -28,6 +31,7 @@ export class CreateNewAccountComponent implements OnInit {
   personalInfoForm: FormGroup;
   accountInfoForm: FormGroup;
   userAccounts;
+  passwordMatching = false;
 
   //form status tools
   processing = false;
@@ -62,10 +66,12 @@ export class CreateNewAccountComponent implements OnInit {
 
   createAccountInfoForm(){
     this.accountInfoForm = this.fb.group({
-      userName:  ['', Validators.compose([Validators.required, this.validateAlphanumeric,this.validateUniqueUserName.bind(this)] )],
-      password: ['', Validators.compose([Validators.required, this.validatePassword] )],
-      passwordVerify:  ['', Validators.compose([Validators.required, this.validateMatchingPasswords.bind(this)] )],
-    });
+      userName: ['', [Validators.required, this.validateAlphanumeric], [this.validateUniqueUserName.bind(this)]],
+      passwords: this.fb.group({
+        password: ['', Validators.compose([Validators.required, this.validatePassword])],
+        passwordVerify: ['',[Validators.required]]
+      }, {validator: this.validateMatchingPasswords('password', 'passwordVerify')})
+    })
   }
 
   ngOnInit() {
@@ -104,7 +110,7 @@ export class CreateNewAccountComponent implements OnInit {
     }
   }
   getNameErrorMessage(field) {
-    return field.hasError('required') ? 'You must enter a value!' :
+    return field.hasError('required') ? 'This field is required' :
       field.hasError('validateName') ? 'Not valid! Please try again!' :
         '';
   }
@@ -129,7 +135,7 @@ export class CreateNewAccountComponent implements OnInit {
   }
 
   getAddressErrorMessage(field) {
-    return field.hasError('required') ? 'You must enter a value!' :
+    return field.hasError('required') ? 'This field is required' :
       field.hasError('validateAddress') ? 'Not valid! Please try again!' :
         '';
   }
@@ -143,37 +149,49 @@ export class CreateNewAccountComponent implements OnInit {
     }
   }
   getPhoneErrorMessage(field){
-    return field.hasError('required') ? 'You must enter a value!' :
+    return field.hasError('required') ? 'This field is required' :
       field.hasError('validatePhoneNumber') ? 'Invalid phone number! Please try again!' :
         '';
   }
 
   getEmailErrorMessage(field){
-    return field.hasError('required') ? 'You must enter a value!' :
+    return field.hasError('required') ? 'This field is required' :
       field.hasError('email') ? 'Invalid email! Please try again!' :
         '';
   }
 
-  validateUniqueUserName(controls) {
-      this.userAccounts = this.createUserAccountService.getAllUserAccounts().subscribe(
-        UserAccount => {
-          console.log("Retrieved all UserAccounts: " + JSON.stringify(UserAccount));
-          this.userAccounts = UserAccount;
-          for (let account of this.userAccounts) {
-            if (account.userAccountName === controls.value) {
-              return {validateUniqueUserName: true};
-            }
-          }
-        },
-        error => {
-          console.log(error);
+  validateUniqueUserName(){
+    return (control: AbstractControl) => {
+      let service: CreateUserAccountService;
+      return service.getUserAccountByName(control.value).map(jsonObject => {
+        if (jsonObject.success = true) {
+          return {'validateUniqueUserName': true};
+        } else {
           return null;
-        });
-      return null;
+        }
+      });
+    }
   }
+  // }
+  // .userAccounts = this.createUserAccountService.getAllUserAccounts().subscribe(
+  //       UserAccount => {
+  //         console.log("Retrieved all UserAccounts: " + JSON.stringify(UserAccount));
+  //         this.userAccounts = UserAccount;
+  //         for (let account of this.userAccounts) {
+  //           if (account.userAccountName === controls.value) {
+  //             return {validateUniqueUserName: true};
+  //           }
+  //         }
+  //       },
+  //       error => {
+  //         console.log(error);
+  //         return null;
+  //       });
+  //     return null;
+  // }
 
   getUserNameErrorMessage(field){
-    return field.hasError('required')? 'You must enter a value!' :
+    return field.hasError('required')? 'This field is required' :
       field.hasError('validateAlphanumeric') ? 'Invalid username! Please try again!' :
         field.hasError('validateUniqueUserName') ? 'Sorry, username is already taken! Please try again':
           ''
@@ -190,24 +208,43 @@ export class CreateNewAccountComponent implements OnInit {
   }
 
   getPasswordErrorMessage(field){
-    return field.hasError('required')? 'You must enter a password!' :
-      field.hasError('validatePassword') ? 'Invalid password formate! Please try again':
+    return field.hasError('required')? 'This field is required' :
+      field.hasError('validatePassword') ? 'Invalid password format! Please try again':
         ''
   }
-
-  validateMatchingPasswords(controls){
-      if (controls.value === this.accountInfoForm.controls.password){
-        return {'matchingPasswords': true}
-      } else {
+  validateMatchingPasswords(password, confirm){
+    return function(group: FormGroup) {
+      if ((!group.controls[password].value) ||(!group.controls[confirm].value)){
         return null;
       }
+      else if (group.controls[password].value === group.controls[confirm].value){
+        console.log("The two passwords: ", group.controls[password].value, " ", group.controls[confirm].value)
+        console.log('passwords match!');
+        return null;
+      } else {
+        console.log('passwords do not match!');
+        group.controls[confirm].setErrors({notMatching : true});
+      }
+    };
   }
+  // validateMatchingPasswords(group: FormGroup){
+  //   let password = group.controls['password'].value; // to get value in input tag
+  //   console.log("here's the password: ", password);
+  //   let confirmPassword = group.controls['passwordVerify'].value; // to get value in input tag
+  //   console.log("here's the password verification: ", confirmPassword);
+  //   if(password === confirmPassword) {
+  //     console.log('passwords match!');
+  //     return null;
+  //   } else {
+  //     console.log('passwords do not match!');
+  //     return {'validateMatchingPasswords': true};
+  //   }
+  // }
 
-  getPasswordVerifyErrorMessage(field){
-    return field.hasError('required')? 'You must enter a password!' :
-      field.hasError('validatePassword') ? 'Invalid password format! Please try again':
-        field.hasError('validateMatchingPasswords') ? 'Sorry, your passwords do not match! Please try again':
-          ''
+  getPasswordVerifyErrorMessage(){
+    return this.accountInfoForm.controls.passwordVerify.hasError('required')? 'This field is required' :
+      this.accountInfoForm.hasError('validateMatchingPasswords')? 'Passwords do not match! Please try again!':
+        ''
   }
 
   onSubmitPersonalInfo(){};
