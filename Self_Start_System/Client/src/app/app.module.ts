@@ -98,6 +98,7 @@ import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-pati
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
 
+import { RecommendationService} from "./recommendation.service";
 import { AuthGuard} from "./guards/auth.guard";
 import { NotAuthGuard} from "./guards/not-auth.guard";
 import { PatientGuard} from "./guards/patient.guard";
