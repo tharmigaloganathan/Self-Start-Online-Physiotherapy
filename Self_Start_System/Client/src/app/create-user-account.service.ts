@@ -82,18 +82,17 @@ export class CreateUserAccountService {
 		});
 	}
 
-	// THIS FUNCTION IS NOT DONE IT SHOULD GETTING UserAccounts NOT PatientProfiles
 	//Get all user Accounts
 	getAllUserAccounts() {
-			return this.http.get(this.domain+'/PatientProfiles')
+    console.log("within service, in get all user accounts function ");
+    return this.http.get(this.domain+'/UserAccounts')
 			.map((response: Response) => {
-			console.log("Inside service" + response.json().patientProfile);
-			return response.json().patientProfile;
+			return response.json().userAccount;
 		});
 	}
 
 	//Get a single users accounts
-	getuserAccount(id) {
+	getUserAccount(id) {
 		return this.http.get(this.domain+'/UserAccounts/'+id)
 		.map((response: Response) => {
 		console.log("Inside service" + response.json().userAccount);
