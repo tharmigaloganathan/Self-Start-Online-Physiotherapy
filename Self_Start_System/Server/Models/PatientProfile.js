@@ -207,26 +207,34 @@ function addAppointment(id, body) {
             endDate: body.endDate,
             reason: "testingReason",
             other: "otherReason",
-            patientProfile: document._id
+            patientProfile: document._id,
+            physiotherapist: body.physioID
           }).then(function (appointment) {
+
+            console.log("Reached success Adding appointments", appointment);
             // Add the appointment to the patient profile
             document.appointments.push(appointment._id);
+            console.log("Reached pushing appointments", document.appointments);
 
-            // Block off the time occupied by appointment
-            Physiotherapists.splitTimeSlotDueToAppointment(
+            // Add appointments to Physiotherapist
+            Physiotherapists.addAppointment(
               body.physioID,
+              appointment._id,
               body.timeslotId,
               appointment.date,
-              appointment.endDate
-            );
-
-            // Save the patient profile document
-            document.save(function (error) {
-              if (error) {
-                reject(error);
-              } else {
-                resolve(document);
-              }
+              appointment.endDate,
+            ).then( result => {
+              console.log("Reached Physiotherapists.addAppointment", result);
+              // Save the patient profile document
+              document.save(function (error) {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(document);
+                }
+              });
+            }).catch(err => {
+              reject(err);
             });
           }).catch(function (error) {
             reject(error);

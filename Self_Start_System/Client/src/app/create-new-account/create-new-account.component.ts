@@ -85,6 +85,7 @@ export class CreateNewAccountComponent implements OnInit {
       userAccount: null,
       treatments: [],
       availableTimeSlots: [],
+      appointments: [],
     };
 
     console.log(testPhysioUser);

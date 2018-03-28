@@ -8,11 +8,11 @@ var physiotherapistSchema = mongoose.Schema(
 		dateFinished: Date,
 		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatment')}],
 		userAccount: {type: mongoose.Schema.ObjectId, ref: ('UserAccount')},
-    // availableTimeSlots: []
     availableTimeSlots: [{
 		    startDate: Date,
         endDate: Date
     }],
+    appointments: [{type: mongoose.Schema.ObjectId, ref: ('Appointment')}]
 	}
 );
 
@@ -27,7 +27,8 @@ module.exports = {
     addFreeTimeSlot:addFreeTimeSlot,
     changeOneDate:changeOneDate,
     splitTimeSlotDueToAppointment:splitTimeSlotDueToAppointment,
-  deleteOneDate:deleteOneDate
+  deleteOneDate:deleteOneDate,
+  addAppointment:addAppointment
 };
 
 function deleteOne(id){
@@ -232,6 +233,34 @@ function addFreeTimeSlot(id, body){
   });
 }
 
+// Adds a new appointment
+function addAppointment(id, appointmentId, timeslotId, startDate, endDate){
+  return new Promise (function (resolve, reject) {
+    console.log("addAppointment", id, appointmentId, timeslotId, startDate, endDate);
+
+    Physiotherapists.findById(id, function (error, document) {
+      console.log("FindById", document);
+
+      if (error) {
+        reject(error);
+      } else {
+        // Add appointments to document
+        document.appointments.push(appointmentId);
+
+        splitTimeSlotDueToAppointmentNoSave(document, timeslotId, startDate, endDate);
+
+        document.save(function (error) {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(document);
+          }
+        });
+      }
+    });
+  });
+}
+
 // Changes one free time slot
 function changeOneDate(id, body){
   return new Promise (function (resolve, reject) {
@@ -360,6 +389,8 @@ function splitTimeSlotDueToAppointment(id, timeslotId, appointmentStart, appoint
 
           document = combineOverLappingDates(document);
 
+          console.log("event After combineOverLappingDates", document);
+
           document.save(function (error) {
             if (error) {
               reject(error);
@@ -377,5 +408,36 @@ function splitTimeSlotDueToAppointment(id, timeslotId, appointmentStart, appoint
 }
 
 
+function splitTimeSlotDueToAppointmentNoSave(
+  document, timeslotId, appointmentStart, appointmentEnd
+){
+  let event = document.availableTimeSlots.find(function (element) {
+    return element._id.toString() === timeslotId.toString();
+  });
 
+  // If even exists, update it. Else, throw an error
+  if (event) {
+
+    console.log("No Date equal", event);
+    // Create a new event based on the appointment end to the prev end
+    document.availableTimeSlots.push({
+      startDate: appointmentEnd,
+      endDate: event.endDate
+    });
+
+    // endTime is now the appointment's start time
+    event.endDate = appointmentStart;
+    // }
+
+    console.log("event After update", event);
+
+    document = combineOverLappingDates(document);
+
+    console.log("event After combineOverLappingDates", document);
+
+  } else {
+    error = "Timeslot not found.";
+    reject(error);
+  }
+}
 
