@@ -13,29 +13,36 @@
     padding: 10px;
 }
 
-.messages {
+.content{
     font-family: 'Roboto Condensed', sans-serif !important;
-    margin-left: 15%;
-    margin-right: 15%;
+}
+
+.messages-card{
+    background-color:rgba(0, 0, 0, 0);
+    overflow-y: scroll;
+    max-height: 600px;
+    
 }
 
 .physio-message {
     font-family: 'Roboto Condensed', sans-serif !important;
+    box-shadow: 2px 2px 2px 1px #888888;
     text-align: left;
     margin-top: 2%;
     width: 50%;
+    margin-left: 15%;
     // align right, different color
 }
 
 .patient-message{
     font-family: 'Roboto Condensed', sans-serif !important;
+    box-shadow: 2px 2px 2px 1px #888888;
     text-align: right;
     background-color: $cobalt;
     color: #FFFFFF;
     margin-top: 2%;
-    width: 50%;
+    margin-right: 15%;
     margin-left: 50%;
-    // alight left different color
 }
 
 .mat-card-subtitle {
@@ -45,6 +52,7 @@
 .input-form {
     font-family: 'Roboto Condensed', sans-serif !important;
     margin-right: 1%;
+    margin-bottom: 0px;
     width: 90%;
 }
 
@@ -61,5 +69,10 @@
 
 .no-message-placeholder-text {
     margin-top: 5%;
+    text-align: center;
+}
+
+.unread-messages-text {
+    margin-top: 2%;
     text-align: center;
 }

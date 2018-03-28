@@ -68,11 +68,8 @@ function update(id, updatedDocument){
                 reject(error);
             }
             else {
-                if (updatedDocument.seenByPhysio){
-                    document.seenByPhysio = updatedDocument.seenByPhysio;
-                } else if (updatedDocument.seenByPatient){
-                    document.seenByPatient = updatedDocument.seenByPatient;
-                }
+                document.seenByPhysio = updatedDocument.seenByPhysio;
+                document.seenByPatient = updatedDocument.seenByPatient;
                 document.save(function (error) {
                     if (error) {
                         reject(error);

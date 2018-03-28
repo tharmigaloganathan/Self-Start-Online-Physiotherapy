@@ -1,22 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService} from "../authentication.service";
 import { MessagesService } from '../messages.service';
 
 @Component({
     selector: 'app-patient-messages',
     templateUrl: './patient-messages.component.html',
     styleUrls: ['./patient-messages.component.scss'],
-    providers: [ MessagesService ]
+    providers: [ AuthenticationService, MessagesService ]
 })
 export class PatientMessagesComponent implements OnInit {
-    messages: Object[] = [];
+    messages = [];
     patientID: String;
+    physioID: String;
+    unreadMessages = 0;
+    user;
+    reload = false;
 
-    constructor(private messagesService: MessagesService) {
-        this.patientID = "5a80aae5734d1d0d42e9f930";
-        this.getMessages();
+    constructor(private authService: AuthenticationService, private messagesService: MessagesService) {
+        this.authService = authService
     }
 
     ngOnInit() {
+        this.authService.getProfile().subscribe(profile => {
+            this.user = profile.patientProfile;
+            this.patientID = this.user._id; //gets id of the current patient that is logged in
+            this.getMessages();
+        });
     }
 
     setAllMessagesAsSeen() {
@@ -26,32 +35,74 @@ export class PatientMessagesComponent implements OnInit {
         //make put request
     }
 
+    formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+
     getMessages() {
+        this.messages = [];
         this.messagesService.getMessages().subscribe(data =>
             {
+                //FILTERS ALL MESSAGES FOR MESSAGES JUST BETWEEN THIS PATIENT AND HIS/HER PHYSIO
                 let allMessages = data;
                 for(var i = 0; i < allMessages.message.length; i++) {
                     if(allMessages.message[i].patientID == this.patientID) {
+                        allMessages.message[i].time = this.formatDate(new Date(allMessages.message[i].time));
                         this.messages.push(allMessages.message[i]);
                     }
                 }
-                console.log(this.messages);
+                //SETS ALL MESSAGES AS SEEN ONLY IF USER HAS SENT A MESSAGE
+                if(this.reload == true) {
+                    for(var i = 0; i < this.messages.length; i++) {
+
+                        if(this.messages[i].seenByPatient == false) {
+                            this.messages[i].seenByPatient = true;
+                            console.log("this was false", this.messages[i], i);
+                            this.messagesService.putMessage(this.messages[i]._id, this.messages[i]).subscribe(data =>
+                            {
+                                console.log("PUT REQUEST", data);
+                            });
+                        }
+                    }
+                    this.reload = false;
+                }
+                //COUNTS NUMBER OF UNREAD MESSAGES
+                this.unreadMessages = 0;
+                for(var i = 0; i < this.messages.length; i++) {
+                    if(this.messages[i].seenByPatient == false)
+                        this.unreadMessages = this.unreadMessages + 1;
+                }
+                this.physioID = this.messages[0].physioID;
             }
         );
-        //order the messages by date/time
     }
 
-    getPatientIDFromLocalStorage() {
 
-    }
-
-    addNewMessage(message: String) {
-        console.log("NEW MESSAGE", message);
-        //create message object
-        //set seenByPatient to true
-        //set message content
-        //set patientID and physioID
-        //call getMessages again
+    sendNewMessage(newMessage: String) {
+        let myMessage = {
+            patientID: this.patientID,
+            physioID: this.physioID,
+            message: newMessage,
+            seenByPhysio: false,
+            seenByPatient: true,
+            sender: this.patientID
+        }
+        this.messagesService.postMessage(myMessage).subscribe(data =>
+        {
+            this.reload = true;
+            this.getMessages();
+        });
     }
 
 }
