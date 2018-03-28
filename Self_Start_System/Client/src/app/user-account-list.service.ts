@@ -14,18 +14,17 @@ export class UserAccountListService {
 
 	//Get a single users account
 	getUserAccount(id) {
-			return this.http.get(this.domain+'/UserAccounts/'+id)
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.get(this.domain+'/UserAccounts/'+id, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
 	}
 
-	//Get all user accounts
-	getAllUserAccounts() {}
-
 	//Update user account
 	updateUserAccount(id, user) {
-		return this.http.put(this.domain+'/UserAccounts/'+id, user)
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.put(this.domain+'/UserAccounts/'+id, user, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
@@ -77,6 +76,15 @@ export class UserAccountListService {
 			return this.http.get(this.domain+'/Countries')
 			.map((response: Response) => {
 			return response.json().country;
+		});
+	}
+
+	//Get a single patients profile
+	getPatientProfile(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.get(this.domain+'/PatientProfiles/'+id, this.options)
+			.map((response: Response) => {
+			return response.json().patientProfile;
 		});
 	}
 

@@ -19,7 +19,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	loading = false;
 	isChanged = false;
 	user;
-	account = {};
+	account;
 	today = new Date();
 	age: any;
 	genders;
@@ -33,15 +33,8 @@ export class AdminManageUserAccountsComponent implements OnInit {
 }
 
   ngOnInit() {
-		this.account = JSON.parse(localStorage.getItem('userAccount'));
-		this.authenticationService.getProfile().subscribe(
-			data => {
-				this.user = data.patientProfile;
-				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-				//this.age = this.age.toFixed(0) + " years";
-				console.log(this.user);
-				console.log("Patient profile" + JSON.stringify(this.user));
-		});
+		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
+		this.populatePopulatePatient(this.account.patientProfile);
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
@@ -175,5 +168,16 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			console.log(this.provinces);
 	}
 
+	//Get the users account
+	populatePopulatePatient(id) {
+		this.userAccountListService.getPatientProfile(id).subscribe(
+			data => {
+				this.user = data;
+				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
+				//this.age = this.age.toFixed(0) + " years";
+				console.log(this.user);
+				console.log("Patient profile" + JSON.stringify(this.user));
+			});
+	 }
 
 }
