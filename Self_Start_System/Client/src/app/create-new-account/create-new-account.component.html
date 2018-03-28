@@ -71,14 +71,14 @@
                   <div class="col-4 form-group">
                     <mat-form-field>
                       <mat-select  placeholder = "Country" class = "form-control" formControlName="country" name="country" required>
-                        <mat-option *ngFor="let country of countries" [value]="country._id">{{country.name}}</mat-option>
+                        <mat-option  *ngFor="let country of countries" (click)="populateProvinces(country._id)" [value]="country._id">{{country.name}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="personalInfoForm.controls.country.hasError('required')">You must select a country!</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="col-4 form-group">
                     <mat-form-field>
-                      <mat-select class = "form-control" formControlName="province" name="province"  placeholder="Province" required>
+                      <mat-select [disabled]="!countrySelected" class = "form-control" formControlName="province" name="province"  placeholder="Province" required>
                         <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="personalInfoForm.controls.province.hasError('required')">You must select a province!</mat-error>

@@ -26,10 +26,12 @@ export class CreateNewAccountComponent implements OnInit {
   //for filling selection dropdowns
   genders; //Populates gender dropdown
   provinces; //Populates province dropdown
-  countries; //Populates countries dropdown
-
+  countries;
   createUserAccountService;
   router;
+
+  //control access to provinces
+  countrySelected = false;
   //forms
   personalInfoForm: FormGroup;
   accountInfoForm: FormGroup;
@@ -78,45 +80,38 @@ export class CreateNewAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    //Populate Provinces
-    this.provinces = this.createUserAccountService.getProvinces().subscribe(
-      data => {
-        this.provinces = data;
-        console.log("This is what was returned" + JSON.stringify(data));
-      },
-      error => {
-        console.log("Error");
-      });
-    console.log(this.provinces);
-
     //Populate genders
     this.genders = this.createUserAccountService.getGenders().subscribe(
       data => {
         this.genders = data;
-        console.log("This is what was returned" + JSON.stringify(data));
+        console.log("This is what was returned for get all genders" + JSON.stringify(data));
       },
       error => {
         console.log("Error");
       });
-    console.log(this.genders);
-
-    this.countries= this.createUserAccountService.getCountries().subscribe(
+    //populate countries
+    this.countries = this.createUserAccountService.getCountries().subscribe(
       data => {
-        this.countries= data;
-        console.log("This is what was returned" + JSON.stringify(data));
+        this.countries = data;
+        console.log("This is what was returned for get all countries" + JSON.stringify(data));
       },
       error => {
         console.log("Error");
       });
-    console.log(this.countries);
   }
 
-  //WIP
+  //enable selection of provinces and populate provinces based on selection of country. Only Canada works for now.
   populateProvinces(countryID){
-    this.provinces = this.createUserAccountService.getProvinces(countryID).subscribe(
+    this.countrySelected = true;
+    this.provinces = this.createUserAccountService.getProvinces().subscribe(
       data => {
-        this.provinces = data;
         console.log("This is what was returned" + JSON.stringify(data));
+        function belongToCountry(element, index, array){
+          return (element.country == countryID )
+        }
+
+        this.provinces = data.filter(belongToCountry);
+        console.log("here is the list of provinces", this.provinces);
       },
       error => {
         console.log("Error");

@@ -18,6 +18,11 @@ router.route('/')
         })
     });
 
+router.route('/country_id')
+    .get(function (request,response){
+        Pr
+    })
+
 router.route('/:object_id')
     .get(function (request, response) {
         if (!request.params.object_id) {

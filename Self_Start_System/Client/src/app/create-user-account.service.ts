@@ -41,8 +41,8 @@ export class CreateUserAccountService {
 	}
 
 	//Return all provinces
-	getProvinces(countryID) {
-		return this.http.get(this.domain+'/Provinces',countryID)
+	getProvinces() {
+		return this.http.get(this.domain+'/Provinces')
 		.map((response: Response) => {
 			return response.json().province;
 		});
