@@ -19,8 +19,10 @@ export class NotAuthGuard implements CanActivate {
     } else if (retrievedAccount) {
       if (JSON.parse(retrievedAccount).patientProfile) {
         this.router.navigate(['/patient/home']);
+        return false;
       } else if (JSON.parse(retrievedAccount).physiotherapist) {
         this.router.navigate(['/physio/home']);
+        return false;
       } else if (JSON.parse(retrievedAccount).administrator) {
         this.router.navigate(['/admin/home']);
         return false;

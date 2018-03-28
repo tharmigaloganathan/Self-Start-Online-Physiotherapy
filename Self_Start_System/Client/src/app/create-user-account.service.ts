@@ -102,7 +102,7 @@ export class CreateUserAccountService {
 
 	getUserAccountByName(name){
     return this.http.get(this.domain+'/UserAccounts/'+name).map((response:Response) => {
-      console.log ("inside user account service, Retrieval success was: " + response.json().success)
+      console.log ("inside user account service, Retrieved: " + response.json());
       return response.json();
     })
   }

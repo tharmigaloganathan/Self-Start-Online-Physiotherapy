@@ -160,18 +160,35 @@ export class CreateNewAccountComponent implements OnInit {
         '';
   }
 
-  validateUniqueUserName(){
-    return (control: AbstractControl) => {
-      let service: CreateUserAccountService;
-      return service.getUserAccountByName(control.value).map(jsonObject => {
-        if (jsonObject.success = true) {
-          return {'validateUniqueUserName': true};
-        } else {
-          return null;
-        }
-      });
-    }
+  // validateUniqueUserName(){
+  //   return (control: AbstractControl) => {
+  //     let service: CreateUserAccountService;
+  //     return service.getUserAccountByName(control.value).map(jsonObject => {
+  //       if (jsonObject.success = true) {
+  //         return {'validateUniqueUserName': true};
+  //       } else {
+  //         return null;
+  //       }
+  //     });
+  //   }
+  // }
+
+  validateUniqueUserName(control: FormControl) {
+    const q = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.createUserAccountService.getUserAccountByName(control.value).subscribe(result => {
+          console.log("in component, result success is : ", result.success)
+          if (!result.success) {
+            resolve(null);
+          } else if (result.success) {
+            resolve({ 'notUnique': true });
+          }
+        })
+      }, 500);
+    });
+    return q;
   }
+
   // }
   // .userAccounts = this.createUserAccountService.getAllUserAccounts().subscribe(
   //       UserAccount => {
@@ -193,7 +210,7 @@ export class CreateNewAccountComponent implements OnInit {
   getUserNameErrorMessage(field){
     return field.hasError('required')? 'This field is required' :
       field.hasError('validateAlphanumeric') ? 'Invalid username! Please try again!' :
-        field.hasError('validateUniqueUserName') ? 'Sorry, username is already taken! Please try again':
+        field.hasError('notUnique') ? 'Sorry, username is already taken! Please try again':
           ''
   }
 
