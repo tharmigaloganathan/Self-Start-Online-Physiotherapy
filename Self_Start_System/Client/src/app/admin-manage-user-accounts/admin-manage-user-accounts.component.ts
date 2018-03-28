@@ -25,6 +25,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	genders;
 	provinces;
 	countries;
+	appointments;
 
   constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, private snackBar: MatSnackBar) {
 		this.router = router;
@@ -35,6 +36,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
   ngOnInit() {
 		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
 		this.populatePopulatePatient(this.account.patientProfile);
+		this.populateAppointments(this.account.patientProfile);
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
@@ -179,5 +181,15 @@ export class AdminManageUserAccountsComponent implements OnInit {
 				console.log("Patient profile" + JSON.stringify(this.user));
 			});
 	 }
+
+	 //Get the users appointments
+	 populateAppointments(id) {
+	 this.userAccountListService.getAppointments(id).subscribe(
+		 data => {
+			 this.appointments = data;
+			 console.log(this.appointments);
+			 console.log("Patient's appointments" + JSON.stringify(this.appointments));
+		 });
+ 	}
 
 }

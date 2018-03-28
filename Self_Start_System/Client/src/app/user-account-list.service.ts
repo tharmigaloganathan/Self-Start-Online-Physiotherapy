@@ -88,4 +88,14 @@ export class UserAccountListService {
 		});
 	}
 
+	//Get all appointments for a patient
+	getAppointments(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.get(this.domain+'/PatientProfiles/get-all-appointments/'+id, this.options)
+			.map((response: Response) => {
+			return response.json().appointments;
+		});
+	}
+
+
 }
