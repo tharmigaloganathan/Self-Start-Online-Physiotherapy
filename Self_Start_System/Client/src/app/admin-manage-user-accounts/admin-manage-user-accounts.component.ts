@@ -26,6 +26,9 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	provinces;
 	countries;
 	appointments;
+	showPlan = false;
+	physiotherapist = "Susan Collins";
+	activeRehabPlan;
 
   constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, private snackBar: MatSnackBar) {
 		this.router = router;
@@ -121,11 +124,19 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	//Delete the users account
 	deleteAccount() {
 		console.log("Delete account clicked");
+
 }
 
 	//Show the select rehab plan
-	showRehabPlan() {
-		console.log("Show rehab plan clicked");
+	showRehabPlan(index) {
+		console.log("Show rehab plan clicked" + index);
+		this.activeRehabPlan = index;
+		this.showPlan = true;
+}
+
+	//View the list of all treatments
+	viewTreatmentList() {
+	this.showPlan = false;
 }
 
 	//Get all the genders

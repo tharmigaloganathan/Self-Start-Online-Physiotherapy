@@ -54,11 +54,6 @@
 										<mat-form-field>
 											<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
 												<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender.name}}</mat-option>
-												<!--
-												<mat-option value="Male">Male</mat-option>
-												<mat-option value="Female">Female</mat-option>
-												<mat-option value="Other">Other</mat-option>
-											-->
 												</mat-select>
 										</mat-form-field>
 									</div>
@@ -129,26 +124,106 @@
 								<h6> {{ user.givenName + " " + user.familyName }} has no treatment history</h6>
 							</div>
 							<ng-template #treatmentList>
-								<h6 class="top">Treatment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
-								<mat-divider></mat-divider>
-								<mat-list>
-									<mat-list-item *ngFor="let treatment of user.treatments" class="treatment" (click)="showRehabPlan()">
-										<div class="col-3">
-											<b>Assignment Date: </b> {{ treatment.dateAssign | date : "dd.MM.y" }}
-										</div>
-										<div class="col-3">
-											<b>Start Date: </b> {{ treatment.dateStart | date : "dd.MM.y" }}
-										</div>
-										<div class="col-2">
-											<b>Active: </b> {{ treatment.active }}
-										</div>
-										<div class="col-4">
-											<b>Rehabilitation Plan: </b> {{ treatment.rehabilitationPlan.name }}
-										</div>
-										<mat-divider></mat-divider>
-									</mat-list-item>
+								<div *ngIf="!showPlan else rehabPlan">
+									<h6 class="top">Treatment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
 									<mat-divider></mat-divider>
-							</mat-list>
+									<mat-list>
+										<mat-list-item *ngFor="let treatment of user.treatments let i = index" [attr.data-index]="i" class="treatment" (click)="showRehabPlan(i)">
+											<div class="col-3">
+												<b>Assignment Date: </b> {{ treatment.dateAssign | date : "dd.MM.y" }}
+											</div>
+											<div class="col-3">
+												<b>Start Date: </b> {{ treatment.dateStart | date : "dd.MM.y" }}
+											</div>
+											<div class="col-2">
+												<b>Active: </b> {{ treatment.active }}
+											</div>
+											<div class="col-4">
+												<b>Rehabilitation Plan: </b> {{ treatment.rehabilitationPlan.name }}
+											</div>
+											<mat-divider></mat-divider>
+										</mat-list-item>
+										<mat-divider></mat-divider>
+								</mat-list>
+							</div>
+							</ng-template>
+							<!-- View to show the details of a specific rehab plan -->
+							<ng-template #rehabPlan>
+								<div class="row">
+									<div class="col-12 top">
+											<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
+										<button mat-raised-button class="back-button" (click)="viewTreatmentList()">Back to Treatment List</button>
+									</div>
+								</div>
+								<form class="form-container">
+									<div class="row">
+										<!--
+										<div class="col-3 form-container">
+											<label>History</label>
+										</div>
+									-->
+										<div class="col-12" form-container>
+											<!-- Rehab Plan details -->
+											<label>Rehabilitation Plan</label>
+											<div class="row">
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Name">
+													</mat-form-field>
+												</div>
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Author Name">
+													</mat-form-field>
+												</div>
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Physiotherapist" [value]="physiotherapist" name="physiotherapist">
+													</mat-form-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-9 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Description">
+													</mat-form-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-6 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Goal">
+													</mat-form-field>
+												</div>
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Time Frame to Complete">
+													</mat-form-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Assigned">
+													</mat-form-field>
+												</div>
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Started">
+													</mat-form-field>
+												</div>
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Finished">
+													</mat-form-field>
+												</div>
+											</div>
+											<label>Recommendations</label>
+											<div class="row">
+											</div>
+										</div>
+									</div>
+								</form>
 							</ng-template>
 						</mat-tab>
 						<!-- Appointments -->
