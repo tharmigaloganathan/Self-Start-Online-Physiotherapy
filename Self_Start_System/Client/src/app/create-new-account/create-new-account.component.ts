@@ -37,6 +37,7 @@ export class CreateNewAccountComponent implements OnInit {
   accountInfoForm: FormGroup;
 
   toolTipPosition = "above";
+  previousStepsEditable = true;
 
 
   //for passing profile ids to useraccount
@@ -251,30 +252,23 @@ export class CreateNewAccountComponent implements OnInit {
   registerUserProfile() {};
 
   rebuildForm() {
-    this.personalInfoForm.reset({
-      familyName: [''],
-      givenName: [''],
-      gender: [''],
-      DOB: [''],
-      address: [''],
-      city: [''],
-      country: [''],
-      province: [''],
-      postalCode: [''],
-      email: [''],
-      phone: [''],
-    });
-
-    this.accountInfoForm .reset({
-      userName:  [''],
-      password: [''],
-      passwordVerify:  [''],
-    });
+      this.personalInfoForm.reset({
+        familyName: [''],
+        givenName: [''],
+        gender: [''],
+        DOB: [''],
+        address: [''],
+        city: [''],
+        country: [''],
+        province: [''],
+        postalCode: [''],
+        email: [''],
+        phone: [''],
+      });
   }
 
   registerPatient(){
     this.registerPatientProfile();
-    this.registerUserAccount();
   }
 
   registerPatientProfile() {
@@ -297,13 +291,15 @@ export class CreateNewAccountComponent implements OnInit {
       gender: this.personalInfoForm.get('gender').value,
       appointments: []
     }
+
     console.log("in component, registerPatientProfile, here's the tempPatientProfile: ", tempPatientProfile);
     //Send user data to backend
     this.createUserAccountService.registerUserProfile(tempPatientProfile).subscribe(
       user => {
         console.log("The following patient has been registered: " + JSON.stringify(user));
         this.patientProfile_id = user.patientProfile._id;
-        console.log("Patient profile id " + this.patientProfile_id);
+        console.log("Patient profile id: ", this.patientProfile_id);
+        this.registerUserAccount();
       },
       error => {
         console.log(error);
@@ -313,20 +309,23 @@ export class CreateNewAccountComponent implements OnInit {
   //make the actual user account and password needed to log on
   registerUserAccount() {
     const account = {
-      userAccountName: this.accountInfoForm.get('username').value,
+      userAccountName: this.accountInfoForm.get('userName').value,
       encryptedPassword: this.accountInfoForm.get('passwords').get('password').value,
       patientProfile: this.patientProfile_id,
       physiotherapist: this.physiotherapistProfile_id,
       administrator: this.administratorProfile_id,
       activated: true,
       hasPaid: false,
+      passwordReset: false,
     }
+
     console.log ("In component, registerUserAccount, here is the account being registered", account);
 
     //Send account data to backend
     this.createUserAccountService.registerUserAccount(account).subscribe(
       user => {
-        //console.log("The following account has been registered: " + JSON.stringify(account));
+        console.log("From component, the following account has been registered: " + JSON.stringify(user));
+        this.previousStepsEditable=false;
       },
       error => {
         console.log(error);

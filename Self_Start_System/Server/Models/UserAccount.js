@@ -11,6 +11,7 @@ var userAccountSchema = mongoose.Schema(
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'},
         activated: Boolean,
         hasPaid: Boolean,
+        passwordReset: Boolean,
     }
 );
 var UserAccounts = module.exports =  mongoose.model('UserAccount', userAccountSchema);

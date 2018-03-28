@@ -12,7 +12,7 @@
       <mat-horizontal-stepper [linear]="isLinear">
 
         <!-- Personal Information -->
-        <mat-step [stepControl]="personalInfoForm">
+        <mat-step [stepControl]="personalInfoForm" [editable]="previousStepsEditable">
           <ng-template matStepLabel>Personal Information</ng-template>
 
           <div class="col">
@@ -120,7 +120,7 @@
         </mat-step>
 
         <!-- Account Information -->
-        <mat-step [stepControl]="accountInfoForm">
+        <mat-step [stepControl]="accountInfoForm" [editable]="previousStepsEditable">
           <ng-template matStepLabel>Account Information</ng-template>
           <div class="col">
             <form [formGroup]="accountInfoForm"  name="accountInfoForm">
@@ -167,10 +167,11 @@
         </mat-step>
         <!-- Finish Page -->
         <mat-step>
-          <ng-template matStepLabel>Confirm Registration</ng-template>
+          <ng-template matStepLabel>Completion</ng-template>
           <div class="col">
             <div class="row form-container">
-              <h3>Success!</h3> <br/>
+              <h3>Success!</h3>
+              <br/><br/>
               <p>Your account has been created!</p>
               <p>Please click below to log in!</p>
             </div>
