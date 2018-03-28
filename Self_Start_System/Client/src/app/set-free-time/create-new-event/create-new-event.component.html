@@ -5,7 +5,7 @@
     <!--Start Beginning date-->
     <mat-form-field>
       <input matInput name="startDateInput" [(ngModel)]="startDate"
-             [matDatepicker]="startDatePicker" placeholder="Start Date">
+             [matDatepicker]="startDatePicker" placeholder="Date">
       <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #startDatePicker></mat-datepicker>
     </mat-form-field>
@@ -15,14 +15,6 @@
              type="time" placeholder="Start Time" value="">
     </mat-form-field>
     <!--End Beginning date-->
-
-    <!--End date-->
-    <mat-form-field>
-      <input matInput name="endDateInput" [(ngModel)]="endDate"
-             [matDatepicker]="endDatePicker" placeholder="End Date">
-      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-      <mat-datepicker #endDatePicker></mat-datepicker>
-    </mat-form-field>
 
     <mat-form-field>
       <input matInput name="endTimeInput" [(ngModel)]="endTime"

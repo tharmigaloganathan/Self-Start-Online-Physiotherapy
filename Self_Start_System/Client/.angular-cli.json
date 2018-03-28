@@ -21,7 +21,8 @@
       "styles": [
         "scss/self-start-theme.scss",
         "scss/styles.scss",
-        "../node_modules/ng2-dnd/bundles/style.css"
+        "../node_modules/ng2-dnd/bundles/style.css",
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js"

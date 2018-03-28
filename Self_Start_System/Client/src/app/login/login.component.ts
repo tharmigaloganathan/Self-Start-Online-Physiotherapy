@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../authentication.service";
 import {Router} from "@angular/router";
+import {AuthGuard} from "../guards/auth.guard";
 
 @Component({
   selector: 'app-login',
@@ -14,16 +15,23 @@ export class LoginComponent implements OnInit {
   statusMessage= false;
   patientProfile_id;
   physiotherapist_id;
-  admin_id
+  admin_id;
+  previousUrl;
 
 
   constructor(private authService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private authGuard: AuthGuard) {
   }
 
   ngOnInit() {
     this.username = null;
     this.password = null;
+    if (this.authGuard.redirectUrl){
+      this.previousUrl = this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl = undefined;
+    }
+
   }
 
   submitLogin() {
@@ -58,15 +66,27 @@ export class LoginComponent implements OnInit {
 
           if (data.userAccount.patientProfile) {
             setTimeout(() => {
-              this.router.navigate(['/patient']);
+              if(this.previousUrl){
+                this.router.navigate([this.previousUrl]);
+              } else {
+                this.router.navigate(['/patient']);
+              }
             }, 2000);
           } else if (data.userAccount.administrator) {
             setTimeout(() => {
-              this.router.navigate(['/admin']);
+              if(this.previousUrl){
+                this.router.navigate([this.previousUrl]);
+              } else {
+                this.router.navigate(['/admin']);
+              }
             }, 2000);
           } else if (data.userAccount.physiotherapist){
             setTimeout(() => {
-              this.router.navigate(['/physio']);
+              if(this.previousUrl){
+                this.router.navigate([this.previousUrl]);
+              } else {
+                this.router.navigate(['/physio']);
+              }
             }, 2000);
           }
         }
