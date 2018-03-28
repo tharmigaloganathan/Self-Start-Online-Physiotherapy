@@ -91,7 +91,9 @@
 }
 
 .icon-bar {
-	display: inline-block;
+	float:right;
+	margin-top: 2.5%;
+	margin-right: 2.5%;
 }
 
 .back-button {
@@ -104,4 +106,13 @@
 	background-color: $rare-turquoise;
 	color: $white;
 	float: left;
+}
+
+.icon {
+	color: $dark-grey;
+	cursor: pointer;
+}
+
+.card-container {
+	padding-top: 0px;
 }
