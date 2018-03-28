@@ -41,12 +41,20 @@ export class CreateUserAccountService {
 	}
 
 	//Return all provinces
-	getProvinces() {
-		return this.http.get(this.domain+'/Provinces')
+	getProvinces(countryID) {
+		return this.http.get(this.domain+'/Provinces',countryID)
 		.map((response: Response) => {
 			return response.json().province;
 		});
 	}
+
+  //Return all countries
+  getCountries() {
+    return this.http.get(this.domain+'/Countries')
+      .map((response: Response) => {
+        return response.json().country;
+      });
+  }
 
 	//Create a new patient profile
 	registerUserProfile(user: any) {

@@ -54,19 +54,29 @@
                 </div>
                 <!-- Row 3 -->
                 <div class="row">
-                  <div class="col-3 form-group">
+                  <div class="col-6 form-group">
                     <mat-form-field>
                       <input matInput placeholder="address" class = "form-control" formControlName="address" name="address" required>
                       <mat-error *ngIf="personalInfoForm.controls.address.invalid && (personalInfoForm.controls.address.dirty || personalInfoForm.controls.address.touched)">{{getAddressErrorMessage(personalInfoForm.controls.address)}}</mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="col-3 form-group">
+                  <div class="col-6 form-group">
                     <mat-form-field>
                       <input matInput placeholder="City" class = "form-control" formControlName="city" name="city" required>
                       <mat-error *ngIf="personalInfoForm.controls.city.invalid && (personalInfoForm.controls.city.dirty || personalInfoForm.controls.city.touched)">{{getNameErrorMessage(personalInfoForm.controls.city)}}</mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="col-3 form-group">
+                </div>
+                <div class = "row">
+                  <div class="col-4 form-group">
+                    <mat-form-field>
+                      <mat-select  placeholder = "Country" class = "form-control" formControlName="country" name="country" required>
+                        <mat-option *ngFor="let country of countries" [value]="country._id">{{country.name}}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="personalInfoForm.controls.country.hasError('required')">You must select a country!</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-4 form-group">
                     <mat-form-field>
                       <mat-select class = "form-control" formControlName="province" name="province"  placeholder="Province" required>
                         <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
@@ -74,12 +84,13 @@
                       <mat-error *ngIf="personalInfoForm.controls.province.hasError('required')">You must select a province!</mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="col-3 form-group">
+                  <div class="col-4 form-group">
                     <mat-form-field>
                       <input matInput placeholder="Postal Code" class = "form-control" formControlName="postalCode" name="postalCode" required>
                       <mat-error *ngIf="personalInfoForm.controls.postalCode.invalid && (personalInfoForm.controls.postalCode.dirty || personalInfoForm.controls.postalCode.touched)">{{getAddressErrorMessage(personalInfoForm.controls.postalCode)}}</mat-error>
                     </mat-form-field>
                   </div>
+
                 </div>
                 <!-- Row 4 -->
                 <div class="row">
@@ -100,7 +111,7 @@
                 <div class ="col-3 button-container">
                   <button mat-button class ="previous-button" (click)="rebuildForm()">Clear</button>
                 </div>
-                <div class="col-3 button-container"  matTooltip="Will be enabled when all fields are properly filled!" [matTooltipPosition]="toolTipPosition">
+                <div class="col-3 button-container"  matTooltip="You can only proceed when all fields are properly filled!" [matTooltipPosition]="toolTipPosition">
                   <button mat-raised-button class="next-button" [disabled]="!personalInfoForm.valid" mat-button matStepperNext type ="submit" class="next-button">Next</button>
                 </div>
               </div>
@@ -116,7 +127,7 @@
               <!-- Row 1 -->
               <div class="row">
                 <div class="col form-group">
-                  <mat-form-field hintLabel="Alphanumeric only">
+                  <mat-form-field hintLabel="Must be between 5-10 characters long and contain at least one number and one letter. (Example: LZhang1)">
                     <input matInput placeholder="User Name" class = "form-control" formControlName="userName" name="userName" required>
                     <mat-error *ngIf="accountInfoForm.controls.userName.invalid && (accountInfoForm.controls.userName.dirty || accountInfoForm.controls.userName.touched)">{{getUserNameErrorMessage(accountInfoForm.controls.userName)}}</mat-error>
                   </mat-form-field>
@@ -126,7 +137,7 @@
               <div formGroupName="passwords">
               <div class="row">
                 <div class="col form-group">
-                  <mat-form-field hintLabel="Must be at least 6 characters long and contain one number, one uppercase letter, and one lowercase letter. Example: MyPassword1">
+                  <mat-form-field hintLabel="Must be between 6 - 15 characters long and contain one number, one uppercase letter, and one lowercase letter. (Example: MyPassword1)">
                     <input matInput autocomplete="off" type="password" placeholder="Password" class = "form-control" formControlName="password" name="password" required>
                     <mat-error *ngIf="accountInfoForm.get('passwords').get('password').invalid && (accountInfoForm.get('passwords').get('password').dirty || accountInfoForm.get('passwords').get('password').touched)">{{getPasswordErrorMessage(accountInfoForm.get('passwords').get('password'))}}</mat-error>
                   </mat-form-field>
@@ -148,8 +159,8 @@
               <div class="col-3 button-container">
                 <button mat-button matStepperPrevious class="previous-button">Back</button>
               </div>
-              <div class="col-3 button-container">
-                <button mat-button matStepperNext [disabled]="!accountInfoForm.valid" class="next-button" (click)="registerUserAccount()">Register</button>
+              <div class="col-3 button-container" matTooltip="You can only proceed when all fields are properly filled!" [matTooltipPosition]="toolTipPosition">
+                <button mat-button matStepperNext [disabled]="!accountInfoForm.valid" class="next-button" type = submit (click)="registerPatient()">Next</button>
               </div>
             </div>
           </div>
@@ -160,7 +171,13 @@
           <div class="col">
             <div class="row form-container">
               <h3>Success!</h3> <br/>
-              <p>User account has been created!</p>
+              <p>Your account has been created!</p>
+              <p>Please click below to log in!</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 button-container">
+              <button mat-raised-button routerLink="/login" class="login-button" >Login</button>
             </div>
           </div>
         </mat-step>
