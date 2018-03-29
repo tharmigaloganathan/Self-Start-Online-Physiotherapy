@@ -18,12 +18,13 @@ export class ManagePatientProfileComponent implements OnInit {
 	isChanged = false;
 	user;
 	account;
+	appointments;
+	payments;
 	today = new Date();
 	age: any;
 	genders;
 	provinces;
 	countries;
-	appointments;
 
 	constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
 		this.router = router;
@@ -81,16 +82,10 @@ export class ManagePatientProfileComponent implements OnInit {
 			user => {
 				this.user = user;
 				console.log("This was returned for the patient" + JSON.stringify(user));
-				this.snackBar.open("Information updated sucessfully!", "", {
-					duration: 1500
-				});
 				this.isChanged = false;
 			},
 			error => {
 				console.log("Error");
-				this.snackBar.open("Error!" + error, "", {
-					duration: 1500
-				});
 			});
 		}
 
@@ -142,12 +137,31 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-					//this.age = this.age.toFixed(0) + " years";
+					//this.age = this.age[0] + " years";
 					console.log(this.user);
 					console.log("Patient profile" + JSON.stringify(this.user));
 				});
 		 }
 
+		 //Get the users appointments
+		 populateAppointments(id) {
+		 this.userAccountListService.getAppointments(id).subscribe(
+			 data => {
+				 this.appointments = data;
+				 console.log(this.appointments);
+				 console.log("Patient's appointments" + JSON.stringify(this.appointments));
+			 });
+			}
 
+			//Get the users payments
+			populatePayments(id) {
+
+		}
+
+		//Show the rehab plan details
+		showRehabPlan(index) {
+		localStorage.setItem('edit_rehabilitation_id', this.user.treatments[index].rehabilitationPlan._id);
+		this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+	}
 
 }

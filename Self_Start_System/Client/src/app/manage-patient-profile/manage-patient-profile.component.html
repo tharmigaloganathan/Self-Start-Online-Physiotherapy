@@ -234,15 +234,51 @@
 						</mat-tab>
 						<!-- Appointments -->
 						<mat-tab label="Appointments">
-							<div *ngIf="user.appointments.length == 0" class="empty">
+							<div *ngIf="user.appointments.length == 0 else appointmentList" class="empty">
 								<h6> {{ user.givenName + " " + user.familyName }} has no appointment history</h6>
 							</div>
+							<ng-template #appointmentList>
+								<h6 class="top">Appointment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+								<mat-divider></mat-divider>
+								<mat-list>
+									<mat-list-item *ngFor="let appointment of appointments let i = index" [attr.data-index]="i">
+										<div class="col-2">
+											<b>Date: </b> {{ appointment.date | date : "dd.MM.y" }}
+										</div>
+										<div class="col-2">
+											<b>End Date: </b> {{ appointment.endStart | date : "dd.MM.y" }}
+										</div>
+										<div class="col-8">
+											<b>Reason: </b> {{ appointment.reason }}
+										</div>
+										<mat-divider></mat-divider>
+									</mat-list-item>
+								</mat-list>
+							</ng-template>
 						</mat-tab>
 						<!-- Payments -->
 						<mat-tab label="Payments">
-							<div *ngIf="user.payments.length == 0" class="empty">
+							<div *ngIf="user.payments.length == 0 else paymentList" class="empty">
 								<h6> {{ user.givenName + " " + user.familyName }} has no payment history</h6>
 							</div>
+							<ng-template #paymentList>
+								<h6 class="top">Payment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+								<mat-divider></mat-divider>
+								<mat-list>
+									<mat-list-item *ngFor="let payment of payments let i = index" [attr.data-index]="i">
+										<div class="col-2">
+											<b>Date: </b> {{ payment.dayTimeStamp | date : "dd.MM.y" }}
+										</div>
+										<div class="col-2">
+											<b>Amount: </b> {{ payment.amount }}
+										</div>
+										<div class="col-8">
+											<b>Note: </b> {{ payment.note }}
+										</div>
+										<mat-divider></mat-divider>
+									</mat-list-item>
+								</mat-list>
+							</ng-template>
 						</mat-tab>
 					</mat-tab-group>
 				</mat-card>

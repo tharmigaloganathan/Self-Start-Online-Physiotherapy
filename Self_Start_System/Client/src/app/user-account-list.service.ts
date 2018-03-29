@@ -97,5 +97,14 @@ export class UserAccountListService {
 		});
 	}
 
+	//Get a single appointment for a patient
+	getSingleAppointment(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.get(this.domain+'/Appointments/'+id, this.options)
+			.map((response: Response) => {
+				return response.json();
+		});
+	}
+
 
 }

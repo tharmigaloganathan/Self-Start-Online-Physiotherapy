@@ -195,6 +195,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
 	 //Get the users appointments
 	 populateAppointments(id) {
+	 //this.userAccountListService.getSingleAppointment(id).subscribe(
 	 this.userAccountListService.getAppointments(id).subscribe(
 		 data => {
 			 this.appointments = data;
