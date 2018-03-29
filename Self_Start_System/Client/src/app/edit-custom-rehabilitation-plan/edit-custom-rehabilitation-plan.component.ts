@@ -50,6 +50,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   completeAssessmentTests = [];
   selectedCompleteAssessmentTest: any;
   selectedIncompleteIndex = 0;
+  selectedCompleteIndex = 0;
   form: any;
   formQuestions = [];
   allQuestions: any[];
@@ -320,6 +321,11 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   setActiveIncompleteTest(i){
     this.selectedIncompleteIndex = i;
     this.getForm();
+  }
+
+  setActiveCompleteTest(i){
+    this.selectedCompleteIndex = i;
+    this.selectCompleteAssessmentTest(this.completeAssessmentTests[i]);
   }
 
   getForm(){

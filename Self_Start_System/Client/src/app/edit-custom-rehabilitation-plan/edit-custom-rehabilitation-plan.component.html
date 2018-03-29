@@ -171,11 +171,55 @@
   </mat-tab>
     <mat-tab label="Completed Assessments">
     <br>
-    <h1 class="subtitle">
-      <b>Completed Assessments</b>
-      <br>
-    </h1>
-    <br>
+      <div class="container top">
+        <div class="row">
+          <div class="col-12">
+            <mat-card style="height: auto; width: auto;">
+              <h2>Completed Tests</h2>
+              <hr>
+              <div class="row">
+                <div class="col-md-3 border-right" style="padding: 0%;">
+                  <mat-list class="test-list">
+                    <h5>Tests</h5>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="item" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >
+                      <h6>{{test.name}}</h6>
+                      <p>Date Completed: {{test.dateCompleted | date:'shortDate'}}</p>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                  </mat-list>
+                </div>
+                <div class="col-md-9 col-md-offset-3">
+                  <!-- Row 1: Test Results -->
+                  <div class="row">
+                    <div class="col-12 form-container">
+                      <h6>Test Results</h6>
+                      <ul class="list-group-ans">
+                        <li *ngFor="let result of allResults" class="list-group-item">
+                          <p>Question: {{result.question}}</p>
+                          <p>Answer: {{result.answer}}</p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- Row 2: Recommendation -->
+                  <div class="row">
+                    <div class="col-12 form-container">
+                      <h6>Recommendation</h6>
+                      <ul class="list-group-reco">
+                        <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">
+                          <p>{{recommendation.decision}}</p>
+                          <p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
     <div class="container">
       <div class="row">
         <div class="col-4" >
