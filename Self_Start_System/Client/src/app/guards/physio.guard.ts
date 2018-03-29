@@ -10,7 +10,6 @@ import { AuthenticationService} from "../authentication.service";
 @Injectable()
 export class PhysioGuard implements CanActivate {
   redirectUrl;
-  adminProfile
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
