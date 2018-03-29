@@ -1,3 +1,51 @@
-<p>
-  physiotherapist-messages works!
-</p>
+<app-navbar-physio></app-navbar-physio>
+
+<div class="content">
+    <!-- <p class="no-message-placeholder-text" *ngIf="messages.length == 0">
+        You have no message history with your physiotherapist.<br/>
+        Type a message in the input field below and hit send to contact your physiotherapist!
+    </p>
+    <p class="unread-messages-text" *ngIf="messages.length > 0">
+        You have {{unreadMessages}} unread message(s).
+    </p>
+    <mat-card class="messages-card mat-elevation-z0">
+        <div *ngFor="let message of messages">
+            <mat-card *ngIf="message.patientID != message.sender" class="physio-message mat-elevation-z3">
+                {{message.message}}
+                <mat-card-subtitle>Physiotherapist</mat-card-subtitle>
+            </mat-card>
+            <mat-card *ngIf="message.patientID == message.sender" class="patient-message mat-elevation-z3">
+                {{message.message}}
+                <mat-card-subtitle>You</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </mat-card> -->
+</div>
+
+<div class="grid-container content">
+    <div class="row patient-list-row-height">
+        <div class="col-md-3 col-padding-0">
+            <mat-card class="patient-list-card">
+                <form class="example-form">
+                  <mat-form-field class="search-full-width">
+                    <input matInput placeholder="Search" value="">
+                  </mat-form-field>
+                </form>
+                <mat-nav-list class="patient-nav-list">
+                    <mat-list-item class="patient-list-item">Bob Miller</mat-list-item>
+                    <mat-list-item class="patient-list-item">Sally Jones</mat-list-item>
+                    <mat-list-item class="patient-list-item">Napoleon Bonaparte</mat-list-item>
+               </mat-nav-list>
+            </mat-card>
+        </div>
+        <div class="col-md-9 col-padding-0">
+            hi
+            <form class="new-message">
+              <mat-form-field class="input-form">
+                <input matInput #newMessage placeholder="Type a message">
+              </mat-form-field>
+              <button class="send-button" (click)="sendNewMessage(newMessage.value); newMessage.value=''">SEND</button>
+            </form>
+        </div>
+    </div>
+</div>

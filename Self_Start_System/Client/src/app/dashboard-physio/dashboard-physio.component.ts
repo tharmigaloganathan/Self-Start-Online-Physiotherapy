@@ -18,7 +18,7 @@ export class DashboardPhysioComponent implements OnInit {
 
     constructor(
         private authService: AuthenticationService,
-        ) 
+        )
     { this.authService = authService;}
 
     ngOnInit() {
@@ -34,6 +34,10 @@ export class DashboardPhysioComponent implements OnInit {
         //get treatments loop through treatment
         //if physioID = our ID, add patientID to our array
 
+    }
+
+    getAppointments() {
+        
     }
 
     getMessages() {
