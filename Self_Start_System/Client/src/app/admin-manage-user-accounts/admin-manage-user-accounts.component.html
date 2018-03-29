@@ -12,23 +12,8 @@
 						<div class="col-md-8">
 							<h1>{{ user.givenName + " " + user.familyName }}</h1>
 						</div>
-						<!--
-						<div class="col-md-2 col-md-offset-9">
-							<div class="row">
-								<div class="col">
-									<div class="icon-bar">
-										<mat-icon class="icon" matTooltip="Create Treatment">assignment</mat-icon>
-										<mat-icon class="icon" matTooltip="Book Appointment">event</mat-icon>
-										<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
-										<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
-									</div>
-								</div>
-							</div>
-						</div>
-					-->
 						<div class="col-md-4 col-md-offset-9">
 							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
-							<!-- <button mat-button class="previous-button" (click)="viewAccountList()">Back to Account List</button> -->
 							<div class="icon-bar">
 								<mat-icon class="icon" matTooltip="Create Treatment">assignment</mat-icon>
 								<mat-icon class="icon" matTooltip="Book Appointment">event</mat-icon>
@@ -51,7 +36,7 @@
 									</div>
 									<ng-template #edit>
 										<div class="col button-container">
-															<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+											<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
 											<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
 										</div>
 									</ng-template>
