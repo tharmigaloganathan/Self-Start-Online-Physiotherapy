@@ -331,14 +331,25 @@ function deleteAppointment(id, body) {
               // );
 
               // Delete time slot
-              document.appointments.splice(deleteIndex,1)
+              document.appointments.splice(deleteIndex,1);
 
               // Save the patient profile document
               document.save(function (error) {
                 if (error) {
                   reject(error);
                 } else {
-                  resolve(document);
+                  // Add space back to physiotherapist
+                  Physiotherapists.addFreeTimeSlot(
+                    appointment.physiotherapist,
+                    {
+                      startDate: appointment.date,
+                      endDate: appointment.endDate
+                    }
+                  ).then(result=>{
+                    resolve(document);
+                  }).catch(err=>{
+                    reject(err);
+                  });
                 }
               });
             }

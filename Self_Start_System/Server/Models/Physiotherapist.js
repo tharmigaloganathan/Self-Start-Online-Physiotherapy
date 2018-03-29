@@ -28,8 +28,14 @@ module.exports = {
     changeOneDate:changeOneDate,
     splitTimeSlotDueToAppointment:splitTimeSlotDueToAppointment,
   deleteOneDate:deleteOneDate,
-  addAppointment:addAppointment
+  addAppointment:addAppointment,
+  getAllAppointments:getAllAppointments
 };
+
+var Appointments = require("./Appointment");
+var PatientProfiles = require("./PatientProfile");
+// Time in milliseconds
+const MIN_TIMESLOT_LENGTH = 300000; // 5 minutes
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
@@ -166,13 +172,23 @@ function combineOverLappingDates(document) {
 
   // Store the new array, with no overlaps
   let newAvailableTimeSlot = new Array();
-  // Initialize with one time slot
-  newAvailableTimeSlot.push(document.availableTimeSlots[0]);
 
-  for (let slot of document.availableTimeSlots) {
+  // Find the first valid entry and seed the array with it
+  let index = 0;
+  for (; index < document.availableTimeSlots.length; index++){
+    let slot = document.availableTimeSlots[index];
+    if(slot.endDate.getTime() - slot.startDate.getTime() > MIN_TIMESLOT_LENGTH){
+      // Initialize with one time slot
+      newAvailableTimeSlot.push(slot);
+      break;
+    }
+  }
 
+  // Start at prev index
+  for (let i = index; i < document.availableTimeSlots.length; i++) {
+    let slot = document.availableTimeSlots[i];
     // Only consider adding time slot if the duration is more than 2 seconds long
-    if (slot.endDate.getTime() - slot.startDate.getTime() > 2000){
+    if (slot.endDate.getTime() - slot.startDate.getTime() > MIN_TIMESLOT_LENGTH){
       // If the current start time is greater than the last end time,
       // No overlap, so push the new object
       if (slot.startDate.getTime() > newAvailableTimeSlot[newAvailableTimeSlot.length - 1].endDate.getTime()){
@@ -213,20 +229,22 @@ function addFreeTimeSlot(id, body){
           if (error) {
             reject(error);
           } else {
-            document.availableTimeSlots.push({
-              startDate: body.startDate,
-              endDate: body.endDate
-            });
+            if (document !== null){
+              document.availableTimeSlots.push({
+                startDate: body.startDate,
+                endDate: body.endDate
+              });
 
-            document = combineOverLappingDates(document);
+              document = combineOverLappingDates(document);
 
-            document.save(function (error) {
-              if (error) {
-                reject(error);
-              } else {
-                resolve(document);
-              }
-            });
+              document.save(function (error) {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(document);
+                }
+              });
+            }
           }
         });
       }
@@ -407,6 +425,75 @@ function splitTimeSlotDueToAppointment(id, timeslotId, appointmentStart, appoint
   });
 }
 
+// Retrieves every appointment from this Physiotherapist
+function getAllAppointments(id){
+  return new Promise (function (resolve, reject) {
+    console.log("getAllAppointments", id);
+
+    Physiotherapists.findById(id, function (error, document) {
+      if (error) {
+        reject(error);
+      } else {
+        // Stores all appointments in a list
+        let allAppointmentList = [];
+
+        // Function to gather appointments one-by-one
+        let getAppointments = index => {
+          console.log("starting ", index);
+          return new Promise((resolve, reject)=>{
+            if (index < document.appointments.length){
+              Appointments.getOne(document.appointments[index]).then( response => {
+                console.log("starting PatientProfiles.getOne", response);
+                // Only run if response is not null
+                if (response){
+                  // Find the associated patient profile
+                  PatientProfiles.getOne(response.patientProfile)
+                    .then(result=>{
+                      console.log("in PatientProfiles.getOne", result);
+                      // Add the full patient profile
+                      let appointmentWithName = {
+                        appointment: response,
+                        fullPatientProfile: result
+                      };
+
+                      allAppointmentList.push(appointmentWithName);
+                      getAppointments(index+1).then(response=>{
+                        resolve(response);
+                      }).catch(err=>{
+                        reject(err);
+                      });
+                    }).catch(err=>{
+                      reject(err);
+                  });
+                } else { // If null, immediately run the next version
+                  getAppointments(index+1).then(response=>{
+                    resolve(response);
+                  }).catch(err=>{
+                    reject(err);
+                  });
+                }
+
+              }).catch(err => {
+                reject(err);
+              });
+            } else {
+              resolve("Done");
+            }
+          })
+        };
+
+        // Start function
+        getAppointments(0).then(response=>{
+          resolve(
+            allAppointmentList
+          )
+        }).catch(err=>{
+          reject(err);
+        });
+      }
+    });
+  });
+}
 
 function splitTimeSlotDueToAppointmentNoSave(
   document, timeslotId, appointmentStart, appointmentEnd
