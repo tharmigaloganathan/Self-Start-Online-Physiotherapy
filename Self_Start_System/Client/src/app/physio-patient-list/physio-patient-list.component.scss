@@ -1,0 +1,48 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+* {
+	 font-family: 'Roboto Condensed', sans-serif;
+}
+
+.top {
+	margin-top: 2.5%;
+	margin-bottom: 2.5%;
+}
+
+.card-container {
+	padding-bottom: 0.5%;
+}
+
+.create-account-button {
+	background-color: $flash-of-orange;
+	color: $white;
+	float: right;
+}
+
+.reset-button {
+	background-color: $electric-glow;
+	color: $white;
+}
+
+.view-profile-button {
+	background-color: $beautiful-blue;
+	color: $white;
+}
+
+.row-item:hover {
+	background-color: #F5F5F5;
+	cursor: pointer;
+}
+
+.row-border {
+	border-bottom: solid 3px, grey
+}
+
+.search-area {
+	width: 100%;
+}
+
+.radio-button {
+  margin: 5px;
+}

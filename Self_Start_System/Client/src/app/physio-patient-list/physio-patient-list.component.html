@@ -1,0 +1,91 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<app-navbar-physio></app-navbar-physio>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<!-- Search and Filter Area -->
+			<div class="card-container top">
+				<mat-card>
+					<h1>Patients</h1>
+					<hr>
+					<div class="row">
+						<!-- Filter functionality -->
+						<div class="col-md-3">
+							<label>Showing: </label>
+							<mat-form-field>
+							  <mat-select placeholder="">
+							    <mat-option value="0" (click)="setUserType(0)">All Patients</mat-option>
+									<mat-option value="1" (click)="setUserType(1)">My Patients</mat-option>
+							  </mat-select>
+							</mat-form-field>
+						</div>
+						<!-- Search functionality -->
+						<div class="col-md-5">
+							<form class="search-form">
+            	<mat-form-field class="search-field search-area">
+                	<input matInput #search placeholder="Search..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+                	<mat-icon matSuffix>search</mat-icon>
+	            	</mat-form-field>
+        			</form>
+						</div>
+					</div>
+					<hr>
+					<!-- Individual Patients Cards -->
+					<div *ngIf="!isMyPatient; else myPatientsList">
+						<mat-table #table [dataSource]="patientDataSource">
+
+							<!-- First Name Column -->
+							<ng-container matColumnDef="givenName">
+								<mat-header-cell *matHeaderCellDef> <h6>First Name</h6> </mat-header-cell>
+								<mat-cell *matCellDef="let element"> {{element.givenName}} </mat-cell>
+							</ng-container>
+
+							<!-- Last Name Column -->
+							<ng-container matColumnDef="familyName">
+								<mat-header-cell *matHeaderCellDef> <h6>Last Name</h6> </mat-header-cell>
+								<mat-cell *matCellDef="let element"> {{element.familyName}} </mat-cell>
+							</ng-container>
+
+							<!-- Email Column -->
+							<ng-container matColumnDef="email">
+								<mat-header-cell *matHeaderCellDef> <h6>Email</h6> </mat-header-cell>
+								<mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+							<mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item" (click)="selectRow(row)"></mat-row>
+						</mat-table>
+					</div>
+					<!-- Individual Physio Cards -->
+					<ng-template #myPatientsList>
+						<mat-table #table [dataSource]="myPatientsDataSource">
+
+							<!-- First Name Column -->
+							<ng-container matColumnDef="givenName">
+								<mat-header-cell *matHeaderCellDef> <h6>First Name</h6> </mat-header-cell>
+								<mat-cell *matCellDef="let element"> {{element.givenName}} </mat-cell>
+							</ng-container>
+
+							<!-- Last Name Column -->
+							<ng-container matColumnDef="familyName">
+								<mat-header-cell *matHeaderCellDef> <h6>Last Name</h6> </mat-header-cell>
+								<mat-cell *matCellDef="let element"> {{element.familyName}} </mat-cell>
+							</ng-container>
+
+							<!-- Email Column -->
+							<ng-container matColumnDef="email">
+								<mat-header-cell *matHeaderCellDef> <h6>Email</h6> </mat-header-cell>
+								<mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="displayedColumnsPhysio"></mat-header-row>
+							<mat-row *matRowDef="let row; columns: displayedColumnsMyPatients;" class="row-item" (click)="selectRow(row)"></mat-row>
+						</mat-table>
+					</ng-template>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

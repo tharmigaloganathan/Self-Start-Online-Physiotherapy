@@ -36,6 +36,7 @@ import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patien
 
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
+import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
 
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 import {AuthGuard} from "./guards/auth.guard";
@@ -177,7 +178,7 @@ const appRoutes: Routes = [
 
   {
     path: 'physio/patients',
-    component: ManagePatientProfileComponent,
+    component: PhysioPatientListComponent,
     canActivate: [PhysioGuard]
 
   },
