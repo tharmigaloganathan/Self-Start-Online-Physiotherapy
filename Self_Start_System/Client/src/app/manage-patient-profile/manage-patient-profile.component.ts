@@ -31,6 +31,8 @@ export class ManagePatientProfileComponent implements OnInit {
 	activeTreatmentIndex;
 	activeTreatment;
 	activeRehabPlan;
+	activeRehabPlanExercises = [];
+	activeRehabPlanAssessmentTests = [];
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -81,6 +83,8 @@ export class ManagePatientProfileComponent implements OnInit {
 		console.log("Active rehabPlan index" + this.activeRehabPlan);
 		console.log(this.user.treatments[this.activeTreatment]);
 		*/
+		this.getRehabPlanExercises();
+		this.getRehabPlanAssessmentTests();
 }
 
 	//View the list of all treatments
@@ -198,4 +202,27 @@ export class ManagePatientProfileComponent implements OnInit {
 			populatePayments(id) {
 			//To be written after payments is made
 		}
+
+			//Get exercsies for the selected rehab plan
+			getRehabPlanExercises() {
+				for(var i=0; i<this.activeRehabPlan.exerciseOrders.length; i++) {
+					this.userAccountListService.getExercise(this.activeRehabPlan.exerciseOrders[i]).subscribe(
+						data => {
+							this.activeRehabPlanExercises.push(data);
+							console.log(this.activeRehabPlanExercises);
+						});
+				}
+		}
+
+		//Get Assessment Test for the selected rehab plan
+		getRehabPlanAssessmentTests() {
+		for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
+			this.userAccountListService.getAssessmentTest(this.activeRehabPlan.assessmentTests[i]).subscribe(
+				data => {
+					this.activeRehabPlanAssessmentTests.push(data);
+					console.log(this.this.activeRehabPlanAssessmentTests);
+				});
+		}
+	}
+
 }

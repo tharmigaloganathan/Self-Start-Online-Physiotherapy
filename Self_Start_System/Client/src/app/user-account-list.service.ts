@@ -106,5 +106,23 @@ export class UserAccountListService {
 		});
 	}
 
+	//Get a single exercise
+	getExercise(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.get(this.domain+'/Exercises/'+id, this.options)
+			.map((response: Response) => {
+			return response.json().exercise;
+		});
+	}
+
+	//Get a single assessment test
+	getAssessmentTest(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.get(this.domain+'/AssessmentTests/'+id, this.options)
+			.map((response: Response) => {
+			return response.json().assessmentTest;
+		});
+	}
+
 
 }
