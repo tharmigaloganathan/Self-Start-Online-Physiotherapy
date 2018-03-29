@@ -54,6 +54,23 @@ router.route('/login')
 
 
     });
+router.route('/:username')
+    .get(function (request, response) {
+        console.log("within UserAccount route, getting account with username: ", request.params.username);
+
+        UserAccounts.getByName(request.params.username).then(function(userAccount){
+            console.log("object retreived from getbyName: ", userAccount)
+            if (userAccount) {
+                response.json({success: true, userAccount: userAccount});
+            } else {
+                response.json({success: false, message: "Account was not found "});
+            }
+        }).catch(function(err){
+            console.log(err);
+            response.json({success: false, message: err});
+        }
+        )
+    });
 
 router.route('/')
     .post(function (request,response) {

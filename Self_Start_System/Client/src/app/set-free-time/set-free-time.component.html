@@ -2,8 +2,16 @@
 
 <!--<button mat-raised-button class="logout-button">Create New</button>-->
 <div class="container">
-  <div *ngIf="calendarOptions">
-    <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
-                     (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)"></ng-fullcalendar>
-  </div>
+  <!--Title-->
+  <h1 class="title text-center">Appointments And Availability</h1>
+
+  <mat-card>
+    <!--Calendar-->
+    <div *ngIf="calendarOptions">
+      <ng-fullcalendar
+        #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
+                       (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)"></ng-fullcalendar>
+
+    </div>
+  </mat-card>
 </div>
