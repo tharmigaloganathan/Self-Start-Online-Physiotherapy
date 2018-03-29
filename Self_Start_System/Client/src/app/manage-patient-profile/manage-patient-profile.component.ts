@@ -211,18 +211,18 @@ export class ManagePatientProfileComponent implements OnInit {
 							this.activeRehabPlanExercises.push(data);
 							console.log(this.activeRehabPlanExercises);
 						});
+					}
 				}
-		}
 
-		//Get Assessment Test for the selected rehab plan
-		getRehabPlanAssessmentTests() {
-		for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
-			this.userAccountListService.getAssessmentTest(this.activeRehabPlan.assessmentTests[i]).subscribe(
-				data => {
-					this.activeRehabPlanAssessmentTests.push(data);
-					console.log(this.this.activeRehabPlanAssessmentTests);
-				});
-		}
-	}
+			//Get Assessment Test for the selected rehab plan
+			getRehabPlanAssessmentTests() {
+			for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
+				this.userAccountListService.getAssessmentTest(this.activeRehabPlan.assessmentTests[i]).subscribe(
+					data => {
+						this.activeRehabPlanAssessmentTests.push(data);
+						console.log(this.activeRehabPlanAssessmentTests);
+					});
+				}
+			}
 
 }
