@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-manage-patient-profile',
@@ -26,10 +27,15 @@ export class ManagePatientProfileComponent implements OnInit {
 	provinces;
 	countries;
 
-	constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
+	constructor(router: Router,
+							userAccountListService: UserAccountListService,
+							authenticationService: AuthenticationService,
+							public toastr: ToastsManager,
+             	vcr: ViewContainerRef) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
+		this.toastr.setRootViewContainerRef(vcr);
 }
 
   ngOnInit() {
@@ -83,9 +89,12 @@ export class ManagePatientProfileComponent implements OnInit {
 				this.user = user;
 				console.log("This was returned for the patient" + JSON.stringify(user));
 				this.isChanged = false;
+				localStorage.setItem('selectedPatient', JSON.stringify(user));
+				this.toastr.success("Information updated sucessfully!");
 			},
 			error => {
 				console.log("Error");
+				this.toastr.error("Failed to update information! Please try again.");
 			});
 		}
 

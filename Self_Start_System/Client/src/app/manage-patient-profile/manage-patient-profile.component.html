@@ -66,7 +66,7 @@
 									</div>
 									<div class="col-6 form-container">
 										<mat-form-field>
-											<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
+											<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [(ngModel)]="user.DOB" name="user.DOB" [disabled]="!isChanged">
 											<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 											<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
 										</mat-form-field>
