@@ -164,59 +164,18 @@
 								</div>
 								<form class="form-container">
 									<div class="row">
-										<!--
-										<div class="col-3 form-container">
-											<label>History</label>
-										</div>
-									-->
-										<div class="col-12" form-container>
-											<!-- Rehab Plan details -->
-											<label>Rehabilitation Plan</label>
+										<div class="col-9" form-container>
+											<!-- Treatment Details -->
+											<h4><b>Treatment Details</b></h4>
 											<div class="row">
 												<div class="col-3 form-container">
 													<mat-form-field>
-														<input matInput placeholder="Name">
+														<input matInput placeholder="Assigned" [(ngModel)]="activeTreatment.dateAssign" name="activeTreatment.dateAssign" readonly>
 													</mat-form-field>
 												</div>
 												<div class="col-3 form-container">
 													<mat-form-field>
-														<input matInput placeholder="Author Name">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Physiotherapist" [value]="physiotherapist" name="physiotherapist">
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-9 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Description">
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-6 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Goal">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Time Frame to Complete">
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Assigned">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Started">
+														<input matInput placeholder="Started" [(ngModel)]="activeTreatment.dateStart" name="activeTreatment.dateStart" readonly>
 													</mat-form-field>
 												</div>
 												<div class="col-3 form-container">
@@ -224,10 +183,57 @@
 														<input matInput placeholder="Finished">
 													</mat-form-field>
 												</div>
+												<div class="col-3 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Active"  [(ngModel)]="activeTreatment.active" name="activeTreatment.active" readonly>
+													</mat-form-field>
+												</div>
 											</div>
-											<label>Recommendations</label>
+											<!-- Rehab Plan details -->
+											<h4><b>Rehabilitation Plan</b></h4>
+											<div class="row">
+												<div class="col-4 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Name" [(ngModel)]="activeRehabPlan.name" name="activeRehabPlan.name" readonly>
+													</mat-form-field>
+												</div>
+												<div class="col-4 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Author Name" [(ngModel)]="activeRehabPlan.authorName" name="activeRehabPlan.authorName" readonly>
+													</mat-form-field>
+												</div>
+												<div class="col-4 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Physiotherapist" [value]="physiotherapist" name="physiotherapist">
+													</mat-form-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-12 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Description" [(ngModel)]="activeRehabPlan.description" name="activeRehabPlan.description" readonly>
+													</mat-form-field>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-8 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Goal" [(ngModel)]="activeRehabPlan.goal" name="activeRehabPlan.goal" readonly>
+													</mat-form-field>
+												</div>
+												<div class="col-4 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Time Frame to Complete" [(ngModel)]="activeRehabPlan.timeFrameToComplete" name="activeRehabPlan.timeFrameToComplete" readonly>
+													</mat-form-field>
+												</div>
+											</div>
+											<h4><b>Recommendations</b></h4>
 											<div class="row">
 											</div>
+										</div>
+										<!-- Rehab plan history -->
+										<div class="col-3 form-container">
+											<label>History</label>
 										</div>
 									</div>
 								</form>

@@ -26,6 +26,11 @@ export class ManagePatientProfileComponent implements OnInit {
 	genders;
 	provinces;
 	countries;
+	showPlan = false;
+	physiotherapist;
+	activeTreatmentIndex;
+	activeTreatment;
+	activeRehabPlan;
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -45,26 +50,53 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
-	}
+}
 
 	//Go back to account list
 	viewAccountList() {
 		this.router.navigate(['/physio/patients']);
-	}
+}
 
 	//Make information editable
 	editPatientInfo() {
 		this.isChanged = true;
-	}
+}
 
 	//Reset the patient info
 	cancelEdit() {
 		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.isChanged = false;
-	}
+}
+
+	//Show the rehab plan details
+	showRehabPlan(index) {
+		this.showPlan = true;
+		this.activeTreatmentIndex = index;
+		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
+		//Tempory fix until rehab plans is an array
+		this.activeRehabPlan = this.user.treatments[this.activeTreatmentIndex].rehabilitationPlan;
+		/* Doesn't work right now b/c rehab plan isn't an array
+		this.activeRehabPlan = this.user.treatments[this.activeTreatment].rehabilitationPlan.length - 1;
+		console.log(this.user.treatments[this.activeTreatment].rehabilitationPlan.length);
+		console.log("Active rehabPlan index" + this.activeRehabPlan);
+		console.log(this.user.treatments[this.activeTreatment]);
+		*/
+}
+
+	//View the list of all treatments
+	viewTreatmentList() {
+		this.showPlan = false;
+}
+
+	//Edit the selected rehab plan
+	editRehabPlan() {
+	localStorage.setItem('edit_rehabilitation_id', this.user.treatments[this.activeTreatmentIndex].rehabilitationPlan._id);
+	this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+}
 
 	//Update the patients information
 	savePatientInfo() {
+		this.loading = true;
 		const patientProfile = {
 			familyName: this.user.familyName,
 			givenName: this.user.givenName,
@@ -96,7 +128,7 @@ export class ManagePatientProfileComponent implements OnInit {
 				console.log("Error");
 				this.toastr.error("Failed to update information! Please try again.");
 			});
-		}
+	}
 
 		//Get all the genders
 		populateGenders() {
@@ -164,13 +196,6 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get the users payments
 			populatePayments(id) {
-
+			//To be written after payments is made
 		}
-
-		//Show the rehab plan details
-		showRehabPlan(index) {
-		localStorage.setItem('edit_rehabilitation_id', this.user.treatments[index].rehabilitationPlan._id);
-		this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
-	}
-
 }
