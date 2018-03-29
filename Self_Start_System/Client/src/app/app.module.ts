@@ -106,6 +106,7 @@ import { AdminGuard} from "./guards/admin.guard";
 import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
   declarations: [
@@ -198,7 +199,7 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 		MatDialogModule,
 		LoadingModule,
     MatRadioModule,
-
+    ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],

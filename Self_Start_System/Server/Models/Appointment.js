@@ -6,6 +6,7 @@ var appointmentSchema = mongoose.Schema(
         reason: String,
         other: String,
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'},
+      physiotherapist: {type: mongoose.Schema.ObjectId, ref: 'Physiotherapist'}
     }
 );
 var Appointments = module.exports = mongoose.model('Appointment', appointmentSchema);
@@ -115,6 +116,9 @@ function add(appointment){
           reject(error);
         } else if (!newAppointment.patientProfile) {
           error = "No patientProfile detected.";
+          reject(error);
+        } else if (!newAppointment.physiotherapist) {
+          error = "No physiotherapist detected.";
           reject(error);
         } else {
           newAppointment.save(function (error) {

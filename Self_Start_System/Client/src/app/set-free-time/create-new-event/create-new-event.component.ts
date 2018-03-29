@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, ViewContainerRef} from '@angular/core';
 import { SetFreeTimeService } from "../../set-free-time.service";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "../../authentication.service";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-create-new-event',
@@ -24,7 +25,12 @@ export class CreateNewEventComponent implements OnInit {
 
   constructor(private setFreeTimeService : SetFreeTimeService,
               private router : Router,
-              private authenticationService: AuthenticationService) { }
+              private authenticationService: AuthenticationService,
+              public toastr: ToastsManager,
+              vcr: ViewContainerRef
+  ) {
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.authenticationService.getProfile().subscribe(data=>{
@@ -57,6 +63,23 @@ export class CreateNewEventComponent implements OnInit {
   };
 
   onClickSubmit = () => {
+    // console.log(typeof(this.startTime));
+    // Check if the end time time is after the start time
+    if (Date.parse(`01/01/2011 ${this.startTime}`) >= Date.parse(`01/01/2011 ${this.endTime}`)){
+      // Display an info toast with no title
+      this.toastr.error('End time must be after start time', 'Oops!');
+      return
+    }
+
+    // If the number of weeks is not greater than 0, display an error toast
+    if (!(this.numWeek > 0)){
+      // Display an info toast
+      this.toastr.error('Number of weeks must be an integer greater than 0', 'Oops!');
+      return
+    }
+
+    // Create endDate variable on the same day as the startDate
+    this.endDate = new Date(this.startDate);
     this.startDate.setHours(this.startTime.substring(0, 2),this.startTime.substring(3, 5));
     this.endDate.setHours(this.endTime.substring(0, 2),this.endTime.substring(3, 5));
 

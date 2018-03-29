@@ -103,16 +103,6 @@ export class BookAppointmentFormComponent implements OnInit {
       }, err=>{
         console.log(err);
       });
-
-      // console.log(
-      //   this.startDate,
-      //   this.endDate,
-      //   this.assessmentTypeValue,
-      //   this.contactMethod,
-      //   localStorage.getItem('book-appointment-mongoId'),
-      //   localStorage.getItem('book-appointment-physioId')
-      // );
-
     }
   };
 
@@ -169,6 +159,7 @@ export class BookAppointmentFormComponent implements OnInit {
       this.endTime = this.addByHour(this.startTime, 1, 30 );
 
     // Update End Date
+    this.endDate = new Date(this.startDate);
     this.endDate.setHours(this.endTime.substring(0,2), this.endTime.substring(3,5));
   };
 }
