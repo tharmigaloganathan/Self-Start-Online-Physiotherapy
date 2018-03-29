@@ -99,6 +99,7 @@ import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitat
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
 import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
+import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 
 
 @NgModule({
@@ -145,6 +146,7 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
+		PhysiotherapistMessagesComponent,
   ],
   imports: [
     HttpModule,
