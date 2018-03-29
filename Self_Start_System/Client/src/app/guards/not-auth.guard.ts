@@ -13,6 +13,7 @@ export class NotAuthGuard implements CanActivate {
     console.log('Not Auth guard canActivate called');
 
     var retrievedAccount = localStorage.getItem("userAccount");
+
     console.log("here is the retrieved account from localstorage: ", retrievedAccount);
     if (!retrievedAccount) {
       return true;
