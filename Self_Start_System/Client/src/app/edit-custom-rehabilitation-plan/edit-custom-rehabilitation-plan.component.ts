@@ -10,13 +10,15 @@ import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog
 import { RecommendationService } from "../recommendation.service";
 import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
 import { Router } from '@angular/router';
+import { FormService } from "../form.service";
+import { EditQuestionDialogComponent } from "../edit-question-dialog/edit-question-dialog.component";
 
 
 @Component({
   selector: 'app-edit-custom-rehabilitation-plan',
   templateUrl: './edit-custom-rehabilitation-plan.component.html',
   styleUrls: ['./edit-custom-rehabilitation-plan.component.scss'],
-  providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService ],
+  providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService, FormService ],
   encapsulation: ViewEncapsulation.None
 })
 export class EditCustomRehabilitationPlanComponent implements OnInit {
@@ -47,7 +49,12 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   incompleteAssessmentTests = [];
   completeAssessmentTests = [];
   selectedCompleteAssessmentTest: any;
+  selectedIncompleteIndex = 0;
+  form: any;
+  formQuestions = [];
+  allQuestions: any[];
 
+  editQuestionDialogRef: MatDialogRef<EditQuestionDialogComponent>
   editRecommendationDialogRef: MatDialogRef<EditRecommendationDialogComponent>
 
   allRecommendations = [];
@@ -63,6 +70,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
               private dialog: MatDialog,
               private authService: AuthenticationService,
               private recommendationService: RecommendationService,
+              private formService: FormService,
               router: Router) {
     console.log("ID", this.editID);
     this.router = router;
@@ -300,6 +308,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
             else { this.completeAssessmentTests.push(allAssessmentTests[i]); }
           }
         }
+        this.getForm();
       }
     )
   }
@@ -308,6 +317,85 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //RECOMMENDATIONS STARTS
   //==================================
+  setActiveIncompleteTest(i){
+    this.selectedIncompleteIndex = i;
+    this.getForm();
+  }
+
+  getForm(){
+    this.formService.getForm(this.incompleteAssessmentTests[this.selectedIncompleteIndex].form).subscribe(
+      data => {
+        console.log("specific form received! ", data);
+        this.form = data.form;
+        this.getAllQuestions();
+      },
+      error => console.log(error)
+    );
+  }
+
+  getAllQuestions(){
+    //Set to nothing so that it doesn't get double-populated
+    this.formQuestions = [];
+    this.allQuestions = [];
+    this.formService.getAllQuestions().subscribe(
+      data => {
+        let questions = data.question;
+        this.allQuestions = data.question;
+
+        //Places the formQuestion objects in order, splices it out of rest of questions
+        for (let i = 0; i < this.form.questions.length; i++) {
+          for (let j = 0; j < this.allQuestions.length; j++){
+            if(this.form.questions[i] == questions[j]._id) {
+              this.formQuestions.push(questions[j]);
+            }
+          }
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  openEditQuestionDialog(q){
+    this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
+      width: '50vw',
+      data: {
+        question: q
+      }
+    });
+
+    this.editQuestionDialogRef.afterClosed().subscribe(result => {
+      this.editQuestion(result);
+    });
+  }
+
+  editQuestion(selectedQuestion) {
+    if(selectedQuestion.type == "Standard"){
+
+    }
+    this.formService.editQuestion(selectedQuestion).subscribe(
+      res => {
+        //First save the form in case there were changes to it
+        this.saveForm(),
+          //reload all questions
+          this.getAllQuestions();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  saveForm(){
+    this.formService.saveForm(this.form).subscribe(
+      res => {
+        console.log("response received: ", res)
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
   createRecommendation(){
     var recommendation = {
       timeStamp: Date.now(),
