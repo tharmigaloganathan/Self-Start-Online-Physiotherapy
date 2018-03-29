@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   physiotherapist_id;
   admin_id;
   previousUrl;
+  retrievedProfile
 
 
   constructor(private authService: AuthenticationService,
@@ -58,13 +59,18 @@ export class LoginComponent implements OnInit {
           this.statusMessage=false;
 
           //store user data
-          this.authService.storeUserData(data.token, data.userAccount);
+          this.authService.storeUserData(data.token);
           console.log ("user's token: ", data.token);
-          console.log("user being stored in local storage: ", data.userAccount);
 
           //navigate to appropriate home page after 2 second delay
 
-          if (data.userAccount.patientProfile) {
+          this.authService.getProfile().subscribe(res => {
+            this.retrievedProfile = res
+          });
+
+          console.log("in getProfile of login component: here's the retrievd profile returned: ", this.retrievedProfile);
+
+          if (this.retrievedProfile.patientProfile) {
             setTimeout(() => {
               if(this.previousUrl){
                 this.router.navigate([this.previousUrl]);
@@ -72,20 +78,22 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/patient']);
               }
             }, 2000);
-          } else if (data.userAccount.administrator) {
-            setTimeout(() => {
-              if(this.previousUrl){
-                this.router.navigate([this.previousUrl]);
-              } else {
-                this.router.navigate(['/admin']);
-              }
-            }, 2000);
-          } else if (data.userAccount.physiotherapist){
+          } else if (this.retrievedProfile.physiotherapist){
+            //redirect to physio home page
             setTimeout(() => {
               if(this.previousUrl){
                 this.router.navigate([this.previousUrl]);
               } else {
                 this.router.navigate(['/physio']);
+              }
+            }, 2000);
+          } else if (this.retrievedProfile.administrator){
+            //redirect to admin home page
+            setTimeout(() => {
+              if(this.previousUrl){
+                this.router.navigate([this.previousUrl]);
+              } else {
+                this.router.navigate(['/admin']);
               }
             }, 2000);
           }

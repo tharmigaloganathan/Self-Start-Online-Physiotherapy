@@ -16,9 +16,10 @@ export class PatientGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     console.log ('Patient guard canActivate called');
     if (this.authService.loggedIn()){
-      var retrievedAccount = localStorage.getItem("userAccount");
-      console.log("here is the retrieved account from localstorage: ", retrievedAccount);
-      if (JSON.parse(retrievedAccount).patientProfile) {
+
+      var retrievedProfile = this.authService.getProfile();
+
+      if (retrievedProfile.patientProfile) {
         return true;
       } else {
         this.router.navigate(['/home']);

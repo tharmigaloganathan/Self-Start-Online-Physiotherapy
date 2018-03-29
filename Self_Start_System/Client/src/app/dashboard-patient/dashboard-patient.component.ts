@@ -21,18 +21,11 @@ export class DashboardPatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(profile => {
-      console.log(profile);
-      this.user = profile.patientProfile;
+      this.user = this.authService.getProfile().patientProfile;
       console.log("The current user is: ", this.user);
       this.patientID = this.user._id; //gets id of the current patient that is logged in
       this.getMessages();
-
-
-    });
   }
-
-
 
     setAllMessagesAsSeen() {
         //loop through messages array

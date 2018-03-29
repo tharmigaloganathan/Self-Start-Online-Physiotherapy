@@ -12,12 +12,15 @@ import { catchError, retry } from 'rxjs/operators';
 
 
 
+
 @Injectable()
 export class AuthenticationService {
   domain = environment.apiURL;
   authToken;
-  activeUser;
   options;
+  patientReturn;
+  physioReturn;
+  adminReturn;
 
   constructor(
     private http: Http,
@@ -33,7 +36,6 @@ export class AuthenticationService {
 
   logout(){
     this.authToken = null;
-    this.activeUser = null;
     localStorage.clear();
     console.log("End of logout() in AuthService. Successfully logged out!");
   }
@@ -41,29 +43,33 @@ export class AuthenticationService {
   loggedIn(){
     return tokenNotExpired();
   }
-  storeUserData(token, userAccount){
+  storeUserData(token){
     localStorage.setItem('token', token);
-    localStorage.setItem('userAccount', JSON.stringify(userAccount))
+    //localStorage.setItem('userAccount', JSON.stringify(userAccount))
     this.authToken = token;
-    this.activeUser = userAccount;
   }
 
-  getProfile(){
+  getProfile() {
     this.options = this.createAuthenticationHeaders();
-
-    console.log("this.options: ", this.options)
-
-    var retrievedAccount = localStorage.getItem("userAccount");
-    console.log("here is the retrieved account from localstorage: ", retrievedAccount);
-
-    if(JSON.parse(retrievedAccount).patientProfile){
-      return this.http.get(this.domain + '/PatientProfiles/'+ JSON.parse(retrievedAccount).patientProfile, this.options).map(res => res.json());
-    } else if (JSON.parse(retrievedAccount).physiotherapist){
-      return this.http.get(this.domain +'/Physiotherapists/' + JSON.parse(retrievedAccount).physiotherapist, this.options).map(res=> res.json());
-    } else if (JSON.parse(retrievedAccount).administrator){
-      return this.http.get(this.domain +'/Administrators/' + JSON.parse(retrievedAccount).administrator, this.options).map(res=> res.json());
+    if (this.http.get(this.domain + '/PatientProfiles/ActiveProfile', this.options)
+        .map(res => {
+          if (res.json()['success']){return true;}
+        })){
+      return this.http.get(this.domain + '/PatientProfiles/ActiveProfile', this.options)
+        .map(res => {
+          if (res.json()['success'])
+            return res.json();
+        })
+      }// else if goes here
     }
-  }
+
+
+  //
+  //   console.log("in authService getProfile, here is patientReturn: ", this.patientReturn);
+  //   //var physioReturn = this.http.get(this.domain +'/Physiotherapists/' + JSON.parse(retrievedAccount).physiotherapist, this.options).map(res=> res.json());
+  //   //var adminReturn = this.http.get(this.domain +'/Administrators/' + JSON.parse(retrievedAccount).administrator, this.options).map(res=> res.json());
+  //
+  //
 
   createAuthenticationHeaders() {
     this.loadToken(); // Get token so it can be attached to headers
@@ -79,6 +85,8 @@ export class AuthenticationService {
 
   loadToken(){
     this.authToken = localStorage.getItem('token');
+    console.log("here is the retrieved token from localstorage: ", this.authToken);
+
   }
 
 
