@@ -10,25 +10,20 @@ import { AuthenticationService} from "../authentication.service";
 @Injectable()
 export class PatientGuard implements CanActivate {
   redirectUrl;
-  adminProfile
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log ('Patient guard canActivate called');
-    if (this.authService.loggedIn()){
+    console.log('Patient guard canActivate called');
 
-      var retrievedProfile = this.authService.getProfile();
-
-      if (retrievedProfile.patientProfile) {
+    if (this.authService.loggedIn()) {
+      let type = localStorage.getItem('accountType');
+      if (type == "patient") {
         return true;
       } else {
+        this.redirectUrl = state.url;
         this.router.navigate(['/home']);
         return false;
       }
-    } else {
-      this.redirectUrl = state.url;
-      this.router.navigate(['/home']);
-      return false;
     }
-  };
+  }
 }

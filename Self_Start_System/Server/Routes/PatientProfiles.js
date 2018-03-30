@@ -62,7 +62,11 @@ router.route('/ActiveProfile')
         }
         PatientProfiles.getOne(req.decoded.profileID).then(function(patientProfile){
             console.log("retrieved profile: ", patientProfile);
-            res.json({success: true, patientProfile: patientProfile});
+            if (!patientProfile) {
+                res.json({success: false, message: 'patient not found'});
+            } else {
+                res.json({success: true, patientProfile: patientProfile});
+            }
         }).catch(function(err){
             console.log(err);
         });
@@ -76,7 +80,7 @@ router.route('/ActiveProfile')
         }).catch(function(err){
             res.json({success: false, message: err});
         })
-    })
+    });
     // .delete(function (req, res) { //kept as original
     //     if (!req.params.patientprofile_id) {
     //         res.json({success: false, message: 'patient profile idid was not provided'});

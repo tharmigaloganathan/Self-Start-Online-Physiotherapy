@@ -12,6 +12,7 @@ export class DashboardPatientComponent implements OnInit {
     messages: Object[] = [];
     patientID: String;
     user;
+    retrievedProfile;
 
   constructor(
     private authService: AuthenticationService,
@@ -21,10 +22,20 @@ export class DashboardPatientComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.user = this.authService.getProfile().patientProfile;
-      console.log("The current user is: ", this.user);
-      this.patientID = this.user._id; //gets id of the current patient that is logged in
+    this.authService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).patientProfile){
+          this.user = (result as any).patientProfile;
+          console.log(this.user);
+          this.patientID = this.user._id; //gets id of the current patient that is logged in
+          break;
+        }
+      }
+      //functions after user is set goes here
       this.getMessages();
+    })
   }
 
     setAllMessagesAsSeen() {

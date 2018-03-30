@@ -9,8 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
-
-
+import {forkJoin} from "rxjs/observable/forkJoin";
 
 
 @Injectable()
@@ -21,6 +20,7 @@ export class AuthenticationService {
   patientReturn;
   physioReturn;
   adminReturn;
+  activeUser;
 
   constructor(
     private http: Http,
@@ -51,25 +51,18 @@ export class AuthenticationService {
 
   getProfile() {
     this.options = this.createAuthenticationHeaders();
-    if (this.http.get(this.domain + '/PatientProfiles/ActiveProfile', this.options)
-        .map(res => {
-          if (res.json()['success']){return true;}
-        })){
-      return this.http.get(this.domain + '/PatientProfiles/ActiveProfile', this.options)
-        .map(res => {
-          if (res.json()['success'])
-            return res.json();
-        })
-      }// else if goes here
-    }
+    this.patientReturn= this.http.get(this.domain + '/PatientProfiles/ActiveProfile', this.options).map(res => {return  res.json()});
+    this.physioReturn = this.http.get(this.domain + '/Physiotherapists/ActiveProfile', this.options).map(res => {return res.json()});
+    this.adminReturn = this.http.get(this.domain + '/Administrators/ActiveProfile', this.options).map(res => {return res.json()});
+    return forkJoin([this.patientReturn,this.physioReturn,this.adminReturn]);
+  }
 
-
-  //
-  //   console.log("in authService getProfile, here is patientReturn: ", this.patientReturn);
-  //   //var physioReturn = this.http.get(this.domain +'/Physiotherapists/' + JSON.parse(retrievedAccount).physiotherapist, this.options).map(res=> res.json());
-  //   //var adminReturn = this.http.get(this.domain +'/Administrators/' + JSON.parse(retrievedAccount).administrator, this.options).map(res=> res.json());
-  //
-  //
+  getActiveUser(){
+    return this.activeUser;
+  }
+  setActiveUser(user){
+    this.activeUser = user;
+  }
 
   createAuthenticationHeaders() {
     this.loadToken(); // Get token so it can be attached to headers

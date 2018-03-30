@@ -46,6 +46,34 @@ router.use(function (req, res, next) {
     }
 });
 
+router.route('/ActiveProfile')
+    .get(function (req, res) {
+        console.log("in physiotherapist profile get by ActiveProfile");
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'physio profile ID was not provided'});
+        }
+        Physiotherapists.getOne(req.decoded.profileID).then(function(physiotherapist){
+            console.log("retrieved profile: ", physiotherapist);
+            if (!physiotherapist){
+                res.json({success: false, message: 'physiotherapist not found'});
+            } else {
+                res.json({success: true, physiotherapist: physiotherapist});
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
+    })
+    .put(function (req, res) {
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'physio profile ID was not provided'});
+        }
+        Physiotherapists.update(req.decoded.profileID, req.body).then(function(physiotherapist){
+            res.json({success: true, physiotherapist: physiotherapist});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        })
+    });
+
 router.route('/:object_id')
     .get(function (request, response) {
         if (!request.params.object_id) {

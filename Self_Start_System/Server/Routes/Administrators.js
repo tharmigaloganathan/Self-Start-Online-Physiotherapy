@@ -74,6 +74,35 @@ router.use(function (req, res, next) {
     }
 });
 
+router.route('/ActiveProfile')
+    .get(function (req, res) {
+        console.log("in administrator profile get by ActiveProfile");
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'admin profile ID was not provided'});
+        }
+        Administrators.getOne(req.decoded.profileID).then(function(administrator){
+            console.log("searching for admin with ID: ", req.decoded.profileID);
+
+            console.log("retrieved profile: ", administrator);
+            if (!administrator) {
+                res.json({success: false, message: 'admin not found'});
+            }
+            res.json({success: true, administrator: administrator});
+        }).catch(function(err){
+            console.log(err);
+        });
+    })
+    .put(function (req, res) {
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'admin profile ID was not provided'});
+        }
+        Administrators.update(req.decoded.profileID, req.body).then(function(administrator){
+            res.json({success: true, administrator: administrator});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        })
+    });
+
 router.route('/:administrator_id')
     .get(function (request, response) {
         if (!request.params.administrator_id) {

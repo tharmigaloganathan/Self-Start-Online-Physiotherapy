@@ -15,13 +15,16 @@ export class DashboardPhysioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(profile => {
-      console.log(profile);
-      this.user = profile.physiotherapist;
-      console.log("The current user is: ", this.user);
-      console.log(this.user.givenName);
-
-    });
+    this.authService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).physiotherapist){
+          this.user = (result as any).physiotherapist;
+          console.log(this.user);
+          break;
+        }
+      }
+    })
   }
-
 }

@@ -64,40 +64,53 @@ export class LoginComponent implements OnInit {
 
           //navigate to appropriate home page after 2 second delay
 
-          this.authService.getProfile().subscribe(res => {
-            this.retrievedProfile = res
+         this.authService.getProfile().subscribe(res => {
+            console.log("in login component: here's what getProfile returned: ", res);
+            for (let result of res){
+              console.log((result as any).success);
+              if ((result as any).success){
+                this.retrievedProfile = result;
+                this.authService.setActiveUser(this.retrievedProfile);
+                console.log(this.retrievedProfile);
+                break;
+              }
+            }
+           console.log('retrieved profile! ',this.retrievedProfile);
+
+           if (this.retrievedProfile.patientProfile) {
+             localStorage.setItem('accountType', "patient");
+             setTimeout(() => {
+               if(this.previousUrl){
+                 this.router.navigate([this.previousUrl]);
+               } else {
+                 this.router.navigate(['/patient']);
+               }
+             }, 1000);
+           } else if (this.retrievedProfile.physiotherapist){
+             localStorage.setItem('accountType', "physio");
+
+             //redirect to physio home page
+             setTimeout(() => {
+               if(this.previousUrl){
+                 this.router.navigate([this.previousUrl]);
+               } else {
+                 this.router.navigate(['/physio']);
+               }
+             }, 1000);
+           } else if (this.retrievedProfile.administrator){
+             localStorage.setItem('accountType', "admin");
+
+             //redirect to admin home page
+             setTimeout(() => {
+               if(this.previousUrl){
+                 this.router.navigate([this.previousUrl]);
+               } else {
+                 this.router.navigate(['/admin']);
+               }
+             }, 1000);
+           }
           });
-
-          console.log("in getProfile of login component: here's the retrievd profile returned: ", this.retrievedProfile);
-
-          if (this.retrievedProfile.patientProfile) {
-            setTimeout(() => {
-              if(this.previousUrl){
-                this.router.navigate([this.previousUrl]);
-              } else {
-                this.router.navigate(['/patient']);
-              }
-            }, 2000);
-          } else if (this.retrievedProfile.physiotherapist){
-            //redirect to physio home page
-            setTimeout(() => {
-              if(this.previousUrl){
-                this.router.navigate([this.previousUrl]);
-              } else {
-                this.router.navigate(['/physio']);
-              }
-            }, 2000);
-          } else if (this.retrievedProfile.administrator){
-            //redirect to admin home page
-            setTimeout(() => {
-              if(this.previousUrl){
-                this.router.navigate([this.previousUrl]);
-              } else {
-                this.router.navigate(['/admin']);
-              }
-            }, 2000);
-          }
-        }
+      }
       },
       error => {
         console.log(error);
