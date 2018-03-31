@@ -162,13 +162,11 @@
 							<ng-template #rehabPlan>
 								<form class="form-container">
 								<div class="row">
-									<div class="col-md-10 top">
+									<div class="col top">
 										<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
 										<button mat-raised-button class="renew-button"(click)="renewTreatment()">Renew</button>
 										<button mat-raised-button class="close-button" (click)="closeTreatment()">Close</button>
-									</div>
-									<div class="col-md-2 col-md-offset-10 top">
-										<button mat-raised-button class="back-button" (click)="viewTreatmentList()">Back to Treatment List</button>
+										<button mat-raised-button class="treatment-list-button" (click)="viewTreatmentList()">Back to Treatment List</button>
 									</div>
 								</div>
 								<form class="form-container">
@@ -244,7 +242,7 @@
 													<div class="col-12 form-container">
 													<mat-list>
 														<mat-divider></mat-divider>
-															<mat-list-item *ngFor="let exercise of activeRehabPlanExercises" class="treatment form-container">
+															<mat-list-item *ngFor="let exercise of activeRehabPlanExercises; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
 																	<div class="col-4 form-container">
 																		Name: {{ exercise?.name }}
 																	</div>
@@ -349,4 +347,62 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- View exercise modal -->
+<div class="modal fade" id="viewExerciseModal" tabindex="-1" role="dialog"
+		 aria-labelledby="viewExerciseModal" aria-hidden="true">
+		 <div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center"><b>{{ activeExercise?.name }}</b></h6>
+						</div>
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<div class="row">
+								<div class="col form-container">
+									<h6>Author:</h6> {{ activeExercise?.authorName }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-container">
+									<h6>Description:</h6> {{ activeExercise?.description }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-container">
+									<h6>Objectives:</h6> {{ activeExercise?.objectives }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4 form-container">
+									<h6>Location:</h6> {{ activeExercise?.location }}
+								</div>
+								<div class="col-4 form-container">
+									<h6>Duration:</h6> {{ activeExercise?.duration }}
+								</div>
+								<div class="col-4 form-container">
+									<h6>Frequency:</h6> {{ activeExercise?.frequency }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-container">
+									<h6>Target Date:</h6> {{ activeExercise?.targetDate | date : "dd.MM.y" }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-container">
+									<h6>URL:</h6> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 </div>

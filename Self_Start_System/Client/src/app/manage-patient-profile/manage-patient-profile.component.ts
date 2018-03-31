@@ -36,6 +36,8 @@ export class ManagePatientProfileComponent implements OnInit {
 	activeRehabPlanExercises = [];
 	activeRehabPlanAssessmentTests = [];
 	treatments;
+	activeExercise;
+	activeAssessmentTest;
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -246,6 +248,12 @@ export class ManagePatientProfileComponent implements OnInit {
 						console.log(this.activeRehabPlanAssessmentTests);
 					});
 				}
+			}
+
+			setActiveExercise(index) {
+				console.log(index);
+				this.activeExercise = this.activeRehabPlanExercises[index];
+				console.log(this.activeExercise);
 			}
 
 }
