@@ -33,12 +33,26 @@ export class CreateNewEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authenticationService.getProfile().subscribe(data=>{
-      this.physioID = data.physiotherapist._id;
+    this.authenticationService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).physiotherapist){
+          this.physioID = (result as any).physiotherapist._id;
+          console.log(this.physioID);
+          break;
+        }
+      }
+      //any function following getting profile goes here
       this.initializeCurrentTime();
-    }, err=>{
-      console.log(err);
-    });
+    })
+
+    // this.authenticationService.getProfile().subscribe(data=>{
+    //   this.physioID = data.physiotherapist._id;
+    //   this.initializeCurrentTime();
+    // }, err=>{
+    //   console.log(err);
+    // });
   }
 
   initializeCurrentTime = () => {

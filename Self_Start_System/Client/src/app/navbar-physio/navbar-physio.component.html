@@ -11,7 +11,14 @@
     <button routerLink="/physio/rehabilitation-plans" mat-button class="full-height">Rehabilitation Plan</button>
     <button mat-button routerLink="/physio/set-free-time" class="full-height">Appointments</button>
     <button mat-button routerLink="/physio/patient-plan-list" class="full-height">Patients</button>
-
-    <button mat-raised-button (click)="logout()" class="logout-button">Logout</button>
+    <button class = "profile-button" mat-raised-button [matMenuTriggerFor]="appMenu">
+    <span>{{this.name}}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+    </button>
   </span>
+  <mat-menu #appMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below">
+    <button mat-menu-item>Edit Profile</button>
+    <button mat-menu-item (click) ="logout()">Logout</button>
+  </mat-menu>
+
 </mat-toolbar>

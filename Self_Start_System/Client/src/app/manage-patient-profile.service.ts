@@ -13,7 +13,8 @@ export class ManagePatientProfileService {
 
   	//Function to get all patients
 	getPatients() {
-  		return this.http.get(this.baseURL + 'PatientProfiles/')
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.baseURL + 'PatientProfiles/', this.options)
   		.map((response: Response) => {
 	 	return response.json().patientProfile;
   		});

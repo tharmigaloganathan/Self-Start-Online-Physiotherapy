@@ -10,22 +10,21 @@ import { AuthenticationService} from "../authentication.service";
 @Injectable()
 export class AdminGuard implements CanActivate {
   redirectUrl;
-  adminProfile
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     console.log ('Admin guard canActivate called');
-    if (this.authService.loggedIn()){
-      var retrievedAccount = localStorage.getItem("userAccount");
-      console.log("here is the retrieved account from localstorage: ", retrievedAccount);
-      if (JSON.parse(retrievedAccount).administrator) {
-          return true;
-        } else {
+
+    if (this.authService.loggedIn()) {
+      let type = localStorage.getItem('accountType');
+      if (type == "admin") {
+        return true;
+      } else {
+        this.redirectUrl = state.url;
         this.router.navigate(['/home']);
         return false;
       }
     } else {
-      this.redirectUrl = state.url;
       this.router.navigate(['/home']);
       return false;
     }

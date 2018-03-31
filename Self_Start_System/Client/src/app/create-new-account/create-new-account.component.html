@@ -109,10 +109,10 @@
                 </div>
               <div class="row">
                 <div class ="col-3 button-container">
-                  <button mat-button class ="previous-button" (click)="rebuildForm()">Clear</button>
+                  <button mat-raised-button class ="previous-button" (click)="rebuildForm()">Clear</button>
                 </div>
                 <div class="col-3 button-container"  matTooltip="You can only proceed when all fields are properly filled!" [matTooltipPosition]="toolTipPosition">
-                  <button mat-raised-button class="next-button" [disabled]="!personalInfoForm.valid" mat-button matStepperNext type ="submit" class="next-button">Next</button>
+                  <button mat-raised-button class="next-button" [disabled]="!personalInfoForm.valid" matStepperNext type ="submit" class="next-button">Next</button>
                 </div>
               </div>
               </form>
