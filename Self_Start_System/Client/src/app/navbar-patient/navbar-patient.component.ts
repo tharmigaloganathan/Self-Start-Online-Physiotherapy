@@ -11,12 +11,28 @@ import {FlashMessagesModule,FlashMessagesService} from "angular2-flash-messages"
 })
 export class NavbarPatientComponent implements OnInit {
 
+  user;
+  name;
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
+    this.authService.getProfile().subscribe(res => {
+      console.log("in nav-bar patient: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).patientProfile){
+          this.user = (result as any).patientProfile;
+          this.name = this.user.givenName;
+          console.log(this.user);
+          break;
+        }
+      }
+      //functions after user is set goes here
+
+    })
   }
 
   logout(){
@@ -24,5 +40,7 @@ export class NavbarPatientComponent implements OnInit {
     this.router.navigate(['home']);
     this.flashMessagesService.show('You have logged out!', { cssClass: 'alert-success', timeout: 3000 });
   }
+
+
 
 }

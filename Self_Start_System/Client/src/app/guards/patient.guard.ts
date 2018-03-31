@@ -24,6 +24,9 @@ export class PatientGuard implements CanActivate {
         this.router.navigate(['/home']);
         return false;
       }
+    } else {
+      this.router.navigate(['/home']);
+      return false;
     }
   }
 }

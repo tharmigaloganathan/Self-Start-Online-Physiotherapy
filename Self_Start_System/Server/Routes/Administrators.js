@@ -6,6 +6,32 @@ var UserAccounts = require('../Models/UserAccount');
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
+//middleware for every route below this one
+router.use(function (req, res, next) {
+    console.log('in authentication middleware');
+    console.log(req.headers['authorization']);
+    const token = req.headers.authorization;
+
+    console.log('token: ', token);
+
+    if (!token) {
+        res.json({success: false, message: 'No token provided'}); // Return error
+    } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, function (err, decoded) {
+            console.log(decoded);
+            if (err) {
+                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+            } else {
+                req.decoded = decoded; // Create global variable to use in any request beyond
+                console.log('authentication middleware complete!');
+                next(); // Exit middleware
+            }
+
+        })
+    }
+});
+
 router.route('/')
     .post(function (request, response) {
         Administrators.add(request.body).then(function(administrator){
@@ -22,57 +48,6 @@ router.route('/')
         })
     });
 
-//middleware for every route below this one
-router.use(function (req, res, next) {
-    console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
-    const token = req.headers.authorization;
-
-    console.log('token: ', token);
-
-    if (!token) {
-        res.json({success: false, message: 'No token provided'}); // Return error
-    } else {
-        // Verify the token is valid
-        jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
-            if (err) {
-                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
-            } else {
-                req.decoded = decoded; // Create global variable to use in any request beyond
-                console.log('authentication middleware complete!');
-                next(); // Exit middleware
-            }
-
-        })
-    }
-});
-
-//middleware for every route below this one
-router.use(function (req, res, next) {
-    console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
-    const token = req.headers.authorization;
-
-    console.log('token: ', token);
-
-    if (!token) {
-        res.json({success: false, message: 'No token provided'}); // Return error
-    } else {
-        // Verify the token is valid
-        jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
-            if (err) {
-                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
-            } else {
-                req.decoded = decoded; // Create global variable to use in any request beyond
-                console.log('authentication middleware complete!');
-                next(); // Exit middleware
-            }
-
-        })
-    }
-});
 
 router.route('/ActiveProfile')
     .get(function (req, res) {

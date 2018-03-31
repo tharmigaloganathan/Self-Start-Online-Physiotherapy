@@ -5,21 +5,6 @@ var Physiotherapists = require('../Models/Physiotherapist');
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
-router.route('/')
-    .post(function (request, response) {
-        Physiotherapists.add(request.body).then(function(physiotherapist){
-            response.json({physiotherapist: physiotherapist});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-        })
-    })
-    .get(function (request, response) {
-        Physiotherapists.getAll().then(function(physiotherapists){
-            response.json({physiotherapist: physiotherapists});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-        })
-    });
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
@@ -45,6 +30,22 @@ router.use(function (req, res, next) {
         })
     }
 });
+
+router.route('/')
+    .post(function (request, response) {
+        Physiotherapists.add(request.body).then(function(physiotherapist){
+            response.json({physiotherapist: physiotherapist});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+    .get(function (request, response) {
+        Physiotherapists.getAll().then(function(physiotherapists){
+            response.json({physiotherapist: physiotherapists});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
 
 router.route('/ActiveProfile')
     .get(function (req, res) {

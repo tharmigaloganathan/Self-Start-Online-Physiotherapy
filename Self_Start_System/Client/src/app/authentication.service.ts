@@ -79,7 +79,6 @@ export class AuthenticationService {
   loadToken(){
     this.authToken = localStorage.getItem('token');
     console.log("here is the retrieved token from localstorage: ", this.authToken);
-
   }
 
 
