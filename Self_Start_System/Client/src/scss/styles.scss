@@ -1,4 +1,5 @@
 @import "../../node_modules/fullcalendar/dist/fullcalendar.css";
+@import "../../node_modules/ng2-toastr/bundles/ng2-toastr.min.css";
 
 /* You can add global styles to this file, and also import other style files */
 //@import '~@angular/material/prebuilt-themes/indigo-pink.css';
@@ -33,6 +34,14 @@ button:focus, button:active:focus, button.active:focus {
   outline: 0 none;
 }
 
+//Title
+.title {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin-top:2%;
+}
+
+
+
 // Set Global Text for side and nav bar
 $custom-typography: mat-typography-config(
   $font-family: 'Roboto Condensed, sans-serif',
@@ -45,3 +54,22 @@ $custom-typography: mat-typography-config(
 @include mat-list-typography($custom-typography);
 @include mat-sidenav-typography($custom-typography);
 
+// Buttons
+input[disabled],textarea[disabled] {
+  color: $dark-grey;
+}
+
+button.save-button, button.create-button, button.view-button, button.edit-button{
+  background-color: $cobalt;
+  color: $white;
+}
+
+button.delete-button {
+  background-color: $dark-red;
+  color: $white;
+}
+
+button.cancel-button {
+  background-color: $rare-turquoise;
+  color: $white;
+}

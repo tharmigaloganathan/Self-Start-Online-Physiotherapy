@@ -37,7 +37,8 @@ export class DashboardPhysioComponent implements OnInit {
     }
 
     getAppointments() {
-        
+        //get appointments, match physiotherapist
+        //order array by date nearest first
     }
 
     getMessages() {
@@ -45,5 +46,6 @@ export class DashboardPhysioComponent implements OnInit {
         //get messages, for loop
             //if physioID = our ID, loop through patient list push message to their array
 
+        //loop through messages, if there are unread messsages, splice, and enter at index0
     }
 }

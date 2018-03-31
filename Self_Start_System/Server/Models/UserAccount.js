@@ -8,7 +8,10 @@ var userAccountSchema = mongoose.Schema(
         //Check which of the following FKs is non-null to see what type of user (Admin, Physio, Patient) the user is.
         administrator: {type: mongoose.Schema.ObjectId, ref: 'Administrator'},
         physiotherapist: {type: mongoose.Schema.ObjectId, ref: 'Physiotherapist'},
-        patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'}
+        patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'},
+        activated: Boolean,
+        hasPaid: Boolean,
+        passwordReset: Boolean,
     }
 );
 var UserAccounts = module.exports =  mongoose.model('UserAccount', userAccountSchema);
@@ -65,6 +68,8 @@ function update(id, updatedDocument){
                     document.administrator = updatedDocument.administrator;
                     document.physiotherapist = updatedDocument.physiotherapist;
                     document.patientProfile = updatedDocument.patientProfile;
+                    document.activated = updatedDocument.activated;
+                    document.hasPaid = updatedDocument.hasPaid;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -97,7 +102,7 @@ function getByName(name){
             if (error){
                 reject(error);
             }else{
-                console.log ("in Model, getByName: ", document[0]);
+                console.log("in Model, getByName: ", document[0]);
                 resolve(document[0]);
             }
         });

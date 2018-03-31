@@ -17,21 +17,6 @@ input[disabled],textarea[disabled] {
   color: $dark-grey;
 }
 
-button.save-button, button.create-button, button.view-button, button.edit-button{
-  background-color: $cobalt;
-  color: $white;
-}
-
-button.delete-button {
-  background-color: $dark-red;
-  color: $white;
-}
-
-button.cancel-button {
-  background-color: $rare-turquoise;
-  color: $white;
-}
-
 .modal-body .form .control-label {
   text-align: left;
 }

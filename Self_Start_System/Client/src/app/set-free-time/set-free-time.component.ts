@@ -52,6 +52,19 @@ export class SetFreeTimeComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
         let eventslist = this.generateEventsList(response.physiotherapist.availableTimeSlots);
+        this.getBookedTimeSlots(eventslist);
+      }, error => {
+        console.log(error);
+      });
+  };
+
+  getBookedTimeSlots = (eventslist) => {
+    // Retrieve all booked times from backend
+    this.setFreeTimeService.retrieveAllAppointmentsForPhysio(this.physioID)
+      .subscribe(response => {
+        console.log(response);
+        eventslist.push(...this.generateEventsListAppointment(response.appointments));
+
         this.setUpCalendarOptions(eventslist);
       }, error => {
         console.log(error);
@@ -62,14 +75,37 @@ export class SetFreeTimeComponent implements OnInit {
     let formatedEventsList = new Array();
 
     for (let event of eventslist){
-      formatedEventsList.push({
-          title: 'Available',
-          start: moment(event.startDate),
-          end: moment(event.endDate),
-          mongoId: event._id,
+      if(event){
+        formatedEventsList.push({
+            title: 'Available',
+            start: moment(event.startDate),
+            end: moment(event.endDate),
+            mongoId: event._id,
+            allDay: false,
+            eventType: this.eventType[0]
+        });
+      }
+    }
+
+    return formatedEventsList;
+  };
+
+  generateEventsListAppointment = (appointmentList) => {
+    let formatedEventsList = [];
+
+    for (let appointment of appointmentList){
+      if(appointment){
+        formatedEventsList.push({
+          title: `${appointment.fullPatientProfile.givenName} ${appointment.fullPatientProfile.familyName}`,
+          start: moment(appointment.appointment.date),
+          end: moment(appointment.appointment.endDate),
+          mongoId: appointment.appointment._id,
           allDay: false,
-          eventType: this.eventType[0]
-      });
+          color: '#FDA92A',
+          eventType: this.eventType[1],
+          editable: false
+        });
+      }
     }
 
     return formatedEventsList;

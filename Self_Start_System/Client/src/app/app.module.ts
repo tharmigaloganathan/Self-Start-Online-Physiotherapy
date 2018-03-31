@@ -101,6 +101,7 @@ import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
   declarations: [
@@ -194,7 +195,7 @@ import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/phy
 		MatDialogModule,
 		LoadingModule,
     MatRadioModule,
-
+    ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
