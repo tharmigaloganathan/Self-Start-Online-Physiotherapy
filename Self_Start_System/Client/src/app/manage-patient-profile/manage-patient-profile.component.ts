@@ -103,6 +103,30 @@ export class ManagePatientProfileComponent implements OnInit {
 	this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
 }
 
+	//Renew treatment
+	renewTreatment() {
+	this.activeTreatment.dateStart = new Date();
+	console.log(this.activeTreatment);
+	/*
+	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatmen._id).
+	subscribe( data => {
+		this.toastr.success("Treatment has been renewed!");
+	});
+	*/
+}
+
+	//Close treatment
+	closeTreatment() {
+	this.activeTreatment.active = false;
+	console.log(this.activeTreatment);
+	/*
+	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatmen._id).
+	subscribe( data => {
+		this.toastr.success("Treatment has been renewed!");
+	});
+	*/
+}
+
 	//Update the patients information
 	savePatientInfo() {
 		const patientProfile = {

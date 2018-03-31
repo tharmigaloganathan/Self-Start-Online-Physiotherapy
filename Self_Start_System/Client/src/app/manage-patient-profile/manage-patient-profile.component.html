@@ -162,8 +162,12 @@
 							<ng-template #rehabPlan>
 								<form class="form-container">
 								<div class="row">
-									<div class="col-12 top">
-											<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
+									<div class="col-md-10 top">
+										<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
+										<button mat-raised-button class="renew-button"(click)="renewTreatment()">Renew</button>
+										<button mat-raised-button class="close-button" (click)="closeTreatment()">Close</button>
+									</div>
+									<div class="col-md-2 col-md-offset-10 top">
 										<button mat-raised-button class="back-button" (click)="viewTreatmentList()">Back to Treatment List</button>
 									</div>
 								</div>
