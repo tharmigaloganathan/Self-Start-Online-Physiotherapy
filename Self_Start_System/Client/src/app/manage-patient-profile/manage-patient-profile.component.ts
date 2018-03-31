@@ -3,18 +3,20 @@ import { Router } from '@angular/router';
 import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ManagePatientProfileService } from '../manage-patient-profile.service';
 
 @Component({
   selector: 'app-manage-patient-profile',
   templateUrl: './manage-patient-profile.component.html',
   styleUrls: ['./manage-patient-profile.component.scss'],
-  providers: [UserAccountListService, AuthenticationService]
+  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService ]
 })
 export class ManagePatientProfileComponent implements OnInit {
 
 	router;
 	userAccountListService;
 	authenticationService;
+	managePatientProfileService;
 	loading = false;
 	isChanged = false;
 	user;
@@ -38,11 +40,13 @@ export class ManagePatientProfileComponent implements OnInit {
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
 							authenticationService: AuthenticationService,
+							managePatientProfileService: ManagePatientProfileService,
 							public toastr: ToastsManager,
              	vcr: ViewContainerRef) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
+		this.managePatientProfileService = managePatientProfileService;
 		this.toastr.setRootViewContainerRef(vcr);
 }
 
@@ -88,6 +92,8 @@ export class ManagePatientProfileComponent implements OnInit {
 		console.log("Active rehabPlan index" + this.activeRehabPlan);
 		console.log(this.user.treatments[this.activeTreatment]);
 		*/
+		this.activeRehabPlanExercises = [];
+		this.activeRehabPlanAssessmentTests = [];
 		this.getRehabPlanExercises();
 		this.getRehabPlanAssessmentTests();
 }
@@ -107,24 +113,20 @@ export class ManagePatientProfileComponent implements OnInit {
 	renewTreatment() {
 	this.activeTreatment.dateStart = new Date();
 	console.log(this.activeTreatment);
-	/*
 	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatmen._id).
 	subscribe( data => {
 		this.toastr.success("Treatment has been renewed!");
 	});
-	*/
 }
 
 	//Close treatment
 	closeTreatment() {
 	this.activeTreatment.active = false;
 	console.log(this.activeTreatment);
-	/*
 	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatmen._id).
 	subscribe( data => {
-		this.toastr.success("Treatment has been renewed!");
+		this.toastr.success("Treatment has been closed!");
 	});
-	*/
 }
 
 	//Update the patients information
@@ -204,7 +206,7 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
-					console.log(JSON.stringify(this.treatments));
+					console.log("Treatments" + this.treatments);
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log("Patient profile" + JSON.stringify(this.user));
