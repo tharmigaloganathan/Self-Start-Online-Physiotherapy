@@ -10,7 +10,7 @@
 				<mat-card>
 					<div class="row">
 						<div class="col-md-8">
-							<h1>{{ user.givenName + " " + user.familyName }}</h1>
+							<h1>{{ user?.givenName + " " + user?.familyName }}</h1>
 						</div>
 						<div class="col-md-2 col-md-offset-8">
 							<div class="icon-bar">
@@ -128,7 +128,7 @@
 						<!-- Treatments -->
 						<mat-tab label="Treatments">
 							<div *ngIf="treatments == 0 else treatmentList" class="empty">
-								<h6> {{ user.givenName + " " + user.familyName }} has no treatment history</h6>
+								<h6> {{ user?.givenName + " " + user?.familyName }} has no treatment history</h6>
 							</div>
 							<ng-template #treatmentList>
 								<div *ngIf="!showPlan else rehabPlan">
@@ -141,13 +141,13 @@
 									<mat-list>
 										<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="treatment" (click)="showRehabPlan(i)">
 											<div class="col-3">
-												<b>Assignment Date: </b> {{ treatment.dateAssign | date : "dd.MM.y" }}
+												<b>Assignment Date: </b> {{ treatment?.dateAssign | date : "dd.MM.y" }}
 											</div>
 											<div class="col-3">
-												<b>Start Date: </b> {{ treatment.dateStart | date : "dd.MM.y" }}
+												<b>Start Date: </b> {{ treatment?.dateStart | date : "dd.MM.y" }}
 											</div>
 											<div class="col-2">
-												<b>Active: </b> {{ treatment.active }}
+												<b>Active: </b> {{ treatment?.active }}
 											</div>
 											<div class="col-4">
 												<b>Rehabilitation Plan: </b> {{ treatment?.rehabilitationPlan?.name }}
@@ -231,6 +231,18 @@
 													</mat-form-field>
 												</div>
 											</div>
+											<div class="row">
+												<div class="col-4 form-container">
+													<mat-form-field>
+														<input matInput placeholder="Start Date" [(ngModel)]="activeRehabPlan.startDate" name="activeRehabPlan.startDate" readonly>
+													</mat-form-field>
+												</div>
+												<div class="col-4 form-container">
+													<mat-form-field>
+														<input matInput placeholder="End Date" [(ngModel)]="activeRehabPlan.endDate" name="activeRehabPlan.endDate" readonly>
+													</mat-form-field>
+												</div>
+											</div>
 											<h4><b>Exercises</b></h4>
 											<div class="row">
 												<div *ngIf="activeRehabPlanExercises.length == 0 else exerciseList">
@@ -267,7 +279,7 @@
 													<div class="col-12 form-container">
 													<mat-list>
 														<mat-divider></mat-divider>
-															<mat-list-item *ngFor="let assessmentTest of activeRehabPlanAssessmentTests" class="treatment form-container">
+															<mat-list-item *ngFor="let assessmentTest of activeRehabPlanAssessmentTests; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewAssessmentTestModal">
 																	<div class="col-4 form-container">
 																		Name: {{ assessmentTest?.name }}
 																	</div>
@@ -286,7 +298,7 @@
 										</div>
 										<!-- Rehab plan history -->
 										<div class="col-3 form-container">
-											<h4>History</h4>
+											<h4>History <mat-icon class="icon icon-bar" matTooltip="Visualize History"><i class="material-icons">insert_chart</i></mat-icon></h4>
 											<hr>
 										</div>
 									</div>
@@ -297,7 +309,7 @@
 						<!-- Appointments -->
 						<mat-tab label="Appointments">
 							<div *ngIf="user.appointments.length == 0 else appointmentList" class="empty">
-								<h6> {{ user.givenName + " " + user.familyName }} has no appointment history</h6>
+								<h6> {{ user?.givenName + " " + user?.familyName }} has no appointment history</h6>
 							</div>
 							<ng-template #appointmentList>
 								<h6 class="top">Appointment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
@@ -305,13 +317,13 @@
 								<mat-list>
 									<mat-list-item *ngFor="let appointment of appointments let i = index" [attr.data-index]="i">
 										<div class="col-2">
-											<b>Date: </b> {{ appointment.date | date : "dd.MM.y" }}
+											<b>Date: </b> {{ appointment?.date | date : "dd.MM.y" }}
 										</div>
 										<div class="col-2">
-											<b>End Date: </b> {{ appointment.endStart | date : "dd.MM.y" }}
+											<b>End Date: </b> {{ appointment?.endStart | date : "dd.MM.y" }}
 										</div>
 										<div class="col-8">
-											<b>Reason: </b> {{ appointment.reason }}
+											<b>Reason: </b> {{ appointment?.reason }}
 										</div>
 										<mat-divider></mat-divider>
 									</mat-list-item>
@@ -321,7 +333,7 @@
 						<!-- Payments -->
 						<mat-tab label="Payments">
 							<div *ngIf="user.payments.length == 0 else paymentList" class="empty">
-								<h6> {{ user.givenName + " " + user.familyName }} has no payment history</h6>
+								<h6> {{ user?.givenName + " " + user?.familyName }} has no payment history</h6>
 							</div>
 							<ng-template #paymentList>
 								<h6 class="top">Payment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
@@ -352,7 +364,7 @@
 <!-- View exercise modal -->
 <div class="modal fade" id="viewExerciseModal" tabindex="-1" role="dialog"
 		 aria-labelledby="viewExerciseModal" aria-hidden="true">
-		 <div class="modal-dialog modal-lg">
+		 <div class="modal-dialog modal-md">
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="modal-title">
@@ -366,39 +378,97 @@
 					<div class="modal-body">
 						<div class="col modal-container">
 							<div class="row">
-								<div class="col form-container">
-									<h6>Author:</h6> {{ activeExercise?.authorName }}
+								<div class="col">
+									<b>Author:</b> {{ activeExercise?.authorName }}
 								</div>
 							</div>
 							<div class="row">
-								<div class="col form-container">
-									<h6>Description:</h6> {{ activeExercise?.description }}
+								<div class="col">
+									<b>Description:</b> {{ activeExercise?.description }}
 								</div>
 							</div>
 							<div class="row">
-								<div class="col form-container">
-									<h6>Objectives:</h6> {{ activeExercise?.objectives }}
+								<div class="col">
+									<b>Objectives:</b> {{ activeExercise?.objectives }}
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-4 form-container">
-									<h6>Location:</h6> {{ activeExercise?.location }}
+								<div class="col-4">
+									<b>Location:</b> {{ activeExercise?.location }}
 								</div>
-								<div class="col-4 form-container">
-									<h6>Duration:</h6> {{ activeExercise?.duration }}
+								<div class="col-4">
+									<b>Duration:</b> {{ activeExercise?.duration }}
 								</div>
-								<div class="col-4 form-container">
-									<h6>Frequency:</h6> {{ activeExercise?.frequency }}
-								</div>
-							</div>
-							<div class="row">
-								<div class="col form-container">
-									<h6>Target Date:</h6> {{ activeExercise?.targetDate | date : "dd.MM.y" }}
+								<div class="col-4">
+									<b>Frequency:</b> {{ activeExercise?.frequency }}
 								</div>
 							</div>
 							<div class="row">
-								<div class="col form-container">
-									<h6>URL:</h6> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
+								<div class="col">
+									<b>Target Date:</b> {{ activeExercise?.targetDate | date : "dd.MM.y" }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<b>URL:</b> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+
+<!-- View assessment tests modal -->
+<div class="modal fade" id="viewAssessmentTestModal" tabindex="-1" role="dialog"
+		 aria-labelledby="viewAssessmentTestModal" aria-hidden="true">
+		 <div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center"><b>Assessment Test</b></h6>
+						</div>
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<div class="row">
+								<div class="col">
+									<b>Author:</b> {{ activeExercise?.authorName }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<b>Description:</b> {{ activeExercise?.description }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<b>Objectives:</b> {{ activeExercise?.objectives }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<b>Location:</b> {{ activeExercise?.location }}
+								</div>
+								<div class="col-4">
+									<b>Duration:</b> {{ activeExercise?.duration }}
+								</div>
+								<div class="col-4">
+									<b>Frequency:</b> {{ activeExercise?.frequency }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<b>Target Date:</b> {{ activeExercise?.targetDate | date : "dd.MM.y" }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<b>URL:</b> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
 								</div>
 							</div>
 						</div>

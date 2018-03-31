@@ -83,17 +83,18 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Show the rehab plan details
 	showRehabPlan(index) {
+		console.log("Show rehab plan clicked");
 		this.showPlan = true;
 		this.activeTreatmentIndex = index;
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
+		console.log("The rehab plans" + JSON.stringify(this.user.treatments.rehabilitationPlan));
 		//Tempory fix until rehab plans is an array
 		this.activeRehabPlan = this.user.treatments[this.activeTreatmentIndex].rehabilitationPlan;
-		/* Doesn't work right now b/c rehab plan isn't an array
-		this.activeRehabPlan = this.user.treatments[this.activeTreatment].rehabilitationPlan.length - 1;
-		console.log(this.user.treatments[this.activeTreatment].rehabilitationPlan.length);
-		console.log("Active rehabPlan index" + this.activeRehabPlan);
-		console.log(this.user.treatments[this.activeTreatment]);
-		*/
+		//Doesn't work right now b/c rehab plan isn't an array
+		//this.activeRehabPlan = this.user.treatments[this.activeTreatment].rehabilitationPlan[this.user.treatments[this.activeTreatment].rehabilitationPlan.length - 1];
+		//console.log("Length of rehab plans" + this.user.treatments[this.activeTreatment].rehabilitationPlan.length);
+		//console.log("Active rehabPlan index" + this.activeRehabPlan);
+		//console.log(this.user.treatments[this.activeTreatment]);
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
 		this.getRehabPlanExercises();
@@ -115,7 +116,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	renewTreatment() {
 	this.activeTreatment.dateStart = new Date();
 	console.log(this.activeTreatment);
-	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatmen._id).
+	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatment._id).
 	subscribe( data => {
 		this.toastr.success("Treatment has been renewed!");
 	});
@@ -125,7 +126,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	closeTreatment() {
 	this.activeTreatment.active = false;
 	console.log(this.activeTreatment);
-	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatmen._id).
+	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatment._id).
 	subscribe( data => {
 		this.toastr.success("Treatment has been closed!");
 	});
