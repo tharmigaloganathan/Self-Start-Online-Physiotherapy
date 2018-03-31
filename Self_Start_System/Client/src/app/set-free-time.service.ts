@@ -83,6 +83,14 @@ export class SetFreeTimeService {
       });
   }
 
+  retrieveAllAppointmentsForPhysio(id) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/Physiotherapists/get-all-appointments/'+id,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
   addNewAppointment(patientId, startDate, endDate, reason, other, timeslotId, physioID) {
     this.options = this.authenticationService.createAuthenticationHeaders();
     let body = {
@@ -109,5 +117,7 @@ export class SetFreeTimeService {
         return response.json();
       });
   }
+
+
 }
 

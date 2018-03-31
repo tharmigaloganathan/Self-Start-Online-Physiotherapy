@@ -63,9 +63,18 @@ export class CreateNewEventComponent implements OnInit {
   };
 
   onClickSubmit = () => {
-    if (this.startTime >= this.endTime){
+    // console.log(typeof(this.startTime));
+    // Check if the end time time is after the start time
+    if (Date.parse(`01/01/2011 ${this.startTime}`) >= Date.parse(`01/01/2011 ${this.endTime}`)){
       // Display an info toast with no title
       this.toastr.error('End time must be after start time', 'Oops!');
+      return
+    }
+
+    // If the number of weeks is not greater than 0, display an error toast
+    if (!(this.numWeek > 0)){
+      // Display an info toast
+      this.toastr.error('Number of weeks must be an integer greater than 0', 'Oops!');
       return
     }
 
