@@ -171,7 +171,7 @@
 								</div>
 								<form class="form-container">
 									<div class="row">
-										<div class="col-9 form-container border-right">
+										<div class="col-8 form-container border-right">
 											<!-- Treatment Details -->
 											<h4><b>Treatment Details</b></h4>
 											<hr>
@@ -297,9 +297,24 @@
 											</div>
 										</div>
 										<!-- Rehab plan history -->
-										<div class="col-3 form-container">
-											<h4>History <mat-icon class="icon icon-bar" matTooltip="Visualize History"><i class="material-icons">insert_chart</i></mat-icon></h4>
+										<div class="col-4 form-container">
+											<h4><b> History</b><mat-icon class="icon icon-bar" matTooltip="Visualize History"><i class="material-icons">insert_chart</i></mat-icon></h4>
 											<hr>
+											<div class="row history">
+												<div class="col history">
+													<mat-list>
+														<mat-list-item *ngFor="let plan of rehabPlanHistory; let i = index" [attr.data-index]="i" class="treatment" (click)="setActiveRehabPlan(i)">
+															<div class="col-8">
+																{{ plan?.name }}
+															</div>
+															<div class="col-4">
+																End: {{ plan?.endDate | date : "dd.MM.y" }}
+															</div>
+															<mat-divider></mat-divider>
+														</mat-list-item>
+													</mat-list>
+												</div>
+											</div>
 										</div>
 									</div>
 								</form>

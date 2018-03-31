@@ -38,6 +38,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	treatments;
 	activeExercise;
 	activeAssessmentTest;
+	rehabPlanHistory;
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -83,18 +84,12 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Show the rehab plan details
 	showRehabPlan(index) {
-		console.log("Show rehab plan clicked");
 		this.showPlan = true;
 		this.activeTreatmentIndex = index;
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
-		console.log("The rehab plans" + JSON.stringify(this.user.treatments.rehabilitationPlan));
-		//Tempory fix until rehab plans is an array
-		this.activeRehabPlan = this.user.treatments[this.activeTreatmentIndex].rehabilitationPlan;
-		//Doesn't work right now b/c rehab plan isn't an array
-		//this.activeRehabPlan = this.user.treatments[this.activeTreatment].rehabilitationPlan[this.user.treatments[this.activeTreatment].rehabilitationPlan.length - 1];
-		//console.log("Length of rehab plans" + this.user.treatments[this.activeTreatment].rehabilitationPlan.length);
-		//console.log("Active rehabPlan index" + this.activeRehabPlan);
-		//console.log(this.user.treatments[this.activeTreatment]);
+		var length = this.activeTreatment.rehabilitationPlan.length;
+		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
+		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
 		this.getRehabPlanExercises();
@@ -130,6 +125,16 @@ export class ManagePatientProfileComponent implements OnInit {
 	subscribe( data => {
 		this.toastr.success("Treatment has been closed!");
 	});
+}
+
+	//Update the view when a new rehab plan is clicked on
+	setActiveRehabPlan(index) {
+		console.log(index);
+		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[index];
+		this.activeRehabPlanExercises = [];
+		this.activeRehabPlanAssessmentTests = [];
+		this.getRehabPlanExercises();
+		this.getRehabPlanAssessmentTests();
 }
 
 	//Update the patients information
@@ -209,10 +214,9 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
-					console.log("Treatments" + this.treatments);
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
-					console.log("Patient profile" + JSON.stringify(this.user));
+					console.log(this.user);
 				});
 		 }
 
