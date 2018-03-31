@@ -15,7 +15,7 @@ export class UserAccountListService {
 	//Get a single users account
 	getUserAccount(id) {
 			this.options = this.authenticationService.createAuthenticationHeaders();
-			return this.http.get(this.domain+'/UserAccounts/'+id, this.options)
+			return this.http.get(this.domain+'/UserAccounts/id/'+id, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});

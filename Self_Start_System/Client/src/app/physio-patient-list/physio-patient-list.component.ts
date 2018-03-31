@@ -74,7 +74,7 @@ export class PhysioPatientListComponent implements OnInit {
 
 	//View the users profile
 	selectRow = row => {
-		console.log("Account id" + row.accont);
+		console.log("Account id" + row.account);
 		this.userAccountListService.getUserAccount(row.account).
 		subscribe(
 			user => {

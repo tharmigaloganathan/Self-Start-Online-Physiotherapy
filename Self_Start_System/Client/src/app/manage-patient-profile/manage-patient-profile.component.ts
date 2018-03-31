@@ -33,6 +33,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	activeRehabPlan;
 	activeRehabPlanExercises = [];
 	activeRehabPlanAssessmentTests = [];
+	treatments;
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -46,9 +47,13 @@ export class ManagePatientProfileComponent implements OnInit {
 }
 
   ngOnInit() {
-		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
-		this.populatePopulatePatient(this.account.patientProfile);
-		this.populateAppointments(this.account.patientProfile);
+		/* This is not working right now because User Accounts get by id is not working */
+		//this.account = JSON.parse(localStorage.getItem('selectedAccount'));
+		//this.populatePopulatePatient(this.account.patientProfile);
+		//this.populateAppointments(this.account.patientProfile);
+		this.account = JSON.parse(localStorage.getItem('selectedPatient'));
+		this.populatePopulatePatient(this.account._id);
+		this.populateAppointments(this.account._id);
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
@@ -100,7 +105,6 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Update the patients information
 	savePatientInfo() {
-		this.loading = true;
 		const patientProfile = {
 			familyName: this.user.familyName,
 			givenName: this.user.givenName,
@@ -140,12 +144,10 @@ export class ManagePatientProfileComponent implements OnInit {
 			subscribe(
 				data => {
 					this.genders = data;
-					console.log("This is what was returned" + JSON.stringify(data));
 				},
 				error => {
 					console.log("Error");
 				});
-				console.log(this.genders);
 	}
 
 		//Get all provinces
@@ -154,12 +156,10 @@ export class ManagePatientProfileComponent implements OnInit {
 		subscribe(
 			data => {
 				this.provinces = data;
-				console.log("This is what was returned" + JSON.stringify(data));
 			},
 			error => {
 				console.log("Error");
 			});
-			console.log(this.provinces);
 	}
 
 		//Get all countries
@@ -168,12 +168,10 @@ export class ManagePatientProfileComponent implements OnInit {
 			subscribe(
 				data => {
 					this.countries = data;
-					console.log("This is what was returned" + JSON.stringify(data));
 				},
 				error => {
 					console.log("Error");
 				});
-				console.log(this.provinces);
 		}
 
 		//Get the users account
@@ -181,9 +179,10 @@ export class ManagePatientProfileComponent implements OnInit {
 			this.userAccountListService.getPatientProfile(id).subscribe(
 				data => {
 					this.user = data;
+					this.treatments = this.user.treatments;
+					console.log(JSON.stringify(this.treatments));
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
-					console.log(this.user);
 					console.log("Patient profile" + JSON.stringify(this.user));
 				});
 		 }
@@ -193,8 +192,6 @@ export class ManagePatientProfileComponent implements OnInit {
 		 this.userAccountListService.getAppointments(id).subscribe(
 			 data => {
 				 this.appointments = data;
-				 console.log(this.appointments);
-				 console.log("Patient's appointments" + JSON.stringify(this.appointments));
 			 });
 			}
 
