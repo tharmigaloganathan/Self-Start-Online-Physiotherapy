@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
   selector: 'app-dashboard-patient',
   templateUrl: './dashboard-patient.component.html',
   styleUrls: ['./dashboard-patient.component.scss'],
-  providers:[AuthenticationService,MessagesService]
+  providers:[MessagesService]
 })
 export class DashboardPatientComponent implements OnInit {
     messages: Object[] = [];

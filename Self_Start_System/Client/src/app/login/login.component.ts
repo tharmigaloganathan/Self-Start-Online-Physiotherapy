@@ -67,17 +67,17 @@ export class LoginComponent implements OnInit {
          this.authService.getProfile().subscribe(res => {
             console.log("in login component: here's what getProfile returned: ", res);
             for (let result of res){
-              console.log((result as any).success);
               if ((result as any).success){
                 this.retrievedProfile = result;
-                this.authService.setActiveUser(this.retrievedProfile);
                 console.log(this.retrievedProfile);
                 break;
               }
             }
            console.log('retrieved profile! ',this.retrievedProfile);
 
-           if (this.retrievedProfile.patientProfile) {
+           if (this.retrievedProfile.patientProfile){
+             this.authService.setActiveProfile(this.retrievedProfile.patientProfile);
+             this.authService.setActiveProfileType(0);
              localStorage.setItem('accountType', "patient");
              setTimeout(() => {
                if(this.previousUrl){

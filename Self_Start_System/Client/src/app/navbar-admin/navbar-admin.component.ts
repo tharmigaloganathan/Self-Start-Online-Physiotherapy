@@ -41,4 +41,8 @@ export class NavbarAdminComponent implements OnInit {
     this.flashMessagesService.show('You have logged out!', { cssClass: 'alert-success', timeout: 3000 });
   }
 
+  editProfile(){
+
+  }
+
 }

@@ -21,6 +21,9 @@ export class AuthenticationService {
   physioReturn;
   adminReturn;
   activeUser;
+  activeProfile;
+  activeProfileType;
+
 
   constructor(
     private http: Http,
@@ -57,11 +60,26 @@ export class AuthenticationService {
     return forkJoin([this.patientReturn,this.physioReturn,this.adminReturn]);
   }
 
-  getActiveUser(){
-    return this.activeUser;
+  // getUserAccount(){
+  //   this.options = this.createAuthenticationHeaders()
+  //   this.activeUser = this.http.get
+  // }
+
+  getActiveProfile(){
+    return this.activeProfile;
   }
-  setActiveUser(user){
-    this.activeUser = user;
+
+  setActiveProfile(profile){
+    this.activeProfile = profile;
+    console.log("auth service activeProfile is: ", this.activeProfile);
+  }
+
+  getActiveProfileType(){
+    return this.activeProfileType;
+  }
+  setActiveProfileType(type){
+     this.activeProfileType = type;
+     console.log("auth service activeProfileType is: ", this.activeProfileType);
   }
 
   createAuthenticationHeaders() {

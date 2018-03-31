@@ -68,6 +68,8 @@ import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 
+import {EditProfileService} from "./edit-profile.service";
+
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
@@ -108,6 +110,7 @@ import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +156,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
+		ProfileSettingsComponent,
   ],
   imports: [
     HttpModule,
@@ -205,7 +209,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
-  providers: [ExerciseService,
+  providers: [EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
