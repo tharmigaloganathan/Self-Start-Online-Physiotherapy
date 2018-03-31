@@ -132,7 +132,11 @@
 							</div>
 							<ng-template #treatmentList>
 								<div *ngIf="!showPlan else rehabPlan">
-									<h6 class="top">Treatment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+									<div class="row top">
+										<div class="col">
+											<button mat-raised-button class="crete-treatment-button">Create New Treatment</button>
+										</div>
+									</div>
 									<mat-divider></mat-divider>
 									<mat-list>
 										<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="treatment" (click)="showRehabPlan(i)">
@@ -145,11 +149,9 @@
 											<div class="col-2">
 												<b>Active: </b> {{ treatment.active }}
 											</div>
-											<!-- Rehabilitation plan is blurred out right now
 											<div class="col-4">
-												<b>Rehabilitation Plan: </b> {{ treatment.rehabilitationPlan.name }}
+												<b>Rehabilitation Plan: </b> {{ treatment?.rehabilitationPlan?.name }}
 											</div>
-											-->
 											<mat-divider></mat-divider>
 										</mat-list-item>
 										<mat-divider></mat-divider>
@@ -157,8 +159,8 @@
 							</div>
 							</ng-template>
 							<!-- View to show the details of a specific rehab plan -->
-							<!--
 							<ng-template #rehabPlan>
+								<form class="form-container">
 								<div class="row">
 									<div class="col-12 top">
 											<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
@@ -169,33 +171,26 @@
 									<div class="row">
 										<div class="col-9 form-container border-right">
 											<!-- Treatment Details -->
-											<!--
 											<h4><b>Treatment Details</b></h4>
 											<hr>
 											<div class="row">
-												<div class="col-3 form-container">
+												<div class="col-4 form-container">
 													<mat-form-field>
-														<input matInput placeholder="Assigned" [(ngModel)]="activeTreatment.dateAssign" name="activeTreatment.dateAssign" readonly>
+														<input matInput placeholder="Assigned" [ngModel]="activeTreatment.dateAssign | date : 'dd.MM.y'"name="activeTreatment.dateAssign" readonly>
 													</mat-form-field>
 												</div>
-												<div class="col-3 form-container">
+												<div class="col-4 form-container">
 													<mat-form-field>
-														<input matInput placeholder="Started" [(ngModel)]="activeTreatment.dateStart" name="activeTreatment.dateStart" readonly>
+														<input matInput placeholder="Started" [ngModel]="activeTreatment.dateStart | date : 'dd.MM.y'" name="activeTreatment.dateStart" readonly>
 													</mat-form-field>
 												</div>
-												<div class="col-3 form-container">
+												<div class="col-4 form-container">
 													<mat-form-field>
 														<input matInput placeholder="Finished">
 													</mat-form-field>
 												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Active"  [(ngModel)]="activeTreatment.active" name="activeTreatment.active" readonly>
-													</mat-form-field>
-												</div>
 											</div>
 											<!-- Rehab Plan details -->
-											<!--
 											<h4><b>Rehabilitation Plan</b></h4>
 											<hr>
 											<div class="row">
@@ -247,10 +242,10 @@
 														<mat-divider></mat-divider>
 															<mat-list-item *ngFor="let exercise of activeRehabPlanExercises" class="treatment form-container">
 																	<div class="col-4 form-container">
-																		Name: {{ exercise.name }}
+																		Name: {{ exercise?.name }}
 																	</div>
 																	<div class="col-8 form-container">
-																		Description: {{ exercise.description }}
+																		Description: {{ exercise?.description }}
 																	</div>
 																<mat-divider></mat-divider>
 															</mat-list-item>
@@ -272,13 +267,13 @@
 														<mat-divider></mat-divider>
 															<mat-list-item *ngFor="let assessmentTest of activeRehabPlanAssessmentTests" class="treatment form-container">
 																	<div class="col-4 form-container">
-																		Name: {{ assessmentTest.name }}
+																		Name: {{ assessmentTest?.name }}
 																	</div>
 																	<div class="col-4 form-container">
-																		Open Date: {{ assessmentTest.openDate }}
+																		Open Date: {{ assessmentTest?.openDate }}
 																	</div>
 																	<div class="col-4 form-container">
-																		Completed: {{ assessmentTest.dateCompleted }}
+																		Completed: {{ assessmentTest?.dateCompleted }}
 																	</div>
 																<mat-divider></mat-divider>
 															</mat-list-item>
@@ -288,15 +283,14 @@
 											</div>
 										</div>
 										<!-- Rehab plan history -->
-										<!--
 										<div class="col-3 form-container">
 											<h4>History</h4>
 											<hr>
 										</div>
 									</div>
 								</form>
+								</form>
 							</ng-template>
-						-->
 						</mat-tab>
 						<!-- Appointments -->
 						<mat-tab label="Appointments">

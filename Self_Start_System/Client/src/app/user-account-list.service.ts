@@ -82,6 +82,7 @@ export class UserAccountListService {
 	//Get a single patients profile
 	getPatientProfile(id) {
 			this.options = this.authenticationService.createAuthenticationHeaders();
+			console.log("Options" + JSON.stringify(this.options));
 			return this.http.get(this.domain+'/PatientProfiles/'+id, this.options)
 			.map((response: Response) => {
 			return response.json().patientProfile;
