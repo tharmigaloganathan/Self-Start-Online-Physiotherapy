@@ -38,6 +38,9 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
   router;
 
+  selectedRow;
+  activeExercise;
+
 
   user: any;
 
@@ -75,6 +78,18 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         this.user = res;
       }
     );
+  }
+
+  //open exercise details when an exercise is clicked on the panel
+  openExerciseDetails(index) {
+      this.selectedRow = index;
+      this.activeExercise = this.myExercises[index];
+      console.log("CURRENT",this.activeExercise);
+      // this.activeRehabPlanExercises = [];
+      // this.activeRehabPlanAssessmentTests = [];
+      // this.getRehabPlanExercises();
+      // this.getRehabPlanAssessmentTests();
+      // this.getRehabPlanPhysio();
   }
 
   openEditExerciseDialog(exercise){
@@ -146,6 +161,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
           if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
               this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+              console.log("rehabilitation plan",this.rehabilitationplan);
           }
       }
       this.getExercises();

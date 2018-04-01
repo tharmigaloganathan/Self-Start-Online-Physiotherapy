@@ -40,9 +40,12 @@ import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-pl
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
 
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
+import {AuthGuard} from "./guards/auth.guard";
+import {NotAuthGuard} from "./guards/not-auth.guard";
+import {AdminGuard} from "./guards/admin.guard";
+import {PatientGuard} from "./guards/patient.guard";
+import {PhysioGuard} from "./guards/physio.guard";// Our Array of Angular 2 Routes
 
-
-// Our Array of Angular 2 Routes
 const appRoutes: Routes = [
 
   //end of all admin routes
@@ -161,7 +164,7 @@ const appRoutes: Routes = [
     component: EditPatientPlanListComponent,
     canActivate: [PhysioGuard]
 
-
+},
     {
         path: 'home',
         component: HomePageComponent // what a general user sees

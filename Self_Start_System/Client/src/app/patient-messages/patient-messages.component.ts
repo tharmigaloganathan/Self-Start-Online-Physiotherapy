@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService} from "../authentication.service";
 import { MessagesService } from '../messages.service';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-patient-messages',
@@ -11,21 +12,38 @@ import { MessagesService } from '../messages.service';
 export class PatientMessagesComponent implements OnInit {
     messages = [];
     patientID: String;
+    successCounter = 0;
     physioID: String;
     unreadMessages = 0;
     user;
     reload = false;
 
-    constructor(private authService: AuthenticationService, private messagesService: MessagesService) {
+    constructor(private authService: AuthenticationService,
+        private messagesService: MessagesService,
+        private router: Router) {
         this.authService = authService
     }
 
     ngOnInit() {
-        this.authService.getProfile().subscribe(profile => {
-            this.user = profile.patientProfile;
-            this.patientID = this.user._id; //gets id of the current patient that is logged in
-            this.getMessages();
-        });
+        this.successCounter = 0;
+        this.authService.getProfile().subscribe(res => {
+          console.log("in login component: here's what getProfile returned: ", res);
+          for (let result of res){
+            console.log((result as any).success);
+            if ((result as any).physiotherapist){
+              this.successCounter++;//means at least one profile was returned
+              this.user = (result as any).physiotherapist;
+              console.log(this.user);
+              this.getMessages();
+              break;
+            }
+          }
+          if (this.successCounter==0){
+            this.authService.logout();
+            this.router.navigate(['home']);
+          }
+
+      });
     }
 
     setAllMessagesAsSeen() {

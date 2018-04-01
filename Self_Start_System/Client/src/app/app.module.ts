@@ -98,12 +98,18 @@ import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
+import { AuthGuard} from "./guards/auth.guard";
+import { NotAuthGuard} from "./guards/not-auth.guard";
+import { PatientGuard} from "./guards/patient.guard";
+import { PhysioGuard} from "./guards/physio.guard";
+import { AdminGuard} from "./guards/admin.guard";
 import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
 
 
 
@@ -153,6 +159,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
 		ConfirmDeleteDialogBoxComponent,
 		PhysiotherapistMessagesComponent,
 		PhysioPatientListComponent,
+		AddNewExerciseDialogComponent,
   ],
   imports: [
     HttpModule,
@@ -206,7 +213,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService, RecommendationService],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,

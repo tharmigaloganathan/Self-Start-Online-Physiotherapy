@@ -43,7 +43,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="storeID(row)"></mat-row>
   </mat-table>
 </div>
 <!-- <div class="rehab-plan-list">

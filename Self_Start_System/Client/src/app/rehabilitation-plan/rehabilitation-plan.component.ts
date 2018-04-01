@@ -21,6 +21,14 @@ export class RehabilitationPlanComponent implements OnInit {
         this.router = router;
     }
 
+
+    //store ID of rehab plan in local storage when clicked
+    storeID(plan) {
+        console.log("ID", plan._id);
+        localStorage.setItem('edit_rehabilitation_id', plan._id);
+        this.router.navigate(['physio/rehabilitation-plans/'+ plan.name]);
+    }
+
     assignCopy(){
         this.filteredrehabplans = Object.assign([], this.rehabilitationplans);
     }
@@ -50,13 +58,6 @@ export class RehabilitationPlanComponent implements OnInit {
     setUpDataSource = patients => {
 		this.dataSource = new MatTableDataSource(patients);
 	};
-
-    //store ID of rehab plan in local storage when clicked
-    storeID(plan) {
-        console.log("ID", plan._id);
-        localStorage.setItem('edit_rehabilitation_id', plan._id);
-        this.router.navigate(['physio/rehabilitation-plans/'+ plan.name]);
-    }
 
     //lo
     ngOnInit() {
