@@ -6,7 +6,7 @@
 	  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 	<div class="row">
 		<div class="col">
-			<div class="card-container top">
+			<div class="card-container top animated fadeIn">
 				<mat-card>
 					<div class="row">
 						<div class="col-md-8">
@@ -160,7 +160,7 @@
 							</ng-template>
 							<!-- View to show the details of a specific rehab plan -->
 							<ng-template #rehabPlan>
-								<form class="form-container">
+								<form class="form-container animated fadeIn">
 								<div class="row">
 									<div class="col top">
 										<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
@@ -195,54 +195,56 @@
 											<!-- Rehab Plan details -->
 											<h4><b>Rehabilitation Plan</b></h4>
 											<hr>
-											<div class="row">
-												<div class="col-4 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Name" [(ngModel)]="activeRehabPlan.name" name="activeRehabPlan.name" readonly>
-													</mat-form-field>
+											<div class=" form-container animated fadeIn">
+												<div class="row">
+													<div class="col-4 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Name" [(ngModel)]="activeRehabPlan.name" name="activeRehabPlan.name" readonly>
+														</mat-form-field>
+													</div>
+													<div class="col-4 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Author Name" [(ngModel)]="activeRehabPlan.authorName" name="activeRehabPlan.authorName" readonly>
+														</mat-form-field>
+													</div>
+													<div class="col-4 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Physiotherapist" [value]="physiotherapist.givenName + physiotherapist.familyName" name="physiotherapist.givenName + physiotherapist.familyName">
+														</mat-form-field>
+													</div>
 												</div>
-												<div class="col-4 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Author Name" [(ngModel)]="activeRehabPlan.authorName" name="activeRehabPlan.authorName" readonly>
-													</mat-form-field>
+												<div class="row">
+													<div class="col-12 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Description" [(ngModel)]="activeRehabPlan.description" name="activeRehabPlan.description" readonly>
+														</mat-form-field>
+													</div>
 												</div>
-												<div class="col-4 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Physiotherapist" [value]="physiotherapist.givenName + physiotherapist.familyName" name="physiotherapist.givenName + physiotherapist.familyName">
-													</mat-form-field>
+												<div class="row">
+													<div class="col-8 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Goal" [(ngModel)]="activeRehabPlan.goal" name="activeRehabPlan.goal" readonly>
+														</mat-form-field>
+													</div>
+													<div class="col-4 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Time Frame to Complete" [(ngModel)]="activeRehabPlan.timeFrameToComplete" name="activeRehabPlan.timeFrameToComplete" readonly>
+														</mat-form-field>
+													</div>
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-12 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Description" [(ngModel)]="activeRehabPlan.description" name="activeRehabPlan.description" readonly>
-													</mat-form-field>
+												<div class="row">
+													<div class="col-4 form-container">
+														<mat-form-field>
+															<input matInput placeholder="Start Date" [(ngModel)]="activeRehabPlan.startDate" name="activeRehabPlan.startDate" readonly>
+														</mat-form-field>
+													</div>
+													<div class="col-4 form-container">
+														<mat-form-field>
+															<input matInput placeholder="End Date" [(ngModel)]="activeRehabPlan.endDate" name="activeRehabPlan.endDate" readonly>
+														</mat-form-field>
+													</div>
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-8 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Goal" [(ngModel)]="activeRehabPlan.goal" name="activeRehabPlan.goal" readonly>
-													</mat-form-field>
-												</div>
-												<div class="col-4 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Time Frame to Complete" [(ngModel)]="activeRehabPlan.timeFrameToComplete" name="activeRehabPlan.timeFrameToComplete" readonly>
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-4 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Start Date" [(ngModel)]="activeRehabPlan.startDate" name="activeRehabPlan.startDate" readonly>
-													</mat-form-field>
-												</div>
-												<div class="col-4 form-container">
-													<mat-form-field>
-														<input matInput placeholder="End Date" [(ngModel)]="activeRehabPlan.endDate" name="activeRehabPlan.endDate" readonly>
-													</mat-form-field>
-												</div>
-											</div>
+										</div>
 											<h4><b>Exercises</b></h4>
 											<div class="row">
 												<div *ngIf="activeRehabPlanExercises.length == 0 else exerciseList">
@@ -251,7 +253,7 @@
 													</div>
 												</div>
 												<ng-template #exerciseList>
-													<div class="col-12 form-container">
+													<div class="col-12 form-container animated fadeIn">
 													<mat-list>
 														<mat-divider></mat-divider>
 															<mat-list-item *ngFor="let exercise of activeRehabPlanExercises; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
@@ -276,7 +278,7 @@
 													</div>
 												</div>
 												<ng-template #assessmentTestList>
-													<div class="col-12 form-container">
+													<div class="col-12 form-container animated fadeIn">
 													<mat-list>
 														<mat-divider></mat-divider>
 															<mat-list-item *ngFor="let assessmentTest of activeRehabPlanAssessmentTests; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewAssessmentTestModal">
