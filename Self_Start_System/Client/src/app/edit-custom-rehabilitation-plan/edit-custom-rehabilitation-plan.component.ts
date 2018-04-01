@@ -84,12 +84,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   openExerciseDetails(index) {
       this.selectedRow = index;
       this.activeExercise = this.myExercises[index];
-      console.log("CURRENT",this.activeExercise);
-      // this.activeRehabPlanExercises = [];
-      // this.activeRehabPlanAssessmentTests = [];
-      // this.getRehabPlanExercises();
-      // this.getRehabPlanAssessmentTests();
-      // this.getRehabPlanPhysio();
   }
 
   openEditExerciseDialog(exercise){

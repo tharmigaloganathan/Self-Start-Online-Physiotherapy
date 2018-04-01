@@ -48,17 +48,18 @@
                 </mat-tab>
                 <mat-tab label="Exercises">
                     <div class="exercises-tab">
-                                <div class="row">
-                                    <div class="col top">
-                                        <button mat-raised-button class="add-new-exercise-button" (click)="editRehabPlan()">Add a New Exercise</button>
-                                    </div>
-                                </div>
                                 <form class="form-container">
                                     <div class="row">
                                         <div class="col-4 form-container border-right">
-                                            <h4>Exercises</h4>
+                                            <div class="row">
+                                                    <h4>Exercises</h4>
+                                                    <button mat-raised-button class="add-new-exercise-button" (click)="openEditExerciseDialog(activeExercise)">Add a New Exercise</button>
+                                            </div>
+
+
                                             <hr>
                                             <div class="row">
+
                                                 <!-- <mat-list> -->
                                                     <!-- <mat-list-item *ngFor="let exercise of myExercises; let i = index" [attr.data-index]="i" class="treatment" (click)="setActiveRehabPlan(i)" [class.highlight]="i === selectedRow">
                                                         <div class="col-12">
@@ -67,7 +68,7 @@
 
                                                         <ul class="list-group list-group-exercise" dnd-sortable-container [sortableData]="myExercises">
 
-                                                            <li *ngFor="let exercise of myExercises; let i = index"  (click)="openExerciseDetails(i)" class="list-group-item" dnd-sortable [sortableIndex]="i">
+                                                            <li *ngFor="let exercise of myExercises; let i = index"  (click)="openExerciseDetails(i)" class="list-group-item" [class.highlight]="i === selectedRow" dnd-sortable [sortableIndex]="i">
                                                                 <h6>{{exercise.name}}</h6>
                                                             </li>
                                                         </ul>
@@ -99,11 +100,71 @@
                                         <div class="col-8 form-container">
                                             <h4>Exercise Details</h4>
                                             <hr>
-                                            <div class="row history">
-                                                <div class="col history">
-
+                                            <div *ngIf="activeExercise">
+                                                <div class="row">
+                                                    <div class="col form-container">
+                                                        <mat-form-field>
+                                                            <input matInput #name placeholder="Name" name="name" [(ngModel)]="activeExercise.name">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="Author Name" name="authorName" [(ngModel)]="activeExercise.authorName">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 form-container">
+                                                        <mat-form-field>
+                                                            <input matInput #name placeholder="Location" name="location" [(ngModel)]="activeExercise.location">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-6 form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="URL" name="URL" [(ngModel)]="activeExercise.URL">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4 form-container">
+                                                        <mat-form-field>
+                                                            <input matInput #name placeholder="Frequency" name="frequency" [(ngModel)]="activeExercise.frequency">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-4 form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="Duration" name="duration" [(ngModel)]="activeExercise.duration">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-4 form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="Target Date" name="targetDate" [(ngModel)]="activeExercise.targetDate">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 form-container">
+                                                        <mat-form-field>
+                                                            <textarea matInput #name placeholder="Description" name="description" [(ngModel)]="activeExercise.description"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 form-container">
+                                                        <mat-form-field>
+                                                            <textarea matInput #name placeholder="Objectives" name="objectives" [(ngModel)]="activeExercise.objectives"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 form-container">
+                                                        <mat-form-field>
+                                                            <textarea matInput #name placeholder="Action Steps" name="actionSteps" [(ngModel)]="activeExercise.actionSteps"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </form>

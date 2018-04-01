@@ -6,18 +6,29 @@
 *{
     font-family: 'Roboto Condensed', sans-serif;
 }
+
+.highlight {
+	background-color: #DCDCDC !important;
+	cursor: pointer;
+}
 .form-container {
-	padding: 1%;
+	padding: 2%;
+    // margin: 1%;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 }
 
-.form-container {
-	padding: 1%;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
+button.add-new-exercise-button {
+    margin-bottom: 2%;
+    width: 100%;
+
+    background-color: #eeeeee;
+    // color: #ffffff;
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
 }
 
 .form-container > * {
@@ -74,9 +85,7 @@
   padding-left: 0px;
 }
 
-.add-new-exercise-button {
-    margin: 5%;
-}
+
 
 .list-group-exercise {
     font-family: 'Roboto Condensed', sans-serif;
