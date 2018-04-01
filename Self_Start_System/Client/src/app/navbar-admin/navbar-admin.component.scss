@@ -11,9 +11,10 @@ img.logo{
   max-height: 100%;
 }
 
-button.logout-button{
-  background-color: $electric-glow;
+button.profile-button{
+  background-color: $beautiful-blue;
   border-radius: 0px;
+  color: $white
 }
 
 mat-toolbar{

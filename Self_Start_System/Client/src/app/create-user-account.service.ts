@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from './../environments/environment';
+import {AuthenticationService } from "./authentication.service";
 
 @Injectable()
 export class CreateUserAccountService {
@@ -30,7 +31,11 @@ export class CreateUserAccountService {
 
 	domain = environment.apiURL;
 
-  constructor(private http: Http) {}
+	options;
+
+  constructor(private http: Http, private authService: AuthenticationService) {
+    this.authService = authService
+  }
 
 	//Return all genders
 	getGenders() {

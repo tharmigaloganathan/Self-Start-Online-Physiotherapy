@@ -14,18 +14,18 @@ export class PhysioGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     console.log ('Physio guard canActivate called');
-    if (this.authService.loggedIn()){
-      var retrievedAccount = localStorage.getItem("userAccount");
-      console.log("here is the retrieved account from localstorage: ", retrievedAccount);
-      if (JSON.parse(retrievedAccount).physiotherapist) {
+
+    if (this.authService.loggedIn()) {
+      let type = localStorage.getItem('accountType');
+      if (type == "physio") {
         return true;
       } else {
+        this.redirectUrl = state.url;
         this.router.navigate(['/home']);
         return false;
       }
     } else {
-      this.redirectUrl = state.url;
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
       return false;
     }
   };

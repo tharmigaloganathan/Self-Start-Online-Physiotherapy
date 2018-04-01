@@ -87,6 +87,7 @@ import { PatientMessagesComponent } from './patient-messages/patient-messages.co
 import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatMenuModule} from "@angular/material";
 import { ViewRehabilitationPlanComponent } from './view-rehabilitation-plan/view-rehabilitation-plan.component';
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 
@@ -197,6 +198,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
     HttpClientModule,
     MatTableModule,
     MatSortModule,
+    MatMenuModule,
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,

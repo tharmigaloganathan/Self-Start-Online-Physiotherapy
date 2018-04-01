@@ -11,12 +11,28 @@ import { FlashMessagesModule, FlashMessagesService} from "angular2-flash-message
 })
 export class NavbarAdminComponent implements OnInit {
 
+  user;
+  name = "";
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
+    this.authService.getProfile().subscribe(res => {
+      console.log("nav-bar admin, here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).administrator){
+          this.user = (result as any).administrator;
+          this.name = this.user.givenName;
+          console.log(this.user);
+          break;
+        }
+      }
+      //functions after user is set goes here
+
+    })
   }
 
   logout(){
