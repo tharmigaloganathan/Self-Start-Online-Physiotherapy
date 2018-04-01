@@ -93,7 +93,10 @@
                 <button mat-raised-button class="yellowButton" (click)="createAssessmentTest()" style="float: right">Create New Assessment Test</button>
               </h2>
               <hr>
-              <div class="row">
+              <div class="row" *ngIf="incompleteAssessmentTests.length < 1">
+                <h6>There are no assigned assessment tests.</h6>
+              </div>
+              <div class="row" *ngIf="incompleteAssessmentTests.length > 0">
                 <div class="col-md-3 border-right" style="padding: 0%;">
                   <mat-list class="test-list">
                     <h5>Tests</h5>
@@ -172,7 +175,10 @@
     <mat-tab label="Completed Assessments">
     <br>
       <div class="container top">
-        <div class="row">
+        <div class="row" *ngIf="completeAssessmentTests.length < 1">
+          <h6>There are no completed assessment tests available to view.</h6>
+        </div>
+        <div class="row" *ngIf="completeAssessmentTests.length > 0">
           <div class="col-12">
             <mat-card style="height: auto; width: auto;">
               <h2>Completed Tests</h2>
@@ -220,63 +226,63 @@
           </div>
         </div>
       </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-4" >
-          <div class="card">
-            <p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
-            <ul class="list-group" >
-              <li *ngFor="let test of completeAssessmentTests" class="selectedTest list-group-item" (click)="selectCompleteAssessmentTest(test)">
-                <p *ngIf="test == selectedCompleteAssessmentTest">VIEWING</p>
-                <h5>{{test.name}}</h5>
-                <p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <h1 class="subtitle">
-                <b>Test Results</b>
-                </h1>
-                <br>
-                <div class="">
-                  <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>
-                  <ul class="list-group-ans">
-                    <li *ngFor="let result of allResults" class="list-group-item">
-                      <p>Question: {{result.question}}</p>
-                      <p>Answer: {{result.answer}}</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <h1 class="subtitle">
-                  <b>Recommendations</b>
-                  <br>
-                  <button *ngIf="selectedCompleteAssessmentTest" mat-raised-button class="yellowButton" (click)="createRecommendation()">Add New Recommendation</button>
-                </h1>
-                <br>
-                <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>
-                <ul class="list-group-reco">
-                  <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">
-                    <p>{{recommendation.decision}}</p>
-                    <p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div class="container">-->
+      <!--<div class="row">-->
+        <!--<div class="col-4" >-->
+          <!--<div class="card">-->
+            <!--<p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>-->
+            <!--<ul class="list-group" >-->
+              <!--<li *ngFor="let test of completeAssessmentTests" class="selectedTest list-group-item" (click)="selectCompleteAssessmentTest(test)">-->
+                <!--<p *ngIf="test == selectedCompleteAssessmentTest">VIEWING</p>-->
+                <!--<h5>{{test.name}}</h5>-->
+                <!--<p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-8">-->
+          <!--<div class="row">-->
+            <!--<div class="col-12">-->
+              <!--<div class="card">-->
+                <!--<h1 class="subtitle">-->
+                <!--<b>Test Results</b>-->
+                <!--</h1>-->
+                <!--<br>-->
+                <!--<div class="">-->
+                  <!--<p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>-->
+                  <!--<ul class="list-group-ans">-->
+                    <!--<li *ngFor="let result of allResults" class="list-group-item">-->
+                      <!--<p>Question: {{result.question}}</p>-->
+                      <!--<p>Answer: {{result.answer}}</p>-->
+                    <!--</li>-->
+                  <!--</ul>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<br>-->
+          <!--<div class="row">-->
+            <!--<div class="col-12">-->
+              <!--<div class="card">-->
+                <!--<h1 class="subtitle">-->
+                  <!--<b>Recommendations</b>-->
+                  <!--<br>-->
+                  <!--<button *ngIf="selectedCompleteAssessmentTest" mat-raised-button class="yellowButton" (click)="createRecommendation()">Add New Recommendation</button>-->
+                <!--</h1>-->
+                <!--<br>-->
+                <!--<p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>-->
+                <!--<ul class="list-group-reco">-->
+                  <!--<li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">-->
+                    <!--<p>{{recommendation.decision}}</p>-->
+                    <!--<p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>-->
+                  <!--</li>-->
+                <!--</ul>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
   </mat-tab>
 </mat-tab-group>
 <br />

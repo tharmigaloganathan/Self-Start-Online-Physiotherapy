@@ -59,7 +59,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   editRecommendationDialogRef: MatDialogRef<EditRecommendationDialogComponent>
 
   allRecommendations = [];
-  selectedAssessmentRecommendations = [];
+  selectedAssessmentRecommendation = {};
   allResults = [];
   selectedAssessmentResult = [];
 
@@ -451,7 +451,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   addRecommendation(recommendation){
     this.recommendationService.addRecommendation(recommendation).subscribe(
       res => {
-        this.selectedCompleteAssessmentTest.recommendations.push(res.recommendation._id);
+        this.selectedCompleteAssessmentTest.recommendation.push(res.recommendation._id);
         this.editAssessmentTest(this.selectedCompleteAssessmentTest);
         this.getRecommendations();
       },
@@ -463,7 +463,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   getRecommendations(){
     this.allRecommendations = [];
-    this.selectedAssessmentRecommendations = [];
+    this.selectedAssessmentRecommendation = {};
     this.recommendationService.getAllRecommendations().subscribe(
       data => {
         this.allRecommendations = data.recommendation;
@@ -472,14 +472,14 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         if(this.selectedCompleteAssessmentTest != null){
           for(let i = 0; i < this.allRecommendations.length; i++){
             if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
-              this.selectedAssessmentRecommendations.push(this.allRecommendations[i]);
+              this.selectedAssessmentRecommendation = this.allRecommendations[i];
             }
           }
         }
       }
     )
     console.log(this.allRecommendations);
-    console.log(this.selectedAssessmentRecommendations);
+    console.log(this.selectedAssessmentRecommendation);
   }
 
   //===================================
