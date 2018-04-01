@@ -77,8 +77,8 @@ export class LoginComponent implements OnInit {
 
            if (this.retrievedProfile.patientProfile){
              this.authService.setActiveProfile(this.retrievedProfile.patientProfile);
-             this.authService.setActiveProfileType(0);
-             localStorage.setItem('accountType', "patient");
+             this.authService.setActiveProfileType("patient"); //patient = 1
+
              setTimeout(() => {
                if(this.previousUrl){
                  this.router.navigate([this.previousUrl]);
@@ -87,7 +87,8 @@ export class LoginComponent implements OnInit {
                }
              }, 1000);
            } else if (this.retrievedProfile.physiotherapist){
-             localStorage.setItem('accountType', "physio");
+             this.authService.setActiveProfile(this.retrievedProfile.physiotherapist);
+             this.authService.setActiveProfileType("physiotherapist"); //physio = 2
 
              //redirect to physio home page
              setTimeout(() => {
@@ -98,7 +99,8 @@ export class LoginComponent implements OnInit {
                }
              }, 1000);
            } else if (this.retrievedProfile.administrator){
-             localStorage.setItem('accountType', "admin");
+             this.authService.setActiveProfile(this.retrievedProfile.administrator);
+             this.authService.setActiveProfileType("administrator"); //admin = 3
 
              //redirect to admin home page
              setTimeout(() => {

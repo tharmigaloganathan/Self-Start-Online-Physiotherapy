@@ -31,15 +31,19 @@ router.route('/login')
 
                 //get the profile associated with this account
                 var profileID;
+                var profileType;
                 if (userAccount.patientProfile){
                     profileID = userAccount.patientProfile;
+                    profileType = "patient"
                 } else if (userAccount.physiotherapist){
                     profileID = userAccount.physiotherapist;
+                    profileType = "physio"
                 } else if (userAccount.administrator) {
                     profileID = userAccount.administrator;
+                    profileType= "admin";
                 }
 
-                const token = jwt.sign({_id: userAccount._id, profileID: profileID}, config.secret, {expiresIn: '24h'});
+                const token = jwt.sign({_id: userAccount._id, profileID: profileID,  profileType: profileType}, config.secret, {expiresIn: '24h'});
                 console.log("token made: ", token);
 
                 response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});

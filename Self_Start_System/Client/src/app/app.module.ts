@@ -216,7 +216,11 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
     EditAssessmentTestDialogComponent,
     EditExerciseDialogComponent,
     EditRecommendationDialogComponent,
-    ConfirmDeleteDialogBoxComponent
+    ConfirmDeleteDialogBoxComponent,
+    NavbarPhysioComponent,
+    NavbarAdminComponent,
+    NavbarPatientComponent,
+    NavbarGeneralComponent,
   ]
 })
 export class AppModule { }

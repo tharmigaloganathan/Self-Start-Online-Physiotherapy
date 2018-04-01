@@ -15,6 +15,7 @@ export class NavbarPatientComponent implements OnInit {
   user;
   name;
   profileType;
+  subscription;
   constructor(
     private authService: AuthenticationService,
     private router: Router,
@@ -37,10 +38,12 @@ export class NavbarPatientComponent implements OnInit {
     //   //functions after user is set goes here
     //
     // }
-    console.log(this.authService.getActiveProfile());
-    this.user = this.authService.getActiveProfile();
-    this.name = this.user.givenName;
-    console.log(this.user);
+    this.authService.behaviourObj.subscribe(
+      profile => {
+        this.user = profile;
+        console.log(this.user);
+      });
+
   }
 
   logout(){
@@ -49,6 +52,10 @@ export class NavbarPatientComponent implements OnInit {
     this.flashMessagesService.show('You have logged out!', { cssClass: 'alert-success', timeout: 3000 });
   }
 
+  ngOnDestroy() {
+    // prevent memory leak when component is destroyed
+    this.subscription.unsubscribe();
+  }
   editProfile(){
     this.editProfileService.passProfile(this.user, this.profileType);
 

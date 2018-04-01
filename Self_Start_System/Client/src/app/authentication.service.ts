@@ -10,6 +10,9 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
 import {forkJoin} from "rxjs/observable/forkJoin";
+import * as jwt_decode from 'jwt-decode';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+
 
 
 @Injectable()
@@ -24,10 +27,14 @@ export class AuthenticationService {
   activeProfile;
   activeProfileType;
 
+  behaviourObj;
+  behaviourObj$;
 
   constructor(
     private http: Http,
-  ) { }
+  ) {
+    this.behaviourObj = new BehaviorSubject(null);
+  }
 
   login(user) {
     console.log("inside auth service, service received: ", user);
@@ -40,6 +47,8 @@ export class AuthenticationService {
   logout(){
     this.authToken = null;
     localStorage.clear();
+    this.activeProfile = null;
+    this.activeProfileType = null;
     console.log("End of logout() in AuthService. Successfully logged out!");
   }
 
@@ -72,14 +81,16 @@ export class AuthenticationService {
   setActiveProfile(profile){
     this.activeProfile = profile;
     console.log("auth service activeProfile is: ", this.activeProfile);
+    this.behaviourObj.next(this.activeProfile);
   }
 
   getActiveProfileType(){
     return this.activeProfileType;
   }
-  setActiveProfileType(type){
-     this.activeProfileType = type;
-     console.log("auth service activeProfileType is: ", this.activeProfileType);
+
+  setActiveProfileType(profileType){
+    this.activeProfileType = profileType;
+    console.log("auth service activeProfileType is: ", this.activeProfileType);
   }
 
   createAuthenticationHeaders() {
@@ -99,6 +110,16 @@ export class AuthenticationService {
     console.log("here is the retrieved token from localstorage: ", this.authToken);
   }
 
+  checkRole(){
+    this.loadToken();
+    if(!this.authToken){
+      return null;
+    }
+    const tokenPayload = jwt_decode(this.authToken);
+    console.log("in auth service check role, token payload is: ", tokenPayload);
+    this.setActiveProfileType((tokenPayload as any).profileType);
+    return (tokenPayload as any).profileType;
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

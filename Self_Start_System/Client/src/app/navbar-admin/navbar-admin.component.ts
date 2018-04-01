@@ -7,11 +7,12 @@ import { FlashMessagesModule, FlashMessagesService} from "angular2-flash-message
   selector: 'app-navbar-admin',
   templateUrl: './navbar-admin.component.html',
   styleUrls: ['./navbar-admin.component.scss'],
-  providers: [AuthenticationService]
+  providers: []
 })
 export class NavbarAdminComponent implements OnInit {
-
+  account;
   user;
+  userType;
   name = "";
   constructor(
     private authService: AuthenticationService,
@@ -19,20 +20,9 @@ export class NavbarAdminComponent implements OnInit {
     private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(res => {
-      console.log("nav-bar admin, here's what getProfile returned: ", res);
-      for (let result of res){
-        console.log((result as any).success);
-        if ((result as any).administrator){
-          this.user = (result as any).administrator;
-          this.name = this.user.givenName;
-          console.log(this.user);
-          break;
-        }
-      }
-      //functions after user is set goes here
-
-    })
+    this.user = this.authService.getActiveProfile();
+    this.userType=this.authService.getActiveProfileType();
+    this.name = this.user.givenName;
   }
 
   logout(){

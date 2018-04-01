@@ -7,7 +7,7 @@ import { Router} from "@angular/router";
   selector: 'app-dashboard-admin',
   templateUrl: './dashboard-admin.component.html',
   styleUrls: ['./dashboard-admin.component.scss'],
-  providers:[AuthenticationService]
+  providers:[]
 })
 export class DashboardAdminComponent implements OnInit {
 
@@ -35,6 +35,8 @@ export class DashboardAdminComponent implements OnInit {
         if ((result as any).administrator){
           this.successCounter++; //a profile was returned
           this.user = (result as any).administrator;
+          this.authService.setActiveProfile(this.user);
+          this.authService.setActiveProfileType("administrator");
           console.log(this.user);
           break;
         }

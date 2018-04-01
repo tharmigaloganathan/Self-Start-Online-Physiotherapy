@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
   selector: 'app-dashboard-physio',
   templateUrl: './dashboard-physio.component.html',
   styleUrls: ['./dashboard-physio.component.scss'],
-  providers:[AuthenticationService]
+  providers:[]
 })
 export class DashboardPhysioComponent implements OnInit {
   user;
@@ -26,6 +26,8 @@ export class DashboardPhysioComponent implements OnInit {
         if ((result as any).physiotherapist){
           this.successCounter++;//means at least one profile was returned
           this.user = (result as any).physiotherapist;
+          this.authService.setActiveProfile(this.user);
+          this.authService.setActiveProfileType("physiotherapist");
           console.log(this.user);
           break;
         }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService} from "../authentication.service";
 import { MessagesService } from '../messages.service';
 import {Router} from "@angular/router";
+import {NavbarPatientComponent} from "../navbar-patient/navbar-patient.component";
 
 @Component({
   selector: 'app-dashboard-patient',
@@ -16,16 +17,15 @@ export class DashboardPatientComponent implements OnInit {
     retrievedProfile;
     name = "";
     successCounter = 0;
+    navbar;
 
   constructor(
     private authService: AuthenticationService,
     private messagesService: MessagesService,
-    private router: Router)
+    private router: Router
+  )
   {
     this.authService = authService;
-  }
-
-  ngOnInit() {
     this.successCounter = 0;
     this.authService.getProfile().subscribe(res => {
       console.log("in login component: here's what getProfile returned: ", res);
@@ -34,7 +34,9 @@ export class DashboardPatientComponent implements OnInit {
         if ((result as any).patientProfile){
           this.successCounter ++; //means at least one profile was returned
           this.user = (result as any).patientProfile;
-          this.name = this.user.givenName
+          this.authService.setActiveProfile(this.user);
+          this.authService.setActiveProfileType("patient");
+          this.name = this.user.givenName;
           console.log(this.user);
           this.patientID = this.user._id; //gets id of the current patient that is logged in
           break;
@@ -47,6 +49,10 @@ export class DashboardPatientComponent implements OnInit {
       //functions after user is set goes here
       this.getMessages();
     })
+  }
+
+  ngOnInit() {
+
   }
 
     setAllMessagesAsSeen() {
