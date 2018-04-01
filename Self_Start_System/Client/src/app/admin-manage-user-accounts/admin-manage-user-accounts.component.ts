@@ -64,34 +64,66 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
 	//Update the patients information
 	savePatientInfo() {
-		const patientProfile = {
-			familyName: this.user.familyName,
-			givenName: this.user.givenName,
-			email: this.user.email,
-			DOB: this.user.DOB,
-			postalCode: this.user.postalCode,
-			phone: this.user.phone,
-			address: this.user.address,
-			account: this.user.account,
-			treatments: this.user.treatments,
-			payments: this.user.payments,
-			country: this.user.country,
-			province:  this.user.province,
-			city:  this.user.city,
-			gender: this.user.gender,
-			appointments: this.user.appointments
+		if(!this.isPatient) {
+			this.savePhysioInfo()
+		} else {
+			const patientProfile = {
+				familyName: this.user.familyName,
+				givenName: this.user.givenName,
+				email: this.user.email,
+				DOB: this.user.DOB,
+				postalCode: this.user.postalCode,
+				phone: this.user.phone,
+				address: this.user.address,
+				account: this.user.account,
+				treatments: this.user.treatments,
+				payments: this.user.payments,
+				country: this.user.country,
+				province:  this.user.province,
+				city:  this.user.city,
+				gender: this.user.gender,
+				appointments: this.user.appointments
+			}
+			console.log(patientProfile);
+			this.userAccountListService.updatePatient(this.user._id, patientProfile).
+			subscribe(
+				user => {
+					this.user = user;
+					localStorage.setItem('selectedPatient', JSON.stringify(user));
+					console.log("This was returned for the patient" + JSON.stringify(user));
+					this.isChanged = false;
+				},
+				error => {
+					console.log("Error");
+				});
 		}
-		console.log(patientProfile);
-		this.userAccountListService.updatePatient(this.user._id, patientProfile).
-		subscribe(
-			user => {
-				this.user = user;
-				console.log("This was returned for the patient" + JSON.stringify(user));
-				this.isChanged = false;
-			},
-			error => {
-				console.log("Error");
-			});
+}
+
+	//Update the physios information
+	savePhysioInfo() {
+	const physioProfile = {
+		familyName: this.user.familyName,
+		givenName: this.user.givenName,
+		email: this.user.email,
+		userAccount: this.user.userAccount,
+		dateHired: this.user.dateHired,
+		dateFinished: this.user.dateFinished,
+		treatments: this.user.treatments,
+		availableTimeSlots: this.user.availableTimeSlots,
+		appointments: this.user.appointments
+	}
+	console.log(physioProfile);
+	this.userAccountListService.updatePhysio(this.user._id, physioProfile).
+	subscribe(
+		user => {
+			this.user = user;
+			console.log("This was returned for the physio" + JSON.stringify(user));
+			this.isChanged = false;
+		},
+		error => {
+			console.log("Error");
+		});
+
 }
 
 	//Reset the users Password

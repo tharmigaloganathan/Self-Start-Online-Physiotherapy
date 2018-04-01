@@ -51,12 +51,21 @@ export class UserAccountListService {
 
 	//Update patients information
 	updatePatient(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/PatientProfiles/'+id ,user, this.options)
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.put(this.domain+'/PatientProfiles/'+id ,user, this.options)
 			.map((response: Response) => {
-				return response.json().patientProfile;
+			return response.json().patientProfile;
 		});
 	}
+
+	//Update the physsios information
+	updatePhysio(id, user) {
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.put(this.domain+'/Physiotherapists/'+id ,user, this.options)
+		.map((response: Response) => {
+		return response.json().physiotherapist;
+	});
+}
 
 		//Return all genders
 		getGenders() {

@@ -3,7 +3,6 @@
 <app-navbar-admin></app-navbar-admin>
 
 <div class="container">
-	  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 	<div class="row">
 		<div class="col">
 			<div class="card-container top animated fadeIn">
@@ -35,101 +34,108 @@
 										</div>
 									</ng-template>
 								</div>
-								<!-- Row 1 -->
-								<div class="row">
-									<div class="col form-container">
-										<mat-form-field>
-											<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col form-container">
-										<mat-form-field>
-											<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 2 -->
-								<div class="row">
-									<div class="col-4 form-container">
-										<mat-form-field>
-											<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
-												<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender?.name}}</mat-option>
-												</mat-select>
-										</mat-form-field>
-									</div>
-									<div class="col-6 form-container">
-										<mat-form-field>
-											<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
-											<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-											<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Current Age" [value]="age" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 3 -->
-								<div class="row">
-									<div class="col-3 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-3 form-container">
-										<mat-form-field>
-											<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<mat-select [(ngModel)]="user.province" name="user.province" placeholder="Province" [disabled]="!isChanged">
-												 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province?.name}}</mat-option>
-												</mat-select>
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
-												<mat-option *ngFor="let country of countries" [value]="country._id">{{country?.name}}</mat-option>
-												</mat-select>
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 4 -->
-								<div class="row">
-									<div class="col-8 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-4 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 5 - Only for physio -->
-								<div *ngIf="!isPatient">
+									<!-- Row 1 -->
 									<div class="row">
-										<div class="col-6 form-container">
+										<div class="col form-container">
 											<mat-form-field>
-												<input matInput placeholder="Date Hired" [(ngModel)]="user.dateHired" name="user.dateHired" [disabled]="!isChanged">
+												<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [disabled]="!isChanged">
 											</mat-form-field>
 										</div>
-										<div class="col-6 form-container">
+										<div class="col form-container">
 											<mat-form-field>
-												<input matInput placeholder="Date Finished" [(ngModel)]="user.dateFinished" name="user.dateFinished" [disabled]="!isChanged">
+												<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [disabled]="!isChanged">
 											</mat-form-field>
 										</div>
 									</div>
-								</div>
+									<!-- Row 2 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
+													<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
+												<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+												<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Current Age" [value]="age" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 3 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-3 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-3 form-container">
+											<mat-form-field>
+												<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.province" name="user.province" placeholder="Province" [disabled]="!isChanged">
+													 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
+													<mat-option *ngFor="let country of countries" [value]="country._id">{{country?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 4 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-8 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Roq 5 - only physio information -->
+										<div class="row" *ngIf="!isPatient">
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker1" placeholder="Date Hired" [value]="user.dateHired" [disabled]="!isChanged">
+													<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+													<mat-datepicker #picker1 [startAt]="user.dateHired"></mat-datepicker>
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker2" placeholder="Date Finished" [value]="user.dateFinished" [disabled]="!isChanged">
+													<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+													<mat-datepicker #picker2 [startAt]="user.dateFinished"></mat-datepicker>
+												</mat-form-field>
+											</div>
+									</div>
 							</form>
 						</mat-tab>
 						<!-- Account -->
