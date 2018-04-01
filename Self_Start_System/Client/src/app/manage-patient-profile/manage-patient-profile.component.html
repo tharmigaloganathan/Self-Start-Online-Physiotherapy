@@ -131,7 +131,7 @@
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no treatment history</h6>
 							</div>
 							<ng-template #treatmentList>
-								<div *ngIf="!showPlan else rehabPlan">
+								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">
 									<div class="row top">
 										<div class="col">
 											<button mat-raised-button class="crete-treatment-button">Create New Treatment</button>
