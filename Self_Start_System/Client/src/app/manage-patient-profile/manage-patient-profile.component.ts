@@ -96,6 +96,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.activeRehabPlanAssessmentTests = [];
 		this.getRehabPlanExercises();
 		this.getRehabPlanAssessmentTests();
+		this.getRehabPlanPhysio();
 }
 
 	//View the list of all treatments
@@ -137,6 +138,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.activeRehabPlanAssessmentTests = [];
 		this.getRehabPlanExercises();
 		this.getRehabPlanAssessmentTests();
+		this.getRehabPlanPhysio();
 }
 
 	//Update the patients information
@@ -255,6 +257,15 @@ export class ManagePatientProfileComponent implements OnInit {
 						console.log(this.activeRehabPlanAssessmentTests);
 					});
 				}
+			}
+
+			//Get the physio assoicated with the rehab plan
+			getRehabPlanPhysio() {
+				this.userAccountListService.getPhysio(this.activeTreatment.physiotherapist).subscribe(
+					data => {
+						this.physiotherapist = data;
+						console.log(this.physiotherapist);
+					});
 			}
 
 			//Sets the active exercise for the exercise modal

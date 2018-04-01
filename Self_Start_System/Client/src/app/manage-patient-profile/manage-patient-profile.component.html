@@ -208,7 +208,7 @@
 												</div>
 												<div class="col-4 form-container">
 													<mat-form-field>
-														<input matInput placeholder="Physiotherapist" [value]="physiotherapist" name="physiotherapist">
+														<input matInput placeholder="Physiotherapist" [value]="physiotherapist.givenName + physiotherapist.familyName" name="physiotherapist.givenName + physiotherapist.familyName">
 													</mat-form-field>
 												</div>
 											</div>
