@@ -41,7 +41,8 @@ export class UserAccountListService {
 
 	//Get all physiotherapists
 	getAllPhysiotherapists() {
-		return this.http.get(this.domain+'/Physiotherapists')
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/Physiotherapists', this.options)
 			.map((response: Response) => {
 			return response.json().physiotherapist;
 		});

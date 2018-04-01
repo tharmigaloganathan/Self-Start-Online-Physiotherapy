@@ -62,7 +62,7 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-							<mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item" (click)="selectRow(row)"></mat-row>
+							<mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item" (click)="selectRow(row)" class="animated fadeInDown"></mat-row>
 						</mat-table>
 					</div>
 					<!-- Individual Physio Cards -->
@@ -94,7 +94,7 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumnsPhysio"></mat-header-row>
-							<mat-row *matRowDef="let row; columns: displayedColumnsPhysio;" class="row-item" (click)="selectRowPhysio(row)"></mat-row>
+							<mat-row *matRowDef="let row; columns: displayedColumnsPhysio;" class="row-item" (click)="selectRowPhysio(row)" class="animated fadeInDown"></mat-row>
 						</mat-table>
 					</ng-template>
 				</mat-card>

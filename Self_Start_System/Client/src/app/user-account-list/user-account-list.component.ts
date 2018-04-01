@@ -49,7 +49,7 @@ export class UserAccountListComponent implements OnInit {
 		subscribe(
 			user => {
 				this.users = user;
-				console.log("This is what was returned" + JSON.stringify(user));
+				//console.log("This is what was returned" + JSON.stringify(user));
 				this.setUpDataSource(user);
 			},
 			error => {
@@ -118,8 +118,23 @@ export class UserAccountListComponent implements OnInit {
 	};
 
 	//View the physio's profile
-	selectedRowPhysio = row=> {
-		console.log("Physio row" + row);
+	selectRowPhysio = row=> {
+		console.log("Physio row" + JSON.stringify(row));
+		this.userAccountListService.getUserAccount(row.account).
+		subscribe(
+			user => {
+				this.activeUser = user;
+				console.log(this.activeUser);
+				//Redirect to users profile
+				this.loading = true;
+				setTimeout(() => {
+					this.viewProfile(row);
+					this.loading = false;
+				}, 500);
+			},
+			error => {
+				console.log("Error");
+			});
 	};
 
 	//Filter search results
