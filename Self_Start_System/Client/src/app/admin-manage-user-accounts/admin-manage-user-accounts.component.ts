@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-admin-manage-user-accounts',
@@ -18,6 +18,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	authenticationService;
 	loading = false;
 	isChanged = false;
+	showPlan = false;
 	user;
 	account;
 	today = new Date();
@@ -25,11 +26,9 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	genders;
 	provinces;
 	countries;
-	appointments;
-	showPlan = false;
 	isPatient;
 
-  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, private snackBar: MatSnackBar) {
+  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
@@ -101,57 +100,112 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
 	//Update the physios information
 	savePhysioInfo() {
-	const physioProfile = {
-		familyName: this.user.familyName,
-		givenName: this.user.givenName,
-		email: this.user.email,
-		userAccount: this.user.userAccount,
-		dateHired: this.user.dateHired,
-		dateFinished: this.user.dateFinished,
-		treatments: this.user.treatments,
-		availableTimeSlots: this.user.availableTimeSlots,
-		appointments: this.user.appointments
-	}
-	console.log(physioProfile);
-	this.userAccountListService.updatePhysio(this.user._id, physioProfile).
-	subscribe(
-		user => {
-			this.user = user;
-			console.log("This was returned for the physio" + JSON.stringify(user));
-			this.isChanged = false;
-		},
-		error => {
-			console.log("Error");
-		});
-
+		const physioProfile = {
+			familyName: this.user.familyName,
+			givenName: this.user.givenName,
+			email: this.user.email,
+			userAccount: this.user.userAccount,
+			dateHired: this.user.dateHired,
+			dateFinished: this.user.dateFinished,
+			treatments: this.user.treatments,
+			availableTimeSlots: this.user.availableTimeSlots,
+			appointments: this.user.appointments
+		}
+		console.log(physioProfile);
+		this.userAccountListService.updatePhysio(this.user._id, physioProfile).
+		subscribe(
+			user => {
+				this.user = user;
+				localStorage.setItem('selectedPhysio', JSON.stringify(user));
+				console.log("This was returned for the physio" + JSON.stringify(user));
+				this.isChanged = false;
+			},
+			error => {
+				console.log("Error");
+			});
 }
 
 	//Reset the users Password
 	resetPassword() {
 		console.log("Reset password clicked");
-		this.loading = true;
-		const patientAccount = {
-			encryptedPassword: "passwordreset",
-			patientProfile: this.user._id
-		}
-		console.log(patientAccount);
-		this.userAccountListService.updateUserAccount(this.user._id, patientAccount).
+		this.account.encryptedPassword = "passwordreset";
+		console.log(this.account);
+		this.userAccountListService.updateUserAccount(this.user._id, this.account).
 		subscribe(
 			user => {
 				this.account = user;
+				localStorage.setItem('selectedAccount', JSON.stringify(user));
 				console.log("This was returned for reset password" + JSON.stringify(user));
-				this.loading = false;
 			},
 			error => {
 				console.log("Error");
-				this.loading = false;
 			});
 }
 
-	//Delete the users account
-	deleteAccount() {
-		console.log("Delete account clicked");
+	//Disable the users account
+	disableAccount() {
+		console.log("Disable account clicked");
+		var data = {};
+		if(this.isPatient) {
+			data = {
+				encryptedPassword: this.account.encryptedPassword,
+				userAccountName: this.account.userAccountName,
+				patientProfile: this.user._id,
+				active: false
+			}
+		} else {
+				data = {
+					encryptedPassword: this.account.encryptedPassword,
+					userAccountName: this.account.userAccountName,
+					physiotherapist: this.user._id,
+					active: false
+			}
+		}
+		//Update the user account
+		console.log(data);
+		this.userAccountListService.updateUserAccount(this.user._id, data).
+		subscribe(
+			user => {
+				this.account = user;
+				localStorage.setItem('selectedAccount', JSON.stringify(user));
+				console.log("This was returned for diable account" + JSON.stringify(user));
+			},
+			error => {
+				console.log("Error");
+			});
+		}
 
+	//Enable the users account
+	enableAccount() {
+	console.log("Enable account clicked");
+	var data = {};
+	if(this.isPatient) {
+		data = {
+			encryptedPassword: this.account.encryptedPassword,
+			userAccountName: this.account.userAccountName,
+			patientProfile: this.user._id,
+			active: true
+		}
+	} else {
+		data = {
+			encryptedPassword: this.account.encryptedPassword,
+			userAccountName: this.account.userAccountName,
+			physiotherapist: this.user._id,
+			active: true
+		}
+	}
+	//Update the user account
+	console.log(data);
+	this.userAccountListService.updateUserAccount(this.user._id, data).
+	subscribe(
+		user => {
+			this.account = user;
+			localStorage.setItem('selectedAccount', JSON.stringify(user));
+			console.log("This was returned for enable account" + JSON.stringify(user));
+		},
+		error => {
+			console.log("Error");
+		});
 }
 
 	//Get all the genders
