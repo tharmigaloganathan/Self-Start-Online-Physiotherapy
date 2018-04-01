@@ -239,8 +239,8 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
-				for(var i=0; i<this.activeRehabPlan.exerciseOrders.length; i++) {
-					this.userAccountListService.getExercise(this.activeRehabPlan.exerciseOrders[i]).subscribe(
+				for(var i=0; i<this.activeRehabPlan.exercises.length; i++) {
+					this.userAccountListService.getExercise(this.activeRehabPlan.exercises[i]).subscribe(
 						data => {
 							this.activeRehabPlanExercises.push(data);
 							console.log(this.activeRehabPlanExercises);
