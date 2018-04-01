@@ -49,12 +49,6 @@
 								<mat-cell *matCellDef="let element"> {{element.familyName}} </mat-cell>
 							</ng-container>
 
-							<!-- DOB Column Column -->
-							<ng-container matColumnDef="DOB">
-								<mat-header-cell *matHeaderCellDef> <h6>Date of Birth</h6> </mat-header-cell>
-								<mat-cell *matCellDef="let element"> {{element.DOB | date : "dd/MM/y" }} </mat-cell>
-							</ng-container>
-
 							<!-- Email Column -->
 							<ng-container matColumnDef="email">
 								<mat-header-cell *matHeaderCellDef> <h6>Email</h6> </mat-header-cell>
@@ -62,7 +56,7 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-							<mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item" (click)="selectRow(row)" class="animated fadeInDown"></mat-row>
+							<mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item" (click)="selectRow(row)" class="user-item animated fadeInDown"></mat-row>
 						</mat-table>
 					</div>
 					<!-- Individual Physio Cards -->
@@ -81,12 +75,6 @@
 								<mat-cell *matCellDef="let element"> {{element.familyName}} </mat-cell>
 							</ng-container>
 
-							<!-- DOB Column Column -->
-							<ng-container matColumnDef="dateHired">
-								<mat-header-cell *matHeaderCellDef> <h6>Date Hired</h6> </mat-header-cell>
-								<mat-cell *matCellDef="let element"> {{element.dateHired | date : "dd/MM/y" }} </mat-cell>
-							</ng-container>
-
 							<!-- Email Column -->
 							<ng-container matColumnDef="email">
 								<mat-header-cell *matHeaderCellDef> <h6>Email</h6> </mat-header-cell>
@@ -94,7 +82,7 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumnsPhysio"></mat-header-row>
-							<mat-row *matRowDef="let row; columns: displayedColumnsPhysio;" class="row-item" (click)="selectRowPhysio(row)" class="animated fadeInDown"></mat-row>
+							<mat-row *matRowDef="let row; columns: displayedColumnsPhysio;" class="row-item" (click)="selectRowPhysio(row)" class="user-item animated fadeInDown"></mat-row>
 						</mat-table>
 					</ng-template>
 				</mat-card>

@@ -27,8 +27,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	countries;
 	appointments;
 	showPlan = false;
-	physiotherapist = "Susan Collins";
-	activeRehabPlan;
+	isPatient;
 
   constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, private snackBar: MatSnackBar) {
 		this.router = router;
@@ -37,9 +36,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 }
 
   ngOnInit() {
-		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
-		this.populatePopulatePatient(this.account.patientProfile);
-		this.populateAppointments(this.account.patientProfile);
+		this.identifyUser();
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
@@ -57,7 +54,11 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
 	//Reset the patient info
 	cancelEdit() {
-		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
+		if(this.isPatient) {
+			this.user = JSON.parse(localStorage.getItem('selectedPatient'));
+		} else {
+			this.user =  JSON.parse(localStorage.getItem('selectedPhysio'));
+		}
 		this.isChanged = false;
 }
 
@@ -86,16 +87,10 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			user => {
 				this.user = user;
 				console.log("This was returned for the patient" + JSON.stringify(user));
-				this.snackBar.open("Information updated sucessfully!", "", {
-					duration: 1500
-				});
 				this.isChanged = false;
 			},
 			error => {
 				console.log("Error");
-				this.snackBar.open("Error!" + error, "", {
-					duration: 1500
-				});
 			});
 }
 
@@ -127,30 +122,16 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
 }
 
-	//Show the select rehab plan
-	showRehabPlan(index) {
-		console.log("Show rehab plan clicked" + index);
-		this.activeRehabPlan = index;
-		this.showPlan = true;
-}
-
-	//View the list of all treatments
-	viewTreatmentList() {
-	this.showPlan = false;
-}
-
 	//Get all the genders
 	populateGenders() {
 		this.userAccountListService.getGenders().
 		subscribe(
 			data => {
 				this.genders = data;
-				console.log("This is what was returned" + JSON.stringify(data));
 			},
 			error => {
 				console.log("Error");
 			});
-			console.log(this.genders);
 }
 
 	//Get all provinces
@@ -159,12 +140,10 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	subscribe(
 		data => {
 			this.provinces = data;
-			console.log("This is what was returned" + JSON.stringify(data));
 		},
 		error => {
 			console.log("Error");
 		});
-		console.log(this.provinces);
 }
 
 	//Get all countries
@@ -173,12 +152,10 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		subscribe(
 			data => {
 				this.countries = data;
-				console.log("This is what was returned" + JSON.stringify(data));
 			},
 			error => {
 				console.log("Error");
 			});
-			console.log(this.provinces);
 	}
 
 	//Get the users account
@@ -186,6 +163,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		this.userAccountListService.getPatientProfile(id).subscribe(
 			data => {
 				this.user = data;
+				localStorage.setItem('selectedPatient', JSON.stringify(data));
 				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 				//this.age = this.age.toFixed(0) + " years";
 				console.log(this.user);
@@ -193,15 +171,23 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			});
 	 }
 
-	 //Get the users appointments
-	 populateAppointments(id) {
-	 //this.userAccountListService.getSingleAppointment(id).subscribe(
-	 this.userAccountListService.getAppointments(id).subscribe(
-		 data => {
-			 this.appointments = data;
-			 console.log(this.appointments);
-			 console.log("Patient's appointments" + JSON.stringify(this.appointments));
-		 });
- 	}
+	//Identify the user
+	identifyUser() {
+	var userAccount = JSON.parse(localStorage.getItem('selectedAccount'));
+		if(userAccount.patientProfile == null) {
+			this.isPatient = false;
+			this.account = userAccount;
+			this.user =  JSON.parse(localStorage.getItem('selectedPhysio'));
+			//console.log("Patient " + this.isPatient);
+			console.log("Physio" + JSON.stringify(this.user));
+		} else {
+			this.isPatient = true;
+			this.account = userAccount;
+			this.populatePopulatePatient(this.account.patientProfile);
+			//this.user =  JSON.parse(localStorage.getItem('selectedPatient'));
+			//console.log("Patient " + this.isPatient);
+			console.log("Patient" + JSON.stringify(this.user));
+		}
+}
 
 }
