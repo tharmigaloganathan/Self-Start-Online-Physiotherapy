@@ -28,10 +28,12 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	countries;
 	isPatient;
 
-  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService) {
+  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, public toastr: ToastsManager,
+	vcr: ViewContainerRef) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
+		this.toastr.setRootViewContainerRef(vcr);
 }
 
   ngOnInit() {
@@ -88,12 +90,14 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			subscribe(
 				user => {
 					this.user = user;
-					localStorage.setItem('selectedPatient', JSON.stringify(user));
-					console.log("This was returned for the patient" + JSON.stringify(user));
 					this.isChanged = false;
+					console.log("This was returned for the patient" + JSON.stringify(user));
+					localStorage.setItem('selectedPatient', JSON.stringify(user));
+					this.toastr.success("Information updated sucessfully!");
 				},
 				error => {
 					console.log("Error");
+					this.toastr.error("Failed to update information! Please try again.");
 				});
 		}
 }
@@ -116,12 +120,14 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		subscribe(
 			user => {
 				this.user = user;
-				localStorage.setItem('selectedPhysio', JSON.stringify(user));
-				console.log("This was returned for the physio" + JSON.stringify(user));
 				this.isChanged = false;
+				console.log("This was returned for the physio" + JSON.stringify(user));
+				localStorage.setItem('selectedPhysio', JSON.stringify(user));
+				this.toastr.success("Information updated sucessfully!");
 			},
 			error => {
 				console.log("Error");
+				this.toastr.error("Failed to update information! Please try again.");
 			});
 }
 
@@ -136,9 +142,11 @@ export class AdminManageUserAccountsComponent implements OnInit {
 				this.account = user;
 				localStorage.setItem('selectedAccount', JSON.stringify(user));
 				console.log("This was returned for reset password" + JSON.stringify(user));
+				this.toastr.success("Users password has been reset!");
 			},
 			error => {
 				console.log("Error");
+				this.toastr.error("Failed to reset! Please try again.");
 			});
 }
 
@@ -169,9 +177,11 @@ export class AdminManageUserAccountsComponent implements OnInit {
 				this.account = user;
 				localStorage.setItem('selectedAccount', JSON.stringify(user));
 				console.log("This was returned for diable account" + JSON.stringify(user));
+				this.toastr.success("Users account is now disabled!");
 			},
 			error => {
 				console.log("Error");
+				this.toastr.error("Failed to disable users account! Please try again.");
 			});
 		}
 
@@ -202,9 +212,11 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			this.account = user;
 			localStorage.setItem('selectedAccount', JSON.stringify(user));
 			console.log("This was returned for enable account" + JSON.stringify(user));
+			this.toastr.success("Users account is now active!");
 		},
 		error => {
 			console.log("Error");
+			this.toastr.error("Failed to activate users account! Please try again.");
 		});
 }
 
@@ -270,10 +282,9 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			this.isPatient = true;
 			this.account = userAccount;
 			this.populatePopulatePatient(this.account.patientProfile);
-			//this.user =  JSON.parse(localStorage.getItem('selectedPatient'));
 			//console.log("Patient " + this.isPatient);
 			console.log("Patient" + JSON.stringify(this.user));
 		}
-}
+	}
 
 }

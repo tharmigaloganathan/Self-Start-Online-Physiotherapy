@@ -25,7 +25,7 @@ export class UserAccountListService {
 	//Update user account
 	updateUserAccount(id, user) {
 		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/UserAccounts/'+id, user, this.options)
+		return this.http.put(this.domain+'/UserAccounts/id/'+id, user, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
