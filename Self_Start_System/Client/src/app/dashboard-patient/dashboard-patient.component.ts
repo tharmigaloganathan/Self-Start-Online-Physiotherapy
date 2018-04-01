@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService} from "../authentication.service";
 import { MessagesService } from '../messages.service';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-dashboard-patient',
@@ -15,24 +16,43 @@ export class DashboardPatientComponent implements OnInit {
     physioID: String;
     unreadMessages = 0;
     user;
+    retrievedProfile;
+    name = "";
+    successCounter = 0;
     reload = false;
 
-    //if messages.length = 0 contact site admin 
+  constructor(
+    private authService: AuthenticationService,
+    private messagesService: MessagesService,
+    private router: Router)
+  {
+    this.authService = authService;
+  }
 
-    constructor( private authService: AuthenticationService, private messagesService: MessagesService)
-    {
-        this.authService = authService;
-    }
-
-    ngOnInit() {
-        this.authService.getProfile().subscribe(profile => {
-            // console.log(profile);
-            this.user = profile.patientProfile;
-            // console.log("The current user is: ", this.user);
-            this.patientID = this.user._id; //gets id of the current patient that is logged in
-            this.getMessages();
-        });
-    }
+  ngOnInit() {
+    this.successCounter = 0;
+    this.authService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).patientProfile){
+          this.successCounter ++; //means at least one profile was returned
+          this.user = (result as any).patientProfile;
+          this.name = this.user.givenName
+          console.log(this.user);
+          this.patientID = this.user._id; //gets id of the current patient that is logged in
+          this.getMessages();
+          break;
+        }
+      }
+      if (this.successCounter==0){
+        this.authService.logout();
+        this.router.navigate(['home']);
+      }
+      //functions after user is set goes here
+      this.getMessages();
+    })
+  }
 
     setAllMessagesAsSeen() {
         //loop through messages array

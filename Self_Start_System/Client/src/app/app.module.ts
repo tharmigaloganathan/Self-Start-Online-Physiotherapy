@@ -87,6 +87,7 @@ import { PatientMessagesComponent } from './patient-messages/patient-messages.co
 import { MessagesService} from "./messages.service";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatMenuModule} from "@angular/material";
 import { ViewRehabilitationPlanComponent } from './view-rehabilitation-plan/view-rehabilitation-plan.component';
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 
@@ -102,6 +103,9 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+
+
 
 @NgModule({
   declarations: [
@@ -148,6 +152,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
 		PhysiotherapistMessagesComponent,
+		PhysioPatientListComponent,
   ],
   imports: [
     HttpModule,
@@ -189,6 +194,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
     HttpClientModule,
     MatTableModule,
     MatSortModule,
+    MatMenuModule,
     DndModule.forRoot(),
 	  MatStepperModule,
     MatSnackBarModule,

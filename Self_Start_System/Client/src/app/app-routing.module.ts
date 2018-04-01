@@ -37,11 +37,130 @@ import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patien
 
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
+import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
 
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 
+
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
+
+  //end of all admin routes
+
+  {
+    path: 'patient/home',
+    component: DashboardPatientComponent,
+    canActivate: [PatientGuard]
+
+  },
+  {
+    path: 'patient/messages',
+    component: PatientMessagesComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/book-appointment',
+    component: BookAppointmentComponent,
+    canActivate: [PatientGuard]
+  },
+	{
+		path: 'patient/assessment-test',
+		component: PatientCompleteAssessmentTestComponent,
+    canActivate: [PatientGuard]
+	},
+	{
+		path: 'patient/rehabilitation-plans',
+		component: PatientRehabilitationPlansComponent,
+    canActivate: [PatientGuard]
+	},
+  {
+    path: 'patient/book-appointment/form',
+    component: BookAppointmentFormComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient',
+    redirectTo: '/patient/home'
+  }, //the last patient route
+  //end of all patient routes
+
+  // Home page  for a logged in physiotherapist Route
+  {
+    path: 'physio/home',
+    component: DashboardPhysioComponent,
+    canActivate: [PhysioGuard]
+    // Home page  for a logged in physiotherapist Route
+  },
+
+
+  {
+    path: 'physio/patients/:name',
+    component: ManagePatientProfileComponent,
+    canActivate: [PhysioGuard]
+
+  },
+
+  {
+    path: 'physio/patients',
+    component: PhysioPatientListComponent,
+    canActivate: [PhysioGuard]
+
+  },
+
+  {
+    path : 'physio/exercises',
+    component: ExerciseComponent,
+    canActivate: [PhysioGuard] // The Exercise route
+  },
+  {
+
+    path: 'physio/rehabilitation-plans',
+    component: RehabilitationPlanComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+  {
+    path: 'physio/rehabilitation-plans/new',
+    component: NewRehabilitationPlanComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+  {
+    path: 'physio/rehabilitation-plans/edit-custom',
+    component: EditCustomRehabilitationPlanComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+  {
+    path: 'physio/rehabilitation-plans/:name',
+    component: EditRehabilitationPlanComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+  {
+    path: 'physio/set-free-time',
+    component: SetFreeTimeComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+  {
+    path: 'physio/set-free-time/create-new-free-time',
+    component: CreateNewEventComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+
+  {
+    path: 'physio/patient-plan-list',
+    component: PatientPlanListComponent,
+    canActivate: [PhysioGuard]
+//
+  },
+  {
+    path: 'physio/patient-plan-list/:id', // This ID field will be an auto-incremented ID
+    component: EditPatientPlanListComponent,
+    canActivate: [PhysioGuard]
+
 
     {
         path: 'home',

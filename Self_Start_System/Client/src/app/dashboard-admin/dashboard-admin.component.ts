@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService} from "../authentication.service";
 import { FormService} from "../form.service";
 import { UserAccountListService } from '../user-account-list.service';
+import { Router} from "@angular/router";
+
 
 @Component({
     selector: 'app-dashboard-admin',
@@ -15,21 +17,42 @@ export class DashboardAdminComponent implements OnInit {
     users: any[];
     filteredusers: any[];
     user;
-
+    successCounter = 0;
     constructor(
         private authService: AuthenticationService,
         private formService: FormService,
-        private userAccountListService: UserAccountListService )
+        private userAccountListService: UserAccountListService,
+        private router: Router)
     { this.authService = authService; }
 
     ngOnInit() {
-        this.authService.getProfile().subscribe(profile => {
-            console.log(profile);
-            this.user = profile.administrator;
-            this.getAllForms();
-            this.getAllPatientAccounts();
-        });
+        // this.authService.getProfile().subscribe(profile => {
+        //     console.log(profile);
+        //     this.user = profile.administrator;
+        //
+        // });
+        this.authService.getProfile().subscribe(res => {
+          console.log("in login component: here's what getProfile returned: ", res);
+          for (let result of res){
+            console.log((result as any).success);
+            if ((result as any).administrator){
+              this.successCounter++; //a profile was returned
+              this.user = (result as any).administrator;
+              console.log(this.user);
+              this.getAllForms();
+              this.getAllPatientAccounts();
+              break;
+            }
+          }
+          if (this.successCounter==0){
+            this.authService.logout();
+            this.router.navigate(['home']);
+          }
+          //functions after user is set goes here
+
+        })
     }
+
 
     filterUsers(value){
        if(!value) this.filteredusers = Object.assign([], this.users);

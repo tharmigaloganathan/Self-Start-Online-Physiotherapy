@@ -2,25 +2,25 @@
 @import '~@angular/material/theming';
 @import '../../scss/sidebar';
 
-.radio-group {
-  display: inline-flex;
+.mat-header-cell {
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
-.radio-button {
-  margin: 5px;
+.mat-cell{
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
-
-.selected-radio-value {
-  margin: 15px 0;
+.input{
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
-
 .search-form {
+    font-family: 'Roboto Condensed', sans-serif !important;
   min-width: 150px;
   max-width: 500px;
   width: 96%;
 }
 
 .search-field {
+    font-family: 'Roboto Condensed', sans-serif !important;
   width: 100%;
 }
 mat-card {

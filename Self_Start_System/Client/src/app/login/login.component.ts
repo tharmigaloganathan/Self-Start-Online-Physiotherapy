@@ -14,7 +14,9 @@ export class LoginComponent implements OnInit {
   statusMessage= false;
   patientProfile_id;
   physiotherapist_id;
-  admin_id
+  admin_id;
+  previousUrl;
+  retrievedProfile
 
 
   constructor(private authService: AuthenticationService,
@@ -50,31 +52,61 @@ export class LoginComponent implements OnInit {
           this.statusMessage=false;
 
           //store user data
-          this.authService.storeUserData(data.token, data.userAccount);
+          this.authService.storeUserData(data.token);
           console.log ("user's token: ", data.token);
-          console.log("user being stored in local storage: ", data.userAccount);
 
           //navigate to appropriate home page after 2 second delay
 
-          if (data.userAccount.patientProfile) {
-            setTimeout(() => {
-              this.router.navigate(['/patient']);
-            }, 2000);
-          } else if (data.userAccount.administrator) {
-            setTimeout(() => {
-              this.router.navigate(['/admin']);
-            }, 2000);
-          } else if (data.userAccount.physiotherapist){
-            setTimeout(() => {
-              this.router.navigate(['/physio']);
-            }, 2000);
-          }
-        }
+         this.authService.getProfile().subscribe(res => {
+            console.log("in login component: here's what getProfile returned: ", res);
+            for (let result of res){
+              console.log((result as any).success);
+              if ((result as any).success){
+                this.retrievedProfile = result;
+                this.authService.setActiveUser(this.retrievedProfile);
+                console.log(this.retrievedProfile);
+                break;
+              }
+            }
+           console.log('retrieved profile! ',this.retrievedProfile);
+
+           if (this.retrievedProfile.patientProfile) {
+             localStorage.setItem('accountType', "patient");
+             setTimeout(() => {
+               if(this.previousUrl){
+                 this.router.navigate([this.previousUrl]);
+               } else {
+                 this.router.navigate(['/patient']);
+               }
+             }, 1000);
+           } else if (this.retrievedProfile.physiotherapist){
+             localStorage.setItem('accountType', "physio");
+
+             //redirect to physio home page
+             setTimeout(() => {
+               if(this.previousUrl){
+                 this.router.navigate([this.previousUrl]);
+               } else {
+                 this.router.navigate(['/physio']);
+               }
+             }, 1000);
+           } else if (this.retrievedProfile.administrator){
+             localStorage.setItem('accountType', "admin");
+
+             //redirect to admin home page
+             setTimeout(() => {
+               if(this.previousUrl){
+                 this.router.navigate([this.previousUrl]);
+               } else {
+                 this.router.navigate(['/admin']);
+               }
+             }, 1000);
+           }
+          });
+      }
       },
       error => {
         console.log(error);
       });
   }
 }
-
-

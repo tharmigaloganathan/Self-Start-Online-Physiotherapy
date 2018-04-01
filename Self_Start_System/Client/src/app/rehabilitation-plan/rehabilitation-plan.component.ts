@@ -11,10 +11,10 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 })
 export class RehabilitationPlanComponent implements OnInit {
     displayedColumns = ['name', 'authorName', 'goal', 'timeFrameToComplete'];
-    dataSource = new MatTableDataSource(this.filteredrehabplans);
+    dataSource;
     rehabilitationplans = [];
     selectedfilter= "name";
-    filteredrehabplans = {};
+    filteredrehabplans = [];
     router;
 
     constructor(private rehabilitationplanService: RehabilitationPlanService, router: Router) {
@@ -48,7 +48,7 @@ export class RehabilitationPlanComponent implements OnInit {
 
     //setting up the data source once data has been retrieved
     setUpDataSource = patients => {
-		this.patientDataSource = new MatTableDataSource(patients);
+		this.dataSource = new MatTableDataSource(patients);
 	};
 
     //store ID of rehab plan in local storage when clicked

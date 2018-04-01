@@ -27,18 +27,19 @@ router.route('/login')
                 console.log ("in UserAccounts login :", userAccount);
                 //login success
                 //create token, encrypt the id, expire in 24hours
-                var profileId;
                 console.log(userAccount._id);
-                // var profileId;
-                // if (userAccount.patientProfile){
-                //     profileId = userAccount.patientProfile;
-                // } else if (userAccount.physiotherapist){
-                //     profileId = userAccount.physiotherapist;
-                // } else if (userAccount.administrator) {
-                //     profileId = userAccount.physiotherapist;
-                // }
 
-                const token = jwt.sign({_id: userAccount._id}, config.secret, {expiresIn: '24h'});
+                //get the profile associated with this account
+                var profileID;
+                if (userAccount.patientProfile){
+                    profileID = userAccount.patientProfile;
+                } else if (userAccount.physiotherapist){
+                    profileID = userAccount.physiotherapist;
+                } else if (userAccount.administrator) {
+                    profileID = userAccount.administrator;
+                }
+
+                const token = jwt.sign({_id: userAccount._id, profileID: profileID}, config.secret, {expiresIn: '24h'});
                 console.log("token made: ", token);
 
                 response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
@@ -59,7 +60,7 @@ router.route('/:username')
         console.log("within UserAccount route, getting account with username: ", request.params.username);
 
         UserAccounts.getByName(request.params.username).then(function(userAccount){
-            console.log("object retreived from getbyName: ", userAccount)
+            console.log("object retreived from getbyName: ", userAccount);
             if (userAccount) {
                 response.json({success: true, userAccount: userAccount});
             } else {
@@ -204,7 +205,7 @@ router.route('/')
 
 
 
-router.route('/:object_id')
+router.route('/id/:object_id')
     .get(function (request, response) {
         if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});

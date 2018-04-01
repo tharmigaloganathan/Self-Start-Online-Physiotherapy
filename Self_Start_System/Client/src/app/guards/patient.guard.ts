@@ -8,16 +8,16 @@ import {
 import { AuthenticationService} from "../authentication.service";
 
 @Injectable()
-export class PhysioGuard implements CanActivate {
+export class PatientGuard implements CanActivate {
   redirectUrl;
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log ('Physio guard canActivate called');
+    console.log('Patient guard canActivate called');
 
     if (this.authService.loggedIn()) {
       let type = localStorage.getItem('accountType');
-      if (type == "physio") {
+      if (type == "patient") {
         return true;
       } else {
         this.redirectUrl = state.url;
@@ -28,5 +28,5 @@ export class PhysioGuard implements CanActivate {
       this.router.navigate(['/home']);
       return false;
     }
-  };
+  }
 }

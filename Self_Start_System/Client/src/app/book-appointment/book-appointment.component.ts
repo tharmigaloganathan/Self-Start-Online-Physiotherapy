@@ -36,13 +36,24 @@ export class BookAppointmentComponent implements OnInit {
               public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.authenticationService.getProfile().subscribe(data=>{
-      this.patientProfileId = data.patientProfile._id;
-      this.getCurrentAvailability();
-    }, err=>{
-      console.log(err);
-    });
-
+    this.authenticationService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).patientProfile){
+          this.patientProfileId = (result as any).patientProfile._id;
+          console.log(this.patientProfileId);
+          break;
+        }
+      }
+      this.getCurrentAvailability()
+    })
+    // this.authenticationService.getProfile().subscribe(data=>{
+    //   this.patientProfileId = data.patientProfile._id;
+    //   this.getCurrentAvailability();
+    // }, err=>{
+    //   console.log(err);
+    // });
   }
 
   getCurrentAvailability = () => {
