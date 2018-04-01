@@ -67,18 +67,18 @@ export class LoginComponent implements OnInit {
          this.authService.getProfile().subscribe(res => {
             console.log("in login component: here's what getProfile returned: ", res);
             for (let result of res){
-              console.log((result as any).success);
               if ((result as any).success){
                 this.retrievedProfile = result;
-                this.authService.setActiveUser(this.retrievedProfile);
                 console.log(this.retrievedProfile);
                 break;
               }
             }
            console.log('retrieved profile! ',this.retrievedProfile);
 
-           if (this.retrievedProfile.patientProfile) {
-             localStorage.setItem('accountType', "patient");
+           if (this.retrievedProfile.patientProfile){
+             this.authService.setActiveProfile(this.retrievedProfile.patientProfile);
+             this.authService.setActiveProfileType("patient"); //patient = 1
+
              setTimeout(() => {
                if(this.previousUrl){
                  this.router.navigate([this.previousUrl]);
@@ -87,7 +87,8 @@ export class LoginComponent implements OnInit {
                }
              }, 1000);
            } else if (this.retrievedProfile.physiotherapist){
-             localStorage.setItem('accountType', "physio");
+             this.authService.setActiveProfile(this.retrievedProfile.physiotherapist);
+             this.authService.setActiveProfileType("physiotherapist"); //physio = 2
 
              //redirect to physio home page
              setTimeout(() => {
@@ -98,7 +99,8 @@ export class LoginComponent implements OnInit {
                }
              }, 1000);
            } else if (this.retrievedProfile.administrator){
-             localStorage.setItem('accountType', "admin");
+             this.authService.setActiveProfile(this.retrievedProfile.administrator);
+             this.authService.setActiveProfileType("administrator"); //admin = 3
 
              //redirect to admin home page
              setTimeout(() => {

@@ -23,6 +23,8 @@ export class SetFreeTimeComponent implements OnInit {
   // temp PhysioTherapistID, for testing
   physioID = '5aa9fa5b0f39cbb0213e2182';
 
+  profileSubscription;
+
   eventType = ["freeTime", "appointments"];
 
   calendarOptions: Options;
@@ -35,20 +37,23 @@ export class SetFreeTimeComponent implements OnInit {
               public dialog: MatDialog) {}
 
   ngOnInit() {
-
-    this.authenticationService.getProfile().subscribe(res => {
-      console.log("in login component: here's what getProfile returned: ", res);
-      for (let result of res){
-        console.log((result as any).success);
-        if ((result as any).physiotherapist){
-          this.physioID = (result as any).physiotherapist._id;
-          console.log(this.physioID);
-          break;
-        }
-      }
-      //any function following getting profile goes here
-      this.getCurrentAvailability();
+    this.profileSubscription = this.authenticationService.profileOb$.subscribe((profile) => {
+      this.physioID = profile._id; console.log("subscription to auth service set profile returned: ", profile);
     });
+    this.getCurrentAvailability();
+    // this.authenticationService.getProfile().subscribe(res => {
+    //   console.log("in login component: here's what getProfile returned: ", res);
+    //   for (let result of res){
+    //     console.log((result as any).success);
+    //     if ((result as any).physiotherapist){
+    //       this.physioID = (result as any).physiotherapist._id;
+    //       console.log(this.physioID);
+    //       break;
+    //     }
+    //   }
+    //   //any function following getting profile goes here
+    //   this.getCurrentAvailability();
+    // });
 
     // this.authenticationService.getProfile().subscribe(data =>{
     //   console.log("Authen", data);
@@ -57,6 +62,11 @@ export class SetFreeTimeComponent implements OnInit {
     // }, err => {
     //   console.log(err);
     // });
+  }
+
+  ngOnDestroy(){
+    this.profileSubscription.unsubscribe();
+    console.log("subscription terminated")
   }
 
   getCurrentAvailability = () => {

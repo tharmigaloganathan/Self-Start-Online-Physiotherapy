@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,HostListener } from '@angular/core';
+import {AuthenticationService} from "./authentication.service";
+import {NavbarPatientComponent} from "./navbar-patient/navbar-patient.component";
 
 
 @Component({
@@ -8,4 +10,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  @HostListener("window:onbeforeunload",["$event"])
+  clearLocalStorage(event){
+    localStorage.clear();
+  }
 }

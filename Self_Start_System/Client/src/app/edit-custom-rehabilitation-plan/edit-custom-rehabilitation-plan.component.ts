@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   selector: 'app-edit-custom-rehabilitation-plan',
   templateUrl: './edit-custom-rehabilitation-plan.component.html',
   styleUrls: ['./edit-custom-rehabilitation-plan.component.scss'],
-  providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService ],
+  providers: [ RehabilitationPlanService, AssessmentTestService ],
   encapsulation: ViewEncapsulation.None
 })
 export class EditCustomRehabilitationPlanComponent implements OnInit {

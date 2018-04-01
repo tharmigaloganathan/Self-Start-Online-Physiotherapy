@@ -31,15 +31,19 @@ router.route('/login')
 
                 //get the profile associated with this account
                 var profileID;
+                var profileType;
                 if (userAccount.patientProfile){
                     profileID = userAccount.patientProfile;
+                    profileType = "patient"
                 } else if (userAccount.physiotherapist){
                     profileID = userAccount.physiotherapist;
+                    profileType = "physiotherapist"
                 } else if (userAccount.administrator) {
                     profileID = userAccount.administrator;
+                    profileType= "administrator";
                 }
 
-                const token = jwt.sign({_id: userAccount._id, profileID: profileID}, config.secret, {expiresIn: '24h'});
+                const token = jwt.sign({_id: userAccount._id, profileID: profileID,  profileType: profileType}, config.secret, {expiresIn: '24h'});
                 console.log("token made: ", token);
 
                 response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
@@ -55,23 +59,7 @@ router.route('/login')
 
 
     });
-router.route('/:username')
-    .get(function (request, response) {
-        console.log("within UserAccount route, getting account with username: ", request.params.username);
 
-        UserAccounts.getByName(request.params.username).then(function(userAccount){
-            console.log("object retreived from getbyName: ", userAccount);
-            if (userAccount) {
-                response.json({success: true, userAccount: userAccount});
-            } else {
-                response.json({success: false, message: "Account was not found "});
-            }
-        }).catch(function(err){
-            console.log(err);
-            response.json({success: false, message: err});
-        }
-        )
-    });
 
 router.route('/')
     .post(function (request,response) {
@@ -256,7 +244,25 @@ router.route('/id/:object_id')
         })
     });
 
-router.route('/getProfile', function(req, res) {
+router.route('/:username')
+    .get(function (request, response) {
+        console.log("within UserAccount route, getting account with username: ", request.params.username);
+
+        UserAccounts.getByName(request.params.username).then(function(userAccount){
+            console.log("object retreived from getbyName: ", userAccount);
+            if (userAccount) {
+                response.json({success: true, userAccount: userAccount});
+            } else {
+                response.json({success: false, message: "Account was not found "});
+            }
+        }).catch(function(err){
+                console.log(err);
+                response.json({success: false, message: err});
+            }
+        )
+    });
+
+router.route('/getUser', function(req, res) {
     UserAccounts.getOne({_id: req.decoded._id}).exec(function(err, user) {
         if (err) {
             res.json({success: false, message: err});
