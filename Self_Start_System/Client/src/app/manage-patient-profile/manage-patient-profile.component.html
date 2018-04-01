@@ -140,17 +140,14 @@
 									<mat-divider></mat-divider>
 									<mat-list>
 										<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="treatment" (click)="showRehabPlan(i)">
-											<div class="col-3">
+											<div class="col-4">
 												<b>Assignment Date: </b> {{ treatment?.dateAssign | date : "dd.MM.y" }}
 											</div>
-											<div class="col-3">
+											<div class="col-4">
 												<b>Start Date: </b> {{ treatment?.dateStart | date : "dd.MM.y" }}
 											</div>
-											<div class="col-2">
-												<b>Active: </b> {{ treatment?.active }}
-											</div>
 											<div class="col-4">
-												<b>Rehabilitation Plan: </b> {{ treatment?.rehabilitationPlan?.name }}
+												<b>Active: </b> {{ treatment?.active }}
 											</div>
 											<mat-divider></mat-divider>
 										</mat-list-item>
