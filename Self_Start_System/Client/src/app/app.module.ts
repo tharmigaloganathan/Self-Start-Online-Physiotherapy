@@ -111,6 +111,9 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+
+
 
 @NgModule({
   declarations: [
@@ -157,6 +160,7 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
 		ProfileSettingsComponent,
+		PhysioPatientListComponent,
   ],
   imports: [
     HttpModule,

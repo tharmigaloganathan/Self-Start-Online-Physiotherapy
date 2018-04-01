@@ -119,7 +119,7 @@ function update(id, updatedDocument){
 
 function getOne(id){
     return new Promise (function (resolve, reject) {
-        PatientProfiles.findById(id).populate({path: 'treatments', populate: {path: 'rehabilitationPlan'}}).exec(function (error, document) {
+        PatientProfiles.findById(id).populate([{path: 'treatments', populate: {path: 'rehabilitationPlan', populate: [{path: 'exerciseOrders'}, {path: 'assessmentTests'}]}}, {path: 'country'}, {path: 'province'}]).exec(function (error, document) {
             if (error){
                 reject(error);
             }else{
