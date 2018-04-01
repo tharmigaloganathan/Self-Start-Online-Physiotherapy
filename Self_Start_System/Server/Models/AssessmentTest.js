@@ -81,7 +81,7 @@ function update(id, updatedAssessmentTest){
 
 function getOne(id){
     return new Promise (function (resolve, reject) {
-        AssessmentTests.findById(id, function (error, assessmentTest) {
+        AssessmentTests.findById(id).populate({path: 'testResults'}).exec(function (error, assessmentTest) {
             if (error){
                 reject(error);
             }else{
