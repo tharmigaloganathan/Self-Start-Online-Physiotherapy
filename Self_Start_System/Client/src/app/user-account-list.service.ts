@@ -32,7 +32,8 @@ export class UserAccountListService {
 
 	//Get all patients
 	getAllPatients() {
-		return this.http.get(this.domain+'/PatientProfiles')
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/PatientProfiles', this.options)
 			.map((response: Response) => {
 			return response.json().patientProfile;
 		});
