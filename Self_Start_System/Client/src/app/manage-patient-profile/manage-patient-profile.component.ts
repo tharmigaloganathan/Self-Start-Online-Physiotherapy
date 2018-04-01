@@ -39,6 +39,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	activeExercise;
 	activeAssessmentTest;
 	rehabPlanHistory;
+	selectedRow;
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -90,6 +91,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		var length = this.activeTreatment.rehabilitationPlan.length;
 		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
 		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
+		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
 		this.getRehabPlanExercises();
@@ -129,7 +131,7 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Update the view when a new rehab plan is clicked on
 	setActiveRehabPlan(index) {
-		console.log(index);
+		this.selectedRow = index;
 		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[index];
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
@@ -255,10 +257,16 @@ export class ManagePatientProfileComponent implements OnInit {
 				}
 			}
 
+			//Sets the active exercise for the exercise modal
 			setActiveExercise(index) {
 				console.log(index);
 				this.activeExercise = this.activeRehabPlanExercises[index];
 				console.log(this.activeExercise);
+			}
+
+			//Sets the active assessment test for the assessment test modal
+			setActiveAssessmentTest(index) {
+
 			}
 
 }

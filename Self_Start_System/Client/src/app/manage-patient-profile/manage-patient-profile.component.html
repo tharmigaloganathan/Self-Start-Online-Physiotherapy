@@ -303,7 +303,7 @@
 											<div class="row history">
 												<div class="col history">
 													<mat-list>
-														<mat-list-item *ngFor="let plan of rehabPlanHistory; let i = index" [attr.data-index]="i" class="treatment" (click)="setActiveRehabPlan(i)">
+														<mat-list-item *ngFor="let plan of rehabPlanHistory; let i = index" [attr.data-index]="i" class="treatment" (click)="setActiveRehabPlan(i)" [class.highlight]="i === selectedRow">
 															<div class="col-8">
 																{{ plan?.name }}
 															</div>
@@ -452,12 +452,12 @@
 						<div class="col modal-container">
 							<div class="row">
 								<div class="col">
-									<b>Author:</b> {{ activeExercise?.authorName }}
+									<b>Author:</b> {{ activeAssessmentTest?.authorName }}
 								</div>
 							</div>
 							<div class="row">
 								<div class="col">
-									<b>Description:</b> {{ activeExercise?.description }}
+									<b>Description:</b> {{ activeAssessmentTest?.description }}
 								</div>
 							</div>
 							<div class="row">
@@ -467,23 +467,19 @@
 							</div>
 							<div class="row">
 								<div class="col-4">
-									<b>Location:</b> {{ activeExercise?.location }}
+									<b>Open Date:</b> {{ activeAssessmentTest?.openDate | date : "dd.MM.y" }}
 								</div>
 								<div class="col-4">
-									<b>Duration:</b> {{ activeExercise?.duration }}
+									<b>Date Completed:</b> {{ activeAssessmentTest?.dateCompleted | date : "dd.MM.y" }}
 								</div>
-								<div class="col-4">
-									<b>Frequency:</b> {{ activeExercise?.frequency }}
+							<div class="row">
+								<div class="col">
+									<b>Test Results:</b>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col">
-									<b>Target Date:</b> {{ activeExercise?.targetDate | date : "dd.MM.y" }}
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<b>URL:</b> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
+									<b>Recommendations:</b>
 								</div>
 							</div>
 						</div>
