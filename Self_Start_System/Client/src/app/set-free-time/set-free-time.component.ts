@@ -35,13 +35,28 @@ export class SetFreeTimeComponent implements OnInit {
               public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.authenticationService.getProfile().subscribe(data =>{
-      console.log("Authen", data);
-      this.physioID = data.physiotherapist._id;
+
+    this.authenticationService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).physiotherapist){
+          this.physioID = (result as any).physiotherapist._id;
+          console.log(this.physioID);
+          break;
+        }
+      }
+      //any function following getting profile goes here
       this.getCurrentAvailability();
-    }, err => {
-      console.log(err);
     });
+
+    // this.authenticationService.getProfile().subscribe(data =>{
+    //   console.log("Authen", data);
+    //   this.physioID = data.physiotherapist._id;
+    //   this.getCurrentAvailability();
+    // }, err => {
+    //   console.log(err);
+    // });
   }
 
   getCurrentAvailability = () => {
@@ -52,6 +67,19 @@ export class SetFreeTimeComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
         let eventslist = this.generateEventsList(response.physiotherapist.availableTimeSlots);
+        this.getBookedTimeSlots(eventslist);
+      }, error => {
+        console.log(error);
+      });
+  };
+
+  getBookedTimeSlots = (eventslist) => {
+    // Retrieve all booked times from backend
+    this.setFreeTimeService.retrieveAllAppointmentsForPhysio(this.physioID)
+      .subscribe(response => {
+        console.log(response);
+        eventslist.push(...this.generateEventsListAppointment(response.appointments));
+
         this.setUpCalendarOptions(eventslist);
       }, error => {
         console.log(error);
@@ -62,14 +90,37 @@ export class SetFreeTimeComponent implements OnInit {
     let formatedEventsList = new Array();
 
     for (let event of eventslist){
-      formatedEventsList.push({
-          title: 'Available',
-          start: moment(event.startDate),
-          end: moment(event.endDate),
-          mongoId: event._id,
+      if(event){
+        formatedEventsList.push({
+            title: 'Available',
+            start: moment(event.startDate),
+            end: moment(event.endDate),
+            mongoId: event._id,
+            allDay: false,
+            eventType: this.eventType[0]
+        });
+      }
+    }
+
+    return formatedEventsList;
+  };
+
+  generateEventsListAppointment = (appointmentList) => {
+    let formatedEventsList = [];
+
+    for (let appointment of appointmentList){
+      if(appointment){
+        formatedEventsList.push({
+          title: `${appointment.fullPatientProfile.givenName} ${appointment.fullPatientProfile.familyName}`,
+          start: moment(appointment.appointment.date),
+          end: moment(appointment.appointment.endDate),
+          mongoId: appointment.appointment._id,
           allDay: false,
-          eventType: this.eventType[0]
-      });
+          color: '#FDA92A',
+          eventType: this.eventType[1],
+          editable: false
+        });
+      }
     }
 
     return formatedEventsList;

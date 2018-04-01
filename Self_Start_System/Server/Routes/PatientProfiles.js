@@ -8,26 +8,6 @@ var RehabilitationPlans = require('../Models/RehabilitationPlan');
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
-
-router.route('/')
-    .post(function (request, response) {
-        console.log ("within the PatientProfile route POST")
-        PatientProfiles.add(request.body).then(function(patientProfile){
-            console.log ("Profile successfully made: ", patientProfile);
-            response.json({patientProfile: patientProfile});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-            console.log("error from backend: ", err);
-        })
-    })
-    .get(function (request, response) {
-        PatientProfiles.getAll().then(function(patientProfiles){
-            response.json({patientProfile: patientProfiles});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-        })
-    });
-
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
@@ -54,48 +34,95 @@ router.use(function (req, res, next) {
     }
 });
 
-// router.route('/getProfileByToken')
-//     .get(function (request, response) {
-//
-//         PatientProfiles.getOne(loggedInUserAcc.patientProfile).then(function(patientProfile){
-//             console.log("retreived profile: ", patientProfile);
-//             response.json({patientProfile: patientProfile});
-//         }).catch(function(err){
-//             response.json({success: false, message: err});
-//         });
-// });
 
-router.route('/:patientProfile_id')
-    .get(function (request, response) {
-        console.log("in patient profile get by ID route");
-        if (!request.params.patientProfile_id) {
-            response.json({success: false, message: 'id was not provided'});
-        }
-        PatientProfiles.getOne(request.params.patientProfile_id).then(function(patientProfile){
-            console.log("retreived profile: ", patientProfile);
+router.route('/')
+    .post(function (request, response) {
+        console.log ("within the PatientProfile route POST")
+        PatientProfiles.add(request.body).then(function(patientProfile){
+            console.log ("Profile successfully made: ", patientProfile);
             response.json({patientProfile: patientProfile});
         }).catch(function(err){
             response.json({success: false, message: err});
-        });
+            console.log("error from backend: ", err);
+        })
     })
-    .put(function (request, response) {
-        if (!request.params.patientProfile_id) {
-            response.json({success: false, message: 'id was not provided'});
-        }
-        PatientProfiles.update(request.params.patientProfile_id, request.body).then(function(patientProfile){
-            response.json({patientProfile: patientProfile});
+    .get(function (request, response) {
+        PatientProfiles.getAll().then(function(patientProfiles){
+            response.json({patientProfile: patientProfiles});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
-    })
-    .delete(function (request, response) {
-        if (!request.params.patientprofile_id) {
-            response.json({success: false, message: 'id was not provided'});
+    });
+
+router.route('/ActiveProfile')
+    .get(function (req, res) {
+        console.log("in patient profile get by ActiveProfile");
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'patient profile ID was not provided'});
         }
-        PatientProfiles.deleteOne(request.params.patientprofile_id).then(function(patientProfile){
-            response.json({success: true, message: 'patientProfile deleted!'});
+        PatientProfiles.getOne(req.decoded.profileID).then(function(patientProfile){
+            console.log("retrieved profile: ", patientProfile);
+            if (!patientProfile) {
+                res.json({success: false, message: 'patient not found'});
+            } else {
+                res.json({success: true, patientProfile: patientProfile});
+            }
         }).catch(function(err){
-            response.json({success: false, message: err});
+            console.log(err);
+        });
+    })
+    .put(function (req, res) {
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'patient profile ID was not provided'});
+        }
+        PatientProfiles.update(req.decoded.profileID, req.body).then(function(patientProfile){
+            res.json({success: true, patientProfile: patientProfile});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        })
+    });
+    // .delete(function (req, res) { //kept as original
+    //     if (!req.params.patientprofile_id) {
+    //         res.json({success: false, message: 'patient profile idid was not provided'});
+    //     }
+    //     PatientProfiles.deleteOne(req.params.patientprofile_id).then(function(patientProfile){
+    //         res.json({success: true, message: 'patientProfile deleted!'});
+    //     }).catch(function(err){
+    //         res.json({success: false, message: err});
+    //     })
+    // });
+
+router.route('/:patientProfile_id')
+    .get(function (req, res) {
+        console.log("in patient profile get by ID route");
+        if (!req.params.patientProfile_id) {
+            res.json({success: false, message: 'patient profile ID was not provided'});
+        }
+        PatientProfiles.getOne(req.params.patientProfile_id).then(function(patientProfile){
+            console.log("retreived profile: ", patientProfile);
+            res.json({success: true, patientProfile: patientProfile});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        });
+    })
+    .put(function (req, res) {
+        if (!req.params.patientProfile_id) {
+            res.json({success: false, message: 'patient profile ID was not provided'});
+        }
+        PatientProfiles.update(req.params.patientProfile_id, req.body).then(function(patientProfile){
+            res.json({success: true, patientProfile: patientProfile});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        })
+    })
+    .delete(function (req, res) { //kept as original
+        if (!req.params.patientProfile_id) {
+            res.json({success: false, message: 'patient profile idid was not provided'});
+        }
+        PatientProfiles.deleteOne(req.params.patientProfile_id).then(function(patientProfile){
+            res.json({success: true, message: 'patientProfile deleted!'});
+        }).catch(function(err){
+            res.json({success: false, message: err});
         })
     });
 

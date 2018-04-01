@@ -6,6 +6,32 @@ var UserAccounts = require('../Models/UserAccount');
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
+//middleware for every route below this one
+router.use(function (req, res, next) {
+    console.log('in authentication middleware');
+    console.log(req.headers['authorization']);
+    const token = req.headers.authorization;
+
+    console.log('token: ', token);
+
+    if (!token) {
+        res.json({success: false, message: 'No token provided'}); // Return error
+    } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, function (err, decoded) {
+            console.log(decoded);
+            if (err) {
+                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+            } else {
+                req.decoded = decoded; // Create global variable to use in any request beyond
+                console.log('authentication middleware complete!');
+                next(); // Exit middleware
+            }
+
+        })
+    }
+});
+
 router.route('/')
     .post(function (request, response) {
         Administrators.add(request.body).then(function(administrator){
@@ -22,57 +48,35 @@ router.route('/')
         })
     });
 
-//middleware for every route below this one
-router.use(function (req, res, next) {
-    console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
-    const token = req.headers.authorization;
 
-    console.log('token: ', token);
+router.route('/ActiveProfile')
+    .get(function (req, res) {
+        console.log("in administrator profile get by ActiveProfile");
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'admin profile ID was not provided'});
+        }
+        Administrators.getOne(req.decoded.profileID).then(function(administrator){
+            console.log("searching for admin with ID: ", req.decoded.profileID);
 
-    if (!token) {
-        res.json({success: false, message: 'No token provided'}); // Return error
-    } else {
-        // Verify the token is valid
-        jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
-            if (err) {
-                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
-            } else {
-                req.decoded = decoded; // Create global variable to use in any request beyond
-                console.log('authentication middleware complete!');
-                next(); // Exit middleware
+            console.log("retrieved profile: ", administrator);
+            if (!administrator) {
+                res.json({success: false, message: 'admin not found'});
             }
-
+            res.json({success: true, administrator: administrator});
+        }).catch(function(err){
+            console.log(err);
+        });
+    })
+    .put(function (req, res) {
+        if (!req.decoded.profileID) {
+            res.json({success: false, message: 'admin profile ID was not provided'});
+        }
+        Administrators.update(req.decoded.profileID, req.body).then(function(administrator){
+            res.json({success: true, administrator: administrator});
+        }).catch(function(err){
+            res.json({success: false, message: err});
         })
-    }
-});
-
-//middleware for every route below this one
-router.use(function (req, res, next) {
-    console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
-    const token = req.headers.authorization;
-
-    console.log('token: ', token);
-
-    if (!token) {
-        res.json({success: false, message: 'No token provided'}); // Return error
-    } else {
-        // Verify the token is valid
-        jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
-            if (err) {
-                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
-            } else {
-                req.decoded = decoded; // Create global variable to use in any request beyond
-                console.log('authentication middleware complete!');
-                next(); // Exit middleware
-            }
-
-        })
-    }
-});
+    });
 
 router.route('/:administrator_id')
     .get(function (request, response) {

@@ -5,7 +5,7 @@ var treatmentsSchema = mongoose.Schema(
         dateStart: {type: Date, default: Date.now},
 		physiotherapist: {type: mongoose.Schema.ObjectId, ref: ('Physiotherapist')},
 		patientProfile: {type: mongoose.Schema.ObjectId, ref: ('PatientProfile')},
-		rehabilitationPlan: {type: mongoose.Schema.ObjectId, ref: ('RehabilitationPlan')},
+		rehabilitationPlan: [{type: mongoose.Schema.ObjectId, ref: ('RehabilitationPlan')}],
 		recommendations: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}],
         active: {type: Boolean, default: true}
 	}
@@ -113,4 +113,3 @@ function add(object){
         }
     });
 }
-

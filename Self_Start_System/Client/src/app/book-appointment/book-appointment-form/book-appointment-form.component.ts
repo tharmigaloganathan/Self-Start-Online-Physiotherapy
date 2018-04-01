@@ -39,11 +39,25 @@ export class BookAppointmentFormComponent implements OnInit {
               private authenticationService:AuthenticationService) { }
 
   ngOnInit() {
-    this.authenticationService.getProfile().subscribe(data=>{
-      this.patientProfileId = data.patientProfile._id;
-    },err=>{
-      console.log(err);
+    this.authenticationService.getProfile().subscribe(res => {
+      console.log("in login component: here's what getProfile returned: ", res);
+      for (let result of res){
+        console.log((result as any).success);
+        if ((result as any).patientProfile){
+          this.patientProfileId = (result as any).patientProfile._id;
+          console.log(this.patientProfileId);
+          break;
+        }
+      }
+      //any function following getting profile goes here
+
     });
+
+    // this.authenticationService.getProfile().subscribe(data=>{
+    //   this.patientProfileId = data.patientProfile._id;
+    // },err=>{
+    //   console.log(err);
+    // });
 
     // Update View
     this.startDate = new Date(localStorage.getItem('book-appointment-start-time'));
@@ -103,16 +117,6 @@ export class BookAppointmentFormComponent implements OnInit {
       }, err=>{
         console.log(err);
       });
-
-      // console.log(
-      //   this.startDate,
-      //   this.endDate,
-      //   this.assessmentTypeValue,
-      //   this.contactMethod,
-      //   localStorage.getItem('book-appointment-mongoId'),
-      //   localStorage.getItem('book-appointment-physioId')
-      // );
-
     }
   };
 
@@ -169,6 +173,7 @@ export class BookAppointmentFormComponent implements OnInit {
       this.endTime = this.addByHour(this.startTime, 1, 30 );
 
     // Update End Date
+    this.endDate = new Date(this.startDate);
     this.endDate.setHours(this.endTime.substring(0,2), this.endTime.substring(3,5));
   };
 }

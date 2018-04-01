@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from './../environments/environment';
+import {AuthenticationService } from "./authentication.service";
 
 @Injectable()
 export class CreateUserAccountService {
@@ -30,7 +31,11 @@ export class CreateUserAccountService {
 
 	domain = environment.apiURL;
 
-  constructor(private http: Http) {}
+	options;
+
+  constructor(private http: Http, private authService: AuthenticationService) {
+    this.authService = authService
+  }
 
 	//Return all genders
 	getGenders() {
@@ -47,6 +52,14 @@ export class CreateUserAccountService {
 			return response.json().province;
 		});
 	}
+
+  //Return all countries
+  getCountries() {
+    return this.http.get(this.domain+'/Countries')
+      .map((response: Response) => {
+        return response.json().country;
+      });
+  }
 
 	//Create a new patient profile
 	registerUserProfile(user: any) {
@@ -82,23 +95,29 @@ export class CreateUserAccountService {
 		});
 	}
 
-	// THIS FUNCTION IS NOT DONE IT SHOULD GETTING UserAccounts NOT PatientProfiles
 	//Get all user Accounts
 	getAllUserAccounts() {
-			return this.http.get(this.domain+'/PatientProfiles')
+    console.log("within service, in get all user accounts function ");
+    return this.http.get(this.domain+'/UserAccounts')
 			.map((response: Response) => {
-			console.log("Inside service" + response.json().patientProfile);
-			return response.json().patientProfile;
+			return response.json().userAccount;
 		});
 	}
 
 	//Get a single users accounts
-	getuserAccount(id) {
+	getUserAccount(id) {
 		return this.http.get(this.domain+'/UserAccounts/'+id)
 		.map((response: Response) => {
 		console.log("Inside service" + response.json().userAccount);
 		return response.json().userAccount;
 		});
 	}
+
+	getUserAccountByName(name){
+    return this.http.get(this.domain+'/UserAccounts/'+name).map((response:Response) => {
+      console.log ("inside user account service, Retrieved: " + response.json());
+      return response.json();
+    })
+  }
 
 }
