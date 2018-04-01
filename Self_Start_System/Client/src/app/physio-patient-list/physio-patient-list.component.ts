@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { UserAccountListService } from '../user-account-list.service';
 import { Router } from '@angular/router';
