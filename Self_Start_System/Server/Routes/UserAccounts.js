@@ -205,7 +205,7 @@ router.route('/')
 
 
 
-router.route('/:object_id')
+router.route('/id/:object_id')
     .get(function (request, response) {
         if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});

@@ -108,6 +108,9 @@ import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+
+
 
 @NgModule({
   declarations: [
@@ -153,6 +156,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
+		PhysioPatientListComponent,
   ],
   imports: [
     HttpModule,
