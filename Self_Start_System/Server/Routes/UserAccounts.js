@@ -37,10 +37,10 @@ router.route('/login')
                     profileType = "patient"
                 } else if (userAccount.physiotherapist){
                     profileID = userAccount.physiotherapist;
-                    profileType = "physio"
+                    profileType = "physiotherapist"
                 } else if (userAccount.administrator) {
                     profileID = userAccount.administrator;
-                    profileType= "admin";
+                    profileType= "administrator";
                 }
 
                 const token = jwt.sign({_id: userAccount._id, profileID: profileID,  profileType: profileType}, config.secret, {expiresIn: '24h'});

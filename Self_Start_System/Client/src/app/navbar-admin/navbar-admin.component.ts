@@ -14,15 +14,39 @@ export class NavbarAdminComponent implements OnInit {
   user;
   userType;
   name = "";
+  profileType;
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private flashMessagesService: FlashMessagesService) { }
+    private flashMessagesService: FlashMessagesService) {
+
+  }
 
   ngOnInit() {
-    this.user = this.authService.getActiveProfile();
-    this.userType=this.authService.getActiveProfileType();
-    this.name = this.user.givenName;
+
+    this.user = this.authService.getActiveProfile(); // this would execute if window was never close
+
+    //below would execute if site was closed and opened again and still logged in
+    if (!this.user) {
+      this.authService.getProfile().subscribe(res => {
+        console.log("in nav-bar admin: here's what getProfile returned: ", res);
+        for (let result of res) {
+          console.log((result as any).success);
+          if ((result as any).administrator) {
+            this.profileType = "administrator";
+            this.user = (result as any).administrator;
+            this.authService.setActiveProfile(this.user);
+            this.authService.setActiveProfileType("administrator");
+            this.name = this.user.givenName;
+            console.log(this.user);
+            break;
+          }
+        }
+        //functions after user is set goes here
+
+      })
+    }
+
   }
 
   logout(){

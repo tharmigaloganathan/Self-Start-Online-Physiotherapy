@@ -22,10 +22,10 @@ export class NotAuthGuard implements CanActivate {
       if (type == "patient") {
         this.router.navigate(['/patient/home']);
         return false;
-      } else if (type == "physio") {
+      } else if (type == "physiotherapist") {
         this.router.navigate(['/physio/home']);
         return false;
-      } else if (type == "admin") {
+      } else if (type == "administrator") {
         this.router.navigate(['/admin/home']);
         return false;
       }

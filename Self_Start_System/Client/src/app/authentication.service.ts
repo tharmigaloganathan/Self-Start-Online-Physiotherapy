@@ -12,8 +12,7 @@ import { catchError, retry } from 'rxjs/operators';
 import {forkJoin} from "rxjs/observable/forkJoin";
 import * as jwt_decode from 'jwt-decode';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-
-
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class AuthenticationService {
@@ -27,13 +26,14 @@ export class AuthenticationService {
   activeProfile;
   activeProfileType;
 
-  behaviourObj;
-  behaviourObj$;
+  profileOb$: Observable<any>;
+  private profileSubject: Subject<any>;
 
   constructor(
     private http: Http,
   ) {
-    this.behaviourObj = new BehaviorSubject(null);
+    this.profileSubject = new Subject<any>();
+    this.profileOb$ = this.profileSubject.asObservable();
   }
 
   login(user) {
@@ -80,8 +80,8 @@ export class AuthenticationService {
 
   setActiveProfile(profile){
     this.activeProfile = profile;
-    console.log("auth service activeProfile is: ", this.activeProfile);
-    this.behaviourObj.next(this.activeProfile);
+    console.log("auth service set activeProfile is: ", this.activeProfile);
+    this.profileSubject.next(profile);
   }
 
   getActiveProfileType(){
