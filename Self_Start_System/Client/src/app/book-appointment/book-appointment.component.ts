@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2,OnDestroy } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 
@@ -20,11 +20,12 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./book-appointment.component.scss'],
   providers: [AuthenticationService, ManagePatientProfileService, ExerciseService, SetFreeTimeService],
 })
-export class BookAppointmentComponent implements OnInit {
+export class BookAppointmentComponent implements OnInit, OnDestroy{
   // Temporary client variable for testing
   patientProfileId = '5a9b3d11e8fb8bbac9887cdd';
-
+  user;
   calendarOptions: Options;
+  profileSubscription;
 
   eventType = ["freeTime", "appointments"];
 
@@ -36,24 +37,23 @@ export class BookAppointmentComponent implements OnInit {
               public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.authenticationService.getProfile().subscribe(res => {
-      console.log("in login component: here's what getProfile returned: ", res);
-      for (let result of res){
-        console.log((result as any).success);
-        if ((result as any).patientProfile){
-          this.patientProfileId = (result as any).patientProfile._id;
-          console.log(this.patientProfileId);
-          break;
-        }
-      }
-      this.getCurrentAvailability()
-    })
+    this.profileSubscription= this.authenticationService.profileOb$.subscribe((profile) => {
+      this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
+      this.patientProfileId = this.user._id;
+    });
+    this.getCurrentAvailability();
     // this.authenticationService.getProfile().subscribe(data=>{
     //   this.patientProfileId = data.patientProfile._id;
     //   this.getCurrentAvailability();
     // }, err=>{
     //   console.log(err);
     // });
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component is destroyed
+    this.profileSubscription.unsubscribe();
+    console.log("subscription terminated");
   }
 
   getCurrentAvailability = () => {

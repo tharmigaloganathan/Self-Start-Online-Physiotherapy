@@ -16,8 +16,8 @@ export class PhysioGuard implements CanActivate {
     console.log ('Physio guard canActivate called');
 
     if (this.authService.loggedIn()) {
-      let type = localStorage.getItem('accountType');
-      if (type == "physio") {
+      let type = this.authService.checkRole();
+      if (type == "physiotherapist") {
         return true;
       } else {
         this.redirectUrl = state.url;

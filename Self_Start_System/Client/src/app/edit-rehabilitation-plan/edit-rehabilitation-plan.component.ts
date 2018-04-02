@@ -13,7 +13,7 @@ import { AssessmentTestService } from "../assessment-test.service";
     selector: 'app-edit-rehabilitation-plan',
     templateUrl: './edit-rehabilitation-plan.component.html',
     styleUrls: ['./edit-rehabilitation-plan.component.scss'],
-    providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService ],
+    providers: [ RehabilitationPlanService, AssessmentTestService ],
     encapsulation: ViewEncapsulation.None
 })
 

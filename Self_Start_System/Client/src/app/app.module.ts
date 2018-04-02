@@ -68,6 +68,8 @@ import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 
+import {EditProfileService} from "./edit-profile.service";
+
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
@@ -108,6 +110,7 @@ import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
@@ -159,6 +162,7 @@ import {LocationsService} from "./locations.service";
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
+		ProfileSettingsComponent,
 		PhysioPatientListComponent,
 		PaypalButtonComponent,
 		AdminLocationsComponent,
@@ -214,7 +218,7 @@ import {LocationsService} from "./locations.service";
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
-  providers: [ExerciseService,
+  providers: [EditProfileService, ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
@@ -222,7 +226,11 @@ import {LocationsService} from "./locations.service";
     EditExerciseDialogComponent,
     EditRecommendationDialogComponent,
     ConfirmDeleteDialogBoxComponent,
-    PaypalButtonComponent
+    PaypalButtonComponent,
+    NavbarPhysioComponent,
+    NavbarAdminComponent,
+    NavbarPatientComponent,
+    NavbarGeneralComponent,
   ]
 })
 export class AppModule { }
