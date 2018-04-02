@@ -18,10 +18,18 @@ router.route('/')
         })
     });
 
-router.route('/country_id')
-    .get(function (request,response){
-        Pr
-    })
+router.route('/country/:country_id')
+    .get(function (request, response) {
+        console.log(request.params.country_id);
+        if (!request.params.country_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Provinces.getByCountry(request.params.country_id).then(function(provinces){
+            response.json({province: provinces});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
 
 router.route('/:object_id')
     .get(function (request, response) {

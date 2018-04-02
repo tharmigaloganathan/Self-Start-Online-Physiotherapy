@@ -110,6 +110,8 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
+import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
+import {LocationsService} from "./locations.service";
 
 
 
@@ -159,6 +161,7 @@ import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 		ConfirmDeleteDialogBoxComponent,
 		PhysioPatientListComponent,
 		PaypalButtonComponent,
+		AdminLocationsComponent,
   ],
   imports: [
     HttpModule,
@@ -212,7 +215,7 @@ import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
     MatAutocompleteModule,
   ],
   providers: [ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,

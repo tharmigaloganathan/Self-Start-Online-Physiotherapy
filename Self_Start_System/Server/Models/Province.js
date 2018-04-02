@@ -16,7 +16,8 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    getByCountry:getByCountry
 };
 
 function deleteOne(id){
@@ -89,6 +90,18 @@ function getAll(){
     });
 }
 
+function getByCountry(countryID){
+    return new Promise (function (resolve, reject) {
+        Provinces.find({country: countryID}, function (error, documents) {
+            if (error){
+                reject(error);
+            }else{
+                console.log("Provinces found: " + documents);
+                resolve(documents);
+            }
+        });
+    });
+}
 function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Provinces(object);
