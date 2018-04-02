@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
-
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 
 
@@ -40,10 +40,23 @@ export class ExerciseComponent implements OnInit {
     multimediaURL: null,
     _id: null
   };
+  dataSource;
+  filteredExercises;
+  displayedColumns = ['name', 'authorName', 'description'];
 
 
   constructor(private exerciseService :ExerciseService) {
     this.openEditModal=false;
+  }
+
+  assignCopy(){
+      this.filteredExercises = Object.assign([], this.allExercises);
+  }
+
+  filterItem(value: string) {
+      value = value.trim();
+      value = value.toLowerCase();
+      this.dataSource.filter = value;
   }
 
   ngOnInit() {
@@ -119,6 +132,8 @@ export class ExerciseComponent implements OnInit {
                 this.allExercises.push(data.exercise[i]);
             }
         }
+        this.assignCopy();
+        this.dataSource = new MatTableDataSource(this.filteredExercises);
       },
       error => console.log(error)
     );

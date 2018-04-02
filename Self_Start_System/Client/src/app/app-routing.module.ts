@@ -179,8 +179,6 @@ const appRoutes: Routes = [
         path: 'register',
         component: CreateNewAccountComponent
     },
-
-
     {
         path: 'admin/home',
         component: DashboardAdminComponent // Home page for a logged in admin
@@ -212,10 +210,6 @@ const appRoutes: Routes = [
     {
         path: 'patient/home',
         component: DashboardPatientComponent
-    },
-    {
-        path: 'patient/messages',
-        component: PatientMessagesComponent
     },
     {
         path: 'patient/book-appointment',

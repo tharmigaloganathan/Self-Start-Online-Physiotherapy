@@ -41,7 +41,6 @@ export class DashboardPatientComponent implements OnInit {
           this.name = this.user.givenName
           console.log(this.user);
           this.patientID = this.user._id; //gets id of the current patient that is logged in
-          this.getMessages();
           break;
         }
       }

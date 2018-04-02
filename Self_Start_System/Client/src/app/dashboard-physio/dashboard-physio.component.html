@@ -11,6 +11,11 @@
                     <span matTooltip="Launch Messages Module"><mat-icon routerLink="/physio/messages">launch</mat-icon></span>
                 </mat-toolbar>
                 <mat-card class="messages-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let patient of patientsWithMessages; let i = index;" (click)="selectMessage(i)">
+                        <mat-list-item>{{patient.givenName + " " + patient.familyName}}
+                            {{"(" + patient.messages.length + ")"}}
+                        </mat-list-item>
+                  </mat-nav-list>
                 </mat-card>
             </mat-card>
             <mat-card class="assessment-test-card">
@@ -28,11 +33,10 @@
                     <span class="navbar-fill-remaining-space"></span>
                     <span matTooltip="Launch Patient List Module"><mat-icon routerLink="/patient/rehabilitation-plans">launch</mat-icon></span>
                 </mat-toolbar>
-                <mat-card class="patient-list mat-elevation-z0">
-                    <mat-nav-list>
-                        <mat-list-item>Item 1 <mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item>
-                        <mat-list-item>Item 2 <mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item>
-                        <mat-list-item>Item 3 <mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item>
+                <mat-card class="patient-list mat-elevation-z0" >
+                    <mat-nav-list *ngFor="let patient of patients; let i = index;" (click)="selectPatient(i)">
+                        <!-- <mat-list-item>{{patient.givenName + " " + patient.familyName}}<mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item> -->
+                        <mat-list-item>{{patient.givenName + " " + patient.familyName}}</mat-list-item>
                   </mat-nav-list>
                 </mat-card>
             </mat-card>

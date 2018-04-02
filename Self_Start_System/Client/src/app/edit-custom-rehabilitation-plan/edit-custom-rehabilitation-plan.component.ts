@@ -127,9 +127,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //get all exercise ids from myExercises, pushes to exerciseIDs
   getExerciseIDs() {
-      //compare myExercises to oldExercises
-      //for every element in myExercises, but not in oldExercises
-          //do a post request to exercises, get the returning ID
       if(this.myExercises.length > 100) {
           for(var i = 0; i < this.myExercises.length; i++) {
               for(var j = 0; j < this.oldExercises.length; j++){
@@ -149,28 +146,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           }
       }
   }
-
-  // putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
-  //   // this.getExerciseIDs();
-  //   console.log("my exercises", this.myExercises);
-  //   this.data = {
-  //     name: name,
-  //     authorName: authorName,
-  //     description: description,
-  //     goal: goal,
-  //     timeFrameToComplete: timeframe,
-  //     exerciseOrders: this.myExercises
-  //   };
-  //
-  //   console.log("data: ",this.data);
-  //   this.rehabilitationplanService.updateRehabilitationPlan(this.data, this.editID).subscribe(res =>
-  //     {
-  //       console.log("RESULT",res);
-  //     }
-  //   );
-  //   let patient_id = localStorage.getItem('patient_id')
-  //   this.router.navigate(['physio/patient-plan-list/'+ patient_id]);
-  // }
 
   saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
     this.data = {

@@ -44,27 +44,25 @@ export class EditRehabilitationPlanComponent implements OnInit {
     selectedAssessmentTest: any;
     //END OF ASSESSMENT TEST RELATED
 
-  constructor(private rehabilitationplanService: RehabilitationPlanService,
+    constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
               private assessmentTestService: AssessmentTestService,
               private dialog: MatDialog,
               private authService: AuthenticationService) {
       console.log("ID", this.editID)
-  }
+    }
 
-  ngOnInit() {
+    ngOnInit() {
     this.getRehabilitationPlans();
     this.authService.getProfile().subscribe(
-      res => {
-        this.user = res;
-      }
-    );
-  }
+        res => {
+            this.user = res;
+        });
+    }
 
 
     openEditExerciseDialog(exercise){
         this.selectedExercise = exercise;
-        // this.selectQuestion(exercise);
         this.editExerciseDialogRef = this.dialog.open(EditExerciseDialogComponent, {
             width: '50vw',
             data: {
@@ -73,15 +71,11 @@ export class EditRehabilitationPlanComponent implements OnInit {
 
         this.editExerciseDialogRef.afterClosed().subscribe(result => {
             this.selectedExercise = result;
-            // this.editQuestion(this.selectedExercise);
         });
     }
 
     //get all exercise ids from myExercises, pushes to exerciseIDs
     getExerciseIDs() {
-        //compare myExercises to oldExercises
-        //for every element in myExercises, but not in oldExercises
-            //do a post request to exercises, get the returning ID
         if(this.myExercises.length > 100) {
             for(var i = 0; i < this.myExercises.length; i++) {
                 for(var j = 0; j < this.oldExercises.length; j++){
