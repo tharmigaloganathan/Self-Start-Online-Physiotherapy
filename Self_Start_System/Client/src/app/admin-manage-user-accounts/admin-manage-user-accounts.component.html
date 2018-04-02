@@ -155,7 +155,7 @@
 									</div>
 								</div>
 							</form>
-							<div *ngIf="account.active == false; else disableTemplate">
+							<div *ngIf="account.activated == false; else disableTemplate">
 								<div class="col button-container">
 									<button mat-raised-button class="reset-password-button" (click)="enableAccount()">Activate Account</button>
 								</div>

@@ -136,7 +136,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		console.log("Reset password clicked");
 		this.account.encryptedPassword = "passwordreset";
 		console.log(this.account);
-		this.userAccountListService.updateUserAccount(this.user._id, this.account).
+		this.userAccountListService.updateUserAccount(this.account._id, this.account).
 		subscribe(
 			user => {
 				this.account = user;
@@ -159,19 +159,23 @@ export class AdminManageUserAccountsComponent implements OnInit {
 				encryptedPassword: this.account.encryptedPassword,
 				userAccountName: this.account.userAccountName,
 				patientProfile: this.user._id,
-				active: false
+				activated: false,
+				hasPaid: this.account.hasPaid,
+				passwordReset: this.account.passwordReset
 			}
 		} else {
 				data = {
 					encryptedPassword: this.account.encryptedPassword,
 					userAccountName: this.account.userAccountName,
 					physiotherapist: this.user._id,
-					active: false
+					activated: false,
+					hasPaid: this.account.hasPaid,
+					passwordReset: this.account.passwordReset
 			}
 		}
 		//Update the user account
 		console.log(data);
-		this.userAccountListService.updateUserAccount(this.user._id, data).
+		this.userAccountListService.updateUserAccount(this.account._id, data).
 		subscribe(
 			user => {
 				this.account = user;
@@ -194,19 +198,24 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			encryptedPassword: this.account.encryptedPassword,
 			userAccountName: this.account.userAccountName,
 			patientProfile: this.user._id,
-			active: true
+			activated: true,
+			hasPaid: this.account.hasPaid,
+			passwordReset: this.account.passwordReset
 		}
 	} else {
 		data = {
 			encryptedPassword: this.account.encryptedPassword,
 			userAccountName: this.account.userAccountName,
 			physiotherapist: this.user._id,
-			active: true
+			activated: true,
+			hasPaid: this.account.hasPaid,
+			passwordReset: this.account.passwordReset
+
 		}
 	}
 	//Update the user account
 	console.log(data);
-	this.userAccountListService.updateUserAccount(this.user._id, data).
+	this.userAccountListService.updateUserAccount(this.account._id, data).
 	subscribe(
 		user => {
 			this.account = user;
