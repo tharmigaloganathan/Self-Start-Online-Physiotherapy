@@ -103,6 +103,7 @@
                     <mat-divider></mat-divider>
                     <mat-list-item class="item" [ngClass]="{'selectedIncompleteTest': selectedIncompleteIndex == i}" *ngFor="let test of incompleteAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveIncompleteTest(i)" >
                       <h6>{{test.name}}</h6>
+
                     </mat-list-item>
                     <mat-divider></mat-divider>
                   </mat-list>
@@ -175,15 +176,15 @@
     <mat-tab label="Completed Assessments">
     <br>
       <div class="container top">
-        <div class="row" *ngIf="completeAssessmentTests.length < 1">
-          <h6>There are no completed assessment tests available to view.</h6>
-        </div>
-        <div class="row" *ngIf="completeAssessmentTests.length > 0">
+        <div class="row">
           <div class="col-12">
             <mat-card style="height: auto; width: auto;">
               <h2>Completed Tests</h2>
               <hr>
-              <div class="row">
+              <div class="row" *ngIf="completeAssessmentTests.length < 1">
+                <h6>There are no completed assessment tests available to view.</h6>
+              </div>
+              <div class="row" *ngIf="completeAssessmentTests.length > 0">
                 <div class="col-md-3 border-right" style="padding: 0%;">
                   <mat-list class="test-list">
                     <h5>Tests</h5>
@@ -212,12 +213,17 @@
                   <div class="row">
                     <div class="col-12 form-container">
                       <h6>Recommendation</h6>
-                      <ul class="list-group-reco">
-                        <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">
-                          <p>{{recommendation.decision}}</p>
-                          <p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>
-                        </li>
-                      </ul>
+                      <div class="row" *ngIf="completeAssessmentTests[selectedCompleteIndex].recommendation == null">
+                        <h6>Please add a recommendation.</h6>
+                        <button mat-raised-button class="yellowButton" (click)="createRecommendation()" style="float: right">Create Recommendation</button>
+                      </div>
+                      <div class="row" *ngIf="completeAssessmentTests[  selectedCompleteIndex].recommendation != null">
+                        <mat-form-field style="width: 100%;">
+                          <input matInput placeholder="Decision Description" [(ngModel)]="selectedAssessmentRecommendation.description" readonly>
+                        </mat-form-field>
+                        <h6>Evaluation: {{selectedAssessmentRecommendation.evaluation}}</h6>
+                        <button mat-raised-button class="yellowButton" (click)="openEditRecommendationDialog(selectedAssessmentRecommendation, false)" style="float: right">Edit Recommendation</button>
+                      </div>
                     </div>
                   </div>
                 </div>

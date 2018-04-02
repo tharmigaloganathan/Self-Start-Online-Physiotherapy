@@ -59,7 +59,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   editRecommendationDialogRef: MatDialogRef<EditRecommendationDialogComponent>
 
   allRecommendations = [];
-  selectedAssessmentRecommendation = {};
+  selectedAssessmentRecommendation: any;
   allResults = [];
   selectedAssessmentResult = [];
 
@@ -150,16 +150,24 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //gets all rehab plan information and extracts info for this specific rehab plan
   getRehabilitationPlans(){
-    this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
-      this.rehabilitationplans = data;
-      for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
-          if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
-              this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
-          }
-      }
+    // this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
+    //   this.rehabilitationplans = data;
+    //   for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
+    //       if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
+    //           this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
+    //       }
+    //   }
+    //   this.getExercises();
+    //   this.getAssessmentTests();
+    // });
+
+    console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
+    this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
+      this.rehabilitationplan = data;
+      console.log("Nick this is the rehab plan", data);
       this.getExercises();
       this.getAssessmentTests();
-    });
+    })
   }
   //gets exercises of this rehab plan
   getExercises() {
@@ -221,8 +229,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     var assessTest = {
       name: "Name",
       description: "Description",
-      authorName: this.user.physiotherapist.familyName,
-      recommendations: [],
+      authorName: "Default",
+      recommendations: {},
       form: null,
       testResults: null,
       openDate: null,
@@ -406,7 +414,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     var recommendation = {
       timeStamp: Date.now(),
       decision: "The patient should...",
-      assessmentTest: this.selectedCompleteAssessmentTest._id
+      assessmentTest: this.selectedCompleteAssessmentTest._id,
+      evaluation: 5
     }
 
     this.openEditRecommendationDialog(recommendation, true);
@@ -451,7 +460,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   addRecommendation(recommendation){
     this.recommendationService.addRecommendation(recommendation).subscribe(
       res => {
-        this.selectedCompleteAssessmentTest.recommendation.push(res.recommendation._id);
+        this.selectedCompleteAssessmentTest.recommendation = res.recommendation._id;
         this.editAssessmentTest(this.selectedCompleteAssessmentTest);
         this.getRecommendations();
       },

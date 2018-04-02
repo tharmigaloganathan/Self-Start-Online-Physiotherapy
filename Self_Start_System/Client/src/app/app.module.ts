@@ -32,6 +32,7 @@ import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-re
 import { HttpModule } from '@angular/http';
 import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
+import { MatSliderModule } from "@angular/material";
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -193,6 +194,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSliderModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
