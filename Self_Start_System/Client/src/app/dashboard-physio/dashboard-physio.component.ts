@@ -12,19 +12,18 @@ import { MessagesService } from '../messages.service';
     providers:[AuthenticationService, UserAccountListService, ManagePatientProfileService, MessagesService]
 })
 export class DashboardPhysioComponent implements OnInit, OnDestroy {
-  user;
-  successCounter = 0;
-  profileSubscription;
-  treatments = [];
-  patients: any[] = [];
-  patientList: Array<{
+    user;
+    successCounter = 0;
+    profileSubscription;
+    treatments = [];
+    patients: any[] = [];
+    patientList: Array<{
       patientID: string,
       patientGivenName: string,
       patientSurname: string,
       messages: string[]
-  }> = [];
-  patientsWithMessages: any[] = [];
-
+    }> = [];
+    patientsWithMessages: any[] = [];
 
     constructor(
         private authService: AuthenticationService,
@@ -35,60 +34,28 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
         )
     { this.authService = authService;}
 
-    // ngOnInit() {
-    //     this.successCounter = 0;
-    //     this.authService.getProfile().subscribe(res => {
-    //         console.log("in login component: here's what getProfile returned: ", res);
-    //         for (let result of res){
-    //             console.log((result as any).success);
-    //             if ((result as any).physiotherapist){
-    //                 this.successCounter++;//means at least one profile was returned
-    //                 this.user = (result as any).physiotherapist;
-    //                 console.log(this.user);
-    //                 this.getTreatments();
-    //                 break;
-    //             }
-    //         }
-    //         if (this.successCounter==0){
-    //             this.authService.logout();
-    //             this.router.navigate(['home']);
-    //         }
-    //
-    //     })
-    // }
-
-
     ngOnInit() {
       this.profileSubscription = this.authService.profileOb$.subscribe((profile) => {
         this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
         this.getTreatments();
-      });
-      // this.successCounter = 0;
-      // this.authService.getProfile().subscribe(res => {
-      //   console.log("in login component: here's what getProfile returned: ", res);
-      //   for (let result of res){
-      //     console.log((result as any).success);
-      //     if ((result as any).physiotherapist){
-      //       this.successCounter++;//means at least one profile was returned
-      //       this.user = (result as any).physiotherapist;
-      //       this.authService.setActiveProfile(this.user);
-      //       this.authService.setActiveProfileType("physiotherapist");
-      //       console.log(this.user);
-      //       break;
-      //     }
-      //   }
-      //   if (this.successCounter==0){
-      //     this.authService.logout();
-      //     this.router.navigate(['home']);
-      //   }
-      //   //other init functions go below here after user is set
-      //
-      // })
+        });
     }
-    ngOnDestroy() {
-      // prevent memory leak when component is destroyed
-      this.profileSubscription.unsubscribe();
-      console.log("subscription terminated");
+
+    orderPatientsWithMessages(){
+        //patientsWithMessages
+        //if unreadMessages > 0, push to top of the list
+        //otherwise doesn't matter
+    }
+
+    findNumberOfMessagesUnread() {
+        for(var i = 0; i < this.patients.length; i++) {
+            this.patients[i].unreadMessages = 0;
+            for(var j = 0; j < this.patients[i].messages.length; j++) {
+                if(this.patients[i].messages[j].seenByPhysio == false) {
+                    this.patients[i].unreadMessages++;
+                }
+            }
+        }
     }
 
     selectPatient(index) {
@@ -113,17 +80,6 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
             console.log(this.treatments);
             this.getPatients();
         });
-
-		// this.userAccountListService.getPatientProfile(id).subscribe(
-		// 	data => {
-		// 		this.user = data;
-		// 		this.treatments = this.user.treatments;
-        //         console.log("TREATMENTS",this.treatments);
-		// 		//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-		// 		//this.age = this.age[0] + " years";
-		// 		console.log(this.user);
-		// 	});
-
     }
 
     getPatients() {
@@ -162,11 +118,6 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
     }
 
     getMessages() {
-        //need an array of patients that each hold a messages array attribute
-        //get messages, for loop
-            //if physioID = our ID, loop through patient list push message to their array
-
-        //loop through messages, if there are unread messsages, splice, and enter at index0
         this.messagesService.getMessages().subscribe(data =>
             {
                 //LOOPS THROUGH ALL MESSAGES AND ASSIGNS ANY MESSAGES TO THE CORRECT PATIENT
@@ -175,9 +126,6 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
                 for(var i = 0; i < allMessages.length; i++) {
                     console.log(allMessages[i].message);
                     for(var j = 0; j < this.patients.length; j++){
-                        // console.log("physio ", allMessages[i].physioID == this.user._id, allMessages[i].physioID, this.user._id );
-                        // console.log("patient ", allMessages[i].patientID == this.patients[j]._id, allMessages[i].patientID, this.patients[j]._id)
-                        // console.log(this.patients[j]._id == "5aae0459b5693639c9aad8ba", this.patients[j]._id, "5aae0459b5693639c9aad8ba")
                         if(allMessages[i].physioID == this.user._id && allMessages[i].patientID == this.patients[j]._id){
                             allMessages[i].time = this.formatDate(new Date(allMessages[i].time));
                             this.patients[j].messages.push(allMessages[i]);
@@ -188,9 +136,16 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
                     if(this.patients[i].messages.length > 0)
                         this.patientsWithMessages.push(this.patients[i]);
                 }
+                this.findNumberOfMessagesUnread();
                 console.log(this.patientsWithMessages);
                 console.log("FINAL PATIENTS",this.patients);
             }
         );
+    }
+
+    ngOnDestroy() {
+      // prevent memory leak when component is destroyed
+      this.profileSubscription.unsubscribe();
+      console.log("subscription terminated");
     }
 }

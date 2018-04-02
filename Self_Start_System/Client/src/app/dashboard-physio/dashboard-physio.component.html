@@ -13,7 +13,7 @@
                 <mat-card class="messages-list mat-elevation-z0">
                     <mat-nav-list *ngFor="let patient of patientsWithMessages; let i = index;" (click)="selectMessage(i)">
                         <mat-list-item>{{patient.givenName + " " + patient.familyName}}
-                            {{"(" + patient.messages.length + ")"}}
+                            {{"(" + patient.unreadMessages + ")"}}
                         </mat-list-item>
                   </mat-nav-list>
                 </mat-card>
