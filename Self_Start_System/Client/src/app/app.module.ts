@@ -112,6 +112,7 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 
 
 
@@ -161,6 +162,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
 		ConfirmDeleteDialogBoxComponent,
 		ProfileSettingsComponent,
 		PhysioPatientListComponent,
+		PaypalButtonComponent,
   ],
   imports: [
     HttpModule,
@@ -221,6 +223,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
     EditExerciseDialogComponent,
     EditRecommendationDialogComponent,
     ConfirmDeleteDialogBoxComponent,
+    PaypalButtonComponent,
     NavbarPhysioComponent,
     NavbarAdminComponent,
     NavbarPatientComponent,
