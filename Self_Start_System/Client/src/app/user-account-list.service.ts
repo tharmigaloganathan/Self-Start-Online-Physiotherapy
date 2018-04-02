@@ -29,7 +29,7 @@ export class UserAccountListService {
 	//Update user account
 	updateUserAccount(id, user) {
 		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/UserAccounts/'+id, user, this.options)
+		return this.http.put(this.domain+'/UserAccounts/id/'+id, user, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
@@ -62,6 +62,14 @@ export class UserAccountListService {
 				return response.json().patientProfile;
 		});
 	}
+
+	updatePhysiotherapist(id,user){
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.put(this.domain+'/Physiotherapists/'+id ,user, this.options)
+      .map((response: Response) => {
+        return response.json().physiotherapist;
+      });
+  }
 
 		//Return all genders
 		getGenders() {
