@@ -16,7 +16,7 @@ export class PatientGuard implements CanActivate {
     console.log('Patient guard canActivate called');
 
     if (this.authService.loggedIn()) {
-      let type = localStorage.getItem('accountType');
+      let type = this.authService.checkRole();
       if (type == "patient") {
         return true;
       } else {

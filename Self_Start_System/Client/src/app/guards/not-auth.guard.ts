@@ -12,19 +12,20 @@ export class NotAuthGuard implements CanActivate {
   canActivate(): boolean {
     console.log('Not Auth guard canActivate called');
 
-    var retrievedAccount = localStorage.getItem("accountType");
+    // var retrievedAccount = localStorage.getItem("accountType");
 
-    console.log("here is the accountTYpe from localstorage: ", retrievedAccount);
-    if (!retrievedAccount) {
+    let type = this.authService.checkRole();
+    console.log("here is the account type from authService: ", type);
+    if (!type) {
       return true;
-    } else if (retrievedAccount) {
-      if (retrievedAccount == "patient") {
+    } else if (type) {
+      if (type == "patient") {
         this.router.navigate(['/patient/home']);
         return false;
-      } else if (retrievedAccount == "physio") {
+      } else if (type == "physiotherapist") {
         this.router.navigate(['/physio/home']);
         return false;
-      } else if (retrievedAccount == "admin") {
+      } else if (type == "administrator") {
         this.router.navigate(['/admin/home']);
         return false;
       }

@@ -163,7 +163,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
     console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
     this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
-      this.rehabilitationplan = data;
+      this.rehabilitationplan = data.rehabilitationPlan;
       console.log("Nick this is the rehab plan", data);
       this.getExercises();
       this.getAssessmentTests();
@@ -240,8 +240,10 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   editAssessmentTest(assessmentTest){
+    console.log("Assessment test send to back-end:", assessmentTest)
     this.assessmentTestService.editAssessmentTest(assessmentTest).subscribe(
       res => {
+        console.log("Edit assessment test response", res),
         //Do something for when you edit a new assessment test
         this.getAssessmentTests();
       },
@@ -318,6 +320,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           }
         }
         this.getForm();
+        this.selectedCompleteAssessmentTest = this.completeAssessmentTests[this.selectedCompleteIndex];
       }
     )
   }
@@ -477,7 +480,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       data => {
         this.allRecommendations = data.recommendation;
         console.log("ALL RECOS:", this.allRecommendations);
-
+        console.log("selected complete:", this.selectedCompleteAssessmentTest);
         if(this.selectedCompleteAssessmentTest != null){
           for(let i = 0; i < this.allRecommendations.length; i++){
             if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){

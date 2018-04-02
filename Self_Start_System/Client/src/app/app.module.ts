@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
@@ -69,6 +70,8 @@ import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 
+import {EditProfileService} from "./edit-profile.service";
+
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
@@ -109,7 +112,10 @@ import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
+import { VisualizeTreatmentDialogComponent } from './visualize-treatment-dialog/visualize-treatment-dialog.component';
 
 
 
@@ -157,7 +163,11 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
+		ProfileSettingsComponent,
 		PhysioPatientListComponent,
+		PaypalButtonComponent,
+		VisualizeTreatmentDialogComponent,
+    HighchartsChartComponent
   ],
   imports: [
     HttpModule,
@@ -211,14 +221,19 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
-  providers: [ExerciseService,
+  providers: [EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
     EditExerciseDialogComponent,
     EditRecommendationDialogComponent,
-    ConfirmDeleteDialogBoxComponent
+    ConfirmDeleteDialogBoxComponent,
+    PaypalButtonComponent,
+    NavbarPhysioComponent,
+    NavbarAdminComponent,
+    NavbarPatientComponent,
+    NavbarGeneralComponent,
   ]
 })
 export class AppModule { }

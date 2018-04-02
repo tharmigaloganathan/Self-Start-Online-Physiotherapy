@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:3700'
+  apiURL: 'http://localhost:3700',
+  apiURLForUploadingPictures: "http://localhost:3700/Photos/"
 };

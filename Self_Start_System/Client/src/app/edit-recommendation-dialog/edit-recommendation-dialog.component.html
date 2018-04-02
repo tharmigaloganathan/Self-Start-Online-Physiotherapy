@@ -5,9 +5,8 @@
     </mat-form-field>
   </div>
   <div class="col-md-12">
-    <h6>Evaluation: On a scale of 1-10, how effective was the current rehabilitation plan (where 10 is extremely effective)?</h6>
     <mat-form-field class = "question">
-      <mat-slider min="1" max="10" thumbLabel tickInterval="1" [(ngModel)]="recommendation.evaluation"></mat-slider>
+      <input matInput placeholder="Evaluation: On a scale of 1-10, how effective was the current rehabilitation plan (where 10 is extremely effective)?" [(ngModel)]="recommendation.evaluation" type="number"/>
     </mat-form-field>
   </div>
 </div>

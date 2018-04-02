@@ -61,7 +61,7 @@ function update(id, updatedAssessmentTest){
                     assessmentTest.name = updatedAssessmentTest.name;
                     assessmentTest.description = updatedAssessmentTest.description;
                     assessmentTest.authorName = updatedAssessmentTest.authorName;
-                    assessmentTest.recommendations = updatedAssessmentTest.recommendations;
+                    assessmentTest.recommendation = updatedAssessmentTest.recommendation;
                     assessmentTest.form = updatedAssessmentTest.form;
                     assessmentTest.testResults = updatedAssessmentTest.testResults;
                     assessmentTest.openDate = updatedAssessmentTest.openDate;

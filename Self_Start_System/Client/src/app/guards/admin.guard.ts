@@ -16,8 +16,8 @@ export class AdminGuard implements CanActivate {
     console.log ('Admin guard canActivate called');
 
     if (this.authService.loggedIn()) {
-      let type = localStorage.getItem('accountType');
-      if (type == "admin") {
+      let type = this.authService.checkRole();
+      if (type == "administrator") {
         return true;
       } else {
         this.redirectUrl = state.url;
