@@ -3,23 +3,16 @@
 <app-navbar-admin></app-navbar-admin>
 
 <div class="container">
-	  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 	<div class="row">
 		<div class="col">
-			<div class="card-container top">
+			<div class="card-container top animated fadeIn">
 				<mat-card>
 					<div class="row">
 						<div class="col-md-8">
-							<h1>{{ user.givenName + " " + user.familyName }}</h1>
+							<h1>{{ user?.givenName + " " + user?.familyName }}</h1>
 						</div>
 						<div class="col-md-4 col-md-offset-9">
 							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
-							<div class="icon-bar">
-								<mat-icon class="icon" matTooltip="Create Treatment">assignment</mat-icon>
-								<mat-icon class="icon" matTooltip="Book Appointment">event</mat-icon>
-								<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
-								<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
-							</div>
 						</div>
 					</div>
 					<!-- Tabs -->
@@ -41,208 +34,109 @@
 										</div>
 									</ng-template>
 								</div>
-								<!-- Row 1 -->
-								<div class="row">
-									<div class="col form-container">
-										<mat-form-field>
-											<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col form-container">
-										<mat-form-field>
-											<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 2 -->
-								<div class="row">
-									<div class="col-4 form-container">
-										<mat-form-field>
-											<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
-												<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender.name}}</mat-option>
-												</mat-select>
-										</mat-form-field>
-									</div>
-									<div class="col-6 form-container">
-										<mat-form-field>
-											<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
-											<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-											<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Current Age" [value]="age" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 3 -->
-								<div class="row">
-									<div class="col-3 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-3 form-container">
-										<mat-form-field>
-											<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<mat-select [(ngModel)]="user.province" name="user.province" placeholder="Province" [disabled]="!isChanged">
-												 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
-												</mat-select>
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-2 form-container">
-										<mat-form-field>
-											<mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
-												<mat-option *ngFor="let country of countries" [value]="country._id">{{country.name}}</mat-option>
-												</mat-select>
-										</mat-form-field>
-									</div>
-								</div>
-								<!-- Row 4 -->
-								<div class="row">
-									<div class="col-8 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-									<div class="col-4 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [disabled]="!isChanged">
-										</mat-form-field>
-									</div>
-								</div>
-							</form>
-
-						</mat-tab>
-						<!-- Treatments -->
-						<mat-tab label="Treatments">
-							<div *ngIf="user.treatments.length == 0 else treatmentList" class="empty">
-								<h6> {{ user.givenName + " " + user.familyName }} has no treatment history</h6>
-							</div>
-							<ng-template #treatmentList>
-								<div *ngIf="!showPlan else rehabPlan">
-									<h6 class="top">Treatment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
-									<mat-divider></mat-divider>
-									<mat-list>
-										<mat-list-item *ngFor="let treatment of user.treatments let i = index" [attr.data-index]="i" class="treatment" (click)="showRehabPlan(i)">
-											<div class="col-3">
-												<b>Assignment Date: </b> {{ treatment.dateAssign | date : "dd.MM.y" }}
-											</div>
-											<div class="col-3">
-												<b>Start Date: </b> {{ treatment.dateStart | date : "dd.MM.y" }}
-											</div>
-											<div class="col-2">
-												<b>Active: </b> {{ treatment.active }}
-											</div>
-											<div class="col-4">
-												<b>Rehabilitation Plan: </b> {{ treatment.rehabilitationPlan.name }}
-											</div>
-											<mat-divider></mat-divider>
-										</mat-list-item>
-										<mat-divider></mat-divider>
-								</mat-list>
-							</div>
-							</ng-template>
-							<!-- View to show the details of a specific rehab plan -->
-							<ng-template #rehabPlan>
-								<div class="row">
-									<div class="col-12 top">
-											<button mat-raised-button class="edit-rehab-plan-button" (click)="editRehabPlan()">Edit</button>
-										<button mat-raised-button class="back-button" (click)="viewTreatmentList()">Back to Treatment List</button>
-									</div>
-								</div>
-								<form class="form-container">
+									<!-- Row 1 -->
 									<div class="row">
-										<!--
-										<div class="col-3 form-container">
-											<label>History</label>
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [disabled]="!isChanged">
+											</mat-form-field>
 										</div>
-									-->
-										<div class="col-12" form-container>
-											<!-- Rehab Plan details -->
-											<label>Rehabilitation Plan</label>
-											<div class="row">
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Name">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Author Name">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Physiotherapist" [value]="physiotherapist" name="physiotherapist">
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-9 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Description">
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-6 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Goal">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Time Frame to Complete">
-													</mat-form-field>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Assigned">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Started">
-													</mat-form-field>
-												</div>
-												<div class="col-3 form-container">
-													<mat-form-field>
-														<input matInput placeholder="Finished">
-													</mat-form-field>
-												</div>
-											</div>
-											<label>Recommendations</label>
-											<div class="row">
-											</div>
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [disabled]="!isChanged">
+											</mat-form-field>
 										</div>
 									</div>
-								</form>
-							</ng-template>
-						</mat-tab>
-						<!-- Appointments -->
-						<mat-tab label="Appointments">
-							<div *ngIf="user.appointments.length == 0" class="empty">
-								<h6> {{ user.givenName + " " + user.familyName }} has no appointment history</h6>
-							</div>
-						</mat-tab>
-						<!-- Payments -->
-						<mat-tab label="Payments">
-							<div *ngIf="user.payments.length == 0" class="empty">
-								<h6> {{ user.givenName + " " + user.familyName }} has no payment history</h6>
-							</div>
+									<!-- Row 2 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
+													<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
+												<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+												<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Current Age" [value]="age" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 3 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-3 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-3 form-container">
+											<mat-form-field>
+												<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.province" name="user.province" placeholder="Province" [disabled]="!isChanged">
+													 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
+													<mat-option *ngFor="let country of countries" [value]="country._id">{{country?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 4 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-8 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Roq 5 - only physio information -->
+										<div class="row" *ngIf="!isPatient">
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker1" placeholder="Date Hired" [value]="user.dateHired" [disabled]="!isChanged">
+													<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+													<mat-datepicker #picker1 [startAt]="user.dateHired"></mat-datepicker>
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker2" placeholder="Date Finished" [value]="user.dateFinished" [disabled]="!isChanged">
+													<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+													<mat-datepicker #picker2 [startAt]="user.dateFinished"></mat-datepicker>
+												</mat-form-field>
+											</div>
+									</div>
+							</form>
 						</mat-tab>
 						<!-- Account -->
 						<mat-tab label="Account Settings">
@@ -261,10 +155,17 @@
 									</div>
 								</div>
 							</form>
-							<div class="col button-container">
-								<button mat-raised-button class="reset-password-button" data-toggle="modal" data-target="#resetPasswordModal">Reset Password</button>
-								<button mat-raised-button class="delete-button" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
+							<div *ngIf="account.activated == false; else disableTemplate">
+								<div class="col button-container">
+									<button mat-raised-button class="reset-password-button" (click)="enableAccount()">Activate Account</button>
+								</div>
 							</div>
+							<ng-template #disableTemplate>
+								<div class="col button-container">
+									<button mat-raised-button class="reset-password-button" data-toggle="modal" data-target="#resetPasswordModal">Reset Password</button>
+									<button mat-raised-button class="delete-button" data-toggle="modal" data-target="#deleteAccountModal">Disable Account</button>
+								</div>
+							</ng-template>
 							</mat-tab>
 					</mat-tab-group>
 				</mat-card>
@@ -300,12 +201,12 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="modal-title">
-							<h6 class="text-center">Are you sure you want to delete this account?</h6>
+							<h6 class="text-center">Are you sure you want to disable this account?</h6>
 						</div>
 					</div>
 					<div class="modal-body">
 						<div class="col modal-container">
-							<button mat-raised-button class="yes-button" data-dismiss="modal" (click)="deleteAccount()">Yes</button>
+							<button mat-raised-button class="yes-button" data-dismiss="modal" (click)="disableAccount()">Yes</button>
 							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
 						</div>
 					</div>

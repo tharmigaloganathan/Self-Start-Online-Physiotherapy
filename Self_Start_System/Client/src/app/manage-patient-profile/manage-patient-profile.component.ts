@@ -90,7 +90,9 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
 		var length = this.activeTreatment.rehabilitationPlan.length;
 		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
-		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
+		this.activeRehabPlan = this.rehabPlanHistory[length-4];
+		console.log("Active rehab plan" + JSON.stringify(this.activeRehabPlan));
+		//this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
 		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
@@ -106,7 +108,7 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Edit the selected rehab plan
 	editRehabPlan() {
-	localStorage.setItem('edit_rehabilitation_id', this.user.treatments[this.activeTreatmentIndex].rehabilitationPlan._id);
+	localStorage.setItem('edit_rehabilitation_id', this.activeRehabPlan._id);
 	this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
 }
 
@@ -239,8 +241,8 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
-				for(var i=0; i<this.activeRehabPlan.exerciseOrders.length; i++) {
-					this.userAccountListService.getExercise(this.activeRehabPlan.exerciseOrders[i]).subscribe(
+				for(var i=0; i<this.activeRehabPlan.exercises.length; i++) {
+					this.userAccountListService.getExercise(this.activeRehabPlan.exercises[i]).subscribe(
 						data => {
 							this.activeRehabPlanExercises.push(data);
 							console.log(this.activeRehabPlanExercises);
