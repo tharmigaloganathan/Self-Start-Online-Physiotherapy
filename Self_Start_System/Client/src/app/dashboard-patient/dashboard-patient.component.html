@@ -2,47 +2,54 @@
 
 <div class="grid-container">
     <div class="row row-height">
-      <div class="col-md-6 col-padding-0">
-          <mat-card class="messages-card">
-              <mat-toolbar>
-                  <b>Your Messages</b>
-                  <span class="navbar-fill-remaining-space"></span>
-                  <span matTooltip="Launch Messages"><mat-icon routerLink="/patient/messages">launch</mat-icon></span>
-              </mat-toolbar>
-              <mat-card-subtitle>You have 0 unread messages! Here is your message history: </mat-card-subtitle>
-              <!-- <div class="messages-content"> -->
-                  <mat-card-content *ngFor="let message of messages" >
-                      <mat-card-content *ngIf="message.patientID != message.sender" class="physio-message-div">
-                          {{message.message}}
-                          <mat-card-subtitle>Physiotherapist - {{message.time}}</mat-card-subtitle>
-                      </mat-card-content>
-                      <mat-card-content *ngIf="message.patientID == message.sender" class="patient-message-div">
-                          {{message.message}}
-                          <mat-card-subtitle>{{message.time}} - You </mat-card-subtitle>
-                      </mat-card-content>
-                  </mat-card-content>
-              <!-- </div> -->
-              <mat-form-field class="input-form">
-                <input matInput #message placeholder="Type a message">
-              </mat-form-field>
-              <button class="send-button" (click)="addNewMessage(message.value); message.value=''">SEND</button>
-          </mat-card>
-          <mat-card class="assessment-test-card">
-              <mat-toolbar>
-                  <b>Your Assessment Tests</b>
-                  <span class="navbar-fill-remaining-space"></span>
-                  <span matTooltip="Launch Assessment Test Module"><mat-icon routerLink="">launch</mat-icon></span>
-              </mat-toolbar>
-          </mat-card>
-      </div>
-      <div class="col-md-6 col-padding-0">
-          <mat-card class="rehab-plan-card">
-              <mat-toolbar>
-                  <b>Your Rehabilitation Plan</b>
-                  <span class="navbar-fill-remaining-space"></span>
-                 <span matTooltip="Complete Exercises"><mat-icon routerLink="/patient/rehabilitation-plans">launch</mat-icon></span>
-              </mat-toolbar>
-          </mat-card>
-      </div>
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="messages-card">
+                <mat-toolbar>
+                    <b>Your Messages</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Messages Module"><mat-icon routerLink="/patient/messages">launch</mat-icon></span>
+                </mat-toolbar>
+                <mat-card-subtitle *ngIf="messages.length > 0">You have {{unreadMessages}} unread message(s)! Here is your message history: </mat-card-subtitle>
+                <mat-card-subtitle *ngIf="messages.length == 0"><br/></mat-card-subtitle>
+                <mat-card class="messages-content mat-elevation-z0">
+                    <mat-card-content *ngIf="messages.length == 0" style="text-align: center">
+                        You have no message history with your physiotherapist.<br/>
+                        Type a message in the input field below and hit send to contact your physiotherapist!
+                    </mat-card-content>
+                    <mat-card-content *ngFor="let message of messages" >
+                        <mat-card-content *ngIf="message.patientID != message.sender" class="physio-message-div">
+                            {{message.message}}
+                            <mat-card-subtitle>Physiotherapist - {{message.time}}</mat-card-subtitle>
+                        </mat-card-content>
+                        <mat-card-content *ngIf="message.patientID == message.sender" class="patient-message-div">
+                            {{message.message}}
+                            <mat-card-subtitle>{{message.time}} - You </mat-card-subtitle>
+                        </mat-card-content>
+                    </mat-card-content>
+                </mat-card>
+
+                <!-- </div> -->
+                <mat-form-field class="input-form">
+                    <input matInput #newMessage placeholder="Type a message">
+                </mat-form-field>
+                <button class="send-button" (click)="sendNewMessage(newMessage.value); newMessage.value=''">SEND</button>
+            </mat-card>
+            <mat-card class="assessment-test-card">
+                <mat-toolbar>
+                    <b>Your Assessment Tests</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Assessment Test Module"><mat-icon routerLink="">launch</mat-icon></span>
+                </mat-toolbar>
+            </mat-card>
+        </div>
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="rehab-plan-card">
+                <mat-toolbar>
+                    <b>Your Rehabilitation Plan</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Complete Exercises"><mat-icon routerLink="/patient/rehabilitation-plans">launch</mat-icon></span>
+                </mat-toolbar>
+            </mat-card>
+        </div>
     </div>
 </div>
