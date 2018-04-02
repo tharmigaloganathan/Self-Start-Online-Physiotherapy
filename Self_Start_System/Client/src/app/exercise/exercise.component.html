@@ -50,7 +50,7 @@
         <!-- Modal Body -->
         <div class="modal-body">
           <div class = "row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <mat-form-field class = "question" >
                 <input matInput placeholder="Exercise Name" [(ngModel)]="exerciseNameValue"/>
               </mat-form-field>
@@ -61,18 +61,10 @@
                 <input matInput placeholder="Author Name" [(ngModel)]="authorNameValue"/>
               </mat-form-field>
             </div>
-          </div>
 
-          <div class = "row">
             <div class ="col-md-6">
               <mat-form-field class = "question" >
                 <input matInput placeholder="Location" [(ngModel)]="locationValue"/>
-              </mat-form-field>
-            </div>
-
-            <div class ="col-md-6">
-              <mat-form-field class = "question">
-                <input matInput placeholder="URL"[(ngModel)]="URLValue"/>
               </mat-form-field>
             </div>
           </div>
@@ -123,6 +115,17 @@
               </mat-form-field>
             </div>
           </div>
+
+          <div class ="col-md-6">
+            <mat-form-field class = "question">
+              <input matInput placeholder="URL"[(ngModel)]="URLValue" [disabled]="true"/>
+            </mat-form-field>
+          </div>
+
+
+          <app-image-upload-test
+            (uploadedURL)="onImageUpload($event)"
+          ></app-image-upload-test>
         </div>
 
         <!-- Modal Footer -->
@@ -165,9 +168,9 @@
         <!-- Modal Body -->
         <div class="modal-body">
           <div class = "row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <mat-form-field class = "question" >
-                <input matInput placeholder="Execise Name"[(ngModel)]="currentExercise.name" [disabled]="!editEnabled"/>
+                <input matInput placeholder="Exercise Name"[(ngModel)]="currentExercise.name" [disabled]="!editEnabled"/>
               </mat-form-field>
             </div>
 
@@ -176,18 +179,10 @@
                 <input matInput placeholder="Author Name"[(ngModel)]="currentExercise.authorName" [disabled]="!editEnabled"/>
               </mat-form-field>
             </div>
-          </div>
 
-          <div class = "row">
             <div class ="col-md-6">
               <mat-form-field class = "question" >
                 <input matInput placeholder="Location" [(ngModel)]="currentExercise.location" [disabled]="!editEnabled"/>
-              </mat-form-field>
-            </div>
-
-            <div class ="col-md-6">
-              <mat-form-field class = "question">
-                <input matInput placeholder="URL" [(ngModel)]="currentExercise.multimediaURL" [disabled]="!editEnabled"/>
               </mat-form-field>
             </div>
           </div>
@@ -238,6 +233,16 @@
               </mat-form-field>
             </div>
           </div>
+
+
+          <div class ="col-md-6">
+            <mat-form-field class = "question">
+              <input matInput placeholder="URL" [(ngModel)]="currentExercise.multimediaURL" [disabled]="true"/>
+            </mat-form-field>
+          </div>
+          <app-image-upload-test *ngIf="editEnabled"
+            (uploadedURL)="onImageUpload($event)"
+          ></app-image-upload-test>
         </div>
 
         <!-- Modal Footer -->
