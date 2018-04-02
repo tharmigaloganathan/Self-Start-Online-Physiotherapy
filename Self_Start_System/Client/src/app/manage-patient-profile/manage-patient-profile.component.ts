@@ -90,7 +90,9 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
 		var length = this.activeTreatment.rehabilitationPlan.length;
 		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
-		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
+		this.activeRehabPlan = this.rehabPlanHistory[length-4];
+		console.log("Active rehab plan" + JSON.stringify(this.activeRehabPlan));
+		//this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
 		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
