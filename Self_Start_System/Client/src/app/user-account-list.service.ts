@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from './../environments/environment';
+
 import { AuthenticationService } from "./authentication.service";
 
 @Injectable()
@@ -9,8 +10,12 @@ export class UserAccountListService {
 
 	domain = environment.apiURL;
 	options;
+	authenticationService;
 
-  constructor(private http: Http, private authenticationService: AuthenticationService) {}
+  constructor(private http: Http, authenticationService : AuthenticationService) {
+    this.authenticationService = authenticationService;
+  }
+
 
 	//Get a single users account
 	getUserAccount(id) {
@@ -33,6 +38,7 @@ export class UserAccountListService {
 
 	//Get all patients
 	getAllPatients() {
+
 		this.options = this.authenticationService.createAuthenticationHeaders();
 		return this.http.get(this.domain+'/PatientProfiles', this.options)
 			.map((response: Response) => {
@@ -58,14 +64,13 @@ export class UserAccountListService {
 		});
 	}
 
-	//Update the physsios information
-	updatePhysio(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/Physiotherapists/'+id ,user, this.options)
-		.map((response: Response) => {
-		return response.json().physiotherapist;
-	});
-}
+	updatePhysiotherapist(id,user){
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.put(this.domain+'/Physiotherapists/'+id ,user, this.options)
+      .map((response: Response) => {
+        return response.json().physiotherapist;
+      });
+  }
 
 		//Return all genders
 		getGenders() {

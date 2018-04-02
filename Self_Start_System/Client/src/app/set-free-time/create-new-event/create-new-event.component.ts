@@ -23,6 +23,8 @@ export class CreateNewEventComponent implements OnInit {
 
   numWeeksSentToBackend = 0;
 
+  profileSubscription;
+
   constructor(private setFreeTimeService : SetFreeTimeService,
               private router : Router,
               private authenticationService: AuthenticationService,
@@ -34,25 +36,17 @@ export class CreateNewEventComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.getProfile().subscribe(res => {
-      console.log("in login component: here's what getProfile returned: ", res);
-      for (let result of res){
-        console.log((result as any).success);
-        if ((result as any).physiotherapist){
-          this.physioID = (result as any).physiotherapist._id;
-          console.log(this.physioID);
-          break;
-        }
-      }
+      this.profileSubscription = this.authenticationService.profileOb$.subscribe((profile) => {
+        this.physioID = profile._id; console.log("subscription to auth service set profile returned: ", profile);
+      });
       //any function following getting profile goes here
       this.initializeCurrentTime();
     })
 
-    // this.authenticationService.getProfile().subscribe(data=>{
-    //   this.physioID = data.physiotherapist._id;
-    //   this.initializeCurrentTime();
-    // }, err=>{
-    //   console.log(err);
-    // });
+  }
+  ngOnDestroy(){
+    this.profileSubscription.unsubscribe();
+    console.log("subscription terminated")
   }
 
   initializeCurrentTime = () => {

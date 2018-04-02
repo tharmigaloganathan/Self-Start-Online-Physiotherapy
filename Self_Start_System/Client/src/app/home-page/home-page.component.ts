@@ -7,7 +7,7 @@ import { FlashMessagesModule, FlashMessagesService} from "angular2-flash-message
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
-  providers: [AuthenticationService, FlashMessagesService]
+  providers: [FlashMessagesService]
 
 })
 export class HomePageComponent implements OnInit {

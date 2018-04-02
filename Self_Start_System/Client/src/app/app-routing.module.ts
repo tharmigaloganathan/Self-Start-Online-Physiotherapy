@@ -43,7 +43,9 @@ import {AuthGuard} from "./guards/auth.guard";
 import {NotAuthGuard} from "./guards/not-auth.guard";
 import {AdminGuard} from "./guards/admin.guard";
 import {PatientGuard} from "./guards/patient.guard";
-import {PhysioGuard} from "./guards/physio.guard";// Our Array of Angular 2 Routes
+import {PhysioGuard} from "./guards/physio.guard";
+import {ProfileSettingsComponent} from "./profile-settings/profile-settings.component";
+// Our Array of Angular 2 Routes
 const appRoutes: Routes = [
 
   {
@@ -78,6 +80,12 @@ const appRoutes: Routes = [
   {
     path: 'create-account',
     component: CreateUserAccountComponent
+  },
+
+  {
+    path: 'settings',
+    component: ProfileSettingsComponent,
+    canActivate: [AuthGuard]
   },
 
   //end of routes that don't need login
@@ -129,6 +137,7 @@ const appRoutes: Routes = [
     canActivate: [PatientGuard]
 
   },
+
   {
     path: 'patient/messages',
     component: PatientMessagesComponent,

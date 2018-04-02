@@ -10,7 +10,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   selector: 'app-admin-manage-user-accounts',
   templateUrl: './admin-manage-user-accounts.component.html',
   styleUrls: ['./admin-manage-user-accounts.component.scss'],
-	providers: [UserAccountListService, AuthenticationService]
+	providers: []
 })
 export class AdminManageUserAccountsComponent implements OnInit {
 	router;
@@ -116,7 +116,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			appointments: this.user.appointments
 		}
 		console.log(physioProfile);
-		this.userAccountListService.updatePhysio(this.user._id, physioProfile).
+		this.userAccountListService.updatePhysiotherapist(this.user._id, physioProfile).
 		subscribe(
 			user => {
 				this.user = user;

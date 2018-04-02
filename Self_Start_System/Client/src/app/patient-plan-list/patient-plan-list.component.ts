@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {PaypalButtonComponent} from '../paypal-button/paypal-button.component';
 
 @Component({
   selector: 'app-patient-plan-list',
@@ -15,7 +16,7 @@ export class PatientPlanListComponent implements OnInit {
   fullPatientList = [];
   filteredPatientList = [];
 
-  constructor(private managePatientProfileService: ManagePatientProfileService, router: Router) {
+  constructor(private managePatientProfileService: ManagePatientProfileService, router: Router, public dialog: MatDialog) {
     this.router = router;
   }
 
@@ -60,6 +61,14 @@ export class PatientPlanListComponent implements OnInit {
 
   ngOnInit() {
     this.loadPatients();
+  }
+
+  openDialog(): void {
+    let dialogRef = this.dialog.open(PaypalButtonComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 
 }
