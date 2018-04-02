@@ -8,7 +8,7 @@
                 <p style="font-size:16px">
                     <mat-card-subtitle>Jane Doe</mat-card-subtitle>
                 </p>
-                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "putRehabilitationPlan(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>
+                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>
             </h1>
             <br />
             <mat-tab-group>
@@ -53,7 +53,7 @@
                                         <div class="col-4 form-container border-right">
                                             <div class="row">
                                                     <h4>Exercises</h4>
-                                                    <button mat-raised-button class="add-new-exercise-button" (click)="openEditExerciseDialog(activeExercise)">Add a New Exercise</button>
+                                                    <button mat-raised-button class="add-new-exercise-button" (click)="openEditExerciseDialog()">Add a New Exercise</button>
                                             </div>
 
 
@@ -163,6 +163,7 @@
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
+                                                <button mat-raised-button class="delete-exercise-button" (click)="deleteExercise();">Delete Exercise</button>
                                             </div>
 
                                         </div>

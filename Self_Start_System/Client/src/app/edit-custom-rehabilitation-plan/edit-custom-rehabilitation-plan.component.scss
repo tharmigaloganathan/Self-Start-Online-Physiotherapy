@@ -7,6 +7,12 @@
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+.delete-exercise-button {
+    background-color: $dark-red;
+    color: #ffffff !important;
+    float: right !important;
+}
+
 .highlight {
 	background-color: #DCDCDC !important;
 	cursor: pointer;
