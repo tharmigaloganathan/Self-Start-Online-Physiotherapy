@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-admin-manage-user-accounts',
@@ -18,6 +18,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	authenticationService;
 	loading = false;
 	isChanged = false;
+	showPlan = false;
 	user;
 	account;
 	today = new Date();
@@ -25,21 +26,18 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	genders;
 	provinces;
 	countries;
-	appointments;
-	showPlan = false;
-	physiotherapist = "Susan Collins";
-	activeRehabPlan;
+	isPatient;
 
-  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, private snackBar: MatSnackBar) {
+  constructor(router: Router, userAccountListService: UserAccountListService, authenticationService: AuthenticationService, public toastr: ToastsManager,
+	vcr: ViewContainerRef) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
+		this.toastr.setRootViewContainerRef(vcr);
 }
 
   ngOnInit() {
-		this.account = JSON.parse(localStorage.getItem('selectedAccount'));
-		this.populatePopulatePatient(this.account.patientProfile);
-		this.populateAppointments(this.account.patientProfile);
+		this.identifyUser();
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
@@ -57,86 +55,178 @@ export class AdminManageUserAccountsComponent implements OnInit {
 
 	//Reset the patient info
 	cancelEdit() {
-		this.user = JSON.parse(localStorage.getItem('selectedPatient'));
+		if(this.isPatient) {
+			this.user = JSON.parse(localStorage.getItem('selectedPatient'));
+		} else {
+			this.user =  JSON.parse(localStorage.getItem('selectedPhysio'));
+		}
 		this.isChanged = false;
 }
 
 	//Update the patients information
 	savePatientInfo() {
-		const patientProfile = {
+		if(!this.isPatient) {
+			this.savePhysioInfo()
+		} else {
+			const patientProfile = {
+				familyName: this.user.familyName,
+				givenName: this.user.givenName,
+				email: this.user.email,
+				DOB: this.user.DOB,
+				postalCode: this.user.postalCode,
+				phone: this.user.phone,
+				address: this.user.address,
+				account: this.user.account,
+				treatments: this.user.treatments,
+				payments: this.user.payments,
+				country: this.user.country,
+				province:  this.user.province,
+				city:  this.user.city,
+				gender: this.user.gender,
+				appointments: this.user.appointments
+			}
+			console.log(patientProfile);
+			this.userAccountListService.updatePatient(this.user._id, patientProfile).
+			subscribe(
+				user => {
+					this.user = user;
+					this.isChanged = false;
+					console.log("This was returned for the patient" + JSON.stringify(user));
+					localStorage.setItem('selectedPatient', JSON.stringify(user));
+					this.toastr.success("Information updated sucessfully!");
+				},
+				error => {
+					console.log("Error");
+					this.toastr.error("Failed to update information! Please try again.");
+				});
+		}
+}
+
+	//Update the physios information
+	savePhysioInfo() {
+		const physioProfile = {
 			familyName: this.user.familyName,
 			givenName: this.user.givenName,
 			email: this.user.email,
-			DOB: this.user.DOB,
-			postalCode: this.user.postalCode,
-			phone: this.user.phone,
-			address: this.user.address,
-			account: this.user.account,
+			userAccount: this.user.userAccount,
+			dateHired: this.user.dateHired,
+			dateFinished: this.user.dateFinished,
 			treatments: this.user.treatments,
-			payments: this.user.payments,
-			country: this.user.country,
-			province:  this.user.province,
-			city:  this.user.city,
-			gender: this.user.gender,
+			availableTimeSlots: this.user.availableTimeSlots,
 			appointments: this.user.appointments
 		}
-		console.log(patientProfile);
-		this.userAccountListService.updatePatient(this.user._id, patientProfile).
+		console.log(physioProfile);
+		this.userAccountListService.updatePhysiotherapist(this.user._id, physioProfile).
 		subscribe(
 			user => {
 				this.user = user;
-				console.log("This was returned for the patient" + JSON.stringify(user));
-				this.snackBar.open("Information updated sucessfully!", "", {
-					duration: 1500
-				});
 				this.isChanged = false;
+				console.log("This was returned for the physio" + JSON.stringify(user));
+				localStorage.setItem('selectedPhysio', JSON.stringify(user));
+				this.toastr.success("Information updated sucessfully!");
 			},
 			error => {
 				console.log("Error");
-				this.snackBar.open("Error!" + error, "", {
-					duration: 1500
-				});
+				this.toastr.error("Failed to update information! Please try again.");
 			});
 }
 
 	//Reset the users Password
 	resetPassword() {
 		console.log("Reset password clicked");
-		this.loading = true;
-		const patientAccount = {
-			encryptedPassword: "passwordreset",
-			patientProfile: this.user._id
-		}
-		console.log(patientAccount);
-		this.userAccountListService.updateUserAccount(this.user._id, patientAccount).
+		this.account.encryptedPassword = "passwordreset";
+		console.log(this.account);
+		this.userAccountListService.updateUserAccount(this.account._id, this.account).
 		subscribe(
 			user => {
 				this.account = user;
+				localStorage.setItem('selectedAccount', JSON.stringify(user));
 				console.log("This was returned for reset password" + JSON.stringify(user));
-				this.loading = false;
+				this.toastr.success("Users password has been reset!");
 			},
 			error => {
 				console.log("Error");
-				this.loading = false;
+				this.toastr.error("Failed to reset! Please try again.");
 			});
 }
 
-	//Delete the users account
-	deleteAccount() {
-		console.log("Delete account clicked");
+	//Disable the users account
+	disableAccount() {
+		console.log("Disable account clicked");
+		var data = {};
+		if(this.isPatient) {
+			data = {
+				encryptedPassword: this.account.encryptedPassword,
+				userAccountName: this.account.userAccountName,
+				patientProfile: this.user._id,
+				activated: false,
+				hasPaid: this.account.hasPaid,
+				passwordReset: this.account.passwordReset
+			}
+		} else {
+				data = {
+					encryptedPassword: this.account.encryptedPassword,
+					userAccountName: this.account.userAccountName,
+					physiotherapist: this.user._id,
+					activated: false,
+					hasPaid: this.account.hasPaid,
+					passwordReset: this.account.passwordReset
+			}
+		}
+		//Update the user account
+		console.log(data);
+		this.userAccountListService.updateUserAccount(this.account._id, data).
+		subscribe(
+			user => {
+				this.account = user;
+				localStorage.setItem('selectedAccount', JSON.stringify(user));
+				console.log("This was returned for diable account" + JSON.stringify(user));
+				this.toastr.success("Users account is now disabled!");
+			},
+			error => {
+				console.log("Error");
+				this.toastr.error("Failed to disable users account! Please try again.");
+			});
+		}
 
-}
+	//Enable the users account
+	enableAccount() {
+	console.log("Enable account clicked");
+	var data = {};
+	if(this.isPatient) {
+		data = {
+			encryptedPassword: this.account.encryptedPassword,
+			userAccountName: this.account.userAccountName,
+			patientProfile: this.user._id,
+			activated: true,
+			hasPaid: this.account.hasPaid,
+			passwordReset: this.account.passwordReset
+		}
+	} else {
+		data = {
+			encryptedPassword: this.account.encryptedPassword,
+			userAccountName: this.account.userAccountName,
+			physiotherapist: this.user._id,
+			activated: true,
+			hasPaid: this.account.hasPaid,
+			passwordReset: this.account.passwordReset
 
-	//Show the select rehab plan
-	showRehabPlan(index) {
-		console.log("Show rehab plan clicked" + index);
-		this.activeRehabPlan = index;
-		this.showPlan = true;
-}
-
-	//View the list of all treatments
-	viewTreatmentList() {
-	this.showPlan = false;
+		}
+	}
+	//Update the user account
+	console.log(data);
+	this.userAccountListService.updateUserAccount(this.account._id, data).
+	subscribe(
+		user => {
+			this.account = user;
+			localStorage.setItem('selectedAccount', JSON.stringify(user));
+			console.log("This was returned for enable account" + JSON.stringify(user));
+			this.toastr.success("Users account is now active!");
+		},
+		error => {
+			console.log("Error");
+			this.toastr.error("Failed to activate users account! Please try again.");
+		});
 }
 
 	//Get all the genders
@@ -145,12 +235,10 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		subscribe(
 			data => {
 				this.genders = data;
-				console.log("This is what was returned" + JSON.stringify(data));
 			},
 			error => {
 				console.log("Error");
 			});
-			console.log(this.genders);
 }
 
 	//Get all provinces
@@ -159,12 +247,10 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	subscribe(
 		data => {
 			this.provinces = data;
-			console.log("This is what was returned" + JSON.stringify(data));
 		},
 		error => {
 			console.log("Error");
 		});
-		console.log(this.provinces);
 }
 
 	//Get all countries
@@ -173,12 +259,10 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		subscribe(
 			data => {
 				this.countries = data;
-				console.log("This is what was returned" + JSON.stringify(data));
 			},
 			error => {
 				console.log("Error");
 			});
-			console.log(this.provinces);
 	}
 
 	//Get the users account
@@ -186,6 +270,7 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		this.userAccountListService.getPatientProfile(id).subscribe(
 			data => {
 				this.user = data;
+				localStorage.setItem('selectedPatient', JSON.stringify(data));
 				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 				//this.age = this.age.toFixed(0) + " years";
 				console.log(this.user);
@@ -193,15 +278,22 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			});
 	 }
 
-	 //Get the users appointments
-	 populateAppointments(id) {
-	 //this.userAccountListService.getSingleAppointment(id).subscribe(
-	 this.userAccountListService.getAppointments(id).subscribe(
-		 data => {
-			 this.appointments = data;
-			 console.log(this.appointments);
-			 console.log("Patient's appointments" + JSON.stringify(this.appointments));
-		 });
- 	}
+	//Identify the user
+	identifyUser() {
+	var userAccount = JSON.parse(localStorage.getItem('selectedAccount'));
+		if(userAccount.patientProfile == null) {
+			this.isPatient = false;
+			this.account = userAccount;
+			this.user =  JSON.parse(localStorage.getItem('selectedPhysio'));
+			//console.log("Patient " + this.isPatient);
+			console.log("Physio" + JSON.stringify(this.user));
+		} else {
+			this.isPatient = true;
+			this.account = userAccount;
+			this.populatePopulatePatient(this.account.patientProfile);
+			//console.log("Patient " + this.isPatient);
+			console.log("Patient" + JSON.stringify(this.user));
+		}
+	}
 
 }
