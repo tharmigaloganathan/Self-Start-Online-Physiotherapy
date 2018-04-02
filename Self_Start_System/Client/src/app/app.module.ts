@@ -112,6 +112,9 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+import {CreateUserAccountService} from "./create-user-account.service";
+import {UserAccountListService} from "./user-account-list.service";
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 
 
@@ -162,6 +165,7 @@ import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 		ConfirmDeleteDialogBoxComponent,
 		ProfileSettingsComponent,
 		PhysioPatientListComponent,
+		ChangePasswordComponent,
 		PaypalButtonComponent,
   ],
   imports: [
@@ -215,7 +219,7 @@ import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
-  providers: [EditProfileService,ExerciseService,
+  providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,

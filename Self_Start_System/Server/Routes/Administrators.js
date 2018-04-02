@@ -6,6 +6,17 @@ var UserAccounts = require('../Models/UserAccount');
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
+
+
+router.route('/')
+    .post(function (request, response) {
+        Administrators.add(request.body).then(function(administrator){
+            response.json({administrator: administrator});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
@@ -31,15 +42,7 @@ router.use(function (req, res, next) {
         })
     }
 });
-
 router.route('/')
-    .post(function (request, response) {
-        Administrators.add(request.body).then(function(administrator){
-            response.json({administrator: administrator});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-        })
-    })
     .get(function (request, response) {
         Administrators.getAll().then(function(administrators){
             response.json({administrator: administrators});

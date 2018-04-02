@@ -69,10 +69,14 @@ export class AuthenticationService {
     return forkJoin([this.patientReturn,this.physioReturn,this.adminReturn]);
   }
 
-  // getUserAccount(){
-  //   this.options = this.createAuthenticationHeaders()
-  //   this.activeUser = this.http.get
-  // }
+  getUserAccount(){
+    this.options = this.createAuthenticationHeaders();
+    console.log("in auth service getActiveUser", this.options);
+    return this.http.get(this.domain + '/UserAccounts/activeUser/editProfile', this.options).map(res=>{
+      console.log(res.json());
+      return res.json().userAccount;
+    });
+  }
 
   getActiveProfile(){
     return this.activeProfile;

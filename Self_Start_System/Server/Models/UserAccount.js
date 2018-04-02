@@ -65,11 +65,14 @@ function update(id, updatedDocument){
                 else {
                     document.userAccountName = updatedDocument.userAccountName;
                     document.encryptedPassword = updatedDocument.encryptedPassword;
+                    console.log("newly set password before hashing to save: ", updatedDocument.encryptedPassword);
+                    document.encryptedPassword = bcrypt.hashSync(document.encryptedPassword);
                     document.administrator = updatedDocument.administrator;
                     document.physiotherapist = updatedDocument.physiotherapist;
                     document.patientProfile = updatedDocument.patientProfile;
                     document.activated = updatedDocument.activated;
                     document.hasPaid = updatedDocument.hasPaid;
+                    document.passwordReset = updatedDocument.passwordReset;
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -85,6 +88,7 @@ function update(id, updatedDocument){
 
 function getOne(id){
     return new Promise (function (resolve, reject) {
+        console.log("in Model, getOne (id) name is: ", id);
         UserAccounts.findById(id, function (error, document) {
             if (error){
                 reject(error);

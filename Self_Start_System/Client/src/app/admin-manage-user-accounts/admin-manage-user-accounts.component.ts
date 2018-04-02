@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material';
   selector: 'app-admin-manage-user-accounts',
   templateUrl: './admin-manage-user-accounts.component.html',
   styleUrls: ['./admin-manage-user-accounts.component.scss'],
-	providers: [UserAccountListService, AuthenticationService]
+	providers: []
 })
 export class AdminManageUserAccountsComponent implements OnInit {
 	router;
