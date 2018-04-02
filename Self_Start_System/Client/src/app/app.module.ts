@@ -113,7 +113,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
 
-
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -212,6 +212,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
     ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
+    MatSliderModule,
   ],
   providers: [EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],

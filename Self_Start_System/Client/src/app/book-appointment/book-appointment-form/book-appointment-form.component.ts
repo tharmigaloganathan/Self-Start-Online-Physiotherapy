@@ -4,14 +4,22 @@ import {SetFreeTimeService} from "../../set-free-time.service";
 import {ExerciseService} from "../../services/exercise.service";
 import {ManagePatientProfileService} from "../../manage-patient-profile.service";
 import {AuthenticationService} from "../../authentication.service";
+import { PatientCompleteAssessmentTestService } from "../../patient-complete-assessment-test.service";
+
+
+import { environment } from "../../../environments/environment";
+import {Response} from "@angular/http";
 
 @Component({
   selector: 'app-book-appointment-form',
   templateUrl: './book-appointment-form.component.html',
   styleUrls: ['./book-appointment-form.component.scss'],
-  providers: [AuthenticationService, ManagePatientProfileService, ExerciseService, SetFreeTimeService],
+  providers: [AuthenticationService, ManagePatientProfileService,
+    ExerciseService, SetFreeTimeService, PatientCompleteAssessmentTestService],
 })
 export class BookAppointmentFormComponent implements OnInit {
+
+  questionWithDateInput = 'What was the date of your injury?';
 
   // Temporary client variable for testing
   patientProfileId = '5a9b3d11e8fb8bbac9887cdd';
@@ -34,9 +42,18 @@ export class BookAppointmentFormComponent implements OnInit {
 
   disableForm = true;
 
+  // For Intake Form
+  form;
+  questions = [];
+  answers = [];
+  testResults = [];
+  dateCompleted = new Date();
+
   constructor(public router : Router,
               private setFreeTimeService: SetFreeTimeService,
-              private authenticationService:AuthenticationService) { }
+              private authenticationService:AuthenticationService,
+              private assessmentTestService: PatientCompleteAssessmentTestService) {
+  }
 
   ngOnInit() {
     this.authenticationService.getProfile().subscribe(res => {
@@ -50,7 +67,7 @@ export class BookAppointmentFormComponent implements OnInit {
         }
       }
       //any function following getting profile goes here
-
+      this.getForm();
     });
 
     // this.authenticationService.getProfile().subscribe(data=>{
@@ -72,7 +89,92 @@ export class BookAppointmentFormComponent implements OnInit {
     this.onStartTimeChange();
   }
 
+  // //Get the Intake test form
+  getForm() {
+    this.assessmentTestService.getForm(environment.intakeFormOID).
+    subscribe(
+      data => {
+        this.form = data;
+        console.log("This is what was returned for the form" + JSON.stringify(data));
+        this.getQuestions();
+      },
+      error => {
+        console.log("Error");
+      });
+  }
+
+  //Get the questions
+  getQuestions() {
+    for(var i = 0; i<this.form.questions.length; i++) {
+      this.assessmentTestService.getQuestion(this.form.questions[i]).
+      subscribe(
+        data => {
+          this.questions.push(data);
+          console.log("This is what was returned for the question" + JSON.stringify(data));
+        },
+        error => {
+          console.log("Error");
+        });
+    }
+  }
+
+  // Populate the test results object
+  populateTestResults() {
+    let questionAnswerToSend = [];
+    for(var i = 0; i<this.questions.length; i++) {
+      questionAnswerToSend.push({
+        question: this.questions[i].questionText,
+        answer: this.answers[i],
+        assessmentTest: null
+      });
+      // console.log("This is the data being sent: " + JSON.stringify(result));
+      // this.assessmentTestService.addTestResult(result).
+      // subscribe(
+      //   data => {
+      //     this.testResults.push(data);
+      //     console.log("Test results: " + this.testResults);
+      //     //Only update in after the last test result
+      //     console.log("Test results "+ this.testResults.length + "questions " + this.questions.length);
+      //     if(this.testResults.length  == this.questions.length) {
+      //       this.updateAssessmentTest();
+      //     }
+      //   },
+      //   error => {
+      //     console.log("Error");
+      //   });
+    }
+
+    this.setFreeTimeService.completeIntakeForm(this.patientProfileId, questionAnswerToSend)
+      .subscribe(result=>{
+        console.log(result);
+        // Book the appointment after uploading form
+        this.onClickBook();
+        // this.testViewForm();
+      }, err=>{
+        console.log(err);
+    });
+
+    console.log(questionAnswerToSend);
+  }
+
+  // testViewForm =()=>{
+  //   this.setFreeTimeService.viewIntakeForm(this.patientProfileId)
+  //     .subscribe(result=>{
+  //       console.log("result ", result);
+  //       for (let object of result.intakeFormQuestionsAndAnswers){
+  //         console.log(object);
+  //       }
+  //     }, err=>{
+  //       console.log(err);
+  //     });
+  // };
+
   ///// Event Listeners ////////
+
+  //Submit assessment test
+  submit() {
+    this.populateTestResults();
+  }
 
   // If follow-up treatment, add 1 hour. If initial assessment, add 1.5 hours
   onStartTimeChange = () => {
@@ -113,7 +215,9 @@ export class BookAppointmentFormComponent implements OnInit {
         localStorage.getItem('book-appointment-physioId'),
       ).subscribe(response=>{
         console.log(response);
-        this.onClickCancel();
+
+        // Go back to prev page
+        // this.onClickCancel();
       }, err=>{
         console.log(err);
       });

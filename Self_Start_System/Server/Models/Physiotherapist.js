@@ -523,8 +523,7 @@ function splitTimeSlotDueToAppointmentNoSave(
     console.log("event After combineOverLappingDates", document);
 
   } else {
-    error = "Timeslot not found.";
-    reject(error);
+    console.log("ERROR: Timeslot not found.");
   }
 }
 

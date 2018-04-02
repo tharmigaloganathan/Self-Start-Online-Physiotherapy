@@ -67,15 +67,73 @@
 
       <div class="row no-margin">
         <button class="cancel-button" mat-raised-button (click)="onClickCancel()">Cancel</button>
-        <button class="save-button book-button" mat-raised-button [disabled]="hasError" (click)="onClickBook()">Book</button>
+        <button class="save-button book-button" mat-raised-button [disabled]="hasError || assessmentTypeValue == 2" (click)="onClickBook()">Book</button>
         <button class="save-button" mat-raised-button (click)="onClickOpenForms()"> {{disableForm ? 'Open Form' : 'Close Form' }}</button>
       </div>
 
     </form>
   </mat-card>
 
-  <!--RESERVED SPACE FOR NICK'S FORM-->
   <mat-card class="good-width appointment-form" *ngIf="!disableForm">
-    <p>Nick's Form</p>
+    <p>Form</p>
+  </mat-card>
+
+    <!--RESERVED SPACE FOR NICK'S FORM-->
+  <mat-card class="good-width appointment-form" *ngIf="assessmentTypeValue == 2">
+    <h2>Intake Form</h2>
+    <!-- Form -->
+    <div class="row">
+      <div class="col-12">
+        <form (ngSubmit)="submit()" #assessmentTestForm="ngForm">
+          <mat-list>
+            <mat-divider></mat-divider>
+            <div *ngFor="let question of questions; let i = index" [attr.data-index]="i">
+              <!--Question-->
+              <p>Question  {{ i+1 }} :	{{ question.questionText }}</p>
+
+              <!-- Dislay the corresponding answer input field -->
+              <div *ngIf="question.questionType == 'Short Answer'" class="form-container">
+
+                <mat-form-field>
+                  <div *ngIf="question.questionText != questionWithDateInput">
+                    <input  matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" required>
+                  </div>
+                  <div *ngIf="question.questionText == questionWithDateInput">
+                    <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="answers[i]" name="answers[i]" required>
+                    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #myDatepicker></mat-datepicker>
+                  </div>
+                </mat-form-field>
+              </div>
+              <div *ngIf="question.questionType == 'Multiple Choice'" class="form-container">
+                <mat-form-field>
+                  <mat-select [(ngModel)]="answers[i]" name="answers[i]" required>
+                    <mat-option *ngFor="let choice of question.answerChoices; let n = index" [attr.data-index]="i" [value]="question.answerChoices[n]">
+                      {{ question.answerChoices[n] }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="question.questionType == 'Range'" class="form-container">
+                <mat-form-field>
+                  <div class="row">
+                    <mat-slider thumbLabel tickInterval="1" [attr.data-index]="i" min="1" max="10" step="1" [(ngModel)]="answers[i]" name="answers[i]Slider" required></mat-slider>
+                    <p>{{ answers[i] }}</p>
+                  </div>
+                  <div style="display:none;">
+                    <input matInput name="answers[i]">
+                  </div>
+                </mat-form-field>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+          </mat-list>
+          <!-- Submit Button -->
+          <div class="button-container">
+            <button mat-raised-button class="next-button" type="submit" [disabled]="!assessmentTestForm.form.valid">Submit and Book</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </mat-card>
 </div>
