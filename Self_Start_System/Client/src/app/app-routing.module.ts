@@ -44,9 +44,91 @@ import {AuthGuard} from "./guards/auth.guard";
 import {NotAuthGuard} from "./guards/not-auth.guard";
 import {AdminGuard} from "./guards/admin.guard";
 import {PatientGuard} from "./guards/patient.guard";
-import {PhysioGuard} from "./guards/physio.guard";// Our Array of Angular 2 Routes
-
+import {PhysioGuard} from "./guards/physio.guard";
+import {ProfileSettingsComponent} from "./profile-settings/profile-settings.component";
+// Our Array of Angular 2 Routes
 const appRoutes: Routes = [
+
+  {
+    path: 'home',
+    component: HomePageComponent, // what a general user sees
+    canActivate:[NotAuthGuard]
+  },
+
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [NotAuthGuard]
+  },
+
+  {
+    path: 'register',
+    component: CreateNewAccountComponent,
+    canActivate: [NotAuthGuard]
+  },
+
+  {
+    path: 'new-account',
+    component: CreateNewAccountComponent,
+    canActivate: [NotAuthGuard]
+  },
+
+  {
+    path: 'image-test',
+    component: ImageUploadTestComponent
+  },
+
+  {
+    path: 'create-account',
+    component: CreateUserAccountComponent
+  },
+
+  {
+    path: 'settings',
+    component: ProfileSettingsComponent,
+    canActivate: [AuthGuard]
+  },
+
+  //end of routes that don't need login
+  {
+    path: 'admin/home',
+    component: DashboardAdminComponent, // Home page for a logged in admin
+    canActivate: [AdminGuard]
+  },
+  {
+	  path: 'admin/user-accounts',
+	  component: UserAccountListComponent,
+    canActivate: [AdminGuard]// The Admin/IntroductionForm Route
+  },
+	{
+		path: 'admin/user-accounts/manage',
+		component: AdminManageUserAccountsComponent,// The Admin/UserAccountsList Route
+    canActivate: [AdminGuard]
+
+  },
+
+  {
+    path: 'admin/forms',
+    component: FormsComponent, // The Form Route
+    canActivate: [AdminGuard]
+
+  },
+  {
+    path: 'admin/edit-form',
+    component: ManageFormComponent,
+    canActivate: [AdminGuard] //The Edit/Manage Form Route
+  },
+  {
+    path: 'admin/create-form',
+    component: CreateFormComponent, //The Create Form Route
+    canActivate: [AdminGuard]
+
+  },
+  {
+    path: 'admin',
+    redirectTo: '/admin/home',
+
+  }, //the last admin route
 
   //end of all admin routes
 
@@ -56,6 +138,7 @@ const appRoutes: Routes = [
     canActivate: [PatientGuard]
 
   },
+
   {
     path: 'patient/messages',
     component: PatientMessagesComponent,
@@ -166,140 +249,12 @@ const appRoutes: Routes = [
 
 },
     {
-        path: 'home',
-        component: HomePageComponent // what a general user sees
-    },
-
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-
-    {
-        path: 'register',
-        component: CreateNewAccountComponent
-    },
-    {
-        path: 'admin/home',
-        component: DashboardAdminComponent // Home page for a logged in admin
-    },
-    {
-        path: 'admin/user-accounts',
-        component: UserAccountListComponent // The Admin/IntroductionForm Route
-    },
-    {
-        path: 'admin/user-accounts/manage',
-        component: AdminManageUserAccountsComponent// The Admin/UserAccountsList Route
-    },
-    {
-        path: 'admin/forms',
-        component: FormsComponent // The Form Route
-    },
-    {
-        path: 'admin/edit-form',
-        component: ManageFormComponent //The Edit/Manage Form Route
-    },
-    {
-        path: 'admin/create-form',
-        component: CreateFormComponent //The Create Form Route
-    },
-    {
-        path: 'admin',
-        redirectTo: '/admin/home'
-    }, //the last admin route
-    {
-        path: 'patient/home',
-        component: DashboardPatientComponent
-    },
-    {
-        path: 'patient/book-appointment',
-        component: BookAppointmentComponent
-    },
-    {
-        path: 'patient/assessment-test',
-        component: PatientCompleteAssessmentTestComponent
-    },
-    {
-        path: 'patient/rehabilitation-plans',
-        component: PatientRehabilitationPlansComponent
-    },
-    {
-        path: 'patient/book-appointment/form',
-        component: BookAppointmentFormComponent
-    },
-    {
-        path: 'patient',
-        redirectTo: '/patient/home'
-    }, //the last patient route
-    {
-        path: 'new-account',
-        component: CreateNewAccountComponent
-    },
-    {
-        path: 'physio/home',
-        component: DashboardPhysioComponent, // Home page  for a logged in physiotherapist Route
-    },
-    {
-        path: 'admin/user-accounts',
-        component: UserAccountListComponent // The Admin/UserAccountsList Route
-    },
-    {
-        path: 'physio/patients/:name',
-        component: ManagePatientProfileComponent
-    },
-    {
         path: 'physio/messages',
         component: PhysiotherapistMessagesComponent
     },
     {
-        path: 'physio/patients',
-        component: ManagePatientProfileComponent
-    },
-
-    {
-        path : 'physio/exercises',
-        component: ExerciseComponent // The Exercise route
-    },
-    {
-
-        path: 'physio/rehabilitation-plans',
-        component: RehabilitationPlanComponent //
-    },
-    {
-        path: 'physio/rehabilitation-plans/new',
-        component: NewRehabilitationPlanComponent //
-    },
-    {
-        path: 'physio/rehabilitation-plans/edit-custom',
-        component: EditCustomRehabilitationPlanComponent //
-    },
-    {
         path: 'physio/rehabilitation-plans/:name',
         component: EditRehabilitationPlanComponent //
-    },
-    {
-        path: 'physio/set-free-time',
-        component: SetFreeTimeComponent //
-    },
-    {
-        path: 'physio/set-free-time/create-new-free-time',
-        component: CreateNewEventComponent //
-    },
-    {
-        path: 'create-account',
-        component: CreateUserAccountComponent
-    },
-    {
-        path: 'image-test',
-        component: ImageUploadTestComponent
-    },
-    {
-        path: 'physio/patient-plan-list',
-        component: PatientPlanListComponent //
-    },
-    {
-        path: 'physio/patient-plan-list/:id', // This ID field will be an auto-incremented ID
-        component: EditPatientPlanListComponent
     },
     {
         path: 'physio',

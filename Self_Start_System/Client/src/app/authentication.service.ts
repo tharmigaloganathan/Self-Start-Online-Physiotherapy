@@ -10,7 +10,9 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
 import {forkJoin} from "rxjs/observable/forkJoin";
-
+import * as jwt_decode from 'jwt-decode';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class AuthenticationService {
@@ -21,10 +23,18 @@ export class AuthenticationService {
   physioReturn;
   adminReturn;
   activeUser;
+  activeProfile;
+  activeProfileType;
+
+  profileOb$: Observable<any>;
+  private profileSubject: Subject<any>;
 
   constructor(
     private http: Http,
-  ) { }
+  ) {
+    this.profileSubject = new Subject<any>();
+    this.profileOb$ = this.profileSubject.asObservable();
+  }
 
   login(user) {
     console.log("inside auth service, service received: ", user);
@@ -37,6 +47,8 @@ export class AuthenticationService {
   logout(){
     this.authToken = null;
     localStorage.clear();
+    this.activeProfile = null;
+    this.activeProfileType = null;
     console.log("End of logout() in AuthService. Successfully logged out!");
   }
 
@@ -57,11 +69,32 @@ export class AuthenticationService {
     return forkJoin([this.patientReturn,this.physioReturn,this.adminReturn]);
   }
 
-  getActiveUser(){
-    return this.activeUser;
+  getUserAccount(){
+    this.options = this.createAuthenticationHeaders();
+    console.log("in auth service getActiveUser", this.options);
+    return this.http.get(this.domain + '/UserAccounts/activeUser/editProfile', this.options).map(res=>{
+      console.log(res.json());
+      return res.json().userAccount;
+    });
   }
-  setActiveUser(user){
-    this.activeUser = user;
+
+  getActiveProfile(){
+    return this.activeProfile;
+  }
+
+  setActiveProfile(profile){
+    this.activeProfile = profile;
+    console.log("auth service set activeProfile is: ", this.activeProfile);
+    this.profileSubject.next(profile);
+  }
+
+  getActiveProfileType(){
+    return this.activeProfileType;
+  }
+
+  setActiveProfileType(profileType){
+    this.activeProfileType = profileType;
+    console.log("auth service activeProfileType is: ", this.activeProfileType);
   }
 
   createAuthenticationHeaders() {
@@ -81,6 +114,16 @@ export class AuthenticationService {
     console.log("here is the retrieved token from localstorage: ", this.authToken);
   }
 
+  checkRole(){
+    this.loadToken();
+    if(!this.authToken){
+      return null;
+    }
+    const tokenPayload = jwt_decode(this.authToken);
+    console.log("in auth service check role, token payload is: ", tokenPayload);
+    this.setActiveProfileType((tokenPayload as any).profileType);
+    return (tokenPayload as any).profileType;
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

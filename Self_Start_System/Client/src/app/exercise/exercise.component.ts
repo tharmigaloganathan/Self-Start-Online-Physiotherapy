@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import { ExerciseService} from "../services/exercise.service";
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
+import {ImageUploadTestComponent} from "../image-upload-test/image-upload-test.component";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { environment } from './../../environments/environment';
 import { MatTableDataSource, MatSort } from '@angular/material';
-
 
 
 @Component({
@@ -45,8 +47,11 @@ export class ExerciseComponent implements OnInit {
   displayedColumns = ['name', 'authorName', 'description'];
 
 
-  constructor(private exerciseService :ExerciseService) {
+  constructor(private exerciseService :ExerciseService,
+              public toastr : ToastsManager,
+              vcr: ViewContainerRef) {
     this.openEditModal=false;
+    this.toastr.setRootViewContainerRef(vcr);
   }
 
   assignCopy(){
@@ -161,6 +166,14 @@ export class ExerciseComponent implements OnInit {
         res=> {console.log("response received: ", res), this.getAllExercises()},
         error => {console.log(error)}
       );
+    }
+  }
+
+  onImageUpload(event){
+    console.log(event.file);
+    this.URLValue = environment.apiURLForUploadingPictures + event.file;
+    if(this.currentExercise){
+      this.currentExercise.multimediaURL = this.URLValue;
     }
   }
 }

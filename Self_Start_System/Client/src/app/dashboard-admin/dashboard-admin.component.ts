@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AuthenticationService} from "../authentication.service";
 import { FormService} from "../form.service";
 import { UserAccountListService } from '../user-account-list.service';
@@ -11,13 +11,16 @@ import { Router} from "@angular/router";
     styleUrls: ['./dashboard-admin.component.scss'],
     providers:[AuthenticationService,FormService, UserAccountListService]
 })
-export class DashboardAdminComponent implements OnInit {
+
+export class DashboardAdminComponent implements OnInit,OnDestroy {
     forms: any[];
     filteredforms: any[];
     users: any[];
     filteredusers: any[];
     user;
     successCounter = 0;
+    profileSubscription;
+
     constructor(
         private authService: AuthenticationService,
         private formService: FormService,
@@ -26,31 +29,11 @@ export class DashboardAdminComponent implements OnInit {
     { this.authService = authService; }
 
     ngOnInit() {
-        // this.authService.getProfile().subscribe(profile => {
-        //     console.log(profile);
-        //     this.user = profile.administrator;
-        //
-        // });
-        this.authService.getProfile().subscribe(res => {
-          console.log("in login component: here's what getProfile returned: ", res);
-          for (let result of res){
-            console.log((result as any).success);
-            if ((result as any).administrator){
-              this.successCounter++; //a profile was returned
-              this.user = (result as any).administrator;
-              console.log(this.user);
-              this.getAllForms();
-              this.getAllPatientAccounts();
-              break;
-            }
-          }
-          if (this.successCounter==0){
-            this.authService.logout();
-            this.router.navigate(['home']);
-          }
-          //functions after user is set goes here
-
-        })
+      this.profileSubscription= this.authService.profileOb$.subscribe((profile) => {
+        this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
+        this.getAllForms();
+        this.getAllPatientAccounts();
+      });
     }
 
 
@@ -106,4 +89,9 @@ export class DashboardAdminComponent implements OnInit {
         localStorage.setItem("edit_form_id", id);
     }
 
+  ngOnDestroy() {
+    // prevent memory leak when component is destroyed
+    this.profileSubscription.unsubscribe();
+    console.log("subscription terminated");
+  }
 }

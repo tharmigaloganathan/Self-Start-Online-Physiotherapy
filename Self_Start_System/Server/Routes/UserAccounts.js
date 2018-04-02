@@ -31,15 +31,19 @@ router.route('/login')
 
                 //get the profile associated with this account
                 var profileID;
+                var profileType;
                 if (userAccount.patientProfile){
                     profileID = userAccount.patientProfile;
+                    profileType = "patient"
                 } else if (userAccount.physiotherapist){
                     profileID = userAccount.physiotherapist;
+                    profileType = "physiotherapist"
                 } else if (userAccount.administrator) {
                     profileID = userAccount.administrator;
+                    profileType= "administrator";
                 }
 
-                const token = jwt.sign({_id: userAccount._id, profileID: profileID}, config.secret, {expiresIn: '24h'});
+                const token = jwt.sign({_id: userAccount._id, profileID: profileID,  profileType: profileType}, config.secret, {expiresIn: '24h'});
                 console.log("token made: ", token);
 
                 response.json({success: true, message: "Account authenticated!", token: token, userAccount: userAccount});
@@ -55,23 +59,7 @@ router.route('/login')
 
 
     });
-router.route('/:username')
-    .get(function (request, response) {
-        console.log("within UserAccount route, getting account with username: ", request.params.username);
 
-        UserAccounts.getByName(request.params.username).then(function(userAccount){
-            console.log("object retreived from getbyName: ", userAccount);
-            if (userAccount) {
-                response.json({success: true, userAccount: userAccount});
-            } else {
-                response.json({success: false, message: "Account was not found "});
-            }
-        }).catch(function(err){
-            console.log(err);
-            response.json({success: false, message: err});
-        }
-        )
-    });
 
 router.route('/')
     .post(function (request,response) {
@@ -204,6 +192,23 @@ router.route('/')
     });
 
 
+router.route('/:username')
+    .get(function (request, response) {
+        console.log("within UserAccount route, getting account with username: ", request.params.username);
+
+        UserAccounts.getByName(request.params.username).then(function(userAccount){
+            console.log("object retreived from getbyName: ", userAccount);
+            if (userAccount) {
+                response.json({success: true, userAccount: userAccount});
+            } else {
+                response.json({success: false, message: "Account was not found "});
+            }
+        }).catch(function(err){
+                console.log(err);
+                response.json({success: false, message: err});
+            }
+        )
+    });
 
 router.route('/id/:object_id')
     .get(function (request, response) {
@@ -256,19 +261,55 @@ router.route('/id/:object_id')
         })
     });
 
-router.route('/getProfile', function(req, res) {
-    UserAccounts.getOne({_id: req.decoded._id}).exec(function(err, user) {
-        if (err) {
-            res.json({success: false, message: err});
-        } else if (!user) {
-            res.json({success: false, message: "User not found"});
-        } else {
-            console.log('at end of UserAccounts getProfile route');
-            res.json({success: true, userAccount: userAccount});
+
+
+
+//middleware for every route below this one
+router.use(function (req, res, next) {
+    console.log('in authentication middleware');
+    console.log(req.headers['authorization']);
+    const token = req.headers.authorization;
+
+    console.log('token: ', token);
+
+    if (!token) {
+        res.json({success: false, message: 'No token provided'}); // Return error
+    } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, function (err, decoded) {
+            console.log(decoded);
+            if (err) {
+                res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
+            } else {
+                req.decoded = decoded; // Create global variable to use in any request beyond
+                console.log('authentication middleware complete!');
+                next(); // Exit middleware
+            }
+
+        })
+    }
+});
+
+router.route('/activeUser/editProfile')
+    .get (function(req, res) {
+        console.log("in user accounts getActiveUser route, looking for id: ", req.decoded._id);
+        if (!req.decoded._id) {
+            res.json({success: false, message: 'user account ID was not provided'});
         }
-    })
+        UserAccounts.getOne(req.decoded._id).then(function(user) {
+            if (!user) {
+                res.json({success: false, message: "User not found"});
+            } else {
+                console.log('at end of UserAccounts getUser route');
+                res.json({success: true, userAccount: user});
+            }
+        }).catch(function(err) {
+            console.log(err);
+            response.json({success: false, message: err});
+        })
+
+    });
 
 
-})
 
 module.exports = router;

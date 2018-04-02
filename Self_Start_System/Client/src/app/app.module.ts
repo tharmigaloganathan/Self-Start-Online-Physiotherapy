@@ -68,6 +68,8 @@ import { DndModule } from 'ng2-dnd';
 import { FormsComponent } from './forms/forms.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 
+import {EditProfileService} from "./edit-profile.service";
+
 // Image uploading
 import { FileSelectDirective } from 'ng2-file-upload';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
@@ -108,7 +110,12 @@ import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/con
 import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+import {CreateUserAccountService} from "./create-user-account.service";
+import {UserAccountListService} from "./user-account-list.service";
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
 
 
@@ -157,9 +164,12 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
-		PhysiotherapistMessagesComponent,
+        PhysiotherapistMessagesComponent,
+        AddNewExerciseDialogComponent,
+        ProfileSettingsComponent,
 		PhysioPatientListComponent,
-		AddNewExerciseDialogComponent,
+		ChangePasswordComponent,
+		PaypalButtonComponent,
   ],
   imports: [
     HttpModule,
@@ -212,14 +222,19 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
-  providers: [ExerciseService,
+  providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
     EditExerciseDialogComponent,
     EditRecommendationDialogComponent,
-    ConfirmDeleteDialogBoxComponent
+    ConfirmDeleteDialogBoxComponent,
+    PaypalButtonComponent,
+    NavbarPhysioComponent,
+    NavbarAdminComponent,
+    NavbarPatientComponent,
+    NavbarGeneralComponent,
   ]
 })
 export class AppModule { }
