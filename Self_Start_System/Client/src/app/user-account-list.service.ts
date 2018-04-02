@@ -16,6 +16,20 @@ export class UserAccountListService {
     this.authenticationService = authenticationService;
   }
 
+  checkForgotPasswordEmail(id, role){
+    if (role == "patient"){
+      return this.http.get(this.domain+'/PatientProfile/getEmail/'+id)
+        .map((response: Response) => {
+          return response.json().email;
+        });
+    } else if (role == "physiotherapist") {
+      return this.http.get(this.domain+'/Physiotherapist/getEmail/'+id)
+        .map((response: Response) => {
+          return response.json().email;
+        });
+    }
+
+  }
 
 	//Get a single users account
 	getUserAccount(id) {

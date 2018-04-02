@@ -22,6 +22,18 @@ router.route('/')
             console.log("error from backend: ", err);
         })
     })
+router.route('/getEmail/:patientProfile_id')
+    .get (function (req, res) {
+        if (!req.params.patientProfile_id) {
+            res.json({success: false, message: 'patient profile ID was not provided'});
+        }
+        PatientProfiles.getOne(req.params.patientProfile_id).then(function(patientProfile){
+            console.log("retreived profile: ", patientProfile);
+            res.json({success: true, email: patientProfile.email});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        });
+    })
 
 //middleware for every route below
 router.use(function (req, res, next) {

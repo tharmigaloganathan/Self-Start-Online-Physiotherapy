@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
 
         var storedEmail;
         if (result.userAccount.patientProfile){
-          this.userAccListServices.getPatientProfile(result.userAccount.patientProfile).subscribe(res => {
+          this.userAccListServices.checkForgotPasswordEmail(result.userAccount.patientProfile, "patient").subscribe(res => {
             console.log(res);
             storedEmail = res.email;
           })
