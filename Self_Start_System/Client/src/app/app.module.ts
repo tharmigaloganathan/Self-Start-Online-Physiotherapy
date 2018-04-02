@@ -115,6 +115,7 @@ import { PhysioPatientListComponent } from './physio-patient-list/physio-patient
 import {CreateUserAccountService} from "./create-user-account.service";
 import {UserAccountListService} from "./user-account-list.service";
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 
 
 
@@ -165,6 +166,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 		ProfileSettingsComponent,
 		PhysioPatientListComponent,
 		ChangePasswordComponent,
+		PaypalButtonComponent,
   ],
   imports: [
     HttpModule,
@@ -225,6 +227,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     EditExerciseDialogComponent,
     EditRecommendationDialogComponent,
     ConfirmDeleteDialogBoxComponent,
+    PaypalButtonComponent,
     NavbarPhysioComponent,
     NavbarAdminComponent,
     NavbarPatientComponent,

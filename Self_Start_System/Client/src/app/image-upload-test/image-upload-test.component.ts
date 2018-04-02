@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, ViewContainerRef} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 //import the file uploader plugin
 import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../environments/environment';
+import {ToastsManager} from "ng2-toastr";
 //define the constant url we would be uploading to.
 const URL = environment.apiURL + '/Photos';
 //create the component properties
@@ -20,8 +21,13 @@ export class ImageUploadTestComponent implements OnInit {
   //This is the default title property created by the angular cli. Its responsible for the app works
   title = 'app works!';
 
-  constructor(public snackbar : MatSnackBar){
+  @Output() uploadedURL: EventEmitter<any>;
 
+  constructor(public snackbar : MatSnackBar,
+              public toastr : ToastsManager,
+              public vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+    this.uploadedURL = new EventEmitter<any>();
   }
 
   ngOnInit() {
@@ -30,11 +36,17 @@ export class ImageUploadTestComponent implements OnInit {
     //overide the onCompleteItem property of the uploader so we are
     //able to deal with the server response.
     this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-      // Open snack bar to comfirm file has been uploaded
-      this.snackbar.open("Upload completed!", "", {
-        duration: 2000,
-      });
-      console.log("ImageUpload:uploaded:", item, status, response);
+      let responseObj = JSON.parse(response);
+      if (responseObj.success){
+        // Open toast to show success
+        this.toastr.success("Upload completed!","Success!");
+      } else {
+        // Open toast to show failure
+        this.toastr.error('Image upload failed', 'Failed!');
+      }
+      console.log("ImageUpload:uploaded:", item, status, responseObj);
+      console.log("ImageUpload:uploaded: response", response, responseObj.file);
+      this.uploadedURL.emit(responseObj);
     };
   }
 }
