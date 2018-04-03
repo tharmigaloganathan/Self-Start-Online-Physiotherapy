@@ -12,6 +12,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 })
 export class PhysioPatientListComponent implements OnInit {
 
+	isDataLoaded;
 	userAccountListService;
 	router;
 	patients = [];
@@ -27,6 +28,8 @@ export class PhysioPatientListComponent implements OnInit {
 	constructor(userAccountListService: UserAccountListService, router: Router) {
 		this.userAccountListService = userAccountListService;
 		this.router = router;
+		this.isDataLoaded = false;
+		this.loading = true;
 	}
 
   ngOnInit() {
@@ -48,6 +51,8 @@ export class PhysioPatientListComponent implements OnInit {
 				this.patients = user;
 				console.log("This is what was returned" + JSON.stringify(user));
 				this.setUpDataSource(user);
+				this.isDataLoaded = true;
+				this.loading = false;
 			},
 			error => {
 				console.log("Error");

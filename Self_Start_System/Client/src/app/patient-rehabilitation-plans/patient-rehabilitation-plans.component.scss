@@ -2,11 +2,11 @@
 
 .top {
 	margin-top: 2.5%;
+	margin-bottom: 2.5%;
 }
 
 .plan-list {
-	margin-top: 12%;
-	border-right: solid, grey, 5px;
+	margin-top: 1.5%;
 }
 
 .header {
@@ -54,4 +54,11 @@
 	float: right;
 	background-color: $flash-of-orange;
 	color: $white;
+}
+
+.mat-list-item {
+	margin: 0%;
+	padding: 0%;
+	width: 100%;
+	display: flex;
 }
