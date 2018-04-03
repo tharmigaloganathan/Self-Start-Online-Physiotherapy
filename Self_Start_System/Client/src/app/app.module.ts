@@ -119,6 +119,8 @@ import {UserAccountListService} from "./user-account-list.service";
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
 import { VisualizeTreatmentDialogComponent } from './visualize-treatment-dialog/visualize-treatment-dialog.component';
+import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
+import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
 
 
@@ -174,7 +176,8 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
 		ChangePasswordComponent,
 		PaypalButtonComponent,
 		VisualizeTreatmentDialogComponent,
-    HighchartsChartComponent
+    HighchartsChartComponent,
+		AdminLocationsComponent
   ],
   imports: [
     HttpModule,
@@ -229,7 +232,7 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
     MatAutocompleteModule,
   ],
   providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,

@@ -214,6 +214,31 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         }
       }
     );
+
+    //Save all the complete AssessmentTests on the save button
+    for(var i = 0; i < this.completeAssessmentTests.length; i++){
+      this.assessmentTestService.editAssessmentTest(this.completeAssessmentTests[i]).subscribe(
+        res => {
+          console.log(res);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+
+    //Save all the changes to the incomplete AssessmentTests too
+    for (var i = 0; i < this.incompleteAssessmentTests.length; i++){
+      this.assessmentTestService.editAssessmentTest(this.incompleteAssessmentTests[i]).subscribe(
+        res => {
+          console.log(res);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+
     let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
     this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
   }
@@ -382,13 +407,20 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     });
 
     this.editAssessmentTestDialogRef.afterClosed().subscribe(result => {
-      console.log("AssessmentTest: ", result);
-      if (newTestFlag) {
-        this.addAssessmentTest(result);
-      } else {
-        this.editAssessmentTest(result);
-        console.log("REHABILITATION PLAN:", this.rehabilitationplan);
-      }
+
+      this.formService.getForm(result.form._id).subscribe(
+        data => {
+          var customForm = data.form;
+          delete customForm._id;
+          if (newTestFlag) {
+            this.addAssessmentTest(result);
+          } else {
+            this.editAssessmentTest(result);
+            console.log("REHABILITATION PLAN:", this.rehabilitationplan);
+          }
+        },
+        error => console.log(error)
+      );
     });
   }
 

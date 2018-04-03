@@ -16,6 +16,20 @@ export class UserAccountListService {
     this.authenticationService = authenticationService;
   }
 
+  checkForgotPasswordEmail(id, role){
+    if (role == "patient"){
+      return this.http.get(this.domain+'/PatientProfile/getEmail/'+id)
+        .map((response: Response) => {
+          return response.json().email;
+        });
+    } else if (role == "physiotherapist") {
+      return this.http.get(this.domain+'/Physiotherapist/getEmail/'+id)
+        .map((response: Response) => {
+          return response.json().email;
+        });
+    }
+
+  }
 
 	//Get a single users account
 	getUserAccount(id) {
@@ -29,12 +43,20 @@ export class UserAccountListService {
 
 	//Update user account
 	updateUserAccount(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/UserAccounts/id/'+id, user, this.options)
+    console.log("in service - updateUserAccount: ", user);
+		return this.http.put(this.domain+'/UserAccounts/id/'+id, user)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
 	}
+
+	updateUserPassword(id,user){
+    console.log("in service - updateUserPassword: ", user);
+    return this.http.put(this.domain+'/UserAccounts/updatePassword/'+id, user)
+      .map((response: Response) => {
+        return response.json().userAccount;
+      });
+  }
 
 	//Get all patients
 	getAllPatients() {

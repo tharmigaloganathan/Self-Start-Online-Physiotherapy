@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as Highcharts from 'highcharts';
 
 @Component({
@@ -18,7 +19,8 @@ export class VisualizeTreatmentDialogComponent implements OnInit {
   //chartCallback = function (chart) { ... } // optional function, defaults to null
   updateFlag = false; // optional boolean
 
-  constructor() { }
+  constructor(private dialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) private data) {}
 
   ngOnInit() {
   }

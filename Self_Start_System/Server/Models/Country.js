@@ -21,7 +21,8 @@ module.exports = {
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
         Countries.findById(id, function (error, country) {
-            if (error){
+            if (error || !country){
+                console.log('test');
                 reject(error);
             }else{
                 country.remove(function (error) {
