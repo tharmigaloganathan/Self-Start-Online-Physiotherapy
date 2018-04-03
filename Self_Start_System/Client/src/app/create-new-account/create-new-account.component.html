@@ -1,11 +1,12 @@
 <app-navbar-general></app-navbar-general>
 
-<div class="container top">
+<div *ngIf = "receivedGenders && receivedCountries" class="container top">
 <div class="row">
   <div class="col">
     <!-- Page Header -->
     <mat-card>
-      <h1>Create User Account</h1>
+      <h1 class = "title" >Create User Account</h1>
+      <br/>
       <hr>
 
       <!-- Account Type -->
@@ -56,7 +57,7 @@
                 <div class="row">
                   <div class="col-6 form-group">
                     <mat-form-field>
-                      <input matInput placeholder="address" class = "form-control" formControlName="address" name="address" required>
+                      <input matInput placeholder="Address" class = "form-control" formControlName="address" name="address" required>
                       <mat-error *ngIf="personalInfoForm.controls.address.invalid && (personalInfoForm.controls.address.dirty || personalInfoForm.controls.address.touched)">{{getAddressErrorMessage(personalInfoForm.controls.address)}}</mat-error>
                     </mat-form-field>
                   </div>

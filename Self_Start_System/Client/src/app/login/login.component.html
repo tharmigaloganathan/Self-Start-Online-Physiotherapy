@@ -1,7 +1,7 @@
 <app-navbar-general></app-navbar-general>
 
 
-<div class="background" *ngIf ="!changingPassword && !forgotPassword">
+<div class="background" *ngIf ="!changingPassword && !forgotPassword && clickedLogin">
     <h1 class="title">
         Login<br /><br />
     </h1>
@@ -48,7 +48,7 @@
     </div>
 </div> -->
 
-<div *ngIf ="changingPassword">
+<div *ngIf ="changingPassword && !clickedLogin">
     <h1 class="title">
         Your password has been reset, please change your password<br /><br />
     </h1>
@@ -56,7 +56,7 @@
     <div class="container">
         <div class ="fields">
             <mat-form-field>
-                <input matInput type="password" #name placeholder="new password" [(ngModel)]="newPassword">
+                <input matInput type="password" #name placeholder="New Password" [(ngModel)]="newPassword">
             </mat-form-field>
 
             <mat-form-field>
@@ -73,7 +73,7 @@
     </h1>
 </div>
 
-<div class="background" *ngIf ="forgotPassword">
+<div class="background" *ngIf ="forgotPassword && !clickedLogin">
     <h1 class="title">
         Please enter your username and your email to reset your password<br /><br />
     </h1>

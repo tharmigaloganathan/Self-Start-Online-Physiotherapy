@@ -162,7 +162,7 @@
             </mat-tab>
             <!-- Account -->
             <mat-tab label="Account Settings">
-              <form class="form-container">
+              <form *ngIf = "accountRetrieved" class="form-container">
                 <!-- Row 1 -->
                 <div class="row">
                   <div class="col-6 form-container">
