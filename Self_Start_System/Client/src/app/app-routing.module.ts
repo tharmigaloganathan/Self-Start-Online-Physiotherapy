@@ -38,7 +38,7 @@ import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patien
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
-
+import {AdminLocationsComponent} from './admin-locations/admin-locations.component';
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 import {AuthGuard} from "./guards/auth.guard";
 import {NotAuthGuard} from "./guards/not-auth.guard";
@@ -121,6 +121,12 @@ const appRoutes: Routes = [
   {
     path: 'admin/create-form',
     component: CreateFormComponent, //The Create Form Route
+    canActivate: [AdminGuard]
+
+  },
+  {
+    path: 'admin/locations',
+    component: AdminLocationsComponent, //The AdminLocationsComponent Route
     canActivate: [AdminGuard]
 
   },
