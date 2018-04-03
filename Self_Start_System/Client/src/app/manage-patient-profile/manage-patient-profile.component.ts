@@ -4,12 +4,16 @@ import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
+import {VisualizeTreatmentDialogComponent} from "../visualize-treatment-dialog/visualize-treatment-dialog.component";
+import { MatDialog, MatDialogRef } from "@angular/material";
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-manage-patient-profile',
   templateUrl: './manage-patient-profile.component.html',
   styleUrls: ['./manage-patient-profile.component.scss'],
-  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService ]
+  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class ManagePatientProfileComponent implements OnInit {
 
@@ -41,12 +45,15 @@ export class ManagePatientProfileComponent implements OnInit {
 	rehabPlanHistory;
 	selectedRow;
 
+  visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
+
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
 							authenticationService: AuthenticationService,
 							managePatientProfileService: ManagePatientProfileService,
 							public toastr: ToastsManager,
-             	vcr: ViewContainerRef) {
+             	vcr: ViewContainerRef,
+              private dialog: MatDialog) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
@@ -282,5 +289,21 @@ export class ManagePatientProfileComponent implements OnInit {
 			setActiveAssessmentTest(index) {
 
 			}
+
+			openVisualizeTreatmentDialogBox(){
+        this.visualizeTreatmentDialogRef = this.dialog.open(VisualizeTreatmentDialogComponent, {
+          height: '250px',
+          width: '250px',
+          data: {
+
+          }
+        });
+
+        this.visualizeTreatmentDialogRef.afterClosed().subscribe(result => {
+              console.log(result);
+            },
+            error => console.log(error)
+          );
+      }
 
 }

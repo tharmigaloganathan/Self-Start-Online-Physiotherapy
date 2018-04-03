@@ -4,11 +4,12 @@ var assessmentTestsSchema = mongoose.Schema(
         name: String,
         description: String,
         authorName: String,
-        recommendations: [{type: mongoose.Schema.ObjectId, ref: ('Recommendation')}],
         form: {type: mongoose.Schema.ObjectId, ref: 'Form'},
         testResults: [{type: mongoose.Schema.ObjectId, ref: ('TestResult')}],
         openDate: Date,
-        dateCompleted: Date
+        dateCompleted: Date,
+        recommendationDecision: String,
+        recommendationEvaluation: Number
     }
 );
 
@@ -61,11 +62,12 @@ function update(id, updatedAssessmentTest){
                     assessmentTest.name = updatedAssessmentTest.name;
                     assessmentTest.description = updatedAssessmentTest.description;
                     assessmentTest.authorName = updatedAssessmentTest.authorName;
-                    assessmentTest.recommendations = updatedAssessmentTest.recommendations;
                     assessmentTest.form = updatedAssessmentTest.form;
                     assessmentTest.testResults = updatedAssessmentTest.testResults;
                     assessmentTest.openDate = updatedAssessmentTest.openDate;
                     assessmentTest.dateCompleted = updatedAssessmentTest.dateCompleted;
+                    assessmentTest.recommendationDecision = updatedAssessmentTest.recommendationDecision;
+                    assessmentTest.recommendationEvaluation = updatedAssessmentTest.recommendationEvaluation;
                     assessmentTest.save(function (error) {
                         if (error) {
                             reject(error);
