@@ -5,6 +5,9 @@ import {CreateUserAccountService} from "../create-user-account.service";
 import {UserAccountListService} from "../user-account-list.service";
 import {MatSnackBar} from "@angular/material";
 import {Router} from "@angular/router";
+declare var require: any;
+const bcrypt = require('bcrypt-nodejs'); // A native JS bcrypt library for NodeJS
+
 
 import {NavbarPhysioComponent} from "../navbar-physio/navbar-physio.component";
 import {NavbarPatientComponent} from "../navbar-patient/navbar-patient.component";
@@ -36,8 +39,10 @@ export class ProfileSettingsComponent implements OnInit {
   countries;
   appointments;
 
+
   isPatient;
   isPhysio;
+  accountRetrieved = false;
   constructor(private editProfileService: EditProfileService,
               authService: AuthenticationService,
               createUserAccountService: CreateUserAccountService,
@@ -73,6 +78,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.authService.getUserAccount().subscribe(account =>{
         console.log("from subscription to auth service getUserAccount ",account);
         this.account = account;
+        this.accountRetrieved = true;
       });
     }
 
@@ -158,6 +164,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   resetPassword(){
     const account = {
+      _id: this.account._id,
       userAccountName: this.account.userAccountName,
       encryptedPassword: "password",
       administrator: this.account.administrator,
@@ -167,8 +174,8 @@ export class ProfileSettingsComponent implements OnInit {
       hasPaid: this.account.hasPaid,
       passwordReset: true,
     };
-
-    this.userAccountListService.updateUserAccount(this.account._id, account).subscribe( account => {
+    console.log("in component-updateUserAccount: ", account);
+    this.userAccountListService.updateUserPassword(this.account._id, account).subscribe( account => {
       this.snackBar.open("Password has been reset to 'password'! Please log in again to change your password!", "", {
         duration: 3000
       });

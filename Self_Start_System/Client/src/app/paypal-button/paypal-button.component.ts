@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+declare let paypal: any;
 
 @Component({
   selector: 'app-paypal-button',
@@ -14,7 +15,10 @@ export class PaypalButtonComponent implements OnInit {
 
 
   ngOnInit() {
+<<<<<<< HEAD
 		/*
+=======
+>>>>>>> 0d03880c43d2d1d6143cf4b93a8f117f56569b78
     paypal.Button.render({
       env: 'sandbox', // sandbox | production
       // PayPal Client IDs - replace with your own

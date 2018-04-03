@@ -15,21 +15,29 @@ router.route('/')
             response.json({success: false, message: err});
         })
     })
-
+router.route('/getEmail/:physio_id')
+    .get (function (req, res) {
+        if (!req.params.physio_id) {
+            res.json({success: false, message: 'physio ID was not provided'});
+        }
+        Physiotherapists.getOne(req.params.physio_id).then(function(physiotherapist){
+            console.log("retreived profile: ", physiotherapist);
+            res.json({success: true, email: physiotherapist.email});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        });
+    })
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
     const token = req.headers.authorization;
 
-    console.log('token: ', token);
 
     if (!token) {
         res.json({success: false, message: 'No token provided'}); // Return error
     } else {
         // Verify the token is valid
         jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
             if (err) {
                 res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
             } else {

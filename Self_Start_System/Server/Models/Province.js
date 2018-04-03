@@ -16,13 +16,14 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    getByCountry:getByCountry
 };
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
         Provinces.findById(id, function (error, document) {
-            if (error){
+            if (error || !document){
                 reject(error);
             }else{
                 document.remove(function (error) {
@@ -89,6 +90,17 @@ function getAll(){
     });
 }
 
+function getByCountry(countryID){
+    return new Promise (function (resolve, reject) {
+        Provinces.find({country: countryID}, function (error, documents) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(documents);
+            }
+        });
+    });
+}
 function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Provinces(object);
