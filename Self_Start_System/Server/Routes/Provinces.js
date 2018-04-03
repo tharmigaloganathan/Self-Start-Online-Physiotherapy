@@ -20,7 +20,6 @@ router.route('/')
 
 router.route('/country/:country_id')
     .get(function (request, response) {
-        console.log(request.params.country_id);
         if (!request.params.country_id) {
             response.json({success: false, message: 'id was not provided'});
         }

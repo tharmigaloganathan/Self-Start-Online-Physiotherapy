@@ -23,7 +23,7 @@ module.exports = {
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
         Provinces.findById(id, function (error, document) {
-            if (error){
+            if (error || !document){
                 reject(error);
             }else{
                 document.remove(function (error) {
@@ -96,7 +96,6 @@ function getByCountry(countryID){
             if (error){
                 reject(error);
             }else{
-                console.log("Provinces found: " + documents);
                 resolve(documents);
             }
         });

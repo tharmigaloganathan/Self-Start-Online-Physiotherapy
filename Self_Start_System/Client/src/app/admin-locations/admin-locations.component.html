@@ -11,24 +11,24 @@
           <fieldset>
             <div class="form-group">
               <label for="countrySelection">Select a Country:</label>
-              <select class="form-control" id="countrySelection" [(ngModel)]="selectedCountry" name="selectedCountry" placeholder="Country" (change)="getProvinces(selectedCountry)">
-                <option *ngFor="let country of allCountries" [value]="country._id">{{country.name}}</option>
+              <select class="form-control" id="countrySelection" [(ngModel)]="selectedCountry" name="selectedCountry" placeholder="Country" (change)="getProvinces(selectedCountry._id)">
+                <option *ngFor="let country of allCountries" [ngValue]="country">{{country.name}}</option>
               </select>
               <br>
               <div class="button-group">
-                <button mat-raised-button class="cancel-button" (click)="editCountry(selectedCountry)">Edit</button>
-                <button mat-raised-button class="delete-button" (click)="deleteCountry(selectedCountry)">Delete</button>
+                <button mat-raised-button class="cancel-button" (click)="editCountry()">Edit</button>
+                <button mat-raised-button class="delete-button" (click)="openCountryDialog()">Delete</button>
               </div>
               <br/>
             </div>
             <div *ngIf="editingCountry" class="form-group">
-              <label>Edit Your Selected Country:</label>
+              <label>Edit the Name for {{selectedCountry.name}}:</label>
               <br>
               <input class="form-control" placeholder="Edit Country Name" [(ngModel)]="editedCountryName" name="editedCountryName"/>
               <br/>
               <div class="button-group">
                 <button mat-raised-button class="cancel-button" (click)="cancelCountryEdit()">Cancel</button>
-                <button mat-raised-button class="save-button" (click)="changeCountry(editedCountryName)">Save Changes</button>
+                <button mat-raised-button class="save-button" (click)="changeCountry()">Save Changes</button>
               </div>
             </div>
             <div class="form-group">
@@ -51,23 +51,23 @@
           <div class="form-group">
             <label for="provinceSelection">Select a Province:</label>
             <select class="form-control" id="provinceSelection" [(ngModel)]="selectedProvince" name="selectedProvince" placeholder="Province">
-              <option *ngFor="let province of allProvinces" [value]="province._id">{{province.name}}</option>
+              <option *ngFor="let province of allProvinces" [ngValue]="province">{{province.name}}</option>
             </select>
             <br>
             <div class="button-group">
-              <button mat-raised-button class="cancel-button" (click)="editProvince(selectedProvince)">Edit</button>
-              <button mat-raised-button class="delete-button" (click)="deleteProvince(selectedProvince)">Delete</button>
+              <button mat-raised-button class="cancel-button" (click)="editProvince()">Edit</button>
+              <button mat-raised-button class="delete-button" (click)="openProvinceDialog()">Delete</button>
             </div>
             <br/>
           </div>
           <div *ngIf="editingProvince" class="form-group">
-            <label>Edit Your Selected Province:</label>
+            <label>Edit the Name for {{selectedProvince.name}}:</label>
             <br>
             <input class="form-control" placeholder="Edit Province Name" [(ngModel)]="editedProvinceName" name="editedProvinceName"/>
             <br/>
             <div class="button-group">
               <button mat-raised-button class="cancel-button" (click)="cancelProvinceEdit()">Cancel</button>
-              <button mat-raised-button class="save-button" (click)="changeProvince(editedProvinceName)">Save Changes</button>
+              <button mat-raised-button class="save-button" (click)="changeProvince()">Save Changes</button>
             </div>
           </div>
           <div class="form-group">

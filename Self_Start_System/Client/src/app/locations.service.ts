@@ -16,7 +16,6 @@ export class LocationsService {
     this.options = this.authenticationService.createAuthenticationHeaders();
     return this.http.get(this.baseURL + 'Countries/', this.options)
       .map((response: Response) => {
-        console.log(response);
         return response.json();
       });
   }
@@ -26,7 +25,6 @@ export class LocationsService {
     this.options = this.authenticationService.createAuthenticationHeaders();
     return this.http.get(this.baseURL + 'Provinces/country/' + countryID, this.options)
       .map((response: Response) => {
-        console.log(response);
         return response.json();
       });
   }
@@ -34,24 +32,23 @@ export class LocationsService {
   deleteCountry(countryID){
     return this.http.delete(this.baseURL + 'Countries/' + countryID)
       .map((response: Response) => {
-        console.log(response);
         return response.json();
-      });
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   deleteProvince(provinceID){
     return this.http.delete(this.baseURL + 'Provinces/' + provinceID)
       .map((response: Response) => {
-        console.log(response);
         return response.json();
-      });
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   addCountry(country) {
     let bodyString = JSON.stringify(country);
     let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
     let options       = new RequestOptions({ headers: headers }); // Create a request option
-    console.log('JSON body: ', bodyString);
     // ...using post request
     return this.http.post(this.baseURL + 'Countries', bodyString, options)
     // ...and calling .json() on the response to return data
@@ -63,7 +60,6 @@ export class LocationsService {
     let bodyString = JSON.stringify(province);
     let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
     let options       = new RequestOptions({ headers: headers }); // Create a request option
-    console.log('JSON body: ', bodyString);
     // ...using post request
     return this.http.post(this.baseURL + 'Provinces', bodyString, options)
     // ...and calling .json() on the response to return data
@@ -72,17 +68,20 @@ export class LocationsService {
   }
 
 
-  updatePatient(body: Object, id: string) {
-    let bodyString = JSON.stringify(body); //Stringify payload
-    let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
-    let options       = new RequestOptions({ headers: headers }); // Create a request option
+  updateCountry(editedCountry) {
     this.options = this.authenticationService.createAuthenticationHeaders();
-    let Url = this.baseURL + "PatientProfiles/" + id;
-    console.log("JSON body: ", bodyString);
-    console.log("URL", Url, id);
-
     // ...using post request
-    return this.http.put(Url, bodyString, this.options)
+    return this.http.put(this.baseURL + "Countries/" + editedCountry._id, editedCountry, this.options)
+    // ...and calling .json() on the response to return data
+      .map((res:Response) => res.json())
+      //...errors if any
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  updateProvince(editedProvince) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    // ...using post request
+    return this.http.put(this.baseURL + "Provinces/" + editedProvince._id, editedProvince, this.options)
     // ...and calling .json() on the response to return data
       .map((res:Response) => res.json())
       //...errors if any
