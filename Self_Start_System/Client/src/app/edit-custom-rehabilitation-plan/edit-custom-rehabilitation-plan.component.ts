@@ -12,18 +12,22 @@ import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exerci
 import { Router } from '@angular/router';
 import { FormService } from "../form.service";
 import { EditQuestionDialogComponent } from "../edit-question-dialog/edit-question-dialog.component";
+import { ManagePatientProfileService } from '../manage-patient-profile.service';
+import { UserAccountListService } from '../user-account-list.service';
+
 
 
 @Component({
   selector: 'app-edit-custom-rehabilitation-plan',
   templateUrl: './edit-custom-rehabilitation-plan.component.html',
   styleUrls: ['./edit-custom-rehabilitation-plan.component.scss'],
-  providers: [ RehabilitationPlanService, AuthenticationService, AssessmentTestService, FormService ],
+  providers: [ UserAccountListService, RehabilitationPlanService, AuthenticationService, AssessmentTestService, ManagePatientProfileService, FormService ],
   encapsulation: ViewEncapsulation.None
 })
 export class EditCustomRehabilitationPlanComponent implements OnInit {
   showSidebar = true;
-  data: Object;
+  data: any;
+  treatment: any;
 
   rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
   rehabilitationplan = {exerciseOrders:[], assessmentTests:[]}; //Temporary fix
@@ -31,7 +35,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   myExercises = [];//nullasaaaa
   oldExercises = [];
   exerciseIDs = [];
-  selectedExercise = {};
+  selectedExercise;
   newExercises = [];
 
   deleteList = [];
@@ -39,6 +43,9 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   moveList = [];
   editExerciseDialogRef: MatDialogRef<EditExerciseDialogComponent>
   router;
+
+  selectedRow;
+  activeExercise;
 
 
   user: any;
@@ -67,11 +74,13 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
+              private userAccountListService: UserAccountListService,
               private assessmentTestService: AssessmentTestService,
               private dialog: MatDialog,
               private authService: AuthenticationService,
               private recommendationService: RecommendationService,
               private formService: FormService,
+              private managePatientProfileService: ManagePatientProfileService,
               router: Router) {
     console.log("ID", this.editID);
     this.router = router;
@@ -79,6 +88,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   ngOnInit() {
     this.getRehabilitationPlans();
+    this.getPatientProfile();
     this.authService.getProfile().subscribe(
       res => {
         this.user = res;
@@ -86,26 +96,47 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     );
   }
 
-  openEditExerciseDialog(exercise){
-      this.selectedExercise = exercise;
+  //delete exercise from plan (move from myExercises to allExercises)
+  deleteExercise() {
+      console.log("selected exercise", this.activeExercise);
+      for(var i = 0; i < this.myExercises.length; i++) {
+          if(this.myExercises[i]._id == this.activeExercise._id) {
+              this.allExercises.push(this.myExercises[i]);
+              this.myExercises.splice(i,1);
+          }
+      }
+      this.activeExercise = null;
+  }
+
+  //open exercise details when an exercise is clicked on the panel
+  openExerciseDetails(index) {
+      this.selectedRow = index;
+      this.activeExercise = this.myExercises[index];
+  }
+
+  openEditExerciseDialog(){
       // this.selectQuestion(exercise);
       this.editExerciseDialogRef = this.dialog.open(EditExerciseDialogComponent, {
           width: '50vw',
+          height: '75vh',
           data: {
-              exercise: this.selectedExercise}
+              allExercises: this.allExercises,
+              myExercises: this.myExercises,
+              activeExercise: this.activeExercise,
+              selectedRow: this.selectedRow
+          }
       });
 
       this.editExerciseDialogRef.afterClosed().subscribe(result => {
-          this.selectedExercise = result;
-          // this.editQuestion(this.selectedExercise);
+          this.allExercises = result.data.allExercises;
+          this.myExercises = result.data.myExercises;
+          this.activeExercise = result.data.activeExercise;
+          this.selectedRow = result.data.selectedRow;
       });
   }
 
   //get all exercise ids from myExercises, pushes to exerciseIDs
   getExerciseIDs() {
-      //compare myExercises to oldExercises
-      //for every element in myExercises, but not in oldExercises
-          //do a post request to exercises, get the returning ID
       if(this.myExercises.length > 100) {
           for(var i = 0; i < this.myExercises.length; i++) {
               for(var j = 0; j < this.oldExercises.length; j++){
@@ -126,26 +157,65 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       }
   }
 
-  putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String) {
-    this.getExerciseIDs();
-    console.log("my exercises", this.myExercises);
+  saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
     this.data = {
       name: name,
       authorName: authorName,
       description: description,
       goal: goal,
+      custom: true,
       timeFrameToComplete: timeframe,
-      exerciseOrders: this.exerciseIDs
+      exerciseOrders: []
     };
 
-    console.log("data: ",this.data);
-    this.rehabilitationplanService.updateRehabilitationPlan(this.data, this.editID).subscribe(res =>
+    this.rehabilitationplanService.addRehabilitationPlan(this.data).subscribe(res =>
       {
-        console.log("RESULT",res);
+        console.log("RESULT",res.rehabilitationPlan._id);
+        let rehabPlanID = res.rehabilitationPlan._id;
+        let rehabPlan = res.rehabilitationPlan;
+        this.treatment.rehabilitationPlan.push(rehabPlan);
+        this.managePatientProfileService.updateTreatment(this.treatment, this.treatment._id).
+        subscribe( data => {
+            console.log("new treatment update", data);
+        });
+        let completedRequests = 0;
+        for(var i = 0; i < this.myExercises.length; i++) { //create new copy of every exercise, add this new rehab plan as a FK
+            this.myExercises[i] = {
+                name: this.myExercises[i].name,
+        		description: this.myExercises[i].description,
+        		objectives: this.myExercises[i].objectives,
+        		authorName: this.myExercises[i].authorName,
+        		actionSteps: this.myExercises[i].actionSteps,
+        		location: this.myExercises[i].location,
+        		standard: false,
+        		frequency: this.myExercises[i].frequency,
+        		duration: this.myExercises[i].duration,
+        		targetDate: this.myExercises[i].targetDate,
+        		multimediaURL: this.myExercises[i].multimediaURL,
+        		rehabilitationPlan: rehabPlan
+            }
+            let exercise: any;
+            this.exerciseService.registerExercise(this.myExercises[i]).subscribe(resExercise =>
+            {
+                console.log("new exercise",resExercise);
+                exercise = resExercise;
+                exercise = exercise.exercise;
+                this.data.exerciseOrders.push(exercise); //pushes new exercise id as it is created
+                completedRequests++;
+                console.log("I",i,completedRequests);
+                if(this.myExercises.length == completedRequests) { //in last loop, push all exercses to the rehabplan
+                    console.log("REACHED LAST LOOP");
+                    this.rehabilitationplanService.updateRehabilitationPlan(this.data, rehabPlanID).subscribe(res =>
+                    {
+                        console.log("RESULT",res);
+                    });
+                }
+            });
+        }
       }
     );
-    let patient_id = localStorage.getItem('patient_id')
-    this.router.navigate(['physio/patient-plan-list/'+ patient_id]);
+    let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+    this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
   }
 
   //gets all rehab plan information and extracts info for this specific rehab plan
@@ -169,6 +239,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.getAssessmentTests();
     })
   }
+
   //gets exercises of this rehab plan
   getExercises() {
       this.myExercises = [];
@@ -208,6 +279,22 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           },
           error => console.log(error)
       );
+  }
+
+  getPatientProfile() {
+      let id: any;
+      id = JSON.parse(localStorage.getItem('selectedPatient'));
+      console.log(id);
+      id = id._id;
+
+      this.userAccountListService.getPatientProfile(id).subscribe(
+          data => {
+              console.log("data", data);
+              this.treatment = data.treatments[0];
+              console.log("TREATMENT",this.treatment);
+              //this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
+              //this.age = this.age[0] + " years";
+          });
   }
 
   editRehabilitationPlan(){
@@ -284,18 +371,18 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     )
   }
 
-  openEditAssessmentTestDialog(assessmentTest, newQuestionFlag: boolean){
+  openEditAssessmentTestDialog(assessmentTest, newTestFlag: boolean){
     this.editAssessmentTestDialogRef = this.dialog.open(EditAssessmentTestDialogComponent, {
       width: '50vw',
       data: {
         assessmentTest,
-        newQuestionFlag
+        newTestFlag
       }
     });
 
     this.editAssessmentTestDialogRef.afterClosed().subscribe(result => {
       console.log("AssessmentTest: ", result);
-      if (newQuestionFlag) {
+      if (newTestFlag) {
         this.addAssessmentTest(result);
       } else {
         this.editAssessmentTest(result);
@@ -370,6 +457,38 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  addQuestion(){
+    var q = {
+      questionText: "Question Text",
+      helpDescription: "Help Description",
+      questionType: "Short Answer",
+      form: [this.form._id],
+      answerChoices: [],
+      range: 0,
+      type: "Custom"
+    }
+
+    this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
+      width: '50vw',
+      data: {
+        question: q
+      }
+    });
+
+    this.editQuestionDialogRef.afterClosed().subscribe(result => {
+      this.formService.addQuestion(result).subscribe(
+        res=> {console.log("new question ID: ", res),
+          this.form.questions.push(res.question._id),
+          this.formQuestions.push(res.question),
+          //reload all questions
+          this.saveForm(),
+          //need to then save form with the new ID in the questions list
+          this.getAllQuestions();},
+        error => {console.log(error)}
+      );
+    });
   }
 
   openEditQuestionDialog(q){

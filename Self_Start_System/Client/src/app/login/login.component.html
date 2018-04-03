@@ -1,25 +1,94 @@
 <app-navbar-general></app-navbar-general>
 
-<h1 class="title">
-  Login<br /><br />
-</h1>
 
+<div class="background" *ngIf ="!changingPassword && !forgotPassword">
+    <h1 class="title">
+        Login<br /><br />
+    </h1>
+    <mat-card class="container">
+        <div class ="fields">
+            <mat-form-field>
+                <input matInput #name placeholder="Username" [(ngModel)]="username">
+            </mat-form-field>
 
-<div class="container">
-  <div class ="fields">
-  <mat-form-field>
-    <input matInput #name placeholder="Username" [(ngModel)]="username">
-  </mat-form-field>
-
-  <mat-form-field>
-    <input matInput type="password" #description placeholder="Password"[(ngModel)]="password">
-  </mat-form-field>
-  </div>
-  <button mat-raised-button color="primary" class="login-button"  (click)="submitLogin()">Submit</button>
-  <button mat-raised-button color="accent" class="login-button"  >Forgot Password</button>
-  <br />
-  <h2 style="color:Tomato" *ngIf="statusMessage && triedLogin">{{statusMessage}}</h2>
-  <h2 style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...</h2>
+            <mat-form-field>
+                <input matInput type="password" #description placeholder="Password"[(ngModel)]="password">
+            </mat-form-field>
+        </div>
+        <!-- <h2 style="color:Tomato" *ngIf="statusMessage && triedLogin">{{statusMessage}}</h2>
+        <h2 style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...</h2> -->
+        <b style="color:Tomato" *ngIf="statusMessage && triedLogin">{{statusMessage}}<br/></b>
+        <b style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...<br /></b>
+        <button mat-raised-button color="primary" class="login-button"  (click)="submitLogin()">Submit</button> <br />
+        <a (click) = "forgotPasswordClicked()">Forgot Password?</a>
+        <br />
+    </mat-card>
 </div>
 
+<!-- <div *ngIf ="!changingPassword && !forgotPassword">
+    <h1 class="title">
+        Login<br /><br />
+    </h1>
 
+    <div class="container">
+        <div class ="fields">
+            <mat-form-field>
+                <input matInput #name placeholder="Username" [(ngModel)]="username">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="password" #description placeholder="Password"[(ngModel)]="password">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" class="login-button"  (click)="submitLogin()">Submit</button>
+        <button mat-raised-button color="accent" class="login-button" (click) = "forgotPasswordClicked()"  >Forgot Password</button>
+        <br />
+        <h2 style="color:Tomato" *ngIf="statusMessage && triedLogin">{{statusMessage}}</h2>
+        <h2 style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...</h2>
+    </div>
+</div> -->
+
+<div *ngIf ="changingPassword">
+    <h1 class="title">
+        Your password has been reset, please change your password<br /><br />
+    </h1>
+
+    <div class="container">
+        <div class ="fields">
+            <mat-form-field>
+                <input matInput type="password" #name placeholder="new password" [(ngModel)]="newPassword">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="password" #description placeholder="Confirm New Password"[(ngModel)]="newPasswordVerify">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" class="login-button" (click) = "saveNewPassword()" >Save</button>
+    </div>
+</div>
+
+<div class="background" *ngIf = "deactivatedUser">
+    <h1 class="title">
+        Your account has been deactivated, please contact the admin to reactivate your account!<br /><br />
+    </h1>
+</div>
+
+<div class="background" *ngIf ="forgotPassword">
+    <h1 class="title">
+        Please enter your username and your email to reset your password<br /><br />
+    </h1>
+
+    <div class="container">
+        <div class ="fields">
+            <mat-form-field>
+                <input matInput  #name placeholder="Username" [(ngModel)]="forgotPasswordUsername">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput  #name placeholder="Email" [(ngModel)]="forgotPasswordEmail">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" class="login-button" (click) = "resetForgotPassword()" >Reset!</button>
+        <br /><br />
+    </div>
+
+</div>

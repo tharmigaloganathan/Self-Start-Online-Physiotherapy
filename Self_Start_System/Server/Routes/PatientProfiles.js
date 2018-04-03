@@ -1,14 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
-var UserAccounts = require('../Models/UserAccount');
 var Treatments = require('../Models/Treatment');
 var RehabilitationPlans = require('../Models/RehabilitationPlan');
 //for tokens & verification & login sessions
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
-//middleware for every route below this one
+
+
+
+router.route('/')
+    .post(function (request, response) {
+        console.log ("within the PatientProfile route POST")
+        PatientProfiles.add(request.body).then(function(patientProfile){
+            console.log ("Profile successfully made: ", patientProfile);
+            response.json({patientProfile: patientProfile});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+            console.log("error from backend: ", err);
+        })
+    })
+
+//middleware for every route below
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
     console.log(req.headers['authorization']);
@@ -33,19 +47,7 @@ router.use(function (req, res, next) {
         })
     }
 });
-
-
 router.route('/')
-    .post(function (request, response) {
-        console.log ("within the PatientProfile route POST")
-        PatientProfiles.add(request.body).then(function(patientProfile){
-            console.log ("Profile successfully made: ", patientProfile);
-            response.json({patientProfile: patientProfile});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-            console.log("error from backend: ", err);
-        })
-    })
     .get(function (request, response) {
         PatientProfiles.getAll().then(function(patientProfiles){
             response.json({patientProfile: patientProfiles});

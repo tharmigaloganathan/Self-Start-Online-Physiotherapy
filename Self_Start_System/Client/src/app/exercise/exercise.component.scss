@@ -1,6 +1,16 @@
 @import '../../scss/_variables';
 
 
+//SEARCH FORM CSS
+
+.search-field {
+    font-family: 'Roboto Condensed', sans-serif !important;
+  width: 100%;
+}
+
+* {
+    font-family: 'Roboto Condensed', sans-serif;
+}
 .title {
   justify-content: center !important;
   font-family: 'Roboto Condensed', sans-serif;
@@ -31,7 +41,3 @@ input[disabled],textarea[disabled] {
   height: calc(100% - 2 * #{$dashboard-card-margin});
   margin: $dashboard-card-margin;
 }
-
-
-
-

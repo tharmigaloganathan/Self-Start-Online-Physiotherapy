@@ -27,6 +27,11 @@ export class NavbarPhysioComponent implements OnInit {
 
     this.user = this.authService.getActiveProfile(); // this would execute if window was never close
 
+    if(this.user) {
+      console.log("nav bar patient ",this.user);
+      this.authService.setActiveProfile(this.user); //trigger subscribers again
+    }
+
     //below would execute if site was closed and opened again and still logged in
     if (!this.user) {
       this.authService.getProfile().subscribe(res => {
@@ -51,6 +56,11 @@ export class NavbarPhysioComponent implements OnInit {
   logout(){
     this.authService.logout();
     this.router.navigate(['home']);
-    this.flashMessagesService.show('You have logged out!', { cssClass: 'alert-success', timeout: 3000 });
+  }
+
+
+  editProfile(){
+    this.router.navigate(['settings']);
+
   }
 }

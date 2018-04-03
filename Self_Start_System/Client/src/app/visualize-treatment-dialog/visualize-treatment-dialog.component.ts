@@ -17,7 +17,6 @@ export class VisualizeTreatmentDialogComponent implements OnInit {
   }; // required
   //chartCallback = function (chart) { ... } // optional function, defaults to null
   updateFlag = false; // optional boolean
-  oneToOneFlag = true; // optional boolean, defaults to false
 
   constructor() { }
 

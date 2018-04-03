@@ -1,26 +1,30 @@
 <app-navbar-patient></app-navbar-patient>
 
-<div class="messages">
-    <p class="no-message-placeholder-text" *ngIf="!messages">
+<div class="content">
+    <p class="no-message-placeholder-text" *ngIf="messages.length == 0">
         You have no message history with your physiotherapist.<br/>
         Type a message in the input field below and hit send to contact your physiotherapist!
     </p>
-    <div *ngFor="let message of messages">
-        <mat-card *ngIf="message.patientID != message.sender" class="physio-message">
-            {{message.message}}
-            <mat-card-subtitle>Physiotherapist</mat-card-subtitle>
-        </mat-card>
-        <mat-card *ngIf="message.patientID == message.sender" class="patient-message">
-            {{message.message}}
-            <mat-card-subtitle>You</mat-card-subtitle>
-        </mat-card>
-    </div>
-
+    <p class="unread-messages-text" *ngIf="messages.length > 0">
+        You have {{unreadMessages}} unread message(s).
+    </p>
+    <mat-card class="messages-card mat-elevation-z0">
+        <div *ngFor="let message of messages">
+            <mat-card *ngIf="message.patientID != message.sender" class="physio-message mat-elevation-z3">
+                {{message.message}}
+                <mat-card-subtitle>Physiotherapist</mat-card-subtitle>
+            </mat-card>
+            <mat-card *ngIf="message.patientID == message.sender" class="patient-message mat-elevation-z3">
+                {{message.message}}
+                <mat-card-subtitle>You</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </mat-card>
 </div>
 
 <form class="new-message">
   <mat-form-field class="input-form">
-    <input matInput #message placeholder="Type a message">
+    <input matInput #newMessage placeholder="Type a message">
   </mat-form-field>
-  <button class="send-button" (click)="addNewMessage(message.value); message.value=''">SEND</button>
+  <button class="send-button" (click)="sendNewMessage(newMessage.value); newMessage.value=''">SEND</button>
 </form>
