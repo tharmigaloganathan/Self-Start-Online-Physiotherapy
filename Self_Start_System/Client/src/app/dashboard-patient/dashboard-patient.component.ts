@@ -58,8 +58,8 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.profileSubscription= this.authService.profileOb$.subscribe((profile) => {
       this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
+      this.getMessages();
     });
-    this.getMessages()
   }
 
   ngOnDestroy() {
@@ -134,6 +134,7 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
                         this.unreadMessages = this.unreadMessages + 1;
                 }
                 this.physioID = this.messages[0].physioID;
+                console.log("Physio ID: ", this.physioID);
             }
         );
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {AuthenticationService} from "../authentication.service";
 import {Router} from "@angular/router";
 import {AuthGuard} from "../guards/auth.guard";
@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt-nodejs'); // A native JS bcrypt library for NodeJ
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   username;
   password;
   triedLogin = false;
@@ -30,9 +30,11 @@ export class LoginComponent implements OnInit {
   userAccount;
   loginToken;
   deactivatedUser;
-  forgotPassword;
+  forgotPassword = false;
   forgotPasswordUsername;
   forgotPasswordEmail;
+  loginSubscription;
+  clickedLogin = true;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
@@ -45,10 +47,25 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.username = null;
     this.password = null;
+
+    //for clicking on nav bar login when you are in "change password" mode
+    this.loginSubscription= this.authService.loginOb$.subscribe((clickedLogin) => {
+      this.clickedLogin = clickedLogin;
+      this.forgotPassword = false;
+      this.changingPassword = false;
+      console.log("received from subscriber: ", this.clickedLogin);
+    });
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component is destroyed
+    this.loginSubscription.unsubscribe();
+    console.log("subscription terminated");
   }
 
   forgotPasswordClicked(){
     this.forgotPassword = true;
+    this.clickedLogin = false;
   }
 
   resetForgotPassword(){
@@ -101,9 +118,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(user).subscribe(
       data => {
-
-        console.log("This is the user that tried logged in" + JSON.stringify(data));
-
         if(!data.success){
           //if password isn't right
           console.log(data.message);
@@ -113,10 +127,11 @@ export class LoginComponent implements OnInit {
         } else if (!data.userAccount.activated){
           this.deactivatedUser = true;
 
-        } if (data.userAccount.passwordReset){
+        } else if (data.userAccount.passwordReset){
           this.loginToken = data.token;
           this.userAccount=data.userAccount;
           this.changingPassword = true;
+          this.clickedLogin = false;
 
         } else {
           this.triedLogin=true;
@@ -124,7 +139,6 @@ export class LoginComponent implements OnInit {
 
           //store user data
           this.authService.storeUserData(data.token);
-          console.log ("user's token: ", data.token);
 
           //navigate to appropriate home page after 2 second delay
 
@@ -133,7 +147,6 @@ export class LoginComponent implements OnInit {
             for (let result of res){
               if ((result as any).success){
                 this.retrievedProfile = result;
-                console.log(this.retrievedProfile);
                 break;
               }
             }
