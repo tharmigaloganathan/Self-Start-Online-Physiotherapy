@@ -151,7 +151,7 @@
 
           <mat-form-field>
             <!--Include paypal button for transactions-->
-            <button mat-raised-button (click)="openPaypalDialog()">Open Paypal</button>
+            <button type="button" mat-raised-button (click)="openPaypalDialog()">Open Paypal</button>
             <div style="display: none">
               <input matInput [(ngModel)]="payment" name="paypalInput" type="text" required>
             </div>

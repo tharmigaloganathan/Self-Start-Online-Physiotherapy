@@ -313,13 +313,13 @@ export class BookAppointmentFormComponent implements OnInit {
       console.log("transaction: ", transaction);
 
       // If the transaction is approved, set the payment option to paid
-      if (transaction.state === "approved") {
+      if (transaction && transaction.state === "approved") {
         this.payment='Paid';
       } else {
         this.payment=null;
       }
       // Reset session storage to avoid replay attack
-      sessionStorage.setItem("transaction", "");
+      sessionStorage.setItem("transaction", null);
     });
   }
 
