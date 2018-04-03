@@ -209,101 +209,247 @@
                     </div>
                 </mat-tab>
                 <mat-tab label="Assigned Assessments">
-                    <br>
-                    <h1 class="subtitle">
-                      <b>Assigned Assessments to be Completed</b>
-                      <br><br>
-                      <button mat-raised-button class="yellowButton" (click)="createAssessmentTest()">Create New Assessment Test</button>
-                    </h1>
-                    <br>
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="card">
-                            <div class="card-body">
-                              <p *ngIf="incompleteAssessmentTests.length == 0">There are no pending tests created for this Rehabilitation Plan.</p>
-                              <ul class="">
-                                <li *ngFor="let test of incompleteAssessmentTests" class="list-group-item">
-                                  <h5>{{test.name}}</h5>
-                                  <p>Open Date: {{test.openDate | date:'fullDate'}}</p>
-                                  <button type="button" class="btn btn-light btn-sm yellowButton" style="position:absolute; top:4px; right:4px;" (click)="openEditAssessmentTestDialog(test, false)">Edit</button>
-                                  <button type="button" class="btn btn-danger btn-sm" style="position:absolute; top:38px; right:4px;" (click)="deleteAssessmentTest(test)">Delete</button>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
+                  <div class="form-container">
+                    <div class="row">
+                      <div class="col-4 form-container border-right">
+
+                        <div class="row">
+                          <h4>Assigned Assessments</h4>
+                          <button mat-raised-button class="yellowButton" (click)="createAssessmentTest()" style="float: middle">Create New Assessment Test</button>
                         </div>
+
+                        <hr>
+
+                        <div class="row" *ngIf="incompleteAssessmentTests.length > 0">
+                          <mat-list-item *ngFor="let test of incompleteAssessmentTests; let i = index" class="item" [ngClass]="{'selectedIncompleteTest': selectedIncompleteIndex == i}"  [attr.data-index]="i" (click)="setActiveIncompleteTest(i)" >
+                            <h6>
+                              {{test.name}}
+                              <button type="button" class="btn btn-danger btn-sm" style="float: right" (click)="deleteAssessmentTest(test)">x</button>
+                            </h6>
+
+                          </mat-list-item>
+                        </div>
+
                       </div>
 
-                    </div>
-                </mat-tab>
-
-                <mat-tab label="Completed Assessments">
-                    <br>
-                    <h1 class="subtitle">
-                      <b>Completed Assessments</b>
-                      <br>
-                    </h1>
-                    <br>
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-4" >
-                          <div class="card">
-                            <p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>
-                            <ul class="list-group" >
-                              <li *ngFor="let test of completeAssessmentTests" class="selectedTest list-group-item" (click)="selectCompleteAssessmentTest(test)">
-                                <p *ngIf="test == selectedCompleteAssessmentTest">VIEWING</p>
-                                <h5>{{test.name}}</h5>
-                                <p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>
+                      <div class="col-8 form-container" *ngIf="incompleteAssessmentTests.length > 0">
+                        <!-- Row 1 -->
+                        <div class="row">
+                          <div class="col-4 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Test Name" [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].name">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-4 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Author" [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].authorName">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-4 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].openDate" [matDatepicker]="picker" placeholder="Open Date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <!-- Row 2 -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Description" [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].description">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <!-- Row 3: Questions -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <h6>Questions: Drag to re-order.</h6>
+                            <button mat-raised-button class="yellowButton" (click)="addQuestion()">Add Question</button>
+                            <br>
+                            <ul class="list-group-questions" dnd-sortable-container [sortableData]="formQuestions">
+                              <!-- Question List -->
+                              <li *ngFor="let question of formQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+                                <h6>{{i+1}}. {{question.questionText}}</h6>
+                                <p>{{question.questionType}}</p>
+                                <!--<button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditQuestionDialog(question)">Edit</button>-->
                               </li>
                             </ul>
                           </div>
                         </div>
-                        <div class="col-8">
-                          <div class="row">
-                            <div class="col-12">
-                              <div class="card">
-                                <h1 class="subtitle">
-                                <b>Test Results</b>
-                                </h1>
-                                <br>
-                                <div class="">
-                                  <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>
-                                  <ul class="list-group-ans">
-                                    <li *ngFor="let result of allResults" class="list-group-item">
-                                      <p>Question: {{result.question}}</p>
-                                      <p>Answer: {{result.answer}}</p>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Completed Assessments">
+                  <div class="form-container">
+                    <div class="row">
+                      <div class="col-4 form-container border-right">
+                        <div class="row">
+                          <h4>Completed Assessments</h4>
+                        </div>
+                        <hr>
+                        <div class="row" *ngIf="completeAssessmentTests.length > 0">
+                          <mat-list-item class="item" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >
+                            <h6>{{test.name}}</h6>
+                            <p>Date Completed: {{test.dateCompleted | date:'shortDate'}}</p>
+                          </mat-list-item>
+                        </div>
+                      </div>
+
+                      <div class="col-8 form-container" *ngIf="completeAssessmentTests.length > 0">
+                        <!-- Row 1: Test Results -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <h6>Test Results</h6>
+                            <ul class="list-group-ans">
+                              <li *ngFor="let result of allResults" class="list-group-item">
+                                <p>Question: {{result.question}}</p>
+                                <p>Answer: {{result.answer}}</p>
+                              </li>
+                            </ul>
                           </div>
-                          <br>
-                          <div class="row">
-                            <div class="col-12">
-                              <div class="card">
-                                <h1 class="subtitle">
-                                  <b>Recommendations</b>
-                                  <br>
-                                  <button *ngIf="selectedCompleteAssessmentTest" mat-raised-button class="yellowButton" (click)="createRecommendation()">Add New Recommendation</button>
-                                </h1>
-                                <br>
-                                <p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>
-                                <ul class="list-group-reco">
-                                  <li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">
-                                    <p>{{recommendation.decision}}</p>
-                                    <p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>
-                                  </li>
-                                </ul>
-                              </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <br>
+                        <!-- Row 2: Recommendation -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <h6>Recommendation</h6>
+                              <mat-form-field style="width: 100%;">
+                                <input matInput placeholder="Decision Description" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationDecision" >
+                              </mat-form-field>
+                            <mat-form-field class = "question">
+                              <input matInput placeholder="Evaluation: On a scale of 1-10, how effective was the current rehabilitation plan (where 10 is extremely effective)?" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationEvaluation" type="number"/>
+                            </mat-form-field>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+
+
+
+                  <!--<div class="container top">-->
+                      <!--<div class="row">-->
+                        <!--<div class="col-12">-->
+                          <!--<mat-card style="height: auto; width: auto;">-->
+                            <!--<h2>Completed Tests</h2>-->
+                            <!--<hr>-->
+                            <!--<div class="row" *ngIf="completeAssessmentTests.length < 1">-->
+                              <!--<h6>There are no completed assessment tests available to view.</h6>-->
+                            <!--</div>-->
+                            <!--<div class="row" *ngIf="completeAssessmentTests.length > 0">-->
+                              <!--<div class="col-md-3 border-right" style="padding: 0%;">-->
+                                <!--<mat-list class="test-list">-->
+                                  <!--<h5>Tests</h5>-->
+                                  <!--<mat-divider></mat-divider>-->
+                                  <!--<mat-list-item class="item" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >-->
+                                    <!--<h6>{{test.name}}</h6>-->
+                                    <!--<p>Date Completed: {{test.dateCompleted | date:'shortDate'}}</p>-->
+                                  <!--</mat-list-item>-->
+                                  <!--<mat-divider></mat-divider>-->
+                                <!--</mat-list>-->
+                              <!--</div>-->
+                              <!--<div class="col-md-9 col-md-offset-3">-->
+                                <!--&lt;!&ndash; Row 1: Test Results &ndash;&gt;-->
+                                <!--<div class="row">-->
+                                  <!--<div class="col-12 form-container">-->
+                                    <!--<h6>Test Results</h6>-->
+                                    <!--<ul class="list-group-ans">-->
+                                      <!--<li *ngFor="let result of allResults" class="list-group-item">-->
+                                        <!--<p>Question: {{result.question}}</p>-->
+                                        <!--<p>Answer: {{result.answer}}</p>-->
+                                      <!--</li>-->
+                                    <!--</ul>-->
+                                  <!--</div>-->
+                                <!--</div>-->
+                                <!--<mat-divider></mat-divider>-->
+                                <!--<br>-->
+                                <!--&lt;!&ndash; Row 2: Recommendation &ndash;&gt;-->
+                                <!--<div class="row">-->
+                                  <!--<div class="col-12 form-container">-->
+                                    <!--<h6>Recommendation</h6>-->
+                                    <!--<div class="row" *ngIf="completeAssessmentTests[selectedCompleteIndex].recommendation == null">-->
+                                      <!--<h6>Please add a recommendation.</h6>-->
+                                      <!--<button mat-raised-button class="yellowButton" (click)="createRecommendation()" style="float: right">Create Recommendation</button>-->
+                                    <!--</div>-->
+                                    <!--<div class="row" *ngIf="completeAssessmentTests[  selectedCompleteIndex].recommendation != null">-->
+                                      <!--<mat-form-field style="width: 100%;">-->
+                                        <!--<input matInput placeholder="Decision Description" [(ngModel)]="selectedAssessmentRecommendation.description" readonly>-->
+                                      <!--</mat-form-field>-->
+                                      <!--<h6>Evaluation: {{selectedAssessmentRecommendation.evaluation}}</h6>-->
+                                      <!--<button mat-raised-button class="yellowButton" (click)="openEditRecommendationDialog(selectedAssessmentRecommendation, false)" style="float: right">Edit Recommendation</button>-->
+                                    <!--</div>-->
+                                  <!--</div>-->
+                                <!--</div>-->
+                              <!--</div>-->
+                            <!--</div>-->
+                          <!--</mat-card>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--<div class="container">-->
+                    <!--<div class="row">-->
+                      <!--<div class="col-4" >-->
+                        <!--<div class="card">-->
+                          <!--<p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>-->
+                          <!--<ul class="list-group" >-->
+                            <!--<li *ngFor="let test of completeAssessmentTests" class="selectedTest list-group-item" (click)="selectCompleteAssessmentTest(test)">-->
+                              <!--<p *ngIf="test == selectedCompleteAssessmentTest">VIEWING</p>-->
+                              <!--<h5>{{test.name}}</h5>-->
+                              <!--<p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>-->
+                            <!--</li>-->
+                          <!--</ul>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-8">-->
+                        <!--<div class="row">-->
+                          <!--<div class="col-12">-->
+                            <!--<div class="card">-->
+                              <!--<h1 class="subtitle">-->
+                              <!--<b>Test Results</b>-->
+                              <!--</h1>-->
+                              <!--<br>-->
+                              <!--<div class="">-->
+                                <!--<p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>-->
+                                <!--<ul class="list-group-ans">-->
+                                  <!--<li *ngFor="let result of allResults" class="list-group-item">-->
+                                    <!--<p>Question: {{result.question}}</p>-->
+                                    <!--<p>Answer: {{result.answer}}</p>-->
+                                  <!--</li>-->
+                                <!--</ul>-->
+                              <!--</div>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--<div class="row">-->
+                          <!--<div class="col-12">-->
+                            <!--<div class="card">-->
+                              <!--<h1 class="subtitle">-->
+                                <!--<b>Recommendations</b>-->
+                                <!--<br>-->
+                                <!--<button *ngIf="selectedCompleteAssessmentTest" mat-raised-button class="yellowButton" (click)="createRecommendation()">Add New Recommendation</button>-->
+                              <!--</h1>-->
+                              <!--<br>-->
+                              <!--<p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>-->
+                              <!--<ul class="list-group-reco">-->
+                                <!--<li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">-->
+                                  <!--<p>{{recommendation.decision}}</p>-->
+                                  <!--<p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>-->
+                                <!--</li>-->
+                              <!--</ul>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+
                 </mat-tab>
             </mat-tab-group>
         </mat-card>
     </div>
 </div>
+

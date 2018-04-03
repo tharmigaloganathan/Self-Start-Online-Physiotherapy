@@ -1,5 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
+<div *ngIf="isDataLoaded">
 <app-navbar-physio></app-navbar-physio>
 
 <div class="container">
@@ -155,7 +156,7 @@
 							</div>
 							</ng-template>
 							<!-- View to show the details of a specific rehab plan -->
-							<ng-template #rehabPlan>
+							<ng-template #rehabPlan> 
 								<form class="form-container animated fadeIn">
 								<div class="row">
 									<div class="col top">
@@ -296,7 +297,7 @@
 										</div>
 										<!-- Rehab plan history -->
 										<div class="col-4 form-container">
-											<h4><b> History</b><mat-icon class="icon icon-bar" matTooltip="Visualize History"><i class="material-icons">insert_chart</i></mat-icon></h4>
+											<h4><b> History</b><mat-icon class="icon icon-bar" matTooltip="Visualize History" (click)="openVisualizeTreatmentDialogBox()"><i class="material-icons">insert_chart</i></mat-icon></h4>
 											<hr>
 											<div class="row history">
 												<div class="col history">
@@ -372,6 +373,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <!-- View exercise modal -->

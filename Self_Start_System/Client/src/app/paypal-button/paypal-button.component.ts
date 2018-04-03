@@ -45,6 +45,7 @@ export class PaypalButtonComponent implements OnInit {
     }, '#paypal-button-container');
   }
 
+
   public onNoClick(transaction): void {
     this.dialogRef.close();
   }
