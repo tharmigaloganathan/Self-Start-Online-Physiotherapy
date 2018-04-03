@@ -16,10 +16,25 @@ export class UserAccountListService {
     this.authenticationService = authenticationService;
   }
 
+  checkForgotPasswordEmail(id, role){
+    if (role == "patient"){
+      return this.http.get(this.domain+'/PatientProfile/getEmail/'+id)
+        .map((response: Response) => {
+          return response.json().email;
+        });
+    } else if (role == "physiotherapist") {
+      return this.http.get(this.domain+'/Physiotherapist/getEmail/'+id)
+        .map((response: Response) => {
+          return response.json().email;
+        });
+    }
+
+  }
 
 	//Get a single users account
 	getUserAccount(id) {
 			this.options = this.authenticationService.createAuthenticationHeaders();
+			console.log(this.options);
 			return this.http.get(this.domain+'/UserAccounts/id/'+id, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
@@ -28,12 +43,20 @@ export class UserAccountListService {
 
 	//Update user account
 	updateUserAccount(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/UserAccounts/'+id, user, this.options)
+    console.log("in service - updateUserAccount: ", user);
+		return this.http.put(this.domain+'/UserAccounts/id/'+id, user)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
 	}
+
+	updateUserPassword(id,user){
+    console.log("in service - updateUserPassword: ", user);
+    return this.http.put(this.domain+'/UserAccounts/updatePassword/'+id, user)
+      .map((response: Response) => {
+        return response.json().userAccount;
+      });
+  }
 
 	//Get all patients
 	getAllPatients() {
@@ -47,8 +70,8 @@ export class UserAccountListService {
 
 	//Get all physiotherapists
 	getAllPhysiotherapists() {
-    this.options = this.authenticationService.createAuthenticationHeaders();
-			return this.http.get(this.domain+'/Physiotherapists',this.options)
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/Physiotherapists', this.options)
 			.map((response: Response) => {
 			return response.json().physiotherapist;
 		});
@@ -56,12 +79,20 @@ export class UserAccountListService {
 
 	//Update patients information
 	updatePatient(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/PatientProfiles/'+id ,user, this.options)
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.put(this.domain+'/PatientProfiles/'+id ,user, this.options)
 			.map((response: Response) => {
-				return response.json().patientProfile;
+			return response.json().patientProfile;
 		});
 	}
+
+	updatePhysiotherapist(id,user){
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.put(this.domain+'/Physiotherapists/'+id ,user, this.options)
+      .map((response: Response) => {
+        return response.json().physiotherapist;
+      });
+  }
 
 		//Return all genders
 		getGenders() {

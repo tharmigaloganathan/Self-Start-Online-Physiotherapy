@@ -100,7 +100,6 @@ import { PatientPlanListComponent } from './patient-plan-list/patient-plan-list.
 import { EditPatientPlanListComponent } from './edit-patient-plan-list/edit-patient-plan-list.component';
 import { EditCustomRehabilitationPlanComponent } from './edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component';
 import { EditRecommendationDialogComponent } from './edit-recommendation-dialog/edit-recommendation-dialog.component';
-
 import { AuthGuard} from "./guards/auth.guard";
 import { NotAuthGuard} from "./guards/not-auth.guard";
 import { PatientGuard} from "./guards/patient.guard";
@@ -108,13 +107,21 @@ import { PhysioGuard} from "./guards/physio.guard";
 import { AdminGuard} from "./guards/admin.guard";
 import {RecommendationService} from "./recommendation.service";
 import { ConfirmDeleteDialogBoxComponent } from './confirm-delete-dialog-box/confirm-delete-dialog-box.component';
+import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
+import {CreateUserAccountService} from "./create-user-account.service";
+import {UserAccountListService} from "./user-account-list.service";
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
+<<<<<<< HEAD
 import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
 import {LocationsService} from "./locations.service";
+=======
+import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
+>>>>>>> ab401e774140dd317e6a55ad6e241d0f0e0bb307
 
 
 
@@ -162,8 +169,11 @@ import {LocationsService} from "./locations.service";
 		EditRecommendationDialogComponent,
 		PatientRehabilitationPlansComponent,
 		ConfirmDeleteDialogBoxComponent,
-		ProfileSettingsComponent,
+        PhysiotherapistMessagesComponent,
+        AddNewExerciseDialogComponent,
+        ProfileSettingsComponent,
 		PhysioPatientListComponent,
+		ChangePasswordComponent,
 		PaypalButtonComponent,
 		AdminLocationsComponent,
   ],
@@ -218,7 +228,7 @@ import {LocationsService} from "./locations.service";
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
   ],
-  providers: [EditProfileService, ExerciseService,
+  providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,

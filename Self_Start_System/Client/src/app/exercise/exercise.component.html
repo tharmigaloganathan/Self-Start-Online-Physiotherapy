@@ -7,13 +7,19 @@
     <h1>Manage Exercises</h1>
     <br/>
     <button mat-raised-button class="create-button" data-toggle="modal" data-target="#createExerciseModal">Create New Exercise</button>
+
+      <br />
+    <form class="search-form">
+        <mat-form-field class="search-field">
+            <input matInput #search placeholder="Search Standard Exercises..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </form>
   </div>
-  <br /><br />
 
   <!-- Button trigger modal -->
 
-  <div *ngFor = "let exercise of allExercises">
-  <!--Card 1-->
+  <!-- <div *ngFor = "let exercise of allExercises">
     <div class="col-md-12 no-left-right-margin no-left-right-padding">
       <mat-card class="dashboard-card no-left-right-margin">
         <mat-card-title>{{exercise.name}}</mat-card-title>
@@ -22,13 +28,37 @@
           {{exercise.description}}
         </mat-card-content>
         <mat-card-actions>
-          <!--<button mat-button class="assignExercise">Assign</button>-->
           <button mat-button class="view-button" data-toggle="modal" data-target="#editExerciseModal" (click)="getOneExercise(exercise._id)">View</button>
         </mat-card-actions>
 
       </mat-card>
     </div>
-  <!--</div>-->
+  </div> -->
+
+  <div class="exercise-list mat-elevation-z0">
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="authorName">
+        <mat-header-cell *matHeaderCellDef> Author Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.authorName}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"  data-toggle="modal" data-target="#editExerciseModal" (click)="getOneExercise(row._id)"></mat-row>
+    </mat-table>
   </div>
 
   <!-- Create New Exercise Modal -->
@@ -254,8 +284,3 @@
   </div>
 
 </div> <!--  end div for container-->
-
-
-
-
-

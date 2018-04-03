@@ -11,7 +11,7 @@
     <button mat-button routerLink="/admin/user-accounts" class="full-height">Manage Accounts</button>
     <button mat-button routerLink="/admin/locations" class="full-height">Manage Countries/Provinces</button>
     <button class = "profile-button" mat-raised-button [matMenuTriggerFor]="appMenu">
-      <span *ngIf="this.user">{{this.user.givenName}}</span>
+      <span>{{this.user?.givenName}}</span>
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
   </span>

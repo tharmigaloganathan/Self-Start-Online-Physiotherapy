@@ -6,20 +6,28 @@ var UserAccounts = require('../Models/UserAccount');
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
+
+
+router.route('/')
+    .post(function (request, response) {
+        Administrators.add(request.body).then(function(administrator){
+            response.json({administrator: administrator});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
     const token = req.headers.authorization;
 
-    console.log('token: ', token);
 
     if (!token) {
         res.json({success: false, message: 'No token provided'}); // Return error
     } else {
         // Verify the token is valid
         jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
             if (err) {
                 res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
             } else {
@@ -31,15 +39,7 @@ router.use(function (req, res, next) {
         })
     }
 });
-
 router.route('/')
-    .post(function (request, response) {
-        Administrators.add(request.body).then(function(administrator){
-            response.json({administrator: administrator});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-        })
-    })
     .get(function (request, response) {
         Administrators.getAll().then(function(administrators){
             response.json({administrator: administrators});
