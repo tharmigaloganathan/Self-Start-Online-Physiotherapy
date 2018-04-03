@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.clickedLogin = clickedLogin;
       this.forgotPassword = false;
       this.changingPassword = false;
+      this.deactivatedUser = false;
       console.log("received from subscriber: ", this.clickedLogin);
     });
   }
