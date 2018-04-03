@@ -5,6 +5,9 @@ import {AuthGuard} from "../guards/auth.guard";
 import {UserAccountListService} from "../user-account-list.service";
 import {MatSnackBar} from "@angular/material";
 import {CreateUserAccountService} from "../create-user-account.service";
+declare var require: any;
+const bcrypt = require('bcrypt-nodejs'); // A native JS bcrypt library for NodeJS
+
 
 @Component({
   selector: 'app-login',
@@ -79,7 +82,7 @@ export class LoginComponent implements OnInit {
           let account = result.userAccount;
           account.encryptedPassword = "password";
           account.passwordReset = true;
-          this.userAccListServices.updateUserAccount(account._id, account).subscribe(res => {
+          this.userAccListServices.updateUserPassword(account._id, account).subscribe(res => {
             this.snackBar.open("Your password has been reset! An email has been sent with your new temporary password", "", {
               duration: 3000
             })
@@ -189,7 +192,7 @@ export class LoginComponent implements OnInit {
     let account = this.userAccount;
     account.encryptedPassword = this.newPassword;
     account.passwordReset = false;
-    this.userAccListServices.updateUserAccount(account._id,account).subscribe(res =>{
+    this.userAccListServices.updateUserPassword(account._id, account).subscribe(res =>{
       this.snackBar.open("New password saved!", "", {
         duration: 3000
       })

@@ -33,7 +33,6 @@ export class UserAccountListService {
 
 	//Get a single users account
 	getUserAccount(id) {
-			this.options = this.authenticationService.createAuthenticationHeaders();
 			return this.http.get(this.domain+'/UserAccounts/id/'+id, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
@@ -42,12 +41,20 @@ export class UserAccountListService {
 
 	//Update user account
 	updateUserAccount(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/UserAccounts/id/'+id, user, this.options)
+    console.log("in service - updateUserAccount: ", user);
+		return this.http.put(this.domain+'/UserAccounts/id/'+id, user)
 			.map((response: Response) => {
 			return response.json().userAccount;
 		});
 	}
+
+	updateUserPassword(id,user){
+    console.log("in service - updateUserPassword: ", user);
+    return this.http.put(this.domain+'/UserAccounts/updatePassword/'+id, user)
+      .map((response: Response) => {
+        return response.json().userAccount;
+      });
+  }
 
 	//Get all patients
 	getAllPatients() {

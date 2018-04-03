@@ -26,6 +26,7 @@ module.exports = {
     update:update,
     deleteOne:deleteOne,
     login:login,
+    updatePassword:updatePassword,
 };
 
 
@@ -49,6 +50,46 @@ function deleteOne(id){
     });
 }
 
+function updatePassword(id, updatedDocument){
+    return new Promise (function (resolve, reject) {
+        if (!updatedDocument.userAccountName){
+            error = "No userAccountName detected.";
+            reject(error);
+        } else if (!updatedDocument.encryptedPassword){
+            error = "No encryptedPassword detected.";
+            reject(error);
+        } else {
+            // updatedDocument.encryptedPassword = bcrypt.hashSync(updatedDocument.encryptedPassword,10);
+            UserAccounts.findById(id, function (error, document) {
+                console.log("in model update password, found the account to be updated! ", document);
+
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    document.userAccountName = updatedDocument.userAccountName;
+                    document.encryptedPassword = bcrypt.hashSync(updatedDocument.encryptedPassword);
+                    document.administrator = updatedDocument.administrator;
+                    document.physiotherapist = updatedDocument.physiotherapist;
+                    document.patientProfile = updatedDocument.patientProfile;
+                    document.activated = updatedDocument.activated;
+                    document.hasPaid = updatedDocument.hasPaid;
+                    document.passwordReset = updatedDocument.passwordReset;
+
+                    document.save(function (error) {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            console.log("user account updated!");
+                            resolve(document);
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
         if (!updatedDocument.userAccountName){
@@ -58,25 +99,28 @@ function update(id, updatedDocument){
             error = "No encryptedPassword detected.";
             reject(error);
         } else {
+            // updatedDocument.encryptedPassword = bcrypt.hashSync(updatedDocument.encryptedPassword,10);
             UserAccounts.findById(id, function (error, document) {
+                console.log("in model update, found the account to be updated! ", document);
+
                 if (error) {
                     reject(error);
                 }
                 else {
                     document.userAccountName = updatedDocument.userAccountName;
                     document.encryptedPassword = updatedDocument.encryptedPassword;
-                    console.log("newly set password before hashing to save: ", updatedDocument.encryptedPassword);
-                    document.encryptedPassword = bcrypt.hashSync(document.encryptedPassword);
                     document.administrator = updatedDocument.administrator;
                     document.physiotherapist = updatedDocument.physiotherapist;
                     document.patientProfile = updatedDocument.patientProfile;
                     document.activated = updatedDocument.activated;
                     document.hasPaid = updatedDocument.hasPaid;
                     document.passwordReset = updatedDocument.passwordReset;
+
                     document.save(function (error) {
                         if (error) {
                             reject(error);
                         } else {
+                            console.log("user account updated!");
                             resolve(document);
                         }
                     });
@@ -128,7 +172,7 @@ function getAll(){
 function add(object){
     return new Promise (function (resolve, reject) {
         console.log("within add of UserAccount Model");
-        var document = new UserAccounts(object);
+        let document = new UserAccounts(object);
 
         if (!document.userAccountName){
             error = "No userAccountName detected.";
@@ -157,7 +201,7 @@ function add(object){
 
 function checkPassword (enteredPassword, encryptedPassword){
     return bcrypt.compareSync(enteredPassword, encryptedPassword);
-}
+};
 
 // userAccountSchema.methods.comparePassword = function (password){
 //     return bcrypt.compareSync(password, this.password);
@@ -167,7 +211,6 @@ function login(object, userEnteredPassword){
     return new Promise (function (resolve, reject) {
         console.log ("in LOGIN in model, object is: ", object);
         console.log ("in LOGIN in model, the password the user entered is: ", userEnteredPassword);
-        console.log ("in LOGIN in model, encrypted password is: ", object.encryptedPassword);
 
         var validPassword = checkPassword(userEnteredPassword, object.encryptedPassword);
         console.log("the status of the password: ", validPassword);
