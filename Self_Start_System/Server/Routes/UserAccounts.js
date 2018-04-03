@@ -210,6 +210,19 @@ router.route('/:username')
         )
     });
 
+router.route('/updatePassword/:object_id')
+    .put(function (request, response) {
+        console.log ("in update user account password route, here's the new password: ", request.body.encryptedPassword);
+        if (!request.params.object_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        UserAccounts.updatePassword(request.params.object_id, request.body).then(function(userAccount){
+            response.json({success: true, userAccount: userAccount});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    })
+
 router.route('/id/:object_id')
     .get(function (request, response) {
         if (!request.params.object_id) {
@@ -241,8 +254,9 @@ router.route('/id/:object_id')
         })
     })
     .put(function (request, response) {
+        console.log ("in update user account route");
         if (!request.params.object_id) {
-            res.json({success: false, message: 'id was not provided'});
+            response.json({success: false, message: 'id was not provided'});
         }
         UserAccounts.update(request.params.object_id, request.body).then(function(userAccount){
             response.json({userAccount: userAccount});
@@ -267,7 +281,6 @@ router.route('/id/:object_id')
 //middleware for every route below this one
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
     const token = req.headers.authorization;
 
     console.log('token: ', token);
@@ -277,7 +290,6 @@ router.use(function (req, res, next) {
     } else {
         // Verify the token is valid
         jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
             if (err) {
                 res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
             } else {

@@ -13,7 +13,7 @@ export class PaypalButtonComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
-    paypal.Button.render({ 
+    paypal.Button.render({
       env: 'sandbox', // sandbox | production
       // PayPal Client IDs - replace with your own
       client: {
