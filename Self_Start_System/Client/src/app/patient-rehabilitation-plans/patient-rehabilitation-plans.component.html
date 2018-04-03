@@ -1,58 +1,77 @@
+
+<div *ngIf="isDataLoaded">
 <app-navbar-patient></app-navbar-patient>
 
 <div class="container top">
 	<div class="row">
 		<div class="col">
 			<mat-card>
-				<h2>My Rehabilitation Plans</h2>
+				<h2>My Treatments and Rehabilitation Plans</h2>
 				<hr>
 				<div class="row">
-					<div class="col-md-2 border-right">
+					<div class="col-md-4 border-right">
 						<mat-list class="plan-list">
-							<h6>My Plans</h6>
+							<h6>My Treatments</h6>
 							<mat-divider></mat-divider>
-							<mat-list-item *ngFor="let plan of rehabilitationPlans; let i = index" [attr.data-index]="i" class="list" (click)="setActiveRehabPlan(i)">
-								{{ plan.name }}
+							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)">
+								<div class="col-6 form-container">
+									Start: {{ treatment?.dateStart | date : "dd.MM.y" }}
+								</div>
+								<div class="col-6 form-container">
+									<div *ngIf="activeTreatment.dateFinished == null; showEndDate">End: In Progress</div>
+									<ng-template #showEndDate>
+										<b>End:</b> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
+									</ng-template>
+								</div>
 							</mat-list-item>
 							<mat-divider></mat-divider>
 					</mat-list>
 					</div>
-					<div class="col-md-10 col-md-offset-2">
+					<div class="col-md-8 col-md-offset-2">
 						<div *ngIf="showDetails">
 								<!-- Row 1 -->
+								<h4>Treatment</h4>
+								<hr>
 								<div class="row">
 									<div class="col-6 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Name" [(ngModel)]="selected.name" name="selected.name" readonly>
-										</mat-form-field>
+										<b>Started:</b> {{ activeTreatment?.dateStart | date : "dd.MM.y" }}
 									</div>
 									<div class="col-6 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Author Name" [(ngModel)]="selected.authorName" name="selected.authorName"  readonly>
-										</mat-form-field>
+										<b>Finished:</b> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
+										<div *ngIf="activeTreatment.dateFinished == null">In Progress</div>
 									</div>
 								</div>
+								<hr>
 								<!-- Row 2 -->
+								<h4>Rehabilitation Plan</h4>
+								<hr>
+								<div class="row">
+									<div class="col-6 form-container">
+										<b>Name</b> {{ activeRehabPlan?.name }}
+										<hr>
+									</div>
+									<div class="col-6 form-container">
+										<b>Author</b> {{ activeRehabPlan?.authorName }}
+										<hr>
+									</div>
+								</div>
 								<div class="row">
 									<div class="col form-container">
-										<mat-form-field>
-											<input matInput placeholder="Description" [(ngModel)]="selected.description" name="selected.description" readonly>
-										</mat-form-field>
+										<b>Description</b> {{ activeRehabPlan?.description }}
+										<hr>
 									</div>
 								</div>
-								<!-- Row 3 -->
 								<div class="row">
-									<div class="col-6 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Goal" [(ngModel)]="selected.goal" name="selected.goal" readonly>
-										</mat-form-field>
+									<div class="col-8 form-container">
+										<b>Goal</b> {{ activeRehabPlan?.goal }}
+										<hr>
 									</div>
-									<div class="col-6 form-container">
-										<mat-form-field>
-											<input matInput placeholder="Time Frame" [(ngModel)]="selected.timeFrameToComplete" name="selected.timeFrameToComplete" readonly>
-										</mat-form-field>
+									<div class="col-4 form-container">
+										<b>Time Frame to Complete</b> {{ activeRehabPlan?.timeFrameToComplete }}
+										<hr>
 									</div>
 								</div>
+
 								<!-- Row 4 -->
 								<div class="row">
 									<div class="col">
@@ -166,4 +185,5 @@
 			</mat-card>
 		</div>
 	</div>
+</div>
 </div>

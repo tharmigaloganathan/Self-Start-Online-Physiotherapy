@@ -11,6 +11,7 @@ import { AuthenticationService } from "../authentication.service";
 })
 export class PatientRehabilitationPlansComponent implements OnInit {
 
+	isDataLoaded;
 	router;
 	authenticationService;
 	rehabilitationPlansService;
@@ -24,40 +25,69 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	rehabilitationPlans = [];
 	exercises = [];
 	assessmentTests = [];
-	selected: any;
+	selected = [];
 	activeExercise;
 	patientProfile;
+	name;
+	activeTreatment;
+	activeRehabPlan;
 
   constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router, authenticationService: AuthenticationService) {
 		this.router = router;
 		this.authenticationService = authenticationService;
 		this.rehabilitationPlansService = rehabilitationPlansService;
+		this.isDataLoaded = true;
 	}
 
   ngOnInit() {
-		this.account = localStorage.getItem("userAccount");
-		console.log(this.account);
-		this.authenticationService.getProfile().subscribe(
+
+		this.authenticationService.getUserAccount().subscribe(
 			data => {
-				this.patientProfile = data;
-				console.log("Patient profile" + this.patientProfile);
-				console.log("Inside" + JSON.stringify(this.patientProfile.patientProfile.treatments));
-				this.treatments = this.patientProfile.patientProfile.treatments;
-				console.log("Treatments length" + this.treatments.length);
-				this.populateRehabPlans();
+				this.account = data;
+				console.log("Account" + JSON.stringify(this.account));
+				this.populatePatientProfile();
 		});
+
+		//this.patientProfile = this.authenticationService.getActiveProfile();
+
   }
+
+	//Get patient profile
+	populatePatientProfile() {
+	this.rehabilitationPlansService.getPatientProfile(this.account.patientProfile).subscribe(
+		data => {
+			this.patientProfile = data;
+			this.treatments = this.patientProfile.treatments;
+			this.activeTreatment = this.treatments[0];
+			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[0];
+
+			//console.log("Rehab Plan" + JSON.stringify(this.activeTreatment.rehabilitationPlan[0].name));
+			//console.log("Treatments" + JSON.stringify(this.treatments));
+		});
+}
+
+	//Show the treatment and rehab plan details
+	showTreatment(index) {
+		console.log(index);
+		this.activeTreatment = this.treatments[index];
+}
 
 	//Populate Rehab Plan
 	populateRehabPlans() {
 		for(var i=0; i<this.treatments.length; i++) {
-			this.rehabilitationPlans.push(this.treatments[i].rehabilitationPlan);
+			for(var j=0; j<this.treatments.rehabilitationPlan.length) {
+				var length = this.treatments.rehabilitationPlan.length;
+				this.rehabilitationPlans.push(this.treatments[i].rehabilitationPlan[length -1]);
+			}
 		}
-		console.log(this.rehabilitationPlans);
+
+		//console.log(this.rehabilitationPlans);
 		console.log(JSON.stringify(this.rehabilitationPlans));
+		console.log("Rehab plans length " + this.rehabilitationPlans.length);
 		this.selected = this.rehabilitationPlans[0];
-		this.getExercises();
-		this.getAssessmentTests();
+		//this.getExercises();
+		//this.getAssessmentTests();
+		this.isDataLoaded = true;
 		console.log("Selected" + JSON.stringify(this.selected));
 	}
 
