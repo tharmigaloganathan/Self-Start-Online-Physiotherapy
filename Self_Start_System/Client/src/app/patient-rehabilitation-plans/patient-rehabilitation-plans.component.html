@@ -88,8 +88,13 @@
 										<mat-divider></mat-divider>
 										<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
 											<mat-list-item>
-											Exercise Name: {{ exercise?.name }}
-											<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
+											<div class="col-10">
+												Exercise Name: {{ exercise?.name }}
+											</div>
+											<div class="col-2">
+												<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
+											</div>
+
 											</mat-list-item>
 											<mat-divider></mat-divider>
 										</div>
@@ -139,53 +144,49 @@
 						<!-- Show then exercises button is clicked -->
 						<div *ngIf="viewExerciseDetails">
 							<div class="row">
-								<div class="col">
+								<div class="col-10">
+									<h5><b>{{ activeExercise.name }}</b></h5>
+								</div>
+								<div class="col-2">
 									<button mat-raised-button class="back-button" (click)="viewExercises()">Exercise List</button>
-									<h6>{{ activeExercise.name }}</h6>
+								</div>
+							</div>
 									<!-- Row 2 -->
 									<div class="row">
-										<div class="col-12 form-container">
-											<mat-form-field>
-												<input matInput placeholder="Description" [(ngModel)]="activeExercise.description" name="activeExercise.description" readonly>
-											</mat-form-field>
+										<div class="col-12">
+											<b>Description: </b> {{ activeExercise?.description }}
+											<hr>
 										</div>
 									</div>
 									<!-- Row 3 -->
 									<div class="row">
-										<div class="col-6 form-container">
-											<mat-form-field>
-												<input matInput placeholder="Objectives" [(ngModel)]="activeExercise.objectives" name="activeExercise.objectives" readonly>
-											</mat-form-field>
+										<div class="col-6">
+											<b>Objectives: </b> {{ activeExercise?.objectives }}
+											<hr>
 										</div>
-										<div class="col-6 form-container">
-											<mat-form-field>
-												<input matInput placeholder="Action Steps" [(ngModel)]="activeExercise.actionSteps" name="activeExercise.actionSteps" readonly>
-											</mat-form-field>
+										<div class="col-6">
+											<b>Action Steps: </b> {{ activeExercise?.actionSteps }}
+											<hr>
 										</div>
 									</div>
 									<!-- Row 4 -->
 									<div class="row">
-										<div class="col-6 form-container">
-											<mat-form-field>
-												<input matInput placeholder="Frequency" [(ngModel)]="activeExercise.frequency" name="activeExercise.frequency" readonly>
-											</mat-form-field>
+										<div class="col-6">
+											<b>Frequency: </b> {{ activeExercise?.frequency }}
+											<hr>
 										</div>
-										<div class="col-6 form-container">
-											<mat-form-field>
-												<input matInput placeholder="Duration" [(ngModel)]="activeExercise.duration" name="activeExercise.duration" readonly>
-											</mat-form-field>
+										<div class="col-6">
+											<b>Duration: </b> {{ activeExercise?.duration }}
+											<hr>
 										</div>
 									</div>
 									<!-- Row 5 -->
 									<div class="row">
-										<div class="col form-container">
-											<mat-form-field>
-												<input matInput placeholder="Link" [(ngModel)]="activeExercise.multimediaURL" name="activeExercise.multimediaURL" readonly>
-											</mat-form-field>
+										<div class="col">
+											<b>Link:</b> <a href="activeExercise.multimediaURL">{{ activeExercise?.multimediaURL }}</a>
+											<hr>
 										</div>
 									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

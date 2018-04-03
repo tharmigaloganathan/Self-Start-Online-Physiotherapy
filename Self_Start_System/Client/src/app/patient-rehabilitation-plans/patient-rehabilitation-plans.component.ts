@@ -99,8 +99,8 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	}
 
 	viewExercises() {
-		this.exercsies = [];
-		this.exercsies = this.activeRehabPlan.exerciseOrders;
+		this.exercises = [];
+		this.exercises = this.activeRehabPlan.exerciseOrders;
 		console.log("Exercises" + JSON.stringify(this.exercsies));
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
