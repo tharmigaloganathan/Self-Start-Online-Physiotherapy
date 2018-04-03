@@ -25,15 +25,21 @@ export class AuthenticationService {
   activeUser;
   activeProfile;
   activeProfileType;
+  clickedNavLogin = true;
 
   profileOb$: Observable<any>;
   private profileSubject: Subject<any>;
+  loginOb$ : Observable<any>;
+  private loginSubject : Subject<any>;
 
   constructor(
     private http: Http,
   ) {
     this.profileSubject = new Subject<any>();
     this.profileOb$ = this.profileSubject.asObservable();
+
+    this.loginSubject = new Subject<any>();
+    this.loginOb$ =  this.loginSubject.asObservable();
   }
 
   login(user) {
@@ -111,7 +117,6 @@ export class AuthenticationService {
 
   loadToken(){
     this.authToken = localStorage.getItem('token');
-    console.log("here is the retrieved token from localstorage: ", this.authToken);
   }
 
   checkRole(){
@@ -123,6 +128,12 @@ export class AuthenticationService {
     console.log("in auth service check role, token payload is: ", tokenPayload);
     this.setActiveProfileType((tokenPayload as any).profileType);
     return (tokenPayload as any).profileType;
+  }
+
+  refreshLogin(){
+    console.log("refresh login in service called");
+    this.clickedNavLogin = true;
+    this.loginSubject.next(this.clickedNavLogin);
   }
 
   private handleError(error: HttpErrorResponse) {

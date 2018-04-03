@@ -12,7 +12,7 @@ const config = require('../Config/Database');
 
 router.route('/')
     .post(function (request, response) {
-        console.log ("within the PatientProfile route POST")
+        console.log ("within the PatientProfile route POST");
         PatientProfiles.add(request.body).then(function(patientProfile){
             console.log ("Profile successfully made: ", patientProfile);
             response.json({patientProfile: patientProfile});
@@ -23,6 +23,7 @@ router.route('/')
     })
 router.route('/getEmail/:patientProfile_id')
     .get (function (req, res) {
+        console.log("within patientProfile route, getEmail");
         if (!req.params.patientProfile_id) {
             res.json({success: false, message: 'patient profile ID was not provided'});
         }
