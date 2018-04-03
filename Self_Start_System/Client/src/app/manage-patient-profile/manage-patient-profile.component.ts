@@ -13,6 +13,8 @@ import { ManagePatientProfileService } from '../manage-patient-profile.service';
 })
 export class ManagePatientProfileComponent implements OnInit {
 
+	isDataLoaded;
+	isRehabPlanLoaded;
 	router;
 	userAccountListService;
 	authenticationService;
@@ -35,7 +37,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	activeRehabPlan;
 	activeRehabPlanExercises = [];
 	activeRehabPlanAssessmentTests = [];
-	treatments;
+	treatments = [];
 	activeExercise;
 	activeAssessmentTest;
 	rehabPlanHistory;
@@ -52,13 +54,11 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.authenticationService = authenticationService;
 		this.managePatientProfileService = managePatientProfileService;
 		this.toastr.setRootViewContainerRef(vcr);
+		this.isDataLoaded = false;
+		this.loading = true;
 }
 
   ngOnInit() {
-		/* This is not working right now because User Accounts get by id is not working */
-		//this.account = JSON.parse(localStorage.getItem('selectedAccount'));
-		//this.populatePopulatePatient(this.account.patientProfile);
-		//this.populateAppointments(this.account.patientProfile);
 		this.account = JSON.parse(localStorage.getItem('selectedPatient'));
 		this.populatePopulatePatient(this.account._id);
 		this.populateAppointments(this.account._id);
@@ -85,12 +85,13 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Show the rehab plan details
 	showRehabPlan(index) {
+		//this.isRehabPlanLoaded = false;
 		this.showPlan = true;
 		this.activeTreatmentIndex = index;
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
 		var length = this.activeTreatment.rehabilitationPlan.length;
 		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
-		this.activeRehabPlan = this.rehabPlanHistory[length-4];
+		this.activeRehabPlan = this.rehabPlanHistory[length-1];
 		console.log("Active rehab plan" + JSON.stringify(this.activeRehabPlan));
 		//this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
 		this.selectedRow = length -1;
@@ -114,12 +115,12 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Renew treatment
 	renewTreatment() {
-	this.activeTreatment.dateStart = new Date();
-	console.log(this.activeTreatment);
-	this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatment._id).
-	subscribe( data => {
-		this.toastr.success("Treatment has been renewed!");
-	});
+		this.activeTreatment.dateStart = new Date();
+		console.log(this.activeTreatment);
+		this.managePatientProfileService.updateTreatment(this.activeTreatment, this.activeTreatment._id).
+		subscribe( data => {
+			this.toastr.success("Treatment has been renewed!");
+		});
 }
 
 	//Close treatment
@@ -134,6 +135,7 @@ export class ManagePatientProfileComponent implements OnInit {
 
 	//Update the view when a new rehab plan is clicked on
 	setActiveRehabPlan(index) {
+		this.isRehabPlanLoaded = false;
 		this.selectedRow = index;
 		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[index];
 		this.activeRehabPlanExercises = [];
@@ -141,6 +143,8 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.getRehabPlanExercises();
 		this.getRehabPlanAssessmentTests();
 		this.getRehabPlanPhysio();
+		//this.isRehabPlanLoaded = true;
+		//console.log(this.isRehabPlanLoaded);
 }
 
 	//Update the patients information
@@ -220,7 +224,9 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
-                    console.log("TREATMENTS",this.treatments);
+          console.log("TREATMENTS",this.treatments);
+					this.isDataLoaded = true;
+					this.loading = false;
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log(this.user);
@@ -249,6 +255,8 @@ export class ManagePatientProfileComponent implements OnInit {
 							console.log(this.activeRehabPlanExercises);
 						});
 					}
+					this.isRehabPlanLoaded = true;
+					console.log("Data Loaded" + this.isRehabPlanLoaded);
 				}
 
 			//Get Assessment Test for the selected rehab plan
