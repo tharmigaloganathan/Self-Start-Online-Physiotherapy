@@ -1,7 +1,7 @@
 <app-navbar-general></app-navbar-general>
 
 
-<div class="background" *ngIf ="!changingPassword && !forgotPassword && clickedLogin">
+<div class="background" *ngIf ="!deactivatedUser && !changingPassword && !forgotPassword && clickedLogin">
     <h1 class="title">
         Login<br /><br />
     </h1>
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="background" *ngIf = "deactivatedUser">
+<div class="background" *ngIf = "deactivatedUser && clickedLogin">
     <h1 class="title">
         Your account has been deactivated, please contact the admin to reactivate your account!<br /><br />
     </h1>
