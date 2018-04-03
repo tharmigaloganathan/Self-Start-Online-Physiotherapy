@@ -212,7 +212,7 @@ router.route('/:username')
 
 router.route('/updatePassword/:object_id')
     .put(function (request, response) {
-        console.log ("in update user account password route");
+        console.log ("in update user account password route, here's the new password: ", request.body.encryptedPassword);
         if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});
         }
