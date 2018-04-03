@@ -29,7 +29,7 @@
 					</div>
 					<div class="col-md-8 col-md-offset-2">
 						<div *ngIf="showDetails">
-								<!-- Row 1 -->
+								<!-- Treatment Details -->
 								<h4>Treatment</h4>
 								<hr>
 								<div class="row">
@@ -38,11 +38,11 @@
 									</div>
 									<div class="col-6 form-container">
 										<b>Finished:</b> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
-										<div *ngIf="activeTreatment.dateFinished == null">In Progress</div>
+										<div *ngIf="activeTreatment?.dateFinished == null">In Progress</div>
 									</div>
 								</div>
 								<hr>
-								<!-- Row 2 -->
+								<!-- Rehabilitation Plan Details -->
 								<h4>Rehabilitation Plan</h4>
 								<hr>
 								<div class="row">
@@ -71,8 +71,7 @@
 										<hr>
 									</div>
 								</div>
-
-								<!-- Row 4 -->
+								<!-- Buttons -->
 								<div class="row">
 									<div class="col">
 										<button mat-raised-button class="next-button" (click)="viewExercises()">View Exercises</button>
@@ -89,7 +88,7 @@
 										<mat-divider></mat-divider>
 										<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
 											<mat-list-item>
-											<input matInput [(ngModel)]="exercise.name" name="exercise.name" readonly>
+											Exercise Name: {{ exercise?.name }}
 											<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
 											</mat-list-item>
 											<mat-divider></mat-divider>
@@ -113,9 +112,17 @@
 										<mat-divider></mat-divider>
 										<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list">
 											<mat-list-item>
-											<input matInput [(ngModel)]="test.name" name="test.name" readonly>
-											<input matInput [(ngModel)]="test.openDate" name="test.openDate" readonly>
-											<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">View</button>
+
+													<div class="col-6">
+														Name: {{ test?.name }}
+													</div>
+													<div class="col-4">
+														Open Date: {{ test?.openDate | date : "dd.MM.y" }}
+													</div>
+													<div class="col-2">
+														<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">Complete</button>
+													</div>
+
 											</mat-list-item>
 											<mat-divider></mat-divider>
 										</div>

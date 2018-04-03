@@ -60,7 +60,6 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 			this.treatments = this.patientProfile.treatments;
 			this.activeTreatment = this.treatments[0];
 			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[0];
-
 			//console.log("Rehab Plan" + JSON.stringify(this.activeTreatment.rehabilitationPlan[0].name));
 			//console.log("Treatments" + JSON.stringify(this.treatments));
 		});
@@ -100,6 +99,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	}
 
 	viewExercises() {
+		this.exercsies = [];
+		this.exercsies = this.activeRehabPlan.exerciseOrders;
+		console.log("Exercises" + JSON.stringify(this.exercsies));
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 1;
@@ -107,6 +109,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	}
 
 	viewAssessmentTests() {
+		this.assessmentTests = [];
+		this.assessmentTests = this.activeRehabPlan.assessmentTests;
+		console.log("Assessment Tests" + JSON.stringify(this.assessmentTests));
 		this.showAssessmentTests = 1;
 		this.showDetails = 0;
 		this.showExercises = 0;
