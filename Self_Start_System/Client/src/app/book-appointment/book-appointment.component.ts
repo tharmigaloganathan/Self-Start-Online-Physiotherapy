@@ -40,8 +40,8 @@ export class BookAppointmentComponent implements OnInit, OnDestroy{
     this.profileSubscription= this.authenticationService.profileOb$.subscribe((profile) => {
       this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
       this.patientProfileId = this.user._id;
+      this.getCurrentAvailability();
     });
-    this.getCurrentAvailability();
     // this.authenticationService.getProfile().subscribe(data=>{
     //   this.patientProfileId = data.patientProfile._id;
     //   this.getCurrentAvailability();
@@ -107,15 +107,17 @@ export class BookAppointmentComponent implements OnInit, OnDestroy{
     let formatedEventsList = new Array();
 
     for (let appointment of appointmentList){
-      formatedEventsList.push({
-        title: "Booked Appointment",
-        start: moment(appointment.date),
-        end: moment(appointment.endDate),
-        mongoId: appointment._id,
-        allDay: false,
-        color: '#FDA92A',
-        eventType: this.eventType[1]
-      });
+      if(appointment){
+        formatedEventsList.push({
+          title: "Booked Appointment",
+          start: moment(appointment.date),
+          end: moment(appointment.endDate),
+          mongoId: appointment._id,
+          allDay: false,
+          color: '#FDA92A',
+          eventType: this.eventType[1]
+        });
+      }
     }
 
     return formatedEventsList;

@@ -123,7 +123,7 @@ import { AdminLocationsComponent } from './admin-locations/admin-locations.compo
 import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
 
-
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -230,6 +230,7 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
     ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
     MatAutocompleteModule,
+    MatSliderModule,
   ],
   providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],

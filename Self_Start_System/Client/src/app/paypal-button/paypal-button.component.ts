@@ -1,17 +1,19 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 declare let paypal: any;
+
 
 @Component({
   selector: 'app-paypal-button',
   templateUrl: './paypal-button.component.html',
-  styleUrls: ['./paypal-button.component.scss']
+  styleUrls: ['./paypal-button.component.scss'],
 })
 export class PaypalButtonComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<PaypalButtonComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   ngOnInit() {
     paypal.Button.render({
@@ -37,6 +39,7 @@ export class PaypalButtonComponent implements OnInit {
         // Make a call to the REST api to execute the payment
         return actions.payment.execute().then(function (transaction) {
           console.log(transaction);
+          sessionStorage.setItem("transaction", JSON.stringify(transaction));
         });
       }
     }, '#paypal-button-container');
@@ -46,7 +49,5 @@ export class PaypalButtonComponent implements OnInit {
   public onNoClick(transaction): void {
     this.dialogRef.close();
   }
-
-
 
 }
