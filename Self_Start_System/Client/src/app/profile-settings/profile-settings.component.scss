@@ -1,0 +1,118 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+* {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.top {
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+.previous-button {
+  background-color: $flash-of-orange;
+  color: $white;
+  float: right;
+}
+
+.form-container {
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-container > * {
+  width: 100%;
+}
+
+.delete-button {
+  background-color: $magic-night;
+  color: $white;
+}
+
+.reset-password-button {
+  background-color: $electric-glow;
+  color: $white;
+}
+
+.button-container {
+  padding: 1%;
+  //float: right;
+}
+
+.modal-container {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.yes-button {
+  background-color: $electric-glow;
+  color: $white;
+  float: left;
+}
+
+.no-button {
+  background-color: $magic-night;
+  color: $white;
+  float: right;
+}
+
+.edit-button {
+  background-color: $rare-turquoise;
+  color: $white;
+  float: right;
+}
+
+.save-button {
+  background-color: $electric-glow;
+  color: $white;
+  float: right;
+  margin-right: 1%;
+}
+
+.cancel-button {
+  background-color: $magic-night;
+  color: $white;
+  float: right;
+  margin-right: 1%;
+}
+
+.treatment:hover {
+  background-color: #F5F5F5;
+  cursor: pointer;
+}
+
+.empty {
+  margin-top: 15%;
+  margin-bottom: 15%;
+  margin-left: 40%;
+}
+
+.icon-bar {
+  float:right;
+  margin-top: 2.5%;
+  margin-right: 2.5%;
+}
+
+.back-button {
+  background-color: $beautiful-blue;
+  color: $white;
+  float: right;
+}
+
+.edit-rehab-plan-button {
+  background-color: $rare-turquoise;
+  color: $white;
+  float: left;
+}
+
+.icon {
+  color: $dark-grey;
+  cursor: pointer;
+}
+
+.card-container {
+  padding-top: 0px;
+}

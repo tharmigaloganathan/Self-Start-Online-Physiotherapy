@@ -11,12 +11,15 @@ import {NavbarPatientComponent} from "../navbar-patient/navbar-patient.component
   providers:[MessagesService]
 })
 export class DashboardPatientComponent implements OnInit,OnDestroy {
-    messages: Object[] = [];
+    messages: any[] = [];
     patientID: String;
+    physioID: String;
+    unreadMessages = 0;
     user;
     retrievedProfile;
     name = "";
     successCounter = 0;
+    reload = false;
     navbar;
     profileSubscription;
 
@@ -55,8 +58,8 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.profileSubscription= this.authService.profileOb$.subscribe((profile) => {
       this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
+      this.getMessages();
     });
-    this.getMessages()
   }
 
   ngOnDestroy() {
@@ -69,6 +72,17 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
         //do a put request with each _id
         //change the seenByPatient value
         //make put request
+        console.log("this is false", this.messages.length);
+        for(var i = 0; i < this.messages.length; i++) {
+
+            if(this.messages[i].seenByPatient == false) {
+                this.messages[i].seenByPatient == true;
+                this.messagesService.putMessage(this.messages[i]._id, this.messages[i]).subscribe(data =>
+                {
+                    console.log("PUT REQUEST", data);
+                });
+            }
+        }
     }
 
     formatDate(date) {
@@ -87,32 +101,57 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
     }
 
     getMessages() {
+        this.messages = [];
         this.messagesService.getMessages().subscribe(data =>
             {
+                //FILTERS ALL MESSAGES FOR MESSAGES JUST BETWEEN THIS PATIENT AND HIS/HER PHYSIO
                 let allMessages = data;
                 for(var i = 0; i < allMessages.message.length; i++) {
                     if(allMessages.message[i].patientID == this.patientID) {
                         allMessages.message[i].time = this.formatDate(new Date(allMessages.message[i].time));
-                        console.log(allMessages.message[i].time);
                         this.messages.push(allMessages.message[i]);
                     }
                 }
-                console.log(this.messages);
+                //SETS ALL MESSAGES AS SEEN ONLY IF USER HAS SENT A MESSAGE
+                if(this.reload == true) {
+                    for(var i = 0; i < this.messages.length; i++) {
+
+                        if(this.messages[i].seenByPatient == false) {
+                            this.messages[i].seenByPatient = true;
+                            console.log("this was false", this.messages[i], i);
+                            this.messagesService.putMessage(this.messages[i]._id, this.messages[i]).subscribe(data =>
+                            {
+                                console.log("PUT REQUEST", data);
+                            });
+                        }
+                    }
+                    this.reload = false;
+                }
+                //COUNTS NUMBER OF UNREAD MESSAGES
+                this.unreadMessages = 0;
+                for(var i = 0; i < this.messages.length; i++) {
+                    if(this.messages[i].seenByPatient == false)
+                        this.unreadMessages = this.unreadMessages + 1;
+                }
+                this.physioID = this.messages[0].physioID;
+                console.log("Physio ID: ", this.physioID);
             }
         );
-        //order the messages by date/time
     }
 
-    addNewMessage(message: String) {
-        console.log("NEW MESSAGE", message);
-        //create message object
-        //set seenByPatient to true
-        //set message content
-        //set patientID and physioID
-        //call getMessages again
+    sendNewMessage(newMessage: String) {
+        let myMessage = {
+            patientID: this.patientID,
+            physioID: this.physioID,
+            message: newMessage,
+            seenByPhysio: false,
+            seenByPatient: true,
+            sender: this.patientID
+        }
+        this.messagesService.postMessage(myMessage).subscribe(data =>
+        {
+            this.reload = true;
+            this.getMessages();
+        });
     }
-
-
-
-
 }

@@ -6,29 +6,47 @@
             Manage Standard Rehabilitation Plans <br />
             <button mat-raised-button class="blue" routerLink="new">Create a New Standard Rehabilitation Plan</button>
         </h1>
+        <br />
         <form class="search-form">
             <mat-form-field class="search-field">
                 <input matInput #search placeholder="Search Standard Rehabilitation Plans..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
         </form>
-        Filter by:
-        <mat-radio-group class="radio-group" [(ngModel)]="selectedfilter">
-            <mat-radio-button class="radio-button" value="name" checked="true">
-                Name
-            </mat-radio-button>
-            <mat-radio-button class="radio-button" value="author">
-                Author
-            </mat-radio-button>
-            <mat-radio-button class="radio-button" value="goal">
-                Goal
-            </mat-radio-button>
-        </mat-radio-group>
-        (only name filter currently works)
-        <!-- <div class="selected-radio-value">Your selected filter is: {{selectedfilter}}</div> -->
     </div>
 </div>
-<div class="rehab-plan-list">
+<div class="example-container mat-elevation-z0">
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="authorName">
+      <mat-header-cell *matHeaderCellDef> Author Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.authorName}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="goal">
+      <mat-header-cell *matHeaderCellDef> Goal </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.goal}} </mat-cell>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="timeFrameToComplete">
+      <mat-header-cell *matHeaderCellDef> Time Frame To Complete </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.timeFrameToComplete}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="storeID(row)"></mat-row>
+  </mat-table>
+</div>
+<!-- <div class="rehab-plan-list">
     <div class="row">
         <div class="col-md-3" align="center" *ngFor="let plans of filteredrehabplans">
             <mat-card class="rehab-card" (click) = "storeID(plans)">
@@ -39,4 +57,4 @@
             </mat-card>
         </div>
     </div>
-</div>
+</div> -->

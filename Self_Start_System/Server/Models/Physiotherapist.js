@@ -8,11 +8,8 @@ var physiotherapistSchema = mongoose.Schema(
 		dateFinished: Date,
 		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatment')}],
 		userAccount: {type: mongoose.Schema.ObjectId, ref: ('UserAccount')},
-    availableTimeSlots: [{
-		    startDate: Date,
-        endDate: Date
-    }],
-    appointments: [{type: mongoose.Schema.ObjectId, ref: ('Appointment')}]
+        availableTimeSlots: [{startDate: Date, endDate: Date}],
+        appointments: [{type: mongoose.Schema.ObjectId, ref: ('Appointment')}]
 	}
 );
 

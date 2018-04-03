@@ -1,27 +1,50 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
-var UserAccounts = require('../Models/UserAccount');
 var Treatments = require('../Models/Treatment');
 var RehabilitationPlans = require('../Models/RehabilitationPlan');
 //for tokens & verification & login sessions
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
 
-//middleware for every route below this one
+
+
+
+router.route('/')
+    .post(function (request, response) {
+        console.log ("within the PatientProfile route POST");
+        PatientProfiles.add(request.body).then(function(patientProfile){
+            console.log ("Profile successfully made: ", patientProfile);
+            response.json({patientProfile: patientProfile});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+            console.log("error from backend: ", err);
+        })
+    })
+router.route('/getEmail/:patientProfile_id')
+    .get (function (req, res) {
+        console.log("within patientProfile route, getEmail");
+        if (!req.params.patientProfile_id) {
+            res.json({success: false, message: 'patient profile ID was not provided'});
+        }
+        PatientProfiles.getOne(req.params.patientProfile_id).then(function(patientProfile){
+            console.log("retreived profile: ", patientProfile);
+            res.json({success: true, email: patientProfile.email});
+        }).catch(function(err){
+            res.json({success: false, message: err});
+        });
+    })
+
+//middleware for every route below
 router.use(function (req, res, next) {
     console.log('in authentication middleware');
-    console.log(req.headers['authorization']);
     const token = req.headers.authorization;
-
-    console.log('token: ', token);
 
     if (!token) {
         res.json({success: false, message: 'No token provided'}); // Return error
     } else {
         // Verify the token is valid
         jwt.verify(token, config.secret, function (err, decoded) {
-            console.log(decoded);
             if (err) {
                 res.json({success: false, message: 'Token invalid: ' + err}); // Return error for token validation
             } else {
@@ -33,19 +56,7 @@ router.use(function (req, res, next) {
         })
     }
 });
-
-
 router.route('/')
-    .post(function (request, response) {
-        console.log ("within the PatientProfile route POST")
-        PatientProfiles.add(request.body).then(function(patientProfile){
-            console.log ("Profile successfully made: ", patientProfile);
-            response.json({patientProfile: patientProfile});
-        }).catch(function(err){
-            response.json({success: false, message: err});
-            console.log("error from backend: ", err);
-        })
-    })
     .get(function (request, response) {
         PatientProfiles.getAll().then(function(patientProfiles){
             response.json({patientProfile: patientProfiles});

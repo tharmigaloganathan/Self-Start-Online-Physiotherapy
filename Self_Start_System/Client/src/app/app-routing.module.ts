@@ -31,19 +31,22 @@ import { CreateNewEventComponent } from "./set-free-time/create-new-event/create
 import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
 
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
 import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
 import { PatientCompleteAssessmentTestComponent } from "./patient-complete-assessment-test/patient-complete-assessment-test.component";
 import { PatientRehabilitationPlansComponent } from "./patient-rehabilitation-plans/patient-rehabilitation-plans.component";
 import { PhysioPatientListComponent } from './physio-patient-list/physio-patient-list.component';
-
+import {AdminLocationsComponent} from './admin-locations/admin-locations.component';
 import { BookAppointmentFormComponent } from "./book-appointment/book-appointment-form/book-appointment-form.component";
 import {AuthGuard} from "./guards/auth.guard";
 import {NotAuthGuard} from "./guards/not-auth.guard";
 import {AdminGuard} from "./guards/admin.guard";
 import {PatientGuard} from "./guards/patient.guard";
-import {PhysioGuard} from "./guards/physio.guard";// Our Array of Angular 2 Routes
+import {PhysioGuard} from "./guards/physio.guard";
+import {ProfileSettingsComponent} from "./profile-settings/profile-settings.component";
+// Our Array of Angular 2 Routes
 const appRoutes: Routes = [
 
   {
@@ -78,6 +81,12 @@ const appRoutes: Routes = [
   {
     path: 'create-account',
     component: CreateUserAccountComponent
+  },
+
+  {
+    path: 'settings',
+    component: ProfileSettingsComponent,
+    canActivate: [AuthGuard]
   },
 
   //end of routes that don't need login
@@ -116,6 +125,12 @@ const appRoutes: Routes = [
 
   },
   {
+    path: 'admin/locations',
+    component: AdminLocationsComponent, //The AdminLocationsComponent Route
+    canActivate: [AdminGuard]
+
+  },
+  {
     path: 'admin',
     redirectTo: '/admin/home',
 
@@ -129,6 +144,7 @@ const appRoutes: Routes = [
     canActivate: [PatientGuard]
 
   },
+
   {
     path: 'patient/messages',
     component: PatientMessagesComponent,
@@ -237,24 +253,32 @@ const appRoutes: Routes = [
     component: EditPatientPlanListComponent,
     canActivate: [PhysioGuard]
 
-  },
-  {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
-  {
-    path: '**',
-    redirectTo: '/home'
-  }// The "Catch-All" Route
+},
+    {
+        path: 'physio/messages',
+        component: PhysiotherapistMessagesComponent
+    },
+    {
+        path: 'physio/rehabilitation-plans/:name',
+        component: EditRehabilitationPlanComponent //
+    },
+    {
+        path: 'physio',
+        redirectTo: '/physio/home'
+    }, //the last physio route
+    {
+        path: '**',
+        redirectTo: '/home'
+    }// The "Catch-All" Route
 
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forRoot(appRoutes)],
-  providers: [],
-  bootstrap: [],
-  exports: [RouterModule]
+    declarations: [],
+    imports: [RouterModule.forRoot(appRoutes)],
+    providers: [],
+    bootstrap: [],
+    exports: [RouterModule]
 })
 
 export class AppRoutingModule { }

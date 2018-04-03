@@ -26,7 +26,12 @@ export class NavbarPatientComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getActiveProfile(); // this would execute if window was never close
-    console.log("nav bar patient ",this.user);
+
+    if(this.user) {
+      console.log("nav bar patient ",this.user);
+      this.authService.setActiveProfile(this.user); //trigger subscribers again
+    }
+
     //below would execute if site was closed and opened again and still logged in
     if (!this.user) {
       this.authService.getProfile().subscribe(res => {
@@ -38,7 +43,6 @@ export class NavbarPatientComponent implements OnInit {
             this.user = (result as any).patientProfile;
             this.authService.setActiveProfile(this.user);
             this.authService.setActiveProfileType("patient");
-            console.log(this.user);
             break;
           }
         }
@@ -55,7 +59,7 @@ export class NavbarPatientComponent implements OnInit {
   }
 
   editProfile(){
-    this.editProfileService.passProfile(this.user, this.profileType);
+    this.router.navigate(['settings']);
 
   }
 

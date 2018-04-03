@@ -1,3 +1,4 @@
+
 import { Injectable }       from '@angular/core';
 import {
   CanActivate, Router,
@@ -24,4 +25,3 @@ export class AuthGuard implements CanActivate {
     }
   };
 }
-

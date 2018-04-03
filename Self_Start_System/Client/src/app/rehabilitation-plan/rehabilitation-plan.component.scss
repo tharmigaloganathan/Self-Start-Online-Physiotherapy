@@ -2,31 +2,34 @@
 @import '~@angular/material/theming';
 @import '../../scss/sidebar';
 
-.radio-group {
-  display: inline-flex;
+.example-container {
+    margin-left: 12%;
+    margin-right: 12%;
+}
+.mat-header-cell {
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
-.radio-button {
-  margin: 5px;
+.mat-cell{
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
-
-.selected-radio-value {
-  margin: 15px 0;
+.input{
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
-
 .search-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 96%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    margin-left: 12%;
+    margin-right: 12%;
 }
 
 .search-field {
-  width: 100%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    width: 100%;
 }
 mat-card {
     align-items: center;
     align: center;
-    width: 90%;
+    width: 76%;
     font-family: 'Roboto Condensed', sans-serif !important;
 }
 
