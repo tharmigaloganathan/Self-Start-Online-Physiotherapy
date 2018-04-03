@@ -67,6 +67,7 @@ export class PatientPlanListComponent implements OnInit {
     let dialogRef = this.dialog.open(PaypalButtonComponent);
 
     dialogRef.afterClosed().subscribe(result => {
+
       console.log(result);
     });
   }

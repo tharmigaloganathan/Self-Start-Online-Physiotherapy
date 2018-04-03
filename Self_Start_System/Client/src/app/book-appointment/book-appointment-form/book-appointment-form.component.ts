@@ -9,6 +9,8 @@ import { PatientCompleteAssessmentTestService } from "../../patient-complete-ass
 
 import { environment } from "../../../environments/environment";
 import {Response} from "@angular/http";
+import {PaypalButtonComponent} from "../../paypal-button/paypal-button.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-book-appointment-form',
@@ -49,10 +51,14 @@ export class BookAppointmentFormComponent implements OnInit {
   testResults = [];
   dateCompleted = new Date();
 
+  // For view paypal
+  payment;
+
   constructor(public router : Router,
               private setFreeTimeService: SetFreeTimeService,
               private authenticationService:AuthenticationService,
-              private assessmentTestService: PatientCompleteAssessmentTestService) {
+              private assessmentTestService: PatientCompleteAssessmentTestService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -105,17 +111,32 @@ export class BookAppointmentFormComponent implements OnInit {
 
   //Get the questions
   getQuestions() {
-    for(var i = 0; i<this.form.questions.length; i++) {
-      this.assessmentTestService.getQuestion(this.form.questions[i]).
-      subscribe(
-        data => {
-          this.questions.push(data);
-          console.log("This is what was returned for the question" + JSON.stringify(data));
-        },
-        error => {
-          console.log("Error");
-        });
+    // Initialize answers with empty strings
+    for (let i = 0; i < this.form.questions.length; i++){
+      this.answers.push("");
     }
+
+    let questions = [];
+
+    // Inner function to get the questions one by one
+    let getSingleQuestion = i => {
+      if (i<this.form.questions.length){
+        this.assessmentTestService.getQuestion(this.form.questions[i])
+          .subscribe(
+          data => {
+            questions.push(data);
+            console.log("This is what was returned for the question" + JSON.stringify(data));
+            getSingleQuestion(i + 1);
+          },
+          error => {
+            console.log("Error");
+          });
+      } else {
+        this.questions = questions;
+      }
+    };
+
+    getSingleQuestion(0);
   }
 
   // Populate the test results object
@@ -280,4 +301,32 @@ export class BookAppointmentFormComponent implements OnInit {
     this.endDate = new Date(this.startDate);
     this.endDate.setHours(this.endTime.substring(0,2), this.endTime.substring(3,5));
   };
+
+  openPaypalDialog(): void {
+    // Open the dialog box
+    let dialogRef = this.dialog.open(PaypalButtonComponent);
+
+    // After the dialog box is closed, see if the transaction is set
+    dialogRef.afterClosed().subscribe(result => {
+      // Get the trasaction object
+      let transaction = JSON.parse(sessionStorage.getItem("transaction"));
+      console.log("transaction: ", transaction);
+
+      // If the transaction is approved, set the payment option to paid
+      if (transaction.state === "approved") {
+        this.payment='Paid';
+      } else {
+        this.payment=null;
+      }
+      // Reset session storage to avoid replay attack
+      sessionStorage.setItem("transaction", "");
+    });
+  }
+
+  onImageUpload(event, i){
+    console.log(event.file);
+    console.log(i);
+    console.log(this.answers);
+    this.answers[i] = environment.apiURLForUploadingPictures + event.file;
+  }
 }

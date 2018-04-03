@@ -125,9 +125,38 @@
                   </div>
                 </mat-form-field>
               </div>
+
+              <div *ngIf="question.questionType == 'Image Upload'" class="form-container">
+                <mat-form-field>
+                  <app-image-upload-test
+                    (uploadedURL)="onImageUpload($event, i)"
+                  ></app-image-upload-test>
+                  <div>
+                    <input disable matInput>
+                  </div>
+                </mat-form-field>
+              </div>
+
               <mat-divider></mat-divider>
             </div>
           </mat-list>
+
+          <!--<mat-form-field>-->
+            <!--&lt;!&ndash;Include paypal button for transactions&ndash;&gt;-->
+            <!--<app-paypal-button></app-paypal-button>-->
+            <!--<div style="display: none">-->
+              <!--<input matInput name="paypalInput" type="text">-->
+            <!--</div>-->
+          <!--</mat-form-field>-->
+
+          <mat-form-field>
+            <!--Include paypal button for transactions-->
+            <button mat-raised-button (click)="openPaypalDialog()">Open Paypal</button>
+            <div style="display: none">
+              <input matInput [(ngModel)]="payment" name="paypalInput" type="text" required>
+            </div>
+          </mat-form-field>
+
           <!-- Submit Button -->
           <div class="button-container">
             <button mat-raised-button class="next-button" type="submit" [disabled]="!assessmentTestForm.form.valid">Submit and Book</button>
