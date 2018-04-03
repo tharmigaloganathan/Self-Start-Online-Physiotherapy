@@ -33,6 +33,8 @@ export class UserAccountListService {
 
 	//Get a single users account
 	getUserAccount(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			console.log(this.options);
 			return this.http.get(this.domain+'/UserAccounts/id/'+id, this.options)
 			.map((response: Response) => {
 			return response.json().userAccount;
@@ -68,8 +70,8 @@ export class UserAccountListService {
 
 	//Get all physiotherapists
 	getAllPhysiotherapists() {
-    this.options = this.authenticationService.createAuthenticationHeaders();
-			return this.http.get(this.domain+'/Physiotherapists',this.options)
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/Physiotherapists', this.options)
 			.map((response: Response) => {
 			return response.json().physiotherapist;
 		});
@@ -77,10 +79,10 @@ export class UserAccountListService {
 
 	//Update patients information
 	updatePatient(id, user) {
-		this.options = this.authenticationService.createAuthenticationHeaders();
-		return this.http.put(this.domain+'/PatientProfiles/'+id ,user, this.options)
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			return this.http.put(this.domain+'/PatientProfiles/'+id ,user, this.options)
 			.map((response: Response) => {
-				return response.json().patientProfile;
+			return response.json().patientProfile;
 		});
 	}
 

@@ -45,11 +45,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.username = null;
     this.password = null;
-    if (this.authGuard.redirectUrl){
-      this.previousUrl = this.authGuard.redirectUrl;
-      this.authGuard.redirectUrl = undefined;
-    }
-
   }
 
   forgotPasswordClicked(){
@@ -255,5 +250,3 @@ export class LoginComponent implements OnInit {
     })
   }
 }
-
-

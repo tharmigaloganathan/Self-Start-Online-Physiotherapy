@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var PatientProfiles = require('../Models/PatientProfile');
-var UserAccounts = require('../Models/UserAccount');
 var Treatments = require('../Models/Treatment');
 var RehabilitationPlans = require('../Models/RehabilitationPlan');
 //for tokens & verification & login sessions

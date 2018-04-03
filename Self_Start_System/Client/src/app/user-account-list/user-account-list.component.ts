@@ -18,14 +18,13 @@ export class UserAccountListComponent implements OnInit {
 	filteredUsers = {};
 	physiotherapists = {};
 	isPhysio;
-	displayedColumns = ['givenName', 'familyName', 'DOB', 'email'];
+	displayedColumns = ['givenName', 'familyName', 'email'];
 	patientDataSource;
-	displayedColumnsPhysio = ['givenName', 'familyName', 'dateHired', 'email'];
+	displayedColumnsPhysio = ['givenName', 'familyName', 'email'];
 	physioDataSource;
 	loading = false;
 	activeUser;
-
-	//@ViewChild(MatSort) sort: MatSort;
+	activePhysio
 
 	constructor(userAccountListService: UserAccountListService, router: Router) {
 		this.userAccountListService = userAccountListService;
@@ -49,7 +48,7 @@ export class UserAccountListComponent implements OnInit {
 		subscribe(
 			user => {
 				this.users = user;
-				console.log("This is what was returned" + JSON.stringify(user));
+				//console.log("This is what was returned" + JSON.stringify(user));
 				this.setUpDataSource(user);
 			},
 			error => {
@@ -80,6 +79,15 @@ export class UserAccountListComponent implements OnInit {
 		localStorage.setItem('selectedAccount', JSON.stringify(this.activeUser));
 		this.router.navigate(['admin/user-accounts/manage']);
 	}
+
+	//View the physios full profile
+	viewPhysio(physio) {
+		console.log("Putting this in store for the physio" + physio);
+		localStorage.setItem('selectedPhysio', JSON.stringify(physio));
+		console.log("Putting this in store for the account" + this.activePhysio);
+		localStorage.setItem('selectedAccount', JSON.stringify(this.activePhysio));
+		this.router.navigate(['admin/user-accounts/manage']);
+}
 
 	//Set the user type to display the corresponding user list
 	setUserType(type) {
@@ -118,8 +126,23 @@ export class UserAccountListComponent implements OnInit {
 	};
 
 	//View the physio's profile
-	selectedRowPhysio = row=> {
-		console.log("Physio row" + row);
+	selectRowPhysio = row=> {
+		console.log("Physio row" + JSON.stringify(row));
+		this.userAccountListService.getUserAccount(row.userAccount).
+		subscribe(
+			user => {
+				this.activePhysio = user;
+				console.log(this.activePhysio);
+				//Redirect to physios profile
+				this.loading = true;
+				setTimeout(() => {
+					this.viewPhysio(row);
+					this.loading = false;
+				}, 500);
+			},
+			error => {
+				console.log("Error");
+			});
 	};
 
 	//Filter search results

@@ -31,6 +31,7 @@ import { CreateNewEventComponent } from "./set-free-time/create-new-event/create
 import { SetFreeTimeComponent } from "./set-free-time/set-free-time.component";
 
 import { PatientMessagesComponent } from './patient-messages/patient-messages.component';
+import { PhysiotherapistMessagesComponent } from './physiotherapist-messages/physiotherapist-messages.component';
 import {PatientPlanListComponent} from './patient-plan-list/patient-plan-list.component';
 import {EditPatientPlanListComponent} from './edit-patient-plan-list/edit-patient-plan-list.component';
 
@@ -246,24 +247,32 @@ const appRoutes: Routes = [
     component: EditPatientPlanListComponent,
     canActivate: [PhysioGuard]
 
-  },
-  {
-    path: 'physio',
-    redirectTo: '/physio/home'
-  }, //the last physio route
-  {
-    path: '**',
-    redirectTo: '/home'
-  }// The "Catch-All" Route
+},
+    {
+        path: 'physio/messages',
+        component: PhysiotherapistMessagesComponent
+    },
+    {
+        path: 'physio/rehabilitation-plans/:name',
+        component: EditRehabilitationPlanComponent //
+    },
+    {
+        path: 'physio',
+        redirectTo: '/physio/home'
+    }, //the last physio route
+    {
+        path: '**',
+        redirectTo: '/home'
+    }// The "Catch-All" Route
 
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forRoot(appRoutes)],
-  providers: [],
-  bootstrap: [],
-  exports: [RouterModule]
+    declarations: [],
+    imports: [RouterModule.forRoot(appRoutes)],
+    providers: [],
+    bootstrap: [],
+    exports: [RouterModule]
 })
 
 export class AppRoutingModule { }

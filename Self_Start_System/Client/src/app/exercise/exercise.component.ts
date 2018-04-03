@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import {ImageUploadTestComponent} from "../image-upload-test/image-upload-test.component";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { environment } from './../../environments/environment';
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 
 @Component({
@@ -41,6 +42,9 @@ export class ExerciseComponent implements OnInit {
     multimediaURL: null,
     _id: null
   };
+  dataSource;
+  filteredExercises;
+  displayedColumns = ['name', 'authorName', 'description'];
 
 
   constructor(private exerciseService :ExerciseService,
@@ -48,6 +52,16 @@ export class ExerciseComponent implements OnInit {
               vcr: ViewContainerRef) {
     this.openEditModal=false;
     this.toastr.setRootViewContainerRef(vcr);
+  }
+
+  assignCopy(){
+      this.filteredExercises = Object.assign([], this.allExercises);
+  }
+
+  filterItem(value: string) {
+      value = value.trim();
+      value = value.toLowerCase();
+      this.dataSource.filter = value;
   }
 
   ngOnInit() {
@@ -123,6 +137,8 @@ export class ExerciseComponent implements OnInit {
                 this.allExercises.push(data.exercise[i]);
             }
         }
+        this.assignCopy();
+        this.dataSource = new MatTableDataSource(this.filteredExercises);
       },
       error => console.log(error)
     );

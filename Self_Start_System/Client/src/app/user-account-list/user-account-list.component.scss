@@ -20,11 +20,6 @@
 	float: right;
 }
 
-.create-account-button:hover {
-	background-color: $beautiful-blue;
-	color: $white;
-}
-
 .reset-button {
 	background-color: $electric-glow;
 	color: $white;
@@ -35,19 +30,11 @@
 	color: $white;
 }
 
-.row-item:hover {
-	background-color: #F5F5F5;
-	cursor: pointer;
-}
-
-.row-border {
-	border-bottom: solid 3px, grey
-}
-
 .search-area {
 	width: 100%;
 }
 
-.radio-button {
-  margin: 5px;
+.user-item:hover {
+	background-color: #F5F5F5;
+	cursor: pointer;
 }

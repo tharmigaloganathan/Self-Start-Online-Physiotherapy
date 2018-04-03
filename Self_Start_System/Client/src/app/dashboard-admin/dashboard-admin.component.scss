@@ -1,0 +1,89 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+.form.mat-form-field.input {
+    font-size: 12px !important;
+}
+
+//CSS FOR Search
+.search-full-width {
+  width: 100%;
+  font-family: 'Roboto Condensed', sans-serif !important;
+  padding:5px;
+  padding-bottom: 0px !important;
+}
+
+//CSS for each of the cards
+.welcome-card{
+    padding-top:10px;
+    font-size: 35px;
+    font-weight: 400;
+    text-align: center;
+    font-family: 'Raleway', sans-serif !important;
+}
+
+.forms-card {
+    height:48%;
+    margin-bottom: 4%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.patient-list-card {
+    height:100%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.assessment-test-card{
+    height:48%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+
+//CSS FOR CONTENT WITHIN THE PATIENT LIST CARD
+.patient-list {
+    padding: 0px;
+    padding-top: 0px !important;
+}
+
+//CSS FOR CONTENT WITHIN THE FORMS CARD
+.forms-list {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    overflow-y: scroll;
+    padding: 5px;
+    max-height: 130px;
+    min-height: 130px;
+}
+
+
+//GENERAL PAGE STYLING
+//sets column padding to 0
+.col-padding-0{
+    padding-right:1%;
+    padding-left:1%;
+    padding-top:1%;
+    padding-bottom:1%;
+}
+
+.navbar-fill-remaining-space{
+  /* This fills the remaining space, by using flexbox.
+   Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+//sets row-height to fill rest of the viewport
+.row-height div {
+  min-height: 84vh;
+}
+
+//disables horizontal and vertical scroll
+.grid-container {
+    max-width: 100%;
+    overflow-x: hidden;
+    max-height: 100%;
+    overflow-y: hidden;
+    background-color: #EFF2F4;
+}
+
+.mat-card-subtitle {
+    color: #AAAAAA;
+}

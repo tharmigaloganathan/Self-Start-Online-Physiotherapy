@@ -1,113 +1,45 @@
 <app-navbar-physio></app-navbar-physio>
-<!--Start of Textboxes-->
-<div class="container">
 
-  <div class="row">
-    <!--Card 1-->
-    <div class="col-md-4">
-      <mat-card class="dashboard-card">
-        <mat-card-title>Title 1</mat-card-title>
-        <mat-card-subtitle>Subtitles</mat-card-subtitle>
-        <mat-card-content>
-          Simple card
-        </mat-card-content>
-
-        <img mat-card-image src="../../assets/images/placeholder.jpeg">
-
-        <mat-card-actions>
-          <button mat-button class="launch">Launch</button>
-        </mat-card-actions>
-      </mat-card>
+<div class="grid-container">
+    <div class="welcome-card">Welcome to your dashboard {{this.user.givenName}}!</div>
+    <div class="row row-height">
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="messages-card">
+                <mat-toolbar>
+                    <b>Your Unread Messages</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Messages Module"><mat-icon routerLink="/physio/messages">launch</mat-icon></span>
+                </mat-toolbar>
+                <mat-card class="messages-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let patient of patientsWithMessages; let i = index;" (click)="selectMessage(i)">
+                        <mat-list-item>{{patient.givenName + " " + patient.familyName}}
+                            {{"(" + patient.unreadMessages + ")"}}
+                        </mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+            <mat-card class="assessment-test-card">
+                <mat-toolbar>
+                    <b>Your Upcoming Appointments</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Appointment Module"><mat-icon routerLink="/physio/set-free-time">launch</mat-icon></span>
+                </mat-toolbar>
+            </mat-card>
+        </div>
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="patient-list-card">
+                <mat-toolbar>
+                    <b>Your Patients</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Patient List Module"><mat-icon routerLink="/patient/rehabilitation-plans">launch</mat-icon></span>
+                </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0" >
+                    <mat-nav-list *ngFor="let patient of patients; let i = index;" (click)="selectPatient(i)">
+                        <!-- <mat-list-item>{{patient.givenName + " " + patient.familyName}}<mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item> -->
+                        <mat-list-item>{{patient.givenName + " " + patient.familyName}}</mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+        </div>
     </div>
-    <!--Card 2-->
-    <div class="col-md-4">
-      <mat-card class="dashboard-card">
-        <!--<mat-card-header>-->
-        <mat-card-title>Title 2</mat-card-title>
-        <mat-card-subtitle>Subtitles</mat-card-subtitle>
-        <!--<img mat-card-avatar src="../../assets/images/logo.png" >-->
-        <!--</mat-card-header>-->
-        <mat-card-content>
-          Simple card
-        </mat-card-content>
-
-        <img mat-card-image src="../../assets/images/placeholder.jpeg">
-
-        <mat-card-actions>
-          <button mat-button class="launch">Launch</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-    <!--Card 3-->
-    <div class="col-md-4">
-      <mat-card class="dashboard-card">
-        <mat-card-title>Title 3</mat-card-title>
-        <mat-card-subtitle>Subtitles</mat-card-subtitle>
-        <mat-card-content>
-          Simple card
-        </mat-card-content>
-
-        <img mat-card-image src="../../assets/images/placeholder.jpeg">
-
-        <mat-card-actions>
-          <button mat-button class="launch">Launch</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-  </div>
-
-  <!--Row #2-->
-  <div class="row">
-    <!--Card 1-->
-    <div class="col-md-4">
-      <mat-card class="dashboard-card">
-        <mat-card-title>Title 4</mat-card-title>
-        <mat-card-subtitle>Subtitles</mat-card-subtitle>
-        <mat-card-content>
-          Simple card
-        </mat-card-content>
-
-        <img mat-card-image src="../../assets/images/placeholder.jpeg">
-
-        <mat-card-actions>
-          <button mat-button class="launch">Launch</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-    <!--Card 2-->
-    <div class="col-md-4">
-      <mat-card class="dashboard-card">
-        <!--<mat-card-header>-->
-        <mat-card-title>Title 5</mat-card-title>
-        <mat-card-subtitle>Subtitles</mat-card-subtitle>
-        <!--<img mat-card-avatar src="../../assets/images/logo.png" >-->
-        <!--</mat-card-header>-->
-        <mat-card-content>
-          Simple card
-        </mat-card-content>
-
-        <img mat-card-image src="../../assets/images/placeholder.jpeg">
-
-        <mat-card-actions>
-          <button mat-button class="launch">Launch</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-    <!--Card 3-->
-    <div class="col-md-4">
-      <mat-card class="dashboard-card">
-        <mat-card-title>Title 6</mat-card-title>
-        <mat-card-subtitle>Subtitles</mat-card-subtitle>
-        <mat-card-content>
-          Simple card
-        </mat-card-content>
-
-        <img mat-card-image src="../../assets/images/placeholder.jpeg">
-
-        <mat-card-actions>
-          <button mat-button class="launch">Launch</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-  </div>
 </div>
