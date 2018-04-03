@@ -116,12 +116,9 @@ import {CreateUserAccountService} from "./create-user-account.service";
 import {UserAccountListService} from "./user-account-list.service";
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
-<<<<<<< HEAD
 import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
 import {LocationsService} from "./locations.service";
-=======
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
->>>>>>> ab401e774140dd317e6a55ad6e241d0f0e0bb307
 
 
 
