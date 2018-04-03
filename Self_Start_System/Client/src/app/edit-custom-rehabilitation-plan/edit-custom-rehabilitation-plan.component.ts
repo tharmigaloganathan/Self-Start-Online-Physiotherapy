@@ -317,11 +317,12 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       name: "Name",
       description: "Description",
       authorName: "Default",
-      recommendations: {},
       form: null,
       testResults: null,
       openDate: null,
-      dateCompleted: null
+      dateCompleted: null,
+      recommendationDecision: null,
+      recommendationEvaluation: null
     }
     this.openEditAssessmentTestDialog(assessTest, true);
   }
@@ -532,86 +533,86 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     )
   }
 
-  createRecommendation(){
-    var recommendation = {
-      timeStamp: Date.now(),
-      decision: "The patient should...",
-      assessmentTest: this.selectedCompleteAssessmentTest._id,
-      evaluation: 5
-    }
+  // createRecommendation(){
+  //   var recommendation = {
+  //     timeStamp: Date.now(),
+  //     decision: "The patient should...",
+  //     assessmentTest: this.selectedCompleteAssessmentTest._id,
+  //     evaluation: 5
+  //   }
+  //
+  //   this.openEditRecommendationDialog(recommendation, true);
+  // }
 
-    this.openEditRecommendationDialog(recommendation, true);
-  }
-
-  openEditRecommendationDialog(recommendation, newRecommendationFlag: boolean){
-    this.editRecommendationDialogRef = this.dialog.open(EditRecommendationDialogComponent, {
-      width: '50vw',
-      data: {
-        recommendation,
-        newRecommendationFlag
-      }
-    });
-
-    this.editRecommendationDialogRef.afterClosed().subscribe( result => {
-      if (newRecommendationFlag) {
-        this.addRecommendation(result);
-      } else {
-        this.editRecommendation(result);
-      }
-    });
-  }
+  // openEditRecommendationDialog(recommendation, newRecommendationFlag: boolean){
+  //   this.editRecommendationDialogRef = this.dialog.open(EditRecommendationDialogComponent, {
+  //     width: '50vw',
+  //     data: {
+  //       recommendation,
+  //       newRecommendationFlag
+  //     }
+  //   });
+  //
+  //   this.editRecommendationDialogRef.afterClosed().subscribe( result => {
+  //     if (newRecommendationFlag) {
+  //       this.addRecommendation(result);
+  //     } else {
+  //       this.editRecommendation(result);
+  //     }
+  //   });
+  // }
 
   selectCompleteAssessmentTest(test){
     this.selectedCompleteAssessmentTest = test;
-    this.getRecommendations();
+    //this.getRecommendations();
     this.getTestResultsByAssessmentTestID(test);
   }
 
-  editRecommendation(recommendation){
-    this.recommendationService.editRecommendation(recommendation).subscribe(
-      res => {
-        //Do something for when you edit a recommendation
-        this.getRecommendations();
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
+  // editRecommendation(recommendation){
+  //   this.recommendationService.editRecommendation(recommendation).subscribe(
+  //     res => {
+  //       //Do something for when you edit a recommendation
+  //       this.getRecommendations();
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   )
+  // }
 
-  addRecommendation(recommendation){
-    this.recommendationService.addRecommendation(recommendation).subscribe(
-      res => {
-        this.selectedCompleteAssessmentTest.recommendation = res.recommendation._id;
-        this.editAssessmentTest(this.selectedCompleteAssessmentTest);
-        this.getRecommendations();
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
+  // addRecommendation(recommendation){
+  //   this.recommendationService.addRecommendation(recommendation).subscribe(
+  //     res => {
+  //       this.selectedCompleteAssessmentTest.recommendation = res.recommendation._id;
+  //       this.editAssessmentTest(this.selectedCompleteAssessmentTest);
+  //       this.getRecommendations();
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   )
+  // }
 
-  getRecommendations(){
-    this.allRecommendations = [];
-    this.selectedAssessmentRecommendation = {};
-    this.recommendationService.getAllRecommendations().subscribe(
-      data => {
-        this.allRecommendations = data.recommendation;
-        console.log("ALL RECOS:", this.allRecommendations);
-        console.log("selected complete:", this.selectedCompleteAssessmentTest);
-        if(this.selectedCompleteAssessmentTest != null){
-          for(let i = 0; i < this.allRecommendations.length; i++){
-            if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
-              this.selectedAssessmentRecommendation = this.allRecommendations[i];
-            }
-          }
-        }
-      }
-    )
-    console.log(this.allRecommendations);
-    console.log(this.selectedAssessmentRecommendation);
-  }
+  // getRecommendations(){
+  //   this.allRecommendations = [];
+  //   this.selectedAssessmentRecommendation = {};
+  //   this.recommendationService.getAllRecommendations().subscribe(
+  //     data => {
+  //       this.allRecommendations = data.recommendation;
+  //       console.log("ALL RECOS:", this.allRecommendations);
+  //       console.log("selected complete:", this.selectedCompleteAssessmentTest);
+  //       if(this.selectedCompleteAssessmentTest != null){
+  //         for(let i = 0; i < this.allRecommendations.length; i++){
+  //           if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
+  //             this.selectedAssessmentRecommendation = this.allRecommendations[i];
+  //           }
+  //         }
+  //       }
+  //     }
+  //   )
+  //   console.log(this.allRecommendations);
+  //   console.log(this.selectedAssessmentRecommendation);
+  // }
 
   //===================================
   //RECOMMENDATIONS ENDS
