@@ -73,12 +73,14 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Populate Rehab Plan
 	populateRehabPlans() {
+	/*
 		for(var i=0; i<this.treatments.length; i++) {
-			for(var j=0; j<this.treatments.rehabilitationPlan.length) {
+			for(var j=0; j<this.treatments.rehabilitationPlan.length; j++) {
 				var length = this.treatments.rehabilitationPlan.length;
 				this.rehabilitationPlans.push(this.treatments[i].rehabilitationPlan[length -1]);
 			}
 		}
+		*/
 
 		//console.log(this.rehabilitationPlans);
 		console.log(JSON.stringify(this.rehabilitationPlans));
@@ -101,7 +103,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	viewExercises() {
 		this.exercises = [];
 		this.exercises = this.activeRehabPlan.exerciseOrders;
-		console.log("Exercises" + JSON.stringify(this.exercsies));
+		console.log("Exercises" + JSON.stringify(this.exercises));
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 1;
@@ -120,6 +122,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Get selected rehab plan data
 	getExercises() {
+		/*
 		console.log("Get data executing");
 		for(var i=0; i<this.selected.exerciseOrders.length; i++) {
 			this.rehabilitationPlansService.getExercise(this.selected.exerciseOrders[i]).
@@ -133,10 +136,12 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					console.log("Error");
 				});
 			}
+		*/
 		}
 
 		//Get the selected rehab plan assessment tests
 		getAssessmentTests() {
+			/*
 			console.log("Get assessments tests executing");
 			for(var i=0; i<this.selected.assessmentTests.length; i++) {
 				this.rehabilitationPlansService.getAssessmentTest(this.selected.assessmentTests[i]).
@@ -153,6 +158,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 						console.log("Error");
 					});
 			}
+			*/
 		}
 
 	//Route to complete assessment test component

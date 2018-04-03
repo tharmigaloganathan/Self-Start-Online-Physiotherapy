@@ -13,12 +13,7 @@ export class PaypalButtonComponent implements OnInit {
     public dialogRef: MatDialogRef<PaypalButtonComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
-
   ngOnInit() {
-<<<<<<< HEAD
-		/*
-=======
->>>>>>> 0d03880c43d2d1d6143cf4b93a8f117f56569b78
     paypal.Button.render({
       env: 'sandbox', // sandbox | production
       // PayPal Client IDs - replace with your own
@@ -45,7 +40,6 @@ export class PaypalButtonComponent implements OnInit {
         });
       }
     }, '#paypal-button-container');
-		*/
   }
 
 
