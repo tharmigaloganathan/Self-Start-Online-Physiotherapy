@@ -173,5 +173,13 @@ export class UserAccountListService {
 		});
 	}
 
+	getPatientsByPhysio(physioID){
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/Treatments/by-physio/'+physioID, this.options)
+      .map((response: Response) => {
+        return response.json().physiotherapist;
+      });
+  }
+
 
 }
