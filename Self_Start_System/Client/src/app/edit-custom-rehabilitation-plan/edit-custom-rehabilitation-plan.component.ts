@@ -319,7 +319,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
         this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
           this.rehabilitationplan = data.rehabilitationPlan;
-          console.log("Nick this is the rehab plan", data);
+          console.log("Nick this is the rehab plan", this.rehabilitationplan);
           this.getExercises();
           this.getAssessmentTests();
         });
@@ -542,14 +542,17 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   getForm(){
-    this.formService.getForm(this.incompleteAssessmentTests[this.selectedIncompleteIndex].form).subscribe(
-      data => {
-        console.log("specific form received! ", data);
-        this.form = data.form;
-        this.getAllQuestions();
-      },
-      error => console.log(error)
-    );
+		if(this.incompleteAssessmentTests.length > 0) {
+			this.formService.getForm(this.incompleteAssessmentTests[this.selectedIncompleteIndex].form).subscribe(
+				data => {
+					console.log("specific form received! ", data);
+					this.form = data.form;
+					this.getAllQuestions();
+				},
+				error => console.log(error)
+			);
+		}
+
   }
 
   getAllQuestions(){

@@ -56,6 +56,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	currentUser;
   intakeFormQandA=[];
 	assessmentTests = []; //Holds all assesments test - used for the patient history print form
+	graphData = [];
 
   // Images for front back and sides
   intakeFormImages;
@@ -65,34 +66,35 @@ export class ManagePatientProfileComponent implements OnInit {
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
 
-  Highcharts = Highcharts; // required
-  chartConstructor = 'chart'; // optional string, defaults to 'chart'
-  chartOptions = {
-    title: {
-      text: 'Treatment Success'
-    },
-    subtitle: {
-      text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
-    },
-    xAxis: {
-      title: {
-        text: 'Assessment Number'
-      },
-      tickInterval: 1
-    },
-    yAxis: {
-      title: {
-        text: 'Rating'
-      },
-      tickInterval: 1
-    },
-    series: [{
-      showInLegend: false,
-      data: [1, 2, 3]
-    }]
-  }; // required
-  //chartCallback = function (chart) { ... } // optional function, defaults to null
-  updateFlag = false; // optional boolean
+	Highcharts = Highcharts; // required
+	chartConstructor = 'chart';
+	// optional string, defaults to 'chart'
+			chartOptions = {
+				title: {
+					text: 'Treatment Success'
+				},
+				subtitle: {
+					text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
+				},
+				xAxis: {
+					title: {
+						text: 'Assessment Number'
+					},
+					tickInterval: 1
+				},
+				yAxis: {
+					title: {
+						text: 'Rating'
+					},
+					tickInterval: 1
+				},
+				series: [{
+					showInLegend: false,
+					data: this.graphData
+				}]
+			}; // required
+			//chartCallback = function (chart) { ... } // optional function, defaults to null
+			updateFlag = false; // optional boolean
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -161,6 +163,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
+		this.populateGraphData();
 		//this.getRehabPlanExercises();
 		//this.getRehabPlanAssessmentTests();
 		//this.getRehabPlanPhysio();
@@ -299,6 +302,7 @@ export class ManagePatientProfileComponent implements OnInit {
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log("This is the patient", this.user);
+
 
 
 				});
@@ -477,5 +481,42 @@ export class ManagePatientProfileComponent implements OnInit {
 		showProfile() {
 		this.showPrintPage = false;
 	}
+
+	populateGraphData() {
+		//Populate graph data
+		var length = this.rehabPlanHistory.length;
+		console.log(length);
+		for(var i=0; i<this.rehabPlanHistory[length-1].assessmentTests.length; i++) {
+			if(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation != null) {
+				this.graphData.push(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation);
+			}
+		}
+		// optional string, defaults to 'chart'
+				this.chartOptions = {
+					title: {
+						text: 'Treatment Success'
+					},
+					subtitle: {
+						text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
+					},
+					xAxis: {
+						title: {
+							text: 'Assessment Number'
+						},
+						tickInterval: 1
+					},
+					yAxis: {
+						title: {
+							text: 'Rating'
+						},
+						tickInterval: 1
+					},
+					series: [{
+						showInLegend: false,
+						data: this.graphData
+					}]
+				}; // required
+				console.log("Chart ", this.chartOptions);
+}
 
 }
