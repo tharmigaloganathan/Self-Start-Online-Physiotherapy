@@ -50,12 +50,21 @@ export class UserAccountListService {
 		});
 	}
 
-	updateUserPassword(id,user){
+	updateUserPassword(id,user, email, reset){
     console.log("in service - updateUserPassword: ", user);
-    return this.http.put(this.domain+'/UserAccounts/updatePassword/'+id, user)
-      .map((response: Response) => {
-        return response.json().userAccount;
-      });
+    if (!reset){
+      var object = {user: user, email: email, reset: false};
+      return this.http.put(this.domain+'/UserAccounts/updatePassword/'+id, object)
+        .map((response: Response) => {
+          return response.json().userAccount;
+        });
+    } else {
+      var object2 = {user: user, email: email, reset: true};
+      return this.http.put(this.domain + '/UserAccounts/updatePassword/' + id, object2)
+        .map((response: Response) => {
+          return response.json().userAccount;
+        });
+    }
   }
 
 	//Get all patients
@@ -172,6 +181,14 @@ export class UserAccountListService {
 			return response.json().physiotherapist;
 		});
 	}
+
+	getPatientsByPhysio(physioID){
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/Treatments/by-physio/'+physioID, this.options)
+      .map((response: Response) => {
+        return response.json().physiotherapist;
+      });
+  }
 
 
 }

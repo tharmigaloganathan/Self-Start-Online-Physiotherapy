@@ -129,6 +129,7 @@
 						<mat-tab label="Treatments">
 							<div *ngIf="treatments == 0 else treatmentList" class="empty">
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no treatment history</h6>
+								<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
 							</div>
 							<ng-template #treatmentList>
 								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">

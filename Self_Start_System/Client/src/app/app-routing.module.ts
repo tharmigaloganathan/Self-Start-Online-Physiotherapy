@@ -19,6 +19,7 @@ import { CreateFormComponent} from "./create-form/create-form.component";
 
 
 import { HomePageComponent} from "./home-page/home-page.component";
+import { HomePageAboutComponent} from "./home-page-about/home-page-about.component";
 import { DashboardAdminComponent} from "./dashboard-admin/dashboard-admin.component";
 import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.component";
 import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
@@ -52,6 +53,11 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: HomePageComponent, // what a general user sees
+    canActivate:[NotAuthGuard]
+  },
+  {
+    path: 'about',
+    component: HomePageAboutComponent, // what a general user sees
     canActivate:[NotAuthGuard]
   },
 

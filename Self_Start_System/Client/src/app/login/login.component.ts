@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       let account = useraccount.userAccount;
       account.encryptedPassword = "password";
       account.passwordReset = true;
-      this.userAccListServices.updateUserPassword(account._id, account).subscribe(res => {
+      this.userAccListServices.updateUserPassword(account._id, account, enteredEmail, true).subscribe(res => {
         this.snackBar.open("Your password has been reset! An email has been sent with your new temporary password", "", {
           duration: 3000
         });
@@ -234,7 +234,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     let account = this.userAccount;
     account.encryptedPassword = this.newPassword;
     account.passwordReset = false;
-    this.userAccListServices.updateUserPassword(account._id, account).subscribe(res =>{
+    this.userAccListServices.updateUserPassword(account._id, account, this.correctEmail,false).subscribe(res =>{
       this.snackBar.open("New password saved!", "", {
         duration: 3000
       })

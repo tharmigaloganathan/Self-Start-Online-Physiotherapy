@@ -63,6 +63,11 @@ export class NavbarPatientComponent implements OnInit {
 
   }
 
+  logoClicked(){
+    this.router.navigate(['home']);
+  }
+
+
 
 
 }
