@@ -18,7 +18,7 @@
                         <b>Plan Details</b>
                     </h1>
                     <br /><br />
-                    <form class="form-container">
+                    <form class="form-container" *ngIf="rehabilitationPlan">
                         <div class="plan-details-tab">
                             <mat-form-field class="name">
                                 <input matInput #name placeholder="Name" name="name" [(ngModel)]="rehabilitationplan.name">
@@ -42,6 +42,33 @@
 
                             <mat-form-field class="timeframe">
                                 <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeFrameToComplete" [(ngModel)]="rehabilitationplan.timeFrameToComplete"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <form class="form-container" *ngIf="!rehabilitationPlan">
+                        <div class="plan-details-tab">
+                            <mat-form-field class="name">
+                                <input matInput #name placeholder="Name" name="name" >
+                            </mat-form-field>
+
+                            <mat-form-field class="authorName">
+                                <input matInput #authorName placeholder="Author Name" name="authorName">
+                            </mat-form-field>
+
+                            <br /><br />
+
+                            <mat-form-field class="description">
+                                <textarea matInput #description placeholder="Description" name="description"></textarea>
+                            </mat-form-field>
+
+                            <br /><br />
+
+                            <mat-form-field class="goal">
+                                <textarea matInput #goal placeholder="Goal" name="goal" ></textarea>
+                            </mat-form-field>
+
+                            <mat-form-field class="timeframe">
+                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeFrameToComplete" ></textarea>
                             </mat-form-field>
                         </div>
                     </form>
@@ -452,4 +479,3 @@
         </mat-card>
     </div>
 </div>
-
