@@ -28,6 +28,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   showSidebar = true;
   data: any;
   treatment: any;
+  newTreatment = false;
 
   rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
   rehabilitationplan: any = {exerciseOrders:[], assessmentTests:[]}; //Temporary fix
@@ -177,6 +178,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
             console.log("end date updated: ", res);
         });
 
+        //reset to null
       //Save all the complete AssessmentTests on the save button
       for(var i = 0; i < this.completeAssessmentTests.length; i++){
         this.assessmentTestService.editAssessmentTest(this.completeAssessmentTests[i]).subscribe(
@@ -303,7 +305,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
       let myExercises = JSON.stringify(this.myExercises);
       let oldExercises = JSON.stringify(this.oldExercises);
-      if(myExercises == oldExercises) {
+      if(myExercises == oldExercises && this.newTreatment != true) {
           this.putRehabilitationPlan(name, description, authorName, goal, timeframe);
       } else {
           this.postRehabilitationPlan(name, description, authorName, goal, timeframe);
@@ -376,6 +378,10 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
                   this.treatment = localStorage.getItem('treatment_id');
               } else {
                   this.treatment = data.treatments[0];
+              }
+              if(localStorage.getItem('new_treatment') != null) {
+                  this.newTreatment = true;
+                  localStorage.removeItem('new_treatment');
               }
               console.log("TREATMENT",this.treatment);
           });
