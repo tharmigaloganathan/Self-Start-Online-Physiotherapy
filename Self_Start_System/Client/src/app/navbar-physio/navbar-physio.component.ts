@@ -61,6 +61,9 @@ export class NavbarPhysioComponent implements OnInit {
 
   editProfile(){
     this.router.navigate(['settings']);
+  }
 
+  logoClicked(){
+    this.router.navigate(['home']);
   }
 }

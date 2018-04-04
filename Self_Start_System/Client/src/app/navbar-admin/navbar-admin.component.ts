@@ -64,4 +64,8 @@ export class NavbarAdminComponent implements OnInit {
 
   }
 
+  logoClicked(){
+    this.router.navigate(['home']);
+  }
+
 }
