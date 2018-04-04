@@ -226,7 +226,7 @@ function addAppointment(id, body) {
               appointment._id,
               body.timeslotId,
               appointment.date,
-              appointment.endDate,
+              appointment.endDate
           ).then( result => {
               console.log("Reached Physiotherapists.addAppointment", result);
               // Save the patient profile document
@@ -474,5 +474,3 @@ function viewIntakeForm(id) {
 
   })
 }
-
-
