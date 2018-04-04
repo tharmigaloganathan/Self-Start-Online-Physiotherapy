@@ -148,21 +148,6 @@ export class BookAppointmentFormComponent implements OnInit {
         answer: this.answers[i],
         assessmentTest: null
       });
-      // console.log("This is the data being sent: " + JSON.stringify(result));
-      // this.assessmentTestService.addTestResult(result).
-      // subscribe(
-      //   data => {
-      //     this.testResults.push(data);
-      //     console.log("Test results: " + this.testResults);
-      //     //Only update in after the last test result
-      //     console.log("Test results "+ this.testResults.length + "questions " + this.questions.length);
-      //     if(this.testResults.length  == this.questions.length) {
-      //       this.updateAssessmentTest();
-      //     }
-      //   },
-      //   error => {
-      //     console.log("Error");
-      //   });
     }
 
     this.setFreeTimeService.completeIntakeForm(this.patientProfileId, questionAnswerToSend)
@@ -225,6 +210,7 @@ export class BookAppointmentFormComponent implements OnInit {
 
   //
   onClickBook = () => {
+    console.log("Book clicked");
     if (!this.hasError){
       this.setFreeTimeService.addNewAppointment(
         this.patientProfileId,
@@ -238,7 +224,7 @@ export class BookAppointmentFormComponent implements OnInit {
         console.log(response);
 
         // Go back to prev page
-        // this.onClickCancel();
+        this.onClickCancel();
       }, err=>{
         console.log(err);
       });
@@ -302,7 +288,10 @@ export class BookAppointmentFormComponent implements OnInit {
     this.endDate.setHours(this.endTime.substring(0,2), this.endTime.substring(3,5));
   };
 
-  openPaypalDialog(): void {
+  openPaypalDialog(event): void {
+    // Prevent submit
+    event.preventDefault();
+
     // Open the dialog box
     let dialogRef = this.dialog.open(PaypalButtonComponent);
 
@@ -314,6 +303,19 @@ export class BookAppointmentFormComponent implements OnInit {
 
       // If the transaction is approved, set the payment option to paid
       if (transaction && transaction.state === "approved") {
+        // console.log(transaction.transactions[0]);
+        // console.log(transaction.transactions[0].amount);
+        // console.log(transaction.transactions[0].amount.total);
+
+        this.setFreeTimeService.submitPayment(this.patientProfileId,
+          transaction.transactions[0].amount.total,
+          "Sample note")
+          .subscribe(result=>{
+            console.log(result);
+          }, err=>{
+            console.log(err);
+          });
+
         this.payment='Paid';
       } else {
         this.payment=null;
