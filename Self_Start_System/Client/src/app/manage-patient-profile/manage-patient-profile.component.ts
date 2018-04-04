@@ -411,8 +411,12 @@ export class ManagePatientProfileComponent implements OnInit {
       this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
         localStorage.setItem('treatment_id',treatmentData.treatment._id);
         localStorage.setItem('new_treatment','TRUE');
-        console.log("treatment data", treatmentData);
-        this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+        console.log(treatmentData.treatment);
+        this.user.treatments.push(treatmentData.treatment._id);
+        console.log(this.user);
+        this.managePatientProfileService.updatePatient(this.user, this.user._id).subscribe(patientProfile =>{
+          this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+        });
       });
   }
 			openVisualizeTreatmentDialogBox(){
