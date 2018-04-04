@@ -10,7 +10,6 @@ var userAccountSchema = mongoose.Schema(
         physiotherapist: {type: mongoose.Schema.ObjectId, ref: 'Physiotherapist'},
         patientProfile: {type: mongoose.Schema.ObjectId, ref: 'PatientProfile'},
         activated: Boolean,
-        hasPaid: Boolean,
         passwordReset: Boolean,
     }
 );
@@ -73,9 +72,7 @@ function updatePassword(id, updatedDocument){
                     document.physiotherapist = updatedDocument.physiotherapist;
                     document.patientProfile = updatedDocument.patientProfile;
                     document.activated = updatedDocument.activated;
-                    document.hasPaid = updatedDocument.hasPaid;
                     document.passwordReset = updatedDocument.passwordReset;
-
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -113,7 +110,6 @@ function update(id, updatedDocument){
                     document.physiotherapist = updatedDocument.physiotherapist;
                     document.patientProfile = updatedDocument.patientProfile;
                     document.activated = updatedDocument.activated;
-                    document.hasPaid = updatedDocument.hasPaid;
                     document.passwordReset = updatedDocument.passwordReset;
 
                     document.save(function (error) {
