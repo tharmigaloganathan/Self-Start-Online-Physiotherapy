@@ -97,16 +97,21 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.activeTreatmentIndex = index;
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
 		var length = this.activeTreatment.rehabilitationPlan.length;
+		//console.log("Length" + length);
 		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
+		console.log("Rehab Plan history", this.rehabPlanHistory);
 		this.activeRehabPlan = this.rehabPlanHistory[length-1];
-		console.log("Active rehab plan" + JSON.stringify(this.activeRehabPlan));
+		console.log("Active rehab plan", this.activeRehabPlan);
+		console.log("Active rehab plan exercises", this.activeRehabPlan.exerciseOrders);
 		//this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
 		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
-		this.getRehabPlanExercises();
-		this.getRehabPlanAssessmentTests();
-		this.getRehabPlanPhysio();
+		//this.getRehabPlanExercises();
+		//this.getRehabPlanAssessmentTests();
+		//this.getRehabPlanPhysio();
+		//this.activeRehabPlanExercises = this.activeRehabPlan.exercises;
+		//console.log("These are the exercises", this.activeRehabPlanExercises);
 }
 
 	//View the list of all treatments
@@ -145,11 +150,14 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.isRehabPlanLoaded = false;
 		this.selectedRow = index;
 		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[index];
-		this.activeRehabPlanExercises = [];
-		this.activeRehabPlanAssessmentTests = [];
-		this.getRehabPlanExercises();
-		this.getRehabPlanAssessmentTests();
-		this.getRehabPlanPhysio();
+		console.log("New Active Rehab Plan", this.activeRehabPlan);
+		console.log("New Active Exercises", this.activeRehabPlan.exerciseOrders);
+		console.log("New Active Assessment Test", this.activeRehabPlan.assessmentTests);
+		//this.activeRehabPlanExercises = [];
+		//this.activeRehabPlanAssessmentTests = [];
+		//this.getRehabPlanExercises();
+		//this.getRehabPlanAssessmentTests();
+		//this.getRehabPlanPhysio();
 		//this.isRehabPlanLoaded = true;
 		//console.log(this.isRehabPlanLoaded);
 }
@@ -231,12 +239,12 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
-          console.log("TREATMENTS",this.treatments);
+          //console.log("TREATMENTS",this.treatments);
 					this.isDataLoaded = true;
 					this.loading = false;
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
-					console.log(this.user);
+					console.log("This is the patient", this.user);
 				});
 		 }
 
@@ -255,6 +263,12 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
+				/*
+				for(var i=0; i<this.activeRehabPlan.exercises.length; i++) {
+					this.activeRehabPlanExercises
+				}
+				*/
+				/*
 				for(var i=0; i<this.activeRehabPlan.exercises.length; i++) {
 					this.userAccountListService.getExercise(this.activeRehabPlan.exercises[i]).subscribe(
 						data => {
@@ -264,6 +278,7 @@ export class ManagePatientProfileComponent implements OnInit {
 					}
 					this.isRehabPlanLoaded = true;
 					console.log("Data Loaded" + this.isRehabPlanLoaded);
+					*/
 				}
 
 			//Get Assessment Test for the selected rehab plan
@@ -288,14 +303,12 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Sets the active exercise for the exercise modal
 			setActiveExercise(index) {
-				console.log(index);
-				this.activeExercise = this.activeRehabPlanExercises[index];
-				console.log(this.activeExercise);
+				this.activeExercise = this.activeRehabPlan.exerciseOrders[index];
 			}
 
 			//Sets the active assessment test for the assessment test modal
 			setActiveAssessmentTest(index) {
-
+				this.activeAssessmentTest = this.activeRehabPlan.assessmentTests[index];
 			}
 
 			openVisualizeTreatmentDialogBox(){
