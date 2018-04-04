@@ -49,3 +49,29 @@
   color: $white;
   border-radius: 1px;
 }
+
+.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element{
+  caret-color: #d30811 !important;
+}
+
+.mat-error{
+  color: #0e748c !important;
+}
+
+.form-control:focus{
+  border: none;
+  box-shadow: none;
+}
+//
+//label .mat-form-field-invalid, .mat-form-field-label{
+//  color: #d30811 !important;
+//}
+//
+//label .mat-form-field-invalid, .mat-form-field-label.mat-accent, .mat-form-field-invalid, .mat-form-field-label, .mat-form-field-required-marker
+//{
+//  color: #d30811 !important;
+//}
+//
+//.mat-form-field-label .mat-input-placeholder mat-form-field-placeholder ng-tns-c5-1 mat-empty mat-form-field-empty ng-star-inserted{
+//  color: #d30811 !important;
+//}
