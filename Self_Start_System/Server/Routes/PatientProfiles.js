@@ -173,6 +173,15 @@ router.route('/get-all-appointments/:patientprofile_id')
     })
   });
 
+router.route('/without-physio')
+    .get(function (request, response) {
+        PatientProfiles.getAllWithoutPhysio().then(function(patients){
+            response.json({patientList: patients});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
 
 router.route('/complete-intake-form/:patientprofile_id')
   .put(function (req, res) {

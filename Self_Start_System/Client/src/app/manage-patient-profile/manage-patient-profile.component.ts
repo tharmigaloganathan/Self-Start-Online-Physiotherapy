@@ -9,12 +9,15 @@ import {EditCustomRehabilitationPlanComponent} from "../edit-custom-rehabilitati
 import {VisualizeTreatmentDialogComponent} from "../visualize-treatment-dialog/visualize-treatment-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { ViewEncapsulation } from '@angular/core';
+import {SetFreeTimeService} from "../set-free-time.service";
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-manage-patient-profile',
   templateUrl: './manage-patient-profile.component.html',
   styleUrls: ['./manage-patient-profile.component.scss'],
-  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService ],
+  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService, SetFreeTimeService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ManagePatientProfileComponent implements OnInit {
@@ -31,7 +34,6 @@ export class ManagePatientProfileComponent implements OnInit {
 	user;
 	account;
 	appointments;
-	payments;
 	today = new Date();
 	age: any;
 	genders;
@@ -50,6 +52,13 @@ export class ManagePatientProfileComponent implements OnInit {
 	rehabPlanHistory;
 	selectedRow;
 	currentUser;
+  intakeFormQandA=[];
+
+  // Images for front back and sides
+  intakeFormImages;
+
+  // Payments
+  payments = [];
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
 
@@ -58,6 +67,7 @@ export class ManagePatientProfileComponent implements OnInit {
 							authenticationService: AuthenticationService,
 							managePatientProfileService: ManagePatientProfileService,
               private rehabilitationPlanService: RehabilitationPlanService,
+							public setFreeTimeService: SetFreeTimeService,
 							public toastr: ToastsManager,
              	vcr: ViewContainerRef,
               private dialog: MatDialog) {
@@ -77,6 +87,9 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
+		this.populatePayments(this.account._id);
+		// Views the test form
+		this.testViewForm(this.account._id);
 
     this.authenticationService.getProfile().subscribe(data => {
       this.currentUser = data;
@@ -254,8 +267,36 @@ export class ManagePatientProfileComponent implements OnInit {
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log("This is the patient", this.user);
+
+
 				});
 		 }
+
+		 //For getting test form
+    testViewForm = patientProfileId => {
+      this.setFreeTimeService.viewIntakeForm(patientProfileId)
+        .subscribe(result=>{
+          // The intake form Q and A
+          let intakeFormQandA = [];
+          let intakeFormImages = [];
+
+          console.log("result ", result);
+          for (let object of result.intakeFormQuestionsAndAnswers){
+            if (object.answer.toLowerCase().includes("http")){
+              intakeFormImages.push(object);
+            } else {
+              intakeFormQandA.push(object);
+            }
+          }
+
+          console.log('intakeFormQandA', intakeFormQandA);
+          console.log('intakeFormImages', intakeFormImages);
+          this.intakeFormQandA = intakeFormQandA;
+          this.intakeFormImages = intakeFormImages;
+        }, err=>{
+          console.log(err);
+        });
+    };
 
 		 //Get the users appointments
 		 populateAppointments(id) {
@@ -265,10 +306,18 @@ export class ManagePatientProfileComponent implements OnInit {
 			 });
 			}
 
-			//Get the users payments
-			populatePayments(id) {
-			//To be written after payments is made
-		}
+  //Get the users payments
+  populatePayments(id) {
+    console.log('in populatePayments');
+    this.managePatientProfileService.getAllPayments(id).subscribe(
+      data=>{
+        console.log('in managePatientProfileService', data);
+        this.payments = data.payment;
+      }, err=>{
+        console.log(err);
+      }
+    );
+  }
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
@@ -363,8 +412,12 @@ export class ManagePatientProfileComponent implements OnInit {
       this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
         localStorage.setItem('treatment_id',treatmentData.treatment._id);
         localStorage.setItem('new_treatment','TRUE');
-        console.log("treatment data", treatmentData);
-        this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+        console.log(treatmentData.treatment);
+        this.user.treatments.push(treatmentData.treatment._id);
+        console.log(this.user);
+        this.managePatientProfileService.updatePatient(this.user, this.user._id).subscribe(patientProfile =>{
+          this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+        });
       });
   }
 			openVisualizeTreatmentDialogBox(){

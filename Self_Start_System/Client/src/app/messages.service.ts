@@ -8,6 +8,7 @@ export class MessagesService {
   constructor(private http: Http) { }
 
   private baseUrl = 'http://localhost:3700/Messages/';
+  private basicURL = 'http://localhost:3700/';
 
   getMessages() {
       return this.http.get(this.baseUrl)
@@ -25,6 +26,12 @@ export class MessagesService {
       return this.http.put(this.baseUrl+id, message)
           .map((res:Response) => res.json())
           .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getAppointments(physioID){
+    return this.http.get(this.basicURL+"Appointments/by-physio/"+physioID)
+      .map((res:Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 
 }
