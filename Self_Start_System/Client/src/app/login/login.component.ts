@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginSubscription;
   clickedLogin = true;
   correctEmail;
+  processing = false;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
@@ -55,6 +56,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.forgotPassword = false;
       this.changingPassword = false;
       this.deactivatedUser = false;
+      this.username = null;
+      this.password = null;
+      this.processing = false;
       console.log("received from subscriber: ", this.clickedLogin);
     });
   }
@@ -68,6 +72,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   forgotPasswordClicked(){
     this.forgotPassword = true;
     this.clickedLogin = false;
+    this.forgotPasswordUsername = null;
+    this.forgotPasswordEmail = null;
   }
 
   resetForgotPassword(){
@@ -86,14 +92,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.changeForgottenPassword(this.forgotPasswordEmail, this.correctEmail, result);
           })
         } else if (result.userAccount.physiotherapist){
-          this.userAccListServices.getPhysio(result.userAccount.physiotherapist).subscribe(res => {
+          this.userAccListServices.checkForgotPasswordEmail(result.userAccount.physiotherapist, "physiotherapist").subscribe(res => {
             console.log(res);
             this.correctEmail = res;
             this.changeForgottenPassword(this.forgotPasswordEmail, this.correctEmail, result);
           })
         }
 
-        console.log ("comparing ", this.forgotPasswordEmail, " to ", this.correctEmail);
 
         // if (this.correctEmail == this.forgotPasswordEmail) {
         //   let account = result.userAccount;
@@ -124,7 +129,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.snackBar.open("Your password has been reset! An email has been sent with your new temporary password", "", {
           duration: 3000
         });
-        this.router.navigate(['/login']);
+        this.deactivatedUser = false;
+        this.changingPassword = false;
+        this.forgotPassword = false;
+        this.clickedLogin = true;
       });
     } else {
       this.snackBar.open("Your email does not match our records! Please try again", "", {
@@ -168,6 +176,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
          this.authService.getProfile().subscribe(res => {
             console.log("in login component: here's what getProfile returned: ", res);
+            this.processing = true;
             for (let result of res){
               if ((result as any).success){
                 this.retrievedProfile = result;
@@ -175,6 +184,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               }
             }
            console.log('retrieved profile! ',this.retrievedProfile);
+
 
            if (this.retrievedProfile.patientProfile){
              this.authService.setActiveProfile(this.retrievedProfile.patientProfile);

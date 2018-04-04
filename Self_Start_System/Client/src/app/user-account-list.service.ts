@@ -23,7 +23,7 @@ export class UserAccountListService {
           return response.json().email;
         });
     } else if (role == "physiotherapist") {
-      return this.http.get(this.domain+'/Physiotherapist/getEmail/'+id)
+      return this.http.get(this.domain+'/Physiotherapists/getEmail/'+id)
         .map((response: Response) => {
           return response.json().email;
         });
