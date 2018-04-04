@@ -51,5 +51,17 @@ router.route('/:appointment_id')
         })
     });
 
+router.route('/by-physio/:physioID')
+    .get(function (request, response) {
+        if (!request.params.physioID) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Appointment.getByPhysio(request.params.physioID).then(function(appointment){
+            response.json({appointment: appointment});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
 module.exports = router;
 
