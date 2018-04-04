@@ -35,7 +35,7 @@ module.exports = {
     getAllAppointments:getAllAppointments,
     deleteAppointment:deleteAppointment,
     completeIntakeForm:completeIntakeForm,
-    viewIntakeForm:viewIntakeForm
+    viewIntakeForm:viewIntakeForm,
 };
 
 var Appointments = require("./Appointment");
@@ -248,6 +248,7 @@ function addAppointment(id, body) {
     }
   })
 }
+
 
 // Retrieves more appointments
 function getAllAppointments(id) {
