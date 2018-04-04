@@ -476,17 +476,30 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     });
 
     this.editAssessmentTestDialogRef.afterClosed().subscribe(result => {
-
-      this.formService.getForm(result.form._id).subscribe(
+      console.log("FORM YOU ARE GETTING", result);
+      this.formService.getForm(result.form).subscribe(
         data => {
           var customForm = data.form;
+          console.log("custom form:", customForm);
           delete customForm._id;
-          if (newTestFlag) {
-            this.addAssessmentTest(result);
-          } else {
-            this.editAssessmentTest(result);
-            console.log("REHABILITATION PLAN:", this.rehabilitationplan);
-          }
+          customForm.type = "Custom";
+          var testToBeSaved = result;
+          console.log("TESTTOBESAVED", testToBeSaved);
+          console.log("CUSTOM FORM", customForm);
+          this.formService.createForm(customForm).subscribe(
+            res=> {
+              console.log("RES:", res);
+                testToBeSaved.form = res.form._id;
+              if (newTestFlag) {
+                this.addAssessmentTest(testToBeSaved);
+              } else {
+                this.editAssessmentTest(result);
+                console.log("REHABILITATION PLAN:", this.rehabilitationplan);
+              }
+              },
+            error => {console.log(error)}
+          );
+
         },
         error => console.log(error)
       );
