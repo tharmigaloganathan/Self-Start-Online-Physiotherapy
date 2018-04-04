@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   forgotPasswordEmail;
   loginSubscription;
   clickedLogin = true;
+  correctEmail;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
@@ -78,36 +79,58 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else if (result.success) {
         console.log("in resetForgotPassword: ", result);
 
-        var storedEmail;
         if (result.userAccount.patientProfile){
           this.userAccListServices.checkForgotPasswordEmail(result.userAccount.patientProfile, "patient").subscribe(res => {
             console.log(res);
-            storedEmail = res.email;
+            this.correctEmail = res;
+            this.changeForgottenPassword(this.forgotPasswordEmail, this.correctEmail, result);
           })
         } else if (result.userAccount.physiotherapist){
           this.userAccListServices.getPhysio(result.userAccount.physiotherapist).subscribe(res => {
             console.log(res);
-            storedEmail = res.email;
+            this.correctEmail = res;
+            this.changeForgottenPassword(this.forgotPasswordEmail, this.correctEmail, result);
           })
         }
 
-        if (storedEmail == this.forgotPasswordEmail) {
-          let account = result.userAccount;
-          account.encryptedPassword = "password";
-          account.passwordReset = true;
-          this.userAccListServices.updateUserPassword(account._id, account).subscribe(res => {
-            this.snackBar.open("Your password has been reset! An email has been sent with your new temporary password", "", {
-              duration: 3000
-            })
-            this.router.navigate(['/login']);
-          });
-        } else {
-          this.snackBar.open("Your email does not match our records! Please try again", "", {
-            duration: 3000
-          })
-        }
+        console.log ("comparing ", this.forgotPasswordEmail, " to ", this.correctEmail);
+
+        // if (this.correctEmail == this.forgotPasswordEmail) {
+        //   let account = result.userAccount;
+        //   account.encryptedPassword = "password";
+        //   account.passwordReset = true;
+        //   this.userAccListServices.updateUserPassword(account._id, account).subscribe(res => {
+        //     this.snackBar.open("Your password has been reset! An email has been sent with your new temporary password", "", {
+        //       duration: 3000
+        //     });
+        //     this.router.navigate(['/login']);
+        //   });
+        // } else {
+        //   this.snackBar.open("Your email does not match our records! Please try again", "", {
+        //     duration: 3000
+        //   })
+        // }
+
       }
     });
+  }
+
+  changeForgottenPassword(enteredEmail, correctEmail, useraccount){
+    if (this.correctEmail == enteredEmail) {
+      let account = useraccount.userAccount;
+      account.encryptedPassword = "password";
+      account.passwordReset = true;
+      this.userAccListServices.updateUserPassword(account._id, account).subscribe(res => {
+        this.snackBar.open("Your password has been reset! An email has been sent with your new temporary password", "", {
+          duration: 3000
+        });
+        this.router.navigate(['/login']);
+      });
+    } else {
+      this.snackBar.open("Your email does not match our records! Please try again", "", {
+        duration: 3000
+      })
+    }
   }
   submitLogin() {
     console.log("submitted username is ", this.username);

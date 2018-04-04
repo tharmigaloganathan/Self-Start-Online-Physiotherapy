@@ -18,7 +18,7 @@ export class UserAccountListService {
 
   checkForgotPasswordEmail(id, role){
     if (role == "patient"){
-      return this.http.get(this.domain+'/PatientProfile/getEmail/'+id)
+      return this.http.get(this.domain+'/PatientProfiles/getEmail/'+id)
         .map((response: Response) => {
           return response.json().email;
         });
