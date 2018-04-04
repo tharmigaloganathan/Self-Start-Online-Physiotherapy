@@ -9,6 +9,8 @@ import {EditCustomRehabilitationPlanComponent} from "../edit-custom-rehabilitati
 import {VisualizeTreatmentDialogComponent} from "../visualize-treatment-dialog/visualize-treatment-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { ViewEncapsulation } from '@angular/core';
+import * as Highcharts from 'highcharts';
+import * as exporting from 'highcharts/modules/exporting.src';
 import {SetFreeTimeService} from "../set-free-time.service";
 
 import * as moment from 'moment';
@@ -60,6 +62,35 @@ export class ManagePatientProfileComponent implements OnInit {
   payments = [];
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
+
+  Highcharts = Highcharts; // required
+  chartConstructor = 'chart'; // optional string, defaults to 'chart'
+  chartOptions = {
+    title: {
+      text: 'Treatment Success'
+    },
+    subtitle: {
+      text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
+    },
+    xAxis: {
+      title: {
+        text: 'Assessment Number'
+      },
+      tickInterval: 1
+    },
+    yAxis: {
+      title: {
+        text: 'Rating'
+      },
+      tickInterval: 1
+    },
+    series: [{
+      showInLegend: false,
+      data: [1, 2, 3]
+    }]
+  }; // required
+  //chartCallback = function (chart) { ... } // optional function, defaults to null
+  updateFlag = false; // optional boolean
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
