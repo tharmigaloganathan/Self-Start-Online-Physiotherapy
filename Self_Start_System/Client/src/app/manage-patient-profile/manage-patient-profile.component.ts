@@ -19,6 +19,7 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class ManagePatientProfileComponent implements OnInit {
 
+	showPrintPage = false;
 	isDataLoaded;
 	isRehabPlanLoaded;
 	router;
@@ -380,5 +381,15 @@ export class ManagePatientProfileComponent implements OnInit {
             error => console.log(error)
           );
       }
+
+		//Print a summary of the treatment details
+		printTreatment() {
+		this.showPrintPage = true;
+	}
+
+		//Return from the print page
+		showProfile() {
+		this.showPrintPage = false;
+	}
 
 }

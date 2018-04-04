@@ -1,10 +1,10 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
 <div *ngIf="isDataLoaded">
+<div *ngIf="!showPrintPage">
 <app-navbar-physio></app-navbar-physio>
 
 <div class="container">
-	  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 	<div class="row">
 		<div class="col">
 			<div class="card-container top animated fadeIn">
@@ -170,7 +170,7 @@
 									<div class="row">
 										<div class="col-8 form-container border-right">
 											<!-- Treatment Details -->
-											<h4><b>Treatment Details</b></h4>
+											<h4><b>Treatment Details</b><mat-icon class="icon icon-bar" matTooltip="Print Summary" (click)="printTreatment()"><i class="material-icons">print</i></mat-icon></h4>
 											<hr>
 											<div class="row">
 												<div class="col-4 form-container">
@@ -389,6 +389,7 @@
 	</div>
 </div>
 </div>
+</div>
 
 <!-- View exercise modal -->
 <div class="modal fade" id="viewExerciseModal" tabindex="-1" role="dialog"
@@ -439,7 +440,7 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<img src="{{activeExercise.multimediaURL}}" alt="">
+									<img src="{{activeExercise?.multimediaURL}}" alt="">
 								</div>
 							</div>
 						</div>
@@ -501,3 +502,19 @@
 				</div>
 			</div>
 </div>
+
+<!-- Template form to print treatment summary -->
+<ng-template #print>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="card-container top animated fadeIn">
+					<mat-card>
+						<h1>Print</h1>
+						<button (click)="showProfile()">Show Profile</button>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
