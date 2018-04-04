@@ -173,6 +173,7 @@ router.route('/get-all-appointments/:patientprofile_id')
     })
   });
 
+
 router.route('/complete-intake-form/:patientprofile_id')
   .put(function (req, res) {
     if (!req.params.patientprofile_id) {

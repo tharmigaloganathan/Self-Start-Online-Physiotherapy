@@ -25,4 +25,8 @@ export class NavbarGeneralComponent implements OnInit {
     this.authService.refreshLogin();
   }
 
+  logoClicked(){
+    this.router.navigate(['home']);
+  }
+
 }
