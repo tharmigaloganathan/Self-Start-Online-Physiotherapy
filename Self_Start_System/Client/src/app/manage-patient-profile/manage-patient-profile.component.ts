@@ -302,9 +302,6 @@ export class ManagePatientProfileComponent implements OnInit {
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log("This is the patient", this.user);
-
-
-
 				});
 		 }
 

@@ -40,16 +40,12 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	}
 
   ngOnInit() {
-
 		this.authenticationService.getUserAccount().subscribe(
 			data => {
 				this.account = data;
 				console.log("Account" + JSON.stringify(this.account));
 				this.populatePatientProfile();
 		});
-
-		//this.patientProfile = this.authenticationService.getActiveProfile();
-
   }
 
 	//Get patient profile
@@ -60,8 +56,6 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 			this.treatments = this.patientProfile.treatments;
 			this.activeTreatment = this.treatments[0];
 			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[0];
-			//console.log("Rehab Plan" + JSON.stringify(this.activeTreatment.rehabilitationPlan[0].name));
-			//console.log("Treatments" + JSON.stringify(this.treatments));
 		});
 }
 
