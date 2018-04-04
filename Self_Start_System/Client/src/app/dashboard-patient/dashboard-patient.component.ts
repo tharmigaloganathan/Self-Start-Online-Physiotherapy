@@ -58,6 +58,8 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.profileSubscription= this.authService.profileOb$.subscribe((profile) => {
       this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
+      this.patientID = this.user._id;
+      console.log("Patient id is: ", this.user._id);
       this.getMessages();
     });
   }
