@@ -1,7 +1,7 @@
 <app-navbar-general></app-navbar-general>
 
 
-<div class="background" *ngIf ="!changingPassword && !forgotPassword && clickedLogin">
+<div class="background" *ngIf ="!deactivatedUser && !changingPassword && !forgotPassword && clickedLogin">
     <h1 class="title">
         Login<br /><br />
     </h1>
@@ -19,8 +19,9 @@
         <h2 style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...</h2> -->
         <b style="color:Tomato" *ngIf="statusMessage && triedLogin">{{statusMessage}}<br/></b>
         <b style="color:#196804"  *ngIf="!statusMessage && triedLogin">Success! Password verified! Redirecting to home page...<br /></b>
-        <button mat-raised-button color="primary" class="login-button"  (click)="submitLogin()">Submit</button> <br />
-        <a (click) = "forgotPasswordClicked()">Forgot Password?</a>
+        <button mat-raised-button color="primary" class="login-button" [disabled] = "processing"  (click)="submitLogin()">Submit</button> <br />
+        <br/>
+        <a *ngIf="!processing" (click) = "forgotPasswordClicked()">Forgot Password?</a>
         <br />
     </mat-card>
 </div>
@@ -48,12 +49,12 @@
     </div>
 </div> -->
 
-<div *ngIf ="changingPassword && !clickedLogin">
+<div class="background" *ngIf ="changingPassword && !clickedLogin">
     <h1 class="title">
         Your password has been reset, please change your password<br /><br />
     </h1>
 
-    <div class="container">
+    <mat-card class="container">
         <div class ="fields">
             <mat-form-field>
                 <input matInput type="password" #name placeholder="New Password" [(ngModel)]="newPassword">
@@ -64,10 +65,11 @@
             </mat-form-field>
         </div>
         <button mat-raised-button color="primary" class="login-button" (click) = "saveNewPassword()" >Save</button>
-    </div>
+        <br/><br/>
+    </mat-card>
 </div>
 
-<div class="background" *ngIf = "deactivatedUser">
+<div class="background" *ngIf = "deactivatedUser && clickedLogin">
     <h1 class="title">
         Your account has been deactivated, please contact the admin to reactivate your account!<br /><br />
     </h1>
@@ -78,7 +80,7 @@
         Please enter your username and your email to reset your password<br /><br />
     </h1>
 
-    <div class="container">
+    <mat-card class="container">
         <div class ="fields">
             <mat-form-field>
                 <input matInput  #name placeholder="Username" [(ngModel)]="forgotPasswordUsername">
@@ -89,6 +91,5 @@
         </div>
         <button mat-raised-button color="primary" class="login-button" (click) = "resetForgotPassword()" >Reset!</button>
         <br /><br />
-    </div>
-
+    </mat-card>
 </div>

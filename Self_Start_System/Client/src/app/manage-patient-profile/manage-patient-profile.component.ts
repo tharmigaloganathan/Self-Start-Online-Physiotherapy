@@ -4,6 +4,8 @@ import { UserAccountListService } from '../user-account-list.service';
 import { AuthenticationService } from "../authentication.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
+import { RehabilitationPlanService } from '../rehabilitation-plan.service';
+import {EditCustomRehabilitationPlanComponent} from "../edit-custom-rehabilitation-plan/edit-custom-rehabilitation-plan.component";
 import {VisualizeTreatmentDialogComponent} from "../visualize-treatment-dialog/visualize-treatment-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { ViewEncapsulation } from '@angular/core';
@@ -46,6 +48,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	activeAssessmentTest;
 	rehabPlanHistory;
 	selectedRow;
+	currentUser;
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
 
@@ -53,6 +56,7 @@ export class ManagePatientProfileComponent implements OnInit {
 							userAccountListService: UserAccountListService,
 							authenticationService: AuthenticationService,
 							managePatientProfileService: ManagePatientProfileService,
+              private rehabilitationPlanService: RehabilitationPlanService,
 							public toastr: ToastsManager,
              	vcr: ViewContainerRef,
               private dialog: MatDialog) {
@@ -72,6 +76,10 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
+
+    this.authenticationService.getProfile().subscribe(data => {
+      this.currentUser = data;
+    });
 }
 
 	//Go back to account list
@@ -97,16 +105,21 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.activeTreatmentIndex = index;
 		this.activeTreatment = this.user.treatments[this.activeTreatmentIndex];
 		var length = this.activeTreatment.rehabilitationPlan.length;
+		//console.log("Length" + length);
 		this.rehabPlanHistory = this.activeTreatment.rehabilitationPlan;
+		console.log("Rehab Plan history", this.rehabPlanHistory);
 		this.activeRehabPlan = this.rehabPlanHistory[length-1];
-		console.log("Active rehab plan" + JSON.stringify(this.activeRehabPlan));
+		console.log("Active rehab plan", this.activeRehabPlan);
+		console.log("Active rehab plan exercises", this.activeRehabPlan.exerciseOrders);
 		//this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length - 1];
 		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
-		this.getRehabPlanExercises();
-		this.getRehabPlanAssessmentTests();
-		this.getRehabPlanPhysio();
+		//this.getRehabPlanExercises();
+		//this.getRehabPlanAssessmentTests();
+		//this.getRehabPlanPhysio();
+		//this.activeRehabPlanExercises = this.activeRehabPlan.exercises;
+		//console.log("These are the exercises", this.activeRehabPlanExercises);
 }
 
 	//View the list of all treatments
@@ -145,11 +158,14 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.isRehabPlanLoaded = false;
 		this.selectedRow = index;
 		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[index];
-		this.activeRehabPlanExercises = [];
-		this.activeRehabPlanAssessmentTests = [];
-		this.getRehabPlanExercises();
-		this.getRehabPlanAssessmentTests();
-		this.getRehabPlanPhysio();
+		console.log("New Active Rehab Plan", this.activeRehabPlan);
+		console.log("New Active Exercises", this.activeRehabPlan.exerciseOrders);
+		console.log("New Active Assessment Test", this.activeRehabPlan.assessmentTests);
+		//this.activeRehabPlanExercises = [];
+		//this.activeRehabPlanAssessmentTests = [];
+		//this.getRehabPlanExercises();
+		//this.getRehabPlanAssessmentTests();
+		//this.getRehabPlanPhysio();
 		//this.isRehabPlanLoaded = true;
 		//console.log(this.isRehabPlanLoaded);
 }
@@ -231,12 +247,12 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
-          console.log("TREATMENTS",this.treatments);
+          //console.log("TREATMENTS",this.treatments);
 					this.isDataLoaded = true;
 					this.loading = false;
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
-					console.log(this.user);
+					console.log("This is the patient", this.user);
 				});
 		 }
 
@@ -255,6 +271,12 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
+				/*
+				for(var i=0; i<this.activeRehabPlan.exercises.length; i++) {
+					this.activeRehabPlanExercises
+				}
+				*/
+				/*
 				for(var i=0; i<this.activeRehabPlan.exercises.length; i++) {
 					this.userAccountListService.getExercise(this.activeRehabPlan.exercises[i]).subscribe(
 						data => {
@@ -264,6 +286,7 @@ export class ManagePatientProfileComponent implements OnInit {
 					}
 					this.isRehabPlanLoaded = true;
 					console.log("Data Loaded" + this.isRehabPlanLoaded);
+					*/
 				}
 
 			//Get Assessment Test for the selected rehab plan
@@ -288,16 +311,61 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Sets the active exercise for the exercise modal
 			setActiveExercise(index) {
-				console.log(index);
-				this.activeExercise = this.activeRehabPlanExercises[index];
-				console.log(this.activeExercise);
+				this.activeExercise = this.activeRehabPlan.exerciseOrders[index];
 			}
 
 			//Sets the active assessment test for the assessment test modal
 			setActiveAssessmentTest(index) {
-
+				this.activeAssessmentTest = this.activeRehabPlan.assessmentTests[index];
 			}
 
+    // newTreatment(){
+    //   let rehabPlan = {
+    //     dateStart: null,
+    //     dateEnd: null,
+    //     name: ' ',
+    //     description: ' ',
+    //     authorName: ' ',
+    //     goal: ' ',
+    //     timeFrameToComplete: ' ',
+    //     exerciseOrders: [],
+    //     assessmentTests: [],
+    //     treatments: [],
+    //   };
+    //   console.log("User= "+this.user._id+" Physio= "+this.currentUser[1].physiotherapist._id);
+    //   this.rehabilitationPlanService.addRehabilitationPlan(rehabPlan).subscribe( data => {
+    //     console.log(data);
+    //       let treatment = { // dateAssign and active fields are populated by default
+    //         patientProfile: this.user._id,
+    //         physiotherapist: this.currentUser[1].physiotherapist._id,
+    //         rehabilitationPlan: data.rehabilitationPlan._id,
+    //         recommendations: [],
+    //       };
+    //     localStorage.setItem('edit_rehabilitation_id',data.rehabilitationPlan._id);
+    //     localStorage.setItem('new_treatment','TRUE');
+    //     console.log(treatment);
+    //       this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
+    //         console.log(treatmentData);
+    //         this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+    //       });
+    //     }
+    //   );
+    // }
+
+  newTreatment(){
+      let treatment = { // dateAssign and active fields are populated by default
+        patientProfile: this.user._id,
+        physiotherapist: this.currentUser[1].physiotherapist._id,
+        rehabilitationPlan: [],
+        recommendations: [],
+      };
+      this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
+        localStorage.setItem('treatment_id',treatmentData.treatment._id);
+        localStorage.setItem('new_treatment','TRUE');
+        console.log(treatmentData.treatment._id);
+        this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+      });
+  }
 			openVisualizeTreatmentDialogBox(){
         this.visualizeTreatmentDialogRef = this.dialog.open(VisualizeTreatmentDialogComponent, {
           height: '250px',
