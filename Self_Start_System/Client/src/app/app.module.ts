@@ -123,8 +123,8 @@ import { AdminLocationsComponent } from './admin-locations/admin-locations.compo
 import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
 import { HomePageAboutComponent } from './home-page-about/home-page-about.component';
-
 import { RehabilitationPlanService} from "./rehabilitation-plan.service";
+
 
 @NgModule({
   declarations: [
