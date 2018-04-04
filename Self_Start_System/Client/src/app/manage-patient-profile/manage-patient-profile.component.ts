@@ -53,6 +53,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	selectedRow;
 	currentUser;
   intakeFormQandA=[];
+	assessmentTests = []; //Holds all assesments test - used for the patient history print form
 
   // Images for front back and sides
   intakeFormImages;
