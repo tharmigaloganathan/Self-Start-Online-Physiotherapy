@@ -122,8 +122,8 @@ import { VisualizeTreatmentDialogComponent } from './visualize-treatment-dialog/
 import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
 import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
+import { HomePageAboutComponent } from './home-page-about/home-page-about.component';
 
-import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -177,7 +177,8 @@ import {MatSliderModule} from '@angular/material/slider';
 		PaypalButtonComponent,
 		VisualizeTreatmentDialogComponent,
     HighchartsChartComponent,
-		AdminLocationsComponent
+		AdminLocationsComponent,
+		HomePageAboutComponent
   ],
   imports: [
     HttpModule,
@@ -229,8 +230,7 @@ import {MatSliderModule} from '@angular/material/slider';
     MatRadioModule,
     ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    MatAutocompleteModule,
-    MatSliderModule,
+    MatAutocompleteModule
   ],
   providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
