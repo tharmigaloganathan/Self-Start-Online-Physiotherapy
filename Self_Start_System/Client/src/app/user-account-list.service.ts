@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from './../environments/environment';
-
+import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from "./authentication.service";
 
 @Injectable()
@@ -18,12 +18,12 @@ export class UserAccountListService {
 
   checkForgotPasswordEmail(id, role){
     if (role == "patient"){
-      return this.http.get(this.domain+'/PatientProfile/getEmail/'+id)
+      return this.http.get(this.domain+'/PatientProfiles/getEmail/'+id)
         .map((response: Response) => {
           return response.json().email;
         });
     } else if (role == "physiotherapist") {
-      return this.http.get(this.domain+'/Physiotherapist/getEmail/'+id)
+      return this.http.get(this.domain+'/Physiotherapists/getEmail/'+id)
         .map((response: Response) => {
           return response.json().email;
         });

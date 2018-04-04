@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@types/highcharts": "^5.0.20",
     "@types/jwt-decode": "^2.2.1",
     "angular2-flash-messages": "^2.0.5",
     "angular2-jwt": "^0.2.3",
@@ -32,6 +33,8 @@
     "core-js": "^2.4.1",
     "fullcalendar": "^3.6.1",
     "hammerjs": "^2.0.8",
+    "highcharts": "^6.0.7",
+    "highcharts-angular": "^1.0.2",
     "jquery": "^3.3.1",
     "jwt-decode": "^2.2.0",
     "materialize-css": "^0.100.2",
@@ -48,7 +51,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "^1.7.2",
+    "@angular/cli": "^1.7.3",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/jasmine": "~2.8.3",

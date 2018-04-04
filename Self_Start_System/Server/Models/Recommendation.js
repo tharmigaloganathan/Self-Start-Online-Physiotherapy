@@ -3,7 +3,8 @@ var recommendationSchema = mongoose.Schema(
 	{
 		timeStamp: Date,
 		decision: String,
-    	assessmentTest: {type: mongoose.Schema.ObjectId, ref: ('AssessmentTest')}
+    	assessmentTest: {type: mongoose.Schema.ObjectId, ref: ('AssessmentTest')},
+        evaluation: Number
 	}
 );
 
@@ -54,6 +55,7 @@ function update(id, updatedDocument){
                     document.timeStamp = updatedDocument.timeStamp;
                     document.decision = updatedDocument.decision;
                     document.assessmentTest = updatedDocument.assessmentTest;
+                    document.evaluation = updatedDocument.evaluation;
                     document.save(function (error) {
                         if (error) {
                             reject(error);

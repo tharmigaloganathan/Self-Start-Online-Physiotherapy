@@ -42,8 +42,8 @@ export class CreateNewEventComponent implements OnInit {
       //any function following getting profile goes here
       this.initializeCurrentTime();
     })
-
   }
+
   ngOnDestroy(){
     this.profileSubscription.unsubscribe();
     console.log("subscription terminated")

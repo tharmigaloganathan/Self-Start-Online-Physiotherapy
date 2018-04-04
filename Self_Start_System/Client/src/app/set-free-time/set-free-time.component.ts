@@ -39,8 +39,8 @@ export class SetFreeTimeComponent implements OnInit {
   ngOnInit() {
     this.profileSubscription = this.authenticationService.profileOb$.subscribe((profile) => {
       this.physioID = profile._id; console.log("subscription to auth service set profile returned: ", profile);
+      this.getCurrentAvailability();
     });
-    this.getCurrentAvailability();
     // this.authenticationService.getProfile().subscribe(res => {
     //   console.log("in login component: here's what getProfile returned: ", res);
     //   for (let result of res){

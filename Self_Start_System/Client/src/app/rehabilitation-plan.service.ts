@@ -23,6 +23,12 @@ export class RehabilitationPlanService {
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    getOneRehabilitationPlan(_id) {
+      return this.http.get(this.baseUrl + "/" + _id)
+        .map((res:Response) => res.json())
+        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     addRehabilitationPlan(body: Object) {
         let bodyString = JSON.stringify(body); //Stringify payload
         let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON

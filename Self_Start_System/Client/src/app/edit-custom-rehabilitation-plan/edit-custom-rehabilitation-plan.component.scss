@@ -3,6 +3,32 @@
 @import '../../../node_modules/ng2-dnd/bundles/style.css';
 
 
+.top {
+  margin-top: 2.5%;
+}
+
+.test-list {
+  border-right: solid, grey, 5px;
+}
+
+.item {
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.item:hover {
+  background-color: #D3D3D3;
+}
+
+.selectedIncompleteTest {
+  background-color: #D3D3D3;
+}
+
+.selectedCompleteTest {
+  background-color: #D3D3D3;
+}
+
+
 *{
     font-family: 'Roboto Condensed', sans-serif;
 }
@@ -62,6 +88,7 @@ button.add-new-exercise-button {
     flex-grow: 1;
     height: 100%;
 }
+
 .exercises-tab {
     // margin-right:20%;s
 }
@@ -75,20 +102,31 @@ button.add-new-exercise-button {
 .question {
   width: 100%;
 }
+
 .list-group {
   height: 700px;
   overflow-y: scroll;
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.list-group-questions {
+  height:400px;
+  overflow-y: scroll;
+  padding: 0%;
+  font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 .list-group-reco {
   height: 250px;
   overflow-y: scroll;
   padding-left: 0px;
+  font-family: 'Roboto Condensed', sans-serif !important;
 }
 .list-group-ans {
   height: 250px;
   overflow-y: scroll;
   padding-left: 0px;
+  font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 
@@ -237,6 +275,11 @@ mat-form-field.selectexercise {
 .mat-list-item-content {
   padding: 0px !important;
   height: 30px !important;
+}
+
+mat-list-item{
+  width: 100%;
+  padding-left: 5%;
 }
 
 mat-sidenav {

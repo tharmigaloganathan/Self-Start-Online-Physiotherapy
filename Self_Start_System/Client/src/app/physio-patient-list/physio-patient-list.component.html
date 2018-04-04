@@ -1,5 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
+<div *ngIf="isDataLoaded">
 <app-navbar-physio></app-navbar-physio>
 
 <div class="container">
@@ -55,7 +56,7 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-							<mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item" (click)="selectRow(row)" class="animated fadeInDown"></mat-row>
+							<mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" class="row-item animated fadeInDown"></mat-row>
 						</mat-table>
 					</div>
 					<!-- Individual Physio Cards -->
@@ -81,11 +82,12 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumnsPhysio"></mat-header-row>
-							<mat-row *matRowDef="let row; columns: displayedColumnsMyPatients;" class="row-item" (click)="selectRow(row)" class="animated fadeInDown"></mat-row>
+							<mat-row *matRowDef="let row; columns: displayedColumnsMyPatients;" (click)="selectRow(row)" class="row-item animated fadeInDown"></mat-row>
 						</mat-table>
 					</ng-template>
 				</mat-card>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
