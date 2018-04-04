@@ -4,8 +4,11 @@
   </span>
 
   <span class="navbar-fill-remaining-space"></span>
+  <span class="full-height">
+      <button mat-button routerLink="/about" class="full-height">About</button>
+  </span>
   <span>
-    <!--[routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"-->
+
     <button mat-raised-button  class="login-button" (click) = "clickedLogin()" >Login</button>
     <button mat-raised-button routerLink="/register" class="register-button" >Register</button>
 

@@ -101,10 +101,7 @@ function getAll(){
 function add(object){
     return new Promise (function (resolve, reject) {
         var document = new Payments(object);
-        if (!document.dayTimeStamp){
-            error = "No dayTimeStamp detected.";
-            reject(error);
-        } else if (!document.amount){
+        if (!document.amount){
             error = "No amount detected.";
             reject(error);
         } else if (!document.note){

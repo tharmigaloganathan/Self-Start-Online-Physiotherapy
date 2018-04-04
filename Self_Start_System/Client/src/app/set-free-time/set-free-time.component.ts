@@ -29,12 +29,17 @@ export class SetFreeTimeComponent implements OnInit {
 
   calendarOptions: Options;
 
+  // For controlling loading screen
+  loading;
+
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
   constructor(private rd: Renderer2,
               private router : Router,
               private setFreeTimeService: SetFreeTimeService,
               private authenticationService: AuthenticationService,
-              public dialog: MatDialog) {}
+              public dialog: MatDialog) {
+    this.loading = true;
+  }
 
   ngOnInit() {
     this.profileSubscription = this.authenticationService.profileOb$.subscribe((profile) => {
@@ -203,6 +208,14 @@ export class SetFreeTimeComponent implements OnInit {
     }
   };
 
+  // When calendar view is rendered
+  viewRendered = event => {
+    console.log(event);
+
+    // Stop the loading screen
+    this.stopLoading();
+  };
+
   // Helper functions for dialog box //
   openDialog(mongoId): void {
     let dialogRef = this.dialog.open(ConfirmDeleteDialogBoxComponent, {
@@ -224,6 +237,16 @@ export class SetFreeTimeComponent implements OnInit {
       }
     });
   }
+
+  // Starts the loading screen
+  startLoading = () => {
+    this.loading=true;
+  };
+
+  // Stops the loading screen
+  stopLoading = () => {
+    this.loading=false;
+  };
 }
 
 
