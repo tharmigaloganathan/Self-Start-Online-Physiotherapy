@@ -25,7 +25,7 @@ export class EditRehabilitationPlanComponent implements OnInit {
     rehabilitationplan = { exerciseOrders: [], assessmentTests:[]}; //Temporary fix
     allExercises = [];//nullaaaaa
     myExercises = [];//nullasaaaa
-    oldExercises = [];
+    oldExercises = []; //keeps track of the exercises that were here before any changes were made
     exerciseIDs = [];
     selectedExercise = {};
     newExercises = [];

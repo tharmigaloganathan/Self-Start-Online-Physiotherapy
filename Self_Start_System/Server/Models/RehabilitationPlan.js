@@ -6,6 +6,8 @@ var rehabilitationPlansSchema = mongoose.Schema(
 		authorName: String,
 		goal: String,
 		timeFrameToComplete: String,
+		startDate: Date,
+		endDate: Date,
 		exerciseOrders: [{type: mongoose.Schema.ObjectId, ref: ('Exercise')}],
 		assessmentTests: [{type: mongoose.Schema.ObjectId, ref: ('AssessmentTest')}],
 		treatments: [{type: mongoose.Schema.ObjectId, ref: ('Treatment')}],
@@ -14,8 +16,6 @@ var rehabilitationPlansSchema = mongoose.Schema(
 );
 
 var RehabilitationPlans = module.exports = mongoose.model('RehabilitationPlan', rehabilitationPlansSchema);
-
-
 
 module.exports = {
     add:add,
@@ -70,6 +70,8 @@ function update(id, updatedDocument){
                     document.description = updatedDocument.description;
                     document.authorName = updatedDocument.authorName;
                     document.goal = updatedDocument.goal;
+					document.startDate = updatedDocument.startDate;
+					document.endDate = updatedDocument.endDate;
                     document.timeFrameToComplete = updatedDocument.timeFrameToComplete;
                     document.exerciseOrders = updatedDocument.exerciseOrders;
                     document.assessmentTests = updatedDocument.assessmentTests;

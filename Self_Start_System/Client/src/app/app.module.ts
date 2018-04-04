@@ -122,7 +122,9 @@ import { VisualizeTreatmentDialogComponent } from './visualize-treatment-dialog/
 import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
 import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
+import { HomePageAboutComponent } from './home-page-about/home-page-about.component';
 
+import { RehabilitationPlanService} from "./rehabilitation-plan.service";
 
 @NgModule({
   declarations: [
@@ -176,7 +178,8 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
 		PaypalButtonComponent,
 		VisualizeTreatmentDialogComponent,
     HighchartsChartComponent,
-		AdminLocationsComponent
+		AdminLocationsComponent,
+		HomePageAboutComponent
   ],
   imports: [
     HttpModule,
@@ -228,11 +231,10 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
     MatRadioModule,
     ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    MatAutocompleteModule,
-    MatSliderModule,
+    MatAutocompleteModule
   ],
   providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService, RehabilitationPlanService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,
