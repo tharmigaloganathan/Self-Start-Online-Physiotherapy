@@ -134,6 +134,9 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           this.myExercises = result.data.myExercises;
           this.activeExercise = result.data.activeExercise;
           this.selectedRow = result.data.selectedRow;
+          console.log(this.myExercises, result.data.myExercises);
+           console.log(this.allExercises, result.data.allExercises);
+           console.log(this.oldExercises, this.myExercises);
       });
   }
 
@@ -159,18 +162,9 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       }
   }
 
-  putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String){
-      this.data = {
-        name: name,
-        authorName: authorName,
-        description: description,
-        goal: goal,
-        startDate: Date.now(),
-        endDate: null,
-        custom: true,
-        timeFrameToComplete: timeframe,
-        exerciseOrders: []
-      };
+  putRehabilitationPlan(){
+      this.data = this.rehabilitationplan;
+      this.rehabilitationplan.custom = true;
 
       //UPDATE THIS CURRENT REHABILITATION PLAN WITH NEW INFORMATION
       this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.rehabilitationplan._id).subscribe(res =>
@@ -207,16 +201,16 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
   }
 
-  postRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String){
+  postRehabilitationPlan(){
       this.data = {
-        name: name,
-        authorName: authorName,
-        description: description,
-        goal: goal,
+        name: this.rehabilitationplan.name,
+        authorName: this.rehabilitationplan.authorName,
+        description: this.rehabilitationplan.description,
+        goal: this.rehabilitationplan.goal,
         startDate: Date.now(),
         endDate: null,
         custom: true,
-        timeFrameToComplete: timeframe,
+        timeFrameToComplete: this.rehabilitationplan.timeFrameToComplete,
         exerciseOrders: []
       };
 
@@ -229,7 +223,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
       this.rehabilitationplanService.addRehabilitationPlan(this.data).subscribe(res =>
         {
-          console.log("RESULT",res.rehabilitationPlan._id);
+          console.log("RESULT",res);
           let rehabPlanID = res.rehabilitationPlan._id;
           let rehabPlan = res.rehabilitationPlan;
           this.treatment.rehabilitationPlan.push(rehabPlan);
@@ -302,14 +296,18 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
   }
 
-  saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
+  saveChanges() {
       let myExercises = JSON.stringify(this.myExercises);
       let oldExercises = JSON.stringify(this.oldExercises);
       localStorage.removeItem('new_treatment');
-      if(myExercises == oldExercises && this.newTreatment != true) {
-          this.putRehabilitationPlan(name, description, authorName, goal, timeframe);
+      console.log("old vs new exercises", myExercises, oldExercises, myExercises == oldExercises );
+      console.log("newTreatment", this.newTreatment);
+      if(myExercises == oldExercises) {
+          console.log("putting the rehab plan")
+          this.putRehabilitationPlan();
       } else {
-          this.postRehabilitationPlan(name, description, authorName, goal, timeframe);
+          console.log("posting the rehab plan");
+          this.postRehabilitationPlan();
       }
   }
 
@@ -379,11 +377,11 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.userAccountListService.getPatientProfile(id).subscribe(
           data => {
               console.log("data", data);
-              if(localStorage.getItem('treatment_id') != null) {
-                  this.treatment = localStorage.getItem('treatment_id');
-              } else {
+              // if(localStorage.getItem('treatment_id') != null) {
+              //     this.treatment = localStorage.getItem('treatment_id');
+              // } else {
                   this.treatment = data.treatments[0];
-              }
+              // }
               if(localStorage.getItem('new_treatment') != null) {
                   this.newTreatment = true;
               }
