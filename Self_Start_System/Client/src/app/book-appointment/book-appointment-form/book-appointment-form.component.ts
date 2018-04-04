@@ -53,12 +53,17 @@ export class BookAppointmentFormComponent implements OnInit {
 
   // For view paypal
   payment;
+  // Whether loading screen is displayed or not
+  loading;
 
   constructor(public router : Router,
               private setFreeTimeService: SetFreeTimeService,
               private authenticationService:AuthenticationService,
               private assessmentTestService: PatientCompleteAssessmentTestService,
               public dialog: MatDialog) {
+
+    // Start loading screen
+    this.loading = true;
   }
 
   ngOnInit() {
@@ -103,9 +108,15 @@ export class BookAppointmentFormComponent implements OnInit {
         this.form = data;
         console.log("This is what was returned for the form" + JSON.stringify(data));
         this.getQuestions();
+
+        // Stop loading screen
+        this.loading = false;
       },
       error => {
         console.log("Error");
+
+        // Stop loading screen
+        this.loading = false;
       });
   }
 

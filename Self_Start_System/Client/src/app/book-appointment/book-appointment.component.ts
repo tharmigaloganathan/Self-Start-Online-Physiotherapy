@@ -29,12 +29,17 @@ export class BookAppointmentComponent implements OnInit, OnDestroy{
 
   eventType = ["freeTime", "appointments"];
 
+  // For controlling loading screen
+  loading;
+
   @ViewChild('ucCalendar') ucCalendar: CalendarComponent;
   constructor(private rd: Renderer2,
               private router : Router,
               private setFreeTimeService: SetFreeTimeService,
               private authenticationService:AuthenticationService,
-              public dialog: MatDialog) {}
+              public dialog: MatDialog) {
+    this.loading = true;
+  }
 
   ngOnInit() {
     this.profileSubscription= this.authenticationService.profileOb$.subscribe((profile) => {
@@ -166,6 +171,17 @@ export class BookAppointmentComponent implements OnInit, OnDestroy{
 
   clickButton = (detail) => {
     console.log(detail);
+
+    // // Start the loading screen
+    // this.startLoading();
+  };
+
+  // When calendar view is rendered
+  viewRendered = event => {
+    console.log(event);
+
+    // Stop the loading screeen
+    this.stopLoading();
   };
 
   // Helper functions for dialog box //
@@ -189,4 +205,14 @@ export class BookAppointmentComponent implements OnInit, OnDestroy{
       }
     });
   }
+
+  // Starts the loading screen
+  startLoading = () => {
+    this.loading=true;
+  };
+
+  // Stops the loading screen
+  stopLoading = () => {
+    this.loading=false;
+  };
 }
