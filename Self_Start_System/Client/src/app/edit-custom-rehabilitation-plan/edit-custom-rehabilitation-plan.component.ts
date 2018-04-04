@@ -89,8 +89,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.getPatientProfile();
     this.getRehabilitationPlans();
-    this.getPatientProfile();
     this.authService.getProfile().subscribe(
       res => {
         this.user = res;
@@ -314,14 +314,18 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //gets all rehab plan information and extracts info for this specific rehab plan
   getRehabilitationPlans(){
-    console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
-    this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
-      this.rehabilitationplan = data.rehabilitationPlan;
-      this.oldRehabPlan = data.rehabilitationPlan;
-      console.log("Nick this is the rehab plan", data);
-      this.getExercises();
-      this.getAssessmentTests();
-    })
+    if(this.newTreatment != true) {
+        console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
+        this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
+          this.rehabilitationplan = data.rehabilitationPlan;
+          console.log("Nick this is the rehab plan", data);
+          this.getExercises();
+          this.getAssessmentTests();
+        });
+        this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
+          this.oldRehabPlan = data.rehabilitationPlan;
+        });
+    }
   }
 
   //gets exercises of this rehab plan
