@@ -661,10 +661,59 @@
 								</mat-form-field>
 							</div>
 						</div>
+
+						<!-- Intake Form -->
+						<div class="row">
+							<div class="col-md-12">
+								<h2>Intake Form</h2>
+								<mat-divider></mat-divider>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12 form-container">
+								<div *ngIf="intakeFormQandA.length == 0 else intakeFormHistory">
+									<div class="col-12">
+										<h6>No intake form.</h6>
+									</div>
+								</div>
+								<ng-template #intakeFormHistory>
+									<mat-list>
+										<mat-list-item *ngFor="let intakeFormObj of intakeFormQandA let i = index" [attr.data-index]="i">
+											<div class="col-6">
+												<b>{{ intakeFormObj.question }}</b>
+											</div>
+											<div class="col-6">
+												{{ intakeFormObj.answer }}
+											</div>
+											<mat-divider></mat-divider>
+										</mat-list-item>
+									</mat-list>
+									<div class="row">
+										<div class="col-12 form-container">
+											<div *ngIf="intakeFormImages.length > 0">
+												<mat-list>
+													<mat-list-item>
+														<div class="col-6">
+															<b>Treatment Images</b>
+														</div>
+													</mat-list-item>
+													<mat-list-item>
+														<div class="col-12 row">
+															<img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="" height="150">
+														</div>
+													</mat-list-item>
+												</mat-list>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</div>
+						</div>
+
 						<!-- Appointment History -->
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Appointment History</h4>
+								<h2>Appointment History</h2>
 								<mat-divider></mat-divider>
 							</div>
 						</div>
@@ -690,16 +739,17 @@
 								</ng-template>
 							</div>
 						</div>
+
 						<!-- Payment History -->
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Payment History</h4>
+								<h2>Payment History</h2>
 								<mat-divider></mat-divider>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-12 form-container">
-								<div *ngIf="user.payments.length == 0 else paymentHistory">
+								<div *ngIf="payments.length == 0 else paymentHistory">
 									<div class="col-12">
 										<h6> No payment history</h6>
 									</div>
@@ -707,13 +757,13 @@
 								<ng-template #paymentHistory>
 									<mat-list>
 										<mat-list-item *ngFor="let payment of payments let i = index" [attr.data-index]="i">
-											<div class="col-2">
+											<div class="col-3">
 												<b>Date: </b> {{ payment.dayTimeStamp | date : "dd.MM.y" }}
 											</div>
-											<div class="col-2">
+											<div class="col-3">
 												<b>Amount: </b> ${{ payment.amount }}
 											</div>
-											<div class="col-8">
+											<div class="col-6">
 												<b>Note: </b> {{ payment.note }}
 											</div>
 											<mat-divider></mat-divider>
@@ -722,59 +772,11 @@
 								</ng-template>
 							</div>
 						</div>
-						<!-- Intake form -->
-						<div class="row">
-							<div class="col-md-12">
-								<h4>Intake Form</h4>
-								<mat-divider></mat-divider>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12 form-container">
-								<div *ngIf="intakeFormQandA.length == 0 else intakeFormHistory">
-									<div class="col-12">
-										<h6>No intake form.</h6>
-									</div>
-								</div>
-								<ng-template #intakeFormHistory>
-									<mat-list>
-										<mat-list-item *ngFor="let intakeFormObj of intakeFormQandA let i = index" [attr.data-index]="i">
-											<div class="col-6">
-												<b>{{ intakeFormObj.question }}</b>
-											</div>
-											<div class="col-6">
-												{{ intakeFormObj.answer }}
-											</div>
-											<mat-divider></mat-divider>
-										</mat-list-item>
-									</mat-list>
 
-									<div class="row">
-										<div class="col-12 form-container">
-											<div *ngIf="intakeFormImages.length > 0">
-												<mat-list>
-													<mat-list-item>
-														<div class="col-6">
-															<b>Treatment Images</b>
-														</div>
-													</mat-list-item>
-													<mat-list-item>
-														<div class="col-12 row">
-															<img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="" height="150">
-														</div>
-													</mat-list-item>
-												</mat-list>
-											</div>
-										</div>
-									</div>
-
-								</ng-template>
-							</div>
-						</div>
 						<!-- Treatment List -->
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Treatment History</h4>
+								<h2>Treatment History</h2>
 								<mat-divider></mat-divider>
 							</div>
 						</div>
@@ -787,13 +789,13 @@
 						<ng-template #treatmentHistory>
 							<mat-list>
 								<mat-list-item *ngFor="let treatment of user.treatments; let i = index" [attr.data-index]="i">
-									<div class="col-4">
+									<div class="col-3">
 										<b>Assignment Date: </b> {{ treatment?.dateAssign | date : "dd.MM.y" }}
 									</div>
-									<div class="col-4">
+									<div class="col-3">
 										<b>Start Date: </b> {{ treatment?.dateStart | date : "dd.MM.y" }}
 									</div>
-									<div class="col-4">
+									<div class="col-6">
 										<b>Active: </b> {{ treatment?.active }}
 									</div>
 									<mat-divider></mat-divider>
@@ -801,10 +803,11 @@
 							</mat-list>
 						</ng-template>
 					</div>
-					<!-- Assessment Tets -->
+
+					<!-- Assessment Tetst History -->
 					<div class="row">
 						<div class="col-md-12">
-							<h4>Assessment Test History</h4>
+							<h2>Assessment Test History</h2>
 							<mat-divider></mat-divider>
 						</div>
 					</div>
@@ -817,10 +820,10 @@
 					<ng-template #assessmentTestHistory>
 						<mat-list>
 							<mat-list-item *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i">
-								<div class="col-4">
+								<div class="col-3">
 									<b>Name: </b> {{ test?.name }}
 								</div>
-								<div class="col-2">
+								<div class="col-3">
 									<div *ngIf="test.dateCompleted == null else showDateCompleted">
 										Completed: In progress
 									</div>

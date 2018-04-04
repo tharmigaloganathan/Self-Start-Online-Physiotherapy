@@ -236,7 +236,8 @@ export class ManagePatientProfileComponent implements OnInit {
 			province:  this.user.province,
 			city:  this.user.city,
 			gender: this.user.gender,
-			appointments: this.user.appointments
+			appointments: this.user.appointments,
+			intakeFormAnswers: this.intakeFormQandA;
 		}
 		console.log(patientProfile);
 		this.userAccountListService.updatePatient(this.user._id, patientProfile).
@@ -296,6 +297,7 @@ export class ManagePatientProfileComponent implements OnInit {
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
+					this.populateAllAssessmentTests();
           //console.log("TREATMENTS",this.treatments);
 					this.isDataLoaded = true;
 					this.loading = false;
@@ -331,6 +333,18 @@ export class ManagePatientProfileComponent implements OnInit {
         });
     };
 
+		//Populate all users assessment tests for the print form
+		populateAllAssessmentTests() {
+		for(var i=0; i<this.user.treatments.length; i++) {
+			for var j=0; j<this.user.treatments[i].rehabilitationPlan.length; j++) {
+				for var k=0; k<this.user.treatments[i].rehabilitationPlan[j].assessmentTests.length; k++) {
+					this.assessmentTests.push(this.user.treatments[i].rehabilitationPlan[j].assessmentTests[k]);
+				}
+			}
+		}
+		console.log("All the users assessment tests", this.assessmentTests);
+	}
+
 		 //Get the users appointments
 		 populateAppointments(id) {
 		 this.userAccountListService.getAppointments(id).subscribe(
@@ -339,18 +353,18 @@ export class ManagePatientProfileComponent implements OnInit {
 			 });
 			}
 
-  //Get the users payments
-  populatePayments(id) {
-    console.log('in populatePayments');
-    this.managePatientProfileService.getAllPayments(id).subscribe(
-      data=>{
-        console.log('in managePatientProfileService', data);
-        this.payments = data.payment;
-      }, err=>{
-        console.log(err);
-      }
-    );
-  }
+		  //Get the users payments
+		  populatePayments(id) {
+		    console.log('in populatePayments');
+		    this.managePatientProfileService.getAllPayments(id).subscribe(
+		      data=>{
+		        console.log('in managePatientProfileService', data);
+		        this.payments = data.payment;
+		      }, err=>{
+		        console.log(err);
+		      }
+		    );
+		  }
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
@@ -374,6 +388,7 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get Assessment Test for the selected rehab plan
 			getRehabPlanAssessmentTests() {
+			/*
 			for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
 				this.userAccountListService.getAssessmentTest(this.activeRehabPlan.assessmentTests[i]).subscribe(
 					data => {
@@ -381,15 +396,18 @@ export class ManagePatientProfileComponent implements OnInit {
 						console.log(this.activeRehabPlanAssessmentTests);
 					});
 				}
+				*/
 			}
 
 			//Get the physio assoicated with the rehab plan
 			getRehabPlanPhysio() {
+				/*
 				this.userAccountListService.getPhysio(this.activeTreatment.physiotherapist).subscribe(
 					data => {
 						this.physiotherapist = data;
 						console.log(this.physiotherapist);
 					});
+					*/
 			}
 
 			//Sets the active exercise for the exercise modal
