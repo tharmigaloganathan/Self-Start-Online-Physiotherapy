@@ -15,7 +15,7 @@
 						</div>
 						<div class="col-md-2 col-md-offset-8">
 							<div class="icon-bar">
-								<mat-icon class="icon" matTooltip="Create Treatment">assignment</mat-icon>
+								<mat-icon class="icon" matTooltip="Create Treatment" (click)="newTreatment()">assignment</mat-icon>
 								<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
 								<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
 							</div>
@@ -134,7 +134,7 @@
 								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">
 									<div class="row top">
 										<div class="col">
-											<button mat-raised-button class="crete-treatment-button">Create New Treatment</button>
+											<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
 										</div>
 									</div>
 									<mat-divider></mat-divider>
