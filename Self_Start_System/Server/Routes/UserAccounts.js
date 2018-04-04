@@ -8,9 +8,9 @@ var PatientProfiles = require('../Models/PatientProfile');
 //for tokens & verification & login sessions
 const jwt = require('jsonwebtoken');
 const config = require('../Config/Database');
+const nodemailer = require('nodemailer');
 
-
-
+const loginPage = '"http://localhost:8080/login"';
 
 router.route('/login')
     .post(function (request, response) {
@@ -212,16 +212,65 @@ router.route('/:username')
 
 router.route('/updatePassword/:object_id')
     .put(function (request, response) {
-        console.log ("in update user account password route, here's the new password: ", request.body.encryptedPassword);
+        console.log ("in update user account password route, here's the new password: ", request.body.user.encryptedPassword);
+        var newPassword = request.body.user.encryptedPassword;
         if (!request.params.object_id) {
             response.json({success: false, message: 'id was not provided'});
         }
-        UserAccounts.updatePassword(request.params.object_id, request.body).then(function(userAccount){
-            response.json({success: true, userAccount: userAccount});
+        UserAccounts.updatePassword(request.params.object_id, request.body.user).then(function(userAccount){
+            //email only sends when its resetting password to a temporary password, not for saving a new password
+            if (request.body.reset) {
+                console.log("sending temporary password to: ", request.body.email);
+
+                // create reusable transporter object using the default SMTP transport
+                var transporter = nodemailer.createTransport({
+                    host: "smtp-mail.outlook.com", // hostname
+                    secureConnection: false, // TLS requires secureConnection to be false
+                    port: 587, // port for secure SMTP
+                    tls: {
+                        ciphers: 'SSLv3'
+                    },
+                    auth: {
+                        user: 'selfstart1@hotmail.com',
+                        pass: 'ademidun1'
+                    }
+                });
+
+                // setup email data with unicode symbols
+                var mailOptions = {
+                    from: '"Admin" <selfstart1@hotmail.com>', // sender address
+                    to: request.body.email, // list of receivers
+                    subject: 'Password Reset Notice!', // Subject line
+                    text: " ", // plain text body
+                    html: `
+<p>Your password has been reset! here is your new temporary password: ${newPassword}</p>
+<a href = ${loginPage}>click to login</a>
+`// html body
+                };
+
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    console.log('Message sent: %s', info.messageId);
+                    // Preview only available when sending through an Ethereal account
+                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+                    transporter.verify(function (error, success) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('Server is ready to take our messages');
+                        }
+                    });
+                });
+            }
+                response.json({success: true, userAccount: userAccount});
         }).catch(function(err){
             response.json({success: false, message: err});
         })
-    })
+    });
 
 router.route('/id/:object_id')
     .get(function (request, response) {
