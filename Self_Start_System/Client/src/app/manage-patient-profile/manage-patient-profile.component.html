@@ -129,6 +129,7 @@
 						<mat-tab label="Treatments">
 							<div *ngIf="treatments == 0 else treatmentList" class="empty">
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no treatment history</h6>
+								<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
 							</div>
 							<ng-template #treatmentList>
 								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">
@@ -334,6 +335,48 @@
 								</form>
 							</ng-template>
 						</mat-tab>
+
+            <!--Intake Form-->
+            <mat-tab label="Intake Form">
+              <div *ngIf="intakeFormQandA.length == 0 else intakeFormList" class="empty">
+                <h6> {{ user?.givenName + " " + user?.familyName }} have not completed an intake form</h6>
+              </div>
+              <ng-template #intakeFormList>
+                <h6 class="top">Intake form for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+                <mat-divider></mat-divider>
+                <mat-list>
+                  <mat-list-item *ngFor="let intakeFormObj of intakeFormQandA let i = index" [attr.data-index]="i">
+                    <div class="col-6">
+                      <b>{{ intakeFormObj.question }}</b>
+                    </div>
+                    <div class="col-6">
+                      {{ intakeFormObj.answer }}
+                    </div>
+                    <mat-divider></mat-divider>
+                  </mat-list-item>
+                </mat-list>
+
+                <!--Display images-->
+                <div *ngIf="intakeFormImages.length > 0">
+                  <mat-list>
+                    <mat-list-item>
+                      <div class="col-6">
+                        <b>Treatment Images</b>
+                      </div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                      <div class="col-12 row">
+                        <img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="">
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+
+                </div>
+              </ng-template>
+            </mat-tab>
+            <!--End of intake Form-->
+
 						<!-- Appointments -->
 						<mat-tab label="Appointments">
 							<div *ngIf="user.appointments.length == 0 else appointmentList" class="empty">
@@ -360,22 +403,22 @@
 						</mat-tab>
 						<!-- Payments -->
 						<mat-tab label="Payments">
-							<div *ngIf="user.payments.length == 0 else paymentList" class="empty">
+							<div *ngIf="payments?.length === 0 else paymentList" class="empty">
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no payment history</h6>
 							</div>
 							<ng-template #paymentList>
-								<h6 class="top">Payment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+								<h6 class="top">Payment history for <i>{{ user?.givenName + " " + user?.familyName }}</i></h6>
 								<mat-divider></mat-divider>
 								<mat-list>
 									<mat-list-item *ngFor="let payment of payments let i = index" [attr.data-index]="i">
 										<div class="col-2">
-											<b>Date: </b> {{ payment.dayTimeStamp | date : "dd.MM.y" }}
+											<b>Date: </b> {{ payment?.dayTimeStamp | date : "dd.MM.y" }}
 										</div>
 										<div class="col-2">
-											<b>Amount: </b> {{ payment.amount }}
+											<b>Amount: </b> {{ payment?.amount }}
 										</div>
 										<div class="col-8">
-											<b>Note: </b> {{ payment.note }}
+											<b>Note: </b> {{ payment?.note }}
 										</div>
 										<mat-divider></mat-divider>
 									</mat-list-item>
@@ -439,7 +482,7 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<img src="{{activeExercise.multimediaURL}}" alt="">
+									<img src="{{activeExercise?.multimediaURL}}" alt="">
 								</div>
 							</div>
 						</div>

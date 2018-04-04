@@ -35,7 +35,8 @@ module.exports = {
     getAllAppointments:getAllAppointments,
     deleteAppointment:deleteAppointment,
     completeIntakeForm:completeIntakeForm,
-    viewIntakeForm:viewIntakeForm
+    viewIntakeForm:viewIntakeForm,
+    getAllWithoutPhysio:getAllWithoutPhysio
 };
 
 var Appointments = require("./Appointment");
@@ -136,6 +137,18 @@ function getOne(id){
 function getAll(){
     return new Promise (function (resolve, reject) {
         PatientProfiles.find({}, function (error, documents) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(documents);
+            }
+        });
+    });
+}
+
+function getAllWithoutPhysio(){
+    return new Promise (function (resolve, reject) {
+        PatientProfiles.find({treatments:null}, function (error, documents) {
             if (error){
                 reject(error);
             }else{
@@ -248,6 +261,7 @@ function addAppointment(id, body) {
     }
   })
 }
+
 
 // Retrieves more appointments
 function getAllAppointments(id) {

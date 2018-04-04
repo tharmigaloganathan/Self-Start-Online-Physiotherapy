@@ -16,7 +16,8 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    getByPhysio:getByPhysio
 };
 
 var PatientProfiles = require("./PatientProfile");
@@ -89,6 +90,19 @@ function getOne(id){
 function getAll(){
     return new Promise (function (resolve, reject) {
         Appointments.find({},function (error, appointments) {
+            console.log(appointments);
+            if (error){
+                reject(error);
+            }else{
+                resolve(appointments);
+            }
+        });
+    });
+}
+
+function getByPhysio(physioID){
+    return new Promise (function (resolve, reject) {
+        Appointments.find({physiotherapist: physioID},function (error, appointments) {
             console.log(appointments);
             if (error){
                 reject(error);

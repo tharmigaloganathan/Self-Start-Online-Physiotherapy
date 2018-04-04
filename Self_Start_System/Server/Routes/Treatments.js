@@ -50,4 +50,22 @@ router.route('/:object_id')
         })
     });
 
+router.route('/by-physio/:physio_id')
+    .get(function (request, response) {
+        if (!request.params.physio_id) {
+            response.json({success: false, message: 'id was not provided'});
+        }
+        Treatments.getAllByPhysio(request.params.physio_id).then(function(treatments){
+            patients=[];
+            treatments.forEach(function(treatment){
+                if(!patients.includes(treatment.patientProfile)){
+                    patients.push(treatment.patientProfile)
+                }
+            });
+            response.json({patientList: patients});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
 module.exports = router;

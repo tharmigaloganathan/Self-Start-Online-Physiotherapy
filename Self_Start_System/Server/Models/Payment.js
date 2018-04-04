@@ -19,7 +19,8 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+  getAllByPatientProfileID:getAllByPatientProfileID
 };
 
 function deleteOne(id){
@@ -42,10 +43,7 @@ function deleteOne(id){
 
 function update(id, updatedDocument){
     return new Promise (function (resolve, reject) {
-        if (!updatedDocument.dayTimeStamp){
-            error = "No dayTimeStamp detected.";
-            reject(error);
-        } else if (!updatedDocument.amount){
+        if (!updatedDocument.amount){
             error = "No amount detected.";
             reject(error);
         } else if (!updatedDocument.note){
@@ -57,10 +55,15 @@ function update(id, updatedDocument){
                     reject(error);
                 }
                 else {
+                  if (updatedDocument.dayTimeStamp){
                     document.dayTimeStamp = updatedDocument.dayTimeStamp;
+                  }
                     document.amount = updatedDocument.amount;
                     document.note = updatedDocument.note;
+                  if (updatedDocument.patientProfile){
                     document.patientProfile = updatedDocument.patientProfile;
+                  }
+
                     document.save(function (error) {
                         if (error) {
                             reject(error);
@@ -97,6 +100,24 @@ function getAll(){
         });
     });
 }
+
+function getAllByPatientProfileID(patientProfileID){
+    return new Promise ((resolve, reject) => {
+      Payments.find({}, function (error, documents) {
+        console.log("getAllByPatientProfileID ", documents);
+        if (error){
+          reject(error);
+        }else{
+          let paymentsList = [];
+          for(let document of documents){
+            if (document.patientProfile.toString() === patientProfileID.toString())
+              paymentsList.push(document);
+          }
+          resolve(paymentsList);
+        }
+      });
+    });
+};
 
 function add(object){
     return new Promise (function (resolve, reject) {
