@@ -305,6 +305,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
       let myExercises = JSON.stringify(this.myExercises);
       let oldExercises = JSON.stringify(this.oldExercises);
+      localStorage.removeItem('new_treatment');
       if(myExercises == oldExercises && this.newTreatment != true) {
           this.putRehabilitationPlan(name, description, authorName, goal, timeframe);
       } else {
@@ -385,7 +386,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
               }
               if(localStorage.getItem('new_treatment') != null) {
                   this.newTreatment = true;
-                  localStorage.removeItem('new_treatment');
               }
               console.log("TREATMENT",this.treatment);
           });

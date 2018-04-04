@@ -18,6 +18,19 @@ router.route('/')
         })
     });
 
+router.route('/get-payment-by-patient-id')
+  .put(function (request, response) {
+    console.log("get-payment-by-patient-id ");
+    if(!request.body.patientProfileID){
+      response.json({success: false, message: 'patientProfileID was not provided'});
+    }
+    Payments.getAllByPatientProfileID(request.body.patientProfileID).then(function(payment){
+      response.json({payment: payment});
+    }).catch(function(err){
+      response.json({success: false, message: err});
+    })
+  });
+
 router.route('/:object_id')
     .get(function (request, response) {
         if (!request.params.object_id) {

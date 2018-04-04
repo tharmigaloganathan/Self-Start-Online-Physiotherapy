@@ -81,11 +81,24 @@ export class ManagePatientProfileService {
 		localStorage.setItem('selectedPatient', JSON.stringify(patient));
 	}
 
-    getTreatments() {
-        return this.http.get(this.baseURL + 'Treatments')
-        // ...and calling .json() on the response to return data
-          .map((res: Response) => res.json())
-          .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-    }
+  getTreatments() {
+      return this.http.get(this.baseURL + 'Treatments')
+      // ...and calling .json() on the response to return data
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getAllPayments(patientProfileID){
+    this.options = this.authenticationService.createAuthenticationHeaders();
+
+    let body = {
+      patientProfileID:patientProfileID
+    };
+
+    return this.http.put(this.baseURL + 'Payments/get-payment-by-patient-id', body, this.options)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
 
 }
