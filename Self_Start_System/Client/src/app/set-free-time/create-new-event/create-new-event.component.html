@@ -1,6 +1,8 @@
+<ngx-loading [show]="serviceLoading || dateLoading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
 <app-navbar-physio></app-navbar-physio>
 
-<div class="container">
+<div *ngIf="!(serviceLoading || dateLoading)" class="container">
   <!--Title-->
   <h1 class="title text-center">Setting Availability</h1>
 

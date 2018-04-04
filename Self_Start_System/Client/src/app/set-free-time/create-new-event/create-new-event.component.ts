@@ -25,12 +25,18 @@ export class CreateNewEventComponent implements OnInit {
 
   profileSubscription;
 
+  // For controlling loading screen
+  serviceLoading;
+  dateLoading;
+
   constructor(private setFreeTimeService : SetFreeTimeService,
               private router : Router,
               private authenticationService: AuthenticationService,
               public toastr: ToastsManager,
               vcr: ViewContainerRef
   ) {
+    this.dateLoading = true;
+    this.serviceLoading = false;
     this.toastr.setRootViewContainerRef(vcr);
   }
 
@@ -38,6 +44,8 @@ export class CreateNewEventComponent implements OnInit {
     this.authenticationService.getProfile().subscribe(res => {
       this.profileSubscription = this.authenticationService.profileOb$.subscribe((profile) => {
         this.physioID = profile._id; console.log("subscription to auth service set profile returned: ", profile);
+
+        this.serviceLoading = false;
       });
       //any function following getting profile goes here
       this.initializeCurrentTime();
@@ -59,6 +67,9 @@ export class CreateNewEventComponent implements OnInit {
 
     this.endDate = new Date();
     this.endTime = this.convertIntTimeToString(currentHour+1, currentMinute);
+
+    // Stop loading
+    this.dateLoading = false;
   };
 
   //////////// Event Listeners ////////////

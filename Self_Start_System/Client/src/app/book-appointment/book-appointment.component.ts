@@ -180,7 +180,7 @@ export class BookAppointmentComponent implements OnInit, OnDestroy{
   viewRendered = event => {
     console.log(event);
 
-    // Stop the loading screeen
+    // Stop the loading screen
     this.stopLoading();
   };
 
