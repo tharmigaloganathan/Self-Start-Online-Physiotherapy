@@ -35,7 +35,7 @@ module.exports = {
     getAllAppointments:getAllAppointments,
     deleteAppointment:deleteAppointment,
     completeIntakeForm:completeIntakeForm,
-    viewIntakeForm:viewIntakeForm
+    viewIntakeForm:viewIntakeForm,
 };
 
 var Appointments = require("./Appointment");
@@ -226,7 +226,7 @@ function addAppointment(id, body) {
               appointment._id,
               body.timeslotId,
               appointment.date,
-              appointment.endDate,
+              appointment.endDate
           ).then( result => {
               console.log("Reached Physiotherapists.addAppointment", result);
               // Save the patient profile document
@@ -248,6 +248,7 @@ function addAppointment(id, body) {
     }
   })
 }
+
 
 // Retrieves more appointments
 function getAllAppointments(id) {
@@ -474,5 +475,3 @@ function viewIntakeForm(id) {
 
   })
 }
-
-
