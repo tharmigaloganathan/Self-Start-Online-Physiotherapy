@@ -8,7 +8,7 @@
                 <p style="font-size:16px">
                     <mat-card-subtitle>Jane Doe</mat-card-subtitle>
                 </p>
-                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges(rehabilitationplan.name, rehabilitationplan.description, rehabilitationplan.authorName, rehabilitationplan.goal, rehabilitationplan.timeFrameToComplete)">SAVE CHANGES</button>
+                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges()">SAVE CHANGES</button>
             </h1>
             <br />
             <mat-tab-group>
@@ -18,7 +18,7 @@
                         <b>Plan Details</b>
                     </h1>
                     <br /><br />
-                    <form class="form-container" *ngIf="rehabilitationPlan">
+                    <form class="form-container" *ngIf="rehabilitationplan">
                         <div class="plan-details-tab">
                             <mat-form-field class="name">
                                 <input matInput #name placeholder="Name" name="name" [(ngModel)]="rehabilitationplan.name">
@@ -41,11 +41,11 @@
                             </mat-form-field>
 
                             <mat-form-field class="timeframe">
-                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeFrameToComplete" [(ngModel)]="rehabilitationplan.timeFrameToComplete"></textarea>
+                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeframe" [(ngModel)]="rehabilitationplan.timeFrameToComplete"></textarea>
                             </mat-form-field>
                         </div>
                     </form>
-                    <form class="form-container" *ngIf="!rehabilitationPlan">
+                    <form class="form-container" *ngIf="!rehabilitationplan">
                         <div class="plan-details-tab">
                             <mat-form-field class="name">
                                 <input matInput #name placeholder="Name" name="name" >
