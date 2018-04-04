@@ -35,7 +35,6 @@ export class ManagePatientProfileComponent implements OnInit {
 	user;
 	account;
 	appointments;
-	payments;
 	today = new Date();
 	age: any;
 	genders;
@@ -59,6 +58,8 @@ export class ManagePatientProfileComponent implements OnInit {
   // Images for front back and sides
   intakeFormImages;
 
+  // Payments
+  payments = [];
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
 
@@ -116,6 +117,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
+		this.populatePayments(this.account._id);
 		// Views the test form
 		this.testViewForm(this.account._id);
 
@@ -334,10 +336,18 @@ export class ManagePatientProfileComponent implements OnInit {
 			 });
 			}
 
-			//Get the users payments
-			populatePayments(id) {
-			//To be written after payments is made
-		}
+  //Get the users payments
+  populatePayments(id) {
+    console.log('in populatePayments');
+    this.managePatientProfileService.getAllPayments(id).subscribe(
+      data=>{
+        console.log('in managePatientProfileService', data);
+        this.payments = data.payment;
+      }, err=>{
+        console.log(err);
+      }
+    );
+  }
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
@@ -432,8 +442,12 @@ export class ManagePatientProfileComponent implements OnInit {
       this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
         localStorage.setItem('treatment_id',treatmentData.treatment._id);
         localStorage.setItem('new_treatment','TRUE');
-        console.log("treatment data", treatmentData);
-        this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+        console.log(treatmentData.treatment);
+        this.user.treatments.push(treatmentData.treatment._id);
+        console.log(this.user);
+        this.managePatientProfileService.updatePatient(this.user, this.user._id).subscribe(patientProfile =>{
+          this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+        });
       });
   }
 			openVisualizeTreatmentDialogBox(){

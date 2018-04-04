@@ -16,6 +16,7 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
     successCounter = 0;
     profileSubscription;
     treatments = [];
+    appointments = [];
     patients: any[] = [];
     patientList: Array<{
       patientID: string,
@@ -101,7 +102,24 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
     getAppointments() {
         //get appointments, match physiotherapist
         //order array by date nearest first
+      this.messagesService.getAppointments(this.user._id).subscribe(
+        data => {
+          console.log(data);
+          data.appointment.sort((a,b)=>{
+            if(a.date < b.date){
+              return -1;
+            }
+            if(a.date > b.date){
+              return 1;
+            }
+            return 0;
+          });
+          this.appointments = data.appointment;
+        },
+        error => console.log(error)
+      );
     }
+
     formatDate(date) {
         var monthNames = [
             "January", "February", "March",
