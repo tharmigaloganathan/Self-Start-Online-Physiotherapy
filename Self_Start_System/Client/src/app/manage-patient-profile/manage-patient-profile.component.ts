@@ -33,7 +33,6 @@ export class ManagePatientProfileComponent implements OnInit {
 	user;
 	account;
 	appointments;
-	payments;
 	today = new Date();
 	age: any;
 	genders;
@@ -57,6 +56,8 @@ export class ManagePatientProfileComponent implements OnInit {
   // Images for front back and sides
   intakeFormImages;
 
+  // Payments
+  payments = [];
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
 
@@ -85,6 +86,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.populateGenders();
 		this.populateProvinces();
 		this.populateCountries();
+		this.populatePayments(this.account._id);
 		// Views the test form
 		this.testViewForm(this.account._id);
 
@@ -303,10 +305,18 @@ export class ManagePatientProfileComponent implements OnInit {
 			 });
 			}
 
-			//Get the users payments
-			populatePayments(id) {
-			//To be written after payments is made
-		}
+  //Get the users payments
+  populatePayments(id) {
+    console.log('in populatePayments');
+    this.managePatientProfileService.getAllPayments(id).subscribe(
+      data=>{
+        console.log('in managePatientProfileService', data);
+        this.payments = data.payment;
+      }, err=>{
+        console.log(err);
+      }
+    );
+  }
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
