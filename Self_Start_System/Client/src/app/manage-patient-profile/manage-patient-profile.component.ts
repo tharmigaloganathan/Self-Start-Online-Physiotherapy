@@ -291,37 +291,51 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			}
 
-    newTreatment(){
-      let rehabPlan = {
-        dateStart: null,
-        dateEnd: null,
-        name: ' ',
-        description: ' ',
-        authorName: ' ',
-        goal: ' ',
-        timeFrameToComplete: ' ',
-        exerciseOrders: [],
-        assessmentTests: [],
-        treatments: [],
+    // newTreatment(){
+    //   let rehabPlan = {
+    //     dateStart: null,
+    //     dateEnd: null,
+    //     name: ' ',
+    //     description: ' ',
+    //     authorName: ' ',
+    //     goal: ' ',
+    //     timeFrameToComplete: ' ',
+    //     exerciseOrders: [],
+    //     assessmentTests: [],
+    //     treatments: [],
+    //   };
+    //   console.log("User= "+this.user._id+" Physio= "+this.currentUser[1].physiotherapist._id);
+    //   this.rehabilitationPlanService.addRehabilitationPlan(rehabPlan).subscribe( data => {
+    //     console.log(data);
+    //       let treatment = { // dateAssign and active fields are populated by default
+    //         patientProfile: this.user._id,
+    //         physiotherapist: this.currentUser[1].physiotherapist._id,
+    //         rehabilitationPlan: data.rehabilitationPlan._id,
+    //         recommendations: [],
+    //       };
+    //     localStorage.setItem('edit_rehabilitation_id',data.rehabilitationPlan._id);
+    //     localStorage.setItem('new_treatment','TRUE');
+    //     console.log(treatment);
+    //       this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
+    //         console.log(treatmentData);
+    //         this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+    //       });
+    //     }
+    //   );
+    // }
+
+  newTreatment(){
+      let treatment = { // dateAssign and active fields are populated by default
+        patientProfile: this.user._id,
+        physiotherapist: this.currentUser[1].physiotherapist._id,
+        rehabilitationPlan: [],
+        recommendations: [],
       };
-      console.log("User= "+this.user._id+" Physio= "+this.currentUser[1].physiotherapist._id);
-      this.rehabilitationPlanService.addRehabilitationPlan(rehabPlan).subscribe( data => {
-        console.log(data);
-          let treatment = { // dateAssign and active fields are populated by default
-            patientProfile: this.user._id,
-            physiotherapist: this.currentUser[1].physiotherapist._id,
-            rehabilitationPlan: data.rehabilitationPlan._id,
-            recommendations: [],
-          };
-        localStorage.setItem('edit_rehabilitation_id',data.rehabilitationPlan._id);
-        localStorage.setItem('new_treatment','TRUE');
-        console.log(treatment);
-          this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
-            console.log(treatmentData);
-            this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
-          });
-        }
-      );
-    }
+      this.managePatientProfileService.addTreatment(treatment).subscribe( treatmentData => {
+        localStorage.setItem('treatment_id',treatmentData.treatment._id);
+        console.log(treatmentData.treatment._id);
+        this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
+      });
+  }
 
 }
