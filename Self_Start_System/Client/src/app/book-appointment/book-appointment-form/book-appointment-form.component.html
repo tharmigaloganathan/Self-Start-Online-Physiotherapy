@@ -1,8 +1,8 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
-<app-navbar-physio></app-navbar-physio>
+<app-navbar-physio *ngIf="!loading"></app-navbar-physio>
 
-<div class="container">
+<div *ngIf="!loading" class="container">
   <h1 class="title text-center">Book Appointment Form</h1>
 
   <!--Main form card-->

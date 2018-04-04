@@ -1,6 +1,6 @@
 <ngx-loading [show]="serviceLoading || dateLoading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
-<app-navbar-physio></app-navbar-physio>
+<app-navbar-physio *ngIf="!(serviceLoading || dateLoading)"></app-navbar-physio>
 
 <div *ngIf="!(serviceLoading || dateLoading)" class="container">
   <!--Title-->
@@ -42,8 +42,10 @@
       </mat-form-field>
       <!--End repeat for weeks-->
 
-      <br>
-      <button mat-raised-button class="save-button" (click)="onClickSubmit()">Submit</button>
+      <div class="row no-margin">
+        <button class="cancel-button" mat-raised-button (click)="onClickCancel()">Cancel</button>
+        <button class="save-button book-button" mat-raised-button (click)="onClickSubmit()">Submit</button>
+      </div>
     </form>
   </mat-card>
 </div>

@@ -13,7 +13,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 export class CreateNewEventComponent implements OnInit {
 
   // temp PhysioTherapistID, for testing
-  physioID = '5aa9fa5b0f39cbb0213e2182';
+  physioID;
 
   numWeek = 1;
   startDate;
@@ -103,6 +103,11 @@ export class CreateNewEventComponent implements OnInit {
     this.endDate.setHours(this.endTime.substring(0, 2),this.endTime.substring(3, 5));
 
     this.sendTimeSlots();
+  };
+
+  onClickCancel = () => {
+    // Switch pages if done
+    this.router.navigate(['/physio/set-free-time/']);
   };
 
   /// Helper Function ///
