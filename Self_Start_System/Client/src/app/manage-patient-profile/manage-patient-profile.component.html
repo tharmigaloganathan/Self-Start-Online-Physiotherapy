@@ -15,7 +15,7 @@
 						</div>
 						<div class="col-md-2 col-md-offset-8">
 							<div class="icon-bar">
-								<mat-icon class="icon" matTooltip="Create Treatment">assignment</mat-icon>
+								<mat-icon class="icon" matTooltip="Create Treatment" (click)="newTreatment()">assignment</mat-icon>
 								<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
 								<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
 							</div>
@@ -134,7 +134,7 @@
 								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">
 									<div class="row top">
 										<div class="col">
-											<button mat-raised-button class="crete-treatment-button">Create New Treatment</button>
+											<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
 										</div>
 									</div>
 									<mat-divider></mat-divider>
@@ -156,7 +156,7 @@
 							</div>
 							</ng-template>
 							<!-- View to show the details of a specific rehab plan -->
-							<ng-template #rehabPlan> 
+							<ng-template #rehabPlan>
 								<form class="form-container animated fadeIn">
 								<div class="row">
 									<div class="col top">
@@ -204,11 +204,13 @@
 															<input matInput placeholder="Author Name" [(ngModel)]="activeRehabPlan.authorName" name="activeRehabPlan.authorName" readonly>
 														</mat-form-field>
 													</div>
+													<!--
 													<div class="col-4 form-container">
 														<mat-form-field>
 															<input matInput placeholder="Physiotherapist" [value]="physiotherapist.givenName + physiotherapist.familyName" name="physiotherapist.givenName + physiotherapist.familyName">
 														</mat-form-field>
 													</div>
+												-->
 												</div>
 												<div class="row">
 													<div class="col-12 form-container">
@@ -229,6 +231,7 @@
 														</mat-form-field>
 													</div>
 												</div>
+												<!--
 												<div class="row">
 													<div class="col-4 form-container">
 														<mat-form-field>
@@ -241,10 +244,11 @@
 														</mat-form-field>
 													</div>
 												</div>
+											-->
 										</div>
 											<h4><b>Exercises</b></h4>
 											<div class="row">
-												<div *ngIf="activeRehabPlanExercises.length == 0 else exerciseList">
+												<div *ngIf="activeRehabPlan.exerciseOrders.length == 0 else exerciseList">
 													<div class="col-12 empty-rehab-plan">
 														<h6>No exercises currently.</h6>
 													</div>
@@ -253,7 +257,7 @@
 													<div class="col-12 form-container animated fadeIn">
 													<mat-list>
 														<mat-divider></mat-divider>
-															<mat-list-item *ngFor="let exercise of activeRehabPlanExercises; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
+															<mat-list-item *ngFor="let exercise of activeRehabPlan.exerciseOrders; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
 																	<div class="col-4 form-container">
 																		Name: {{ exercise?.name }}
 																	</div>
@@ -269,24 +273,29 @@
 											<h4 class="top"><b>Assesment Tests</b></h4>
 											<hr>
 											<div class="row">
-												<div *ngIf="activeRehabPlanAssessmentTests.length == 0 else asessmentTestList">
+												<div *ngIf="activeRehabPlan.assessmentTests.length == 0 else asessmentTestList">
 													<div class="col-12 empty-rehab-plan">
 														<h6>No asessment tests currently.</h6>
 													</div>
 												</div>
-												<ng-template #assessmentTestList>
+												<ng-template #asessmentTestList>
 													<div class="col-12 form-container animated fadeIn">
 													<mat-list>
-														<mat-divider></mat-divider>
-															<mat-list-item *ngFor="let assessmentTest of activeRehabPlanAssessmentTests; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewAssessmentTestModal">
+															<mat-divider></mat-divider>
+															<mat-list-item *ngFor="let test of activeRehabPlan.assessmentTests; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewAssessmentTestModal">
 																	<div class="col-4 form-container">
-																		Name: {{ assessmentTest?.name }}
+																		Name: {{ test?.name }}
 																	</div>
 																	<div class="col-4 form-container">
-																		Open Date: {{ assessmentTest?.openDate }}
+																		Open Date: {{ test?.openDate | date : "dd.MM.y" }}
 																	</div>
 																	<div class="col-4 form-container">
-																		Completed: {{ assessmentTest?.dateCompleted }}
+																		<div *ngIf="test.dateCompleted == null else showDateCompleted">
+																			Completed: In progress
+																		</div>
+																		<ng-template #showDateCompleted>
+																			Completed: {{ test?.dateCompleted | date : "dd.MM.y" }}
+																		</ng-template>
 																	</div>
 																<mat-divider></mat-divider>
 															</mat-list-item>
@@ -307,7 +316,12 @@
 																{{ plan?.name }}
 															</div>
 															<div class="col-4">
-																End: {{ plan?.endDate | date : "dd.MM.y" }}
+																<div *ngIf="plan.endDate == null" else showEndDate>
+																	End: Active
+																</div>
+																<ng-template #showEndDate>
+																	End: {{ plan?.endDate | date : "dd.MM.y" }}
+																</ng-template>
 															</div>
 															<mat-divider></mat-divider>
 														</mat-list-item>
@@ -425,7 +439,7 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<b>URL:</b> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
+									<img src="{{activeExercise.multimediaURL}}" alt="">
 								</div>
 							</div>
 						</div>

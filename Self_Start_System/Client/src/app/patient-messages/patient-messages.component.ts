@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
     selector: 'app-patient-messages',
     templateUrl: './patient-messages.component.html',
     styleUrls: ['./patient-messages.component.scss'],
-    providers: [ AuthenticationService, MessagesService ]
+    providers: [MessagesService]
 })
 export class PatientMessagesComponent implements OnInit {
     messages = [];
@@ -17,6 +17,9 @@ export class PatientMessagesComponent implements OnInit {
     unreadMessages = 0;
     user;
     reload = false;
+    profileSubscription;
+    profileType;
+
 
     constructor(private authService: AuthenticationService,
         private messagesService: MessagesService,
@@ -25,25 +28,33 @@ export class PatientMessagesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.successCounter = 0;
-        this.authService.getProfile().subscribe(res => {
-          console.log("in login component: here's what getProfile returned: ", res);
-          for (let result of res){
-            console.log((result as any).success);
-            if ((result as any).physiotherapist){
-              this.successCounter++;//means at least one profile was returned
-              this.user = (result as any).physiotherapist;
-              console.log(this.user);
-              this.getMessages();
-              break;
-            }
-          }
-          if (this.successCounter==0){
-            this.authService.logout();
-            this.router.navigate(['home']);
-          }
-
+      this.profileSubscription = this.authService.profileOb$.subscribe((profile) => {
+        this.user = profile;
+        console.log("subscription to auth service setProfile returned: ", this.user);
+        this.patientID = this.user._id;
+        this.profileType = this.authService.getActiveProfileType();
+        this.getMessages();
       });
+
+      //   this.successCounter = 0;
+      //   this.authService.getProfile().subscribe(res => {
+      //     console.log("in login component: here's what getProfile returned: ", res);
+      //     for (let result of res){
+      //       console.log((result as any).success);
+      //       if ((result as any).physiotherapist){
+      //         this.successCounter++;//means at least one profile was returned
+      //         this.user = (result as any).physiotherapist;
+      //         console.log(this.user);
+      //         this.getMessages();
+      //         break;
+      //       }
+      //     }
+      //     if (this.successCounter==0){
+      //       this.authService.logout();
+      //       this.router.navigate(['home']);
+      //     }
+      //
+      // });
     }
 
     setAllMessagesAsSeen() {

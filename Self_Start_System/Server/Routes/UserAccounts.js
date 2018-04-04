@@ -30,8 +30,8 @@ router.route('/login')
                 console.log(userAccount._id);
 
                 //get the profile associated with this account
-                var profileID;
-                var profileType;
+                let profileID;
+                let profileType;
                 if (userAccount.patientProfile){
                     profileID = userAccount.patientProfile;
                     profileType = "patient"

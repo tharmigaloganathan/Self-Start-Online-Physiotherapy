@@ -221,25 +221,25 @@ function addAppointment(id, body) {
             console.log("Reached pushing appointments", document.appointments);
 
             // Add appointments to Physiotherapist
-          //   Physiotherapists.addAppointment(
-          //     body.physioID,
-          //     appointment._id,
-          //     body.timeslotId,
-          //     appointment.date,
-          //     appointment.endDate,
-          // ).then( result => {
-          //     console.log("Reached Physiotherapists.addAppointment", result);
-          //     // Save the patient profile document
-          //     document.save(function (error) {
-          //       if (error) {
-          //         reject(error);
-          //       } else {
-          //         resolve(document);
-          //       }
-          //     });
-          //   }).catch(err => {
-          //     reject(err);
-          //   });
+            Physiotherapists.addAppointment(
+              body.physioID,
+              appointment._id,
+              body.timeslotId,
+              appointment.date,
+              appointment.endDate,
+          ).then( result => {
+              console.log("Reached Physiotherapists.addAppointment", result);
+              // Save the patient profile document
+              document.save(function (error) {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(document);
+                }
+              });
+            }).catch(err => {
+              reject(err);
+            });
           }).catch(function (error) {
             reject(error);
           });
@@ -326,13 +326,13 @@ function deleteAppointment(id, body) {
               reject(error);
             } else {
               // Add back the time occupied by appointment
-              // Physiotherapists.addFreeTimeSlot(
-              //   body.physioID,
-              //   {
-              //     startDate: appointment.date,
-              //     endDate: appointment.endDate
-              //   }
-              // );
+              Physiotherapists.addFreeTimeSlot(
+                body.physioID,
+                {
+                  startDate: appointment.date,
+                  endDate: appointment.endDate
+                }
+              );
 
               // Delete time slot
               document.appointments.splice(deleteIndex,1);
