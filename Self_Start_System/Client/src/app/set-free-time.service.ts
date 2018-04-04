@@ -137,5 +137,19 @@ export class SetFreeTimeService {
         return response.json();
       });
   }
+
+  submitPayment(patientProfileID, amount, note) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    let body = {
+      amount: amount,
+      note: note,
+      patientProfile: patientProfileID
+    };
+
+    return this.http.post(this.domain+'/Payments/',body,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
 }
 

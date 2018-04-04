@@ -1,6 +1,8 @@
-<app-navbar-physio></app-navbar-physio>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
-<div class="container">
+<app-navbar-physio *ngIf="!loading"></app-navbar-physio>
+
+<div *ngIf="!loading" class="container">
   <h1 class="title text-center">Book Appointment Form</h1>
 
   <!--Main form card-->
@@ -151,7 +153,7 @@
 
           <mat-form-field>
             <!--Include paypal button for transactions-->
-            <button type="button" mat-raised-button (click)="openPaypalDialog()">Open Paypal</button>
+            <button type="button" mat-raised-button (click)="openPaypalDialog($event)">Open Paypal</button>
             <div style="display: none">
               <input matInput [(ngModel)]="payment" name="paypalInput" type="text" required>
             </div>
