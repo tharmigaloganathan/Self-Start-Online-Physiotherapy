@@ -25,6 +25,8 @@ import * as moment from 'moment';
 export class ManagePatientProfileComponent implements OnInit {
 
 	showPrintPage = false;
+	printPatientHistory = false;
+	printPatientTreatment = false;
 	isDataLoaded;
 	isRehabPlanLoaded;
 	router;
@@ -502,12 +504,20 @@ export class ManagePatientProfileComponent implements OnInit {
 		//Print a summary of the treatment details
 		printTreatment() {
 		this.showPrintPage = true;
-		this.getPrintFormGender();
+		this.printPatientTreatment = true;
+	}
+
+		//Print a summary of the patients history
+		printHistory() {
+		this.showPrintPage = true;
+		this.printPatientHistory = true;
 	}
 
 		//Return from the print page
 		showProfile() {
 		this.showPrintPage = false;
+		this.printPatientTreatment = false;
+		this.printPatientHistory = false;
 	}
 
 	populateGraphData() {

@@ -169,11 +169,23 @@
 	float: right;
 }
 
-.image  {
+.image {
 	//width: 200px;
 	//height: 200px;
 	//overflow: hidden;
 	//position: relative;
 	width: 100%;
 	height: auto;
+}
+
+.print-form {
+	white-space: pre-wrap;  
+}
+
+.print-form-title {
+	margin-top: 2.5%;
+}
+
+.print-form-row {
+	padding: 2.5%;
 }
