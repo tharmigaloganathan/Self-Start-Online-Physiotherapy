@@ -24,6 +24,7 @@ import * as moment from 'moment';
 })
 export class ManagePatientProfileComponent implements OnInit {
 
+	showPrintPage = false;
 	isDataLoaded;
 	isRehabPlanLoaded;
 	router;
@@ -54,6 +55,9 @@ export class ManagePatientProfileComponent implements OnInit {
 	selectedRow;
 	currentUser;
   intakeFormQandA=[];
+	assessmentTests = []; //Holds all assesments test - used for the patient history print form
+	graphData = [];
+	printFormGender; //Temporary fix
 
   // Images for front back and sides
   intakeFormImages;
@@ -63,34 +67,35 @@ export class ManagePatientProfileComponent implements OnInit {
 
   visualizeTreatmentDialogRef: MatDialogRef<VisualizeTreatmentDialogComponent>;
 
-  Highcharts = Highcharts; // required
-  chartConstructor = 'chart'; // optional string, defaults to 'chart'
-  chartOptions = {
-    title: {
-      text: 'Treatment Success'
-    },
-    subtitle: {
-      text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
-    },
-    xAxis: {
-      title: {
-        text: 'Assessment Number'
-      },
-      tickInterval: 1
-    },
-    yAxis: {
-      title: {
-        text: 'Rating'
-      },
-      tickInterval: 1
-    },
-    series: [{
-      showInLegend: false,
-      data: [1, 2, 3]
-    }]
-  }; // required
-  //chartCallback = function (chart) { ... } // optional function, defaults to null
-  updateFlag = false; // optional boolean
+	Highcharts = Highcharts; // required
+	chartConstructor = 'chart';
+	// optional string, defaults to 'chart'
+			chartOptions = {
+				title: {
+					text: 'Treatment Success'
+				},
+				subtitle: {
+					text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
+				},
+				xAxis: {
+					title: {
+						text: 'Assessment Number'
+					},
+					tickInterval: 1
+				},
+				yAxis: {
+					title: {
+						text: 'Rating'
+					},
+					tickInterval: 1
+				},
+				series: [{
+					showInLegend: false,
+					data: this.graphData
+				}]
+			}; // required
+			//chartCallback = function (chart) { ... } // optional function, defaults to null
+			updateFlag = false; // optional boolean
 
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
@@ -159,6 +164,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		this.selectedRow = length -1;
 		this.activeRehabPlanExercises = [];
 		this.activeRehabPlanAssessmentTests = [];
+		this.populateGraphData();
 		//this.getRehabPlanExercises();
 		//this.getRehabPlanAssessmentTests();
 		//this.getRehabPlanPhysio();
@@ -231,7 +237,8 @@ export class ManagePatientProfileComponent implements OnInit {
 			province:  this.user.province,
 			city:  this.user.city,
 			gender: this.user.gender,
-			appointments: this.user.appointments
+			appointments: this.user.appointments,
+			intakeFormAnswers: this.intakeFormQandA;
 		}
 		console.log(patientProfile);
 		this.userAccountListService.updatePatient(this.user._id, patientProfile).
@@ -285,19 +292,29 @@ export class ManagePatientProfileComponent implements OnInit {
 				});
 		}
 
+		//Get printform gender - tempory fix
+		getPrintFormGender() {
+		for(var i=0; i<this.genders.length; i++) {
+			if(this.genders[i]._id == this.user.gender) {
+				this.printFormGender = this.genders[i].name;
+			}
+		}
+	}
+
 		//Get the users account
 		populatePopulatePatient(id) {
 			this.userAccountListService.getPatientProfile(id).subscribe(
 				data => {
 					this.user = data;
 					this.treatments = this.user.treatments;
+					this.populateAllAssessmentTests();
           //console.log("TREATMENTS",this.treatments);
 					this.isDataLoaded = true;
 					this.loading = false;
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log("This is the patient", this.user);
-
+					this.getPrintFormGender();
 
 				});
 		 }
@@ -328,6 +345,18 @@ export class ManagePatientProfileComponent implements OnInit {
         });
     };
 
+		//Populate all users assessment tests for the print form
+		populateAllAssessmentTests() {
+		for(var i=0; i<this.user.treatments.length; i++) {
+			for var j=0; j<this.user.treatments[i].rehabilitationPlan.length; j++) {
+				for var k=0; k<this.user.treatments[i].rehabilitationPlan[j].assessmentTests.length; k++) {
+					this.assessmentTests.push(this.user.treatments[i].rehabilitationPlan[j].assessmentTests[k]);
+				}
+			}
+		}
+		console.log("All the users assessment tests", this.assessmentTests);
+	}
+
 		 //Get the users appointments
 		 populateAppointments(id) {
 		 this.userAccountListService.getAppointments(id).subscribe(
@@ -336,18 +365,18 @@ export class ManagePatientProfileComponent implements OnInit {
 			 });
 			}
 
-  //Get the users payments
-  populatePayments(id) {
-    console.log('in populatePayments');
-    this.managePatientProfileService.getAllPayments(id).subscribe(
-      data=>{
-        console.log('in managePatientProfileService', data);
-        this.payments = data.payment;
-      }, err=>{
-        console.log(err);
-      }
-    );
-  }
+		  //Get the users payments
+		  populatePayments(id) {
+		    console.log('in populatePayments');
+		    this.managePatientProfileService.getAllPayments(id).subscribe(
+		      data=>{
+		        console.log('in managePatientProfileService', data);
+		        this.payments = data.payment;
+		      }, err=>{
+		        console.log(err);
+		      }
+		    );
+		  }
 
 			//Get exercsies for the selected rehab plan
 			getRehabPlanExercises() {
@@ -371,6 +400,7 @@ export class ManagePatientProfileComponent implements OnInit {
 
 			//Get Assessment Test for the selected rehab plan
 			getRehabPlanAssessmentTests() {
+			/*
 			for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
 				this.userAccountListService.getAssessmentTest(this.activeRehabPlan.assessmentTests[i]).subscribe(
 					data => {
@@ -378,15 +408,18 @@ export class ManagePatientProfileComponent implements OnInit {
 						console.log(this.activeRehabPlanAssessmentTests);
 					});
 				}
+				*/
 			}
 
 			//Get the physio assoicated with the rehab plan
 			getRehabPlanPhysio() {
+				/*
 				this.userAccountListService.getPhysio(this.activeTreatment.physiotherapist).subscribe(
 					data => {
 						this.physiotherapist = data;
 						console.log(this.physiotherapist);
 					});
+					*/
 			}
 
 			//Sets the active exercise for the exercise modal
@@ -465,5 +498,53 @@ export class ManagePatientProfileComponent implements OnInit {
             error => console.log(error)
           );
       }
+
+		//Print a summary of the treatment details
+		printTreatment() {
+		this.showPrintPage = true;
+		this.getPrintFormGender();
+	}
+
+		//Return from the print page
+		showProfile() {
+		this.showPrintPage = false;
+	}
+
+	populateGraphData() {
+		//Populate graph data
+		var length = this.rehabPlanHistory.length;
+		console.log(length);
+		for(var i=0; i<this.rehabPlanHistory[length-1].assessmentTests.length; i++) {
+			if(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation != null) {
+				this.graphData.push(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation);
+			}
+		}
+		// optional string, defaults to 'chart'
+				this.chartOptions = {
+					title: {
+						text: 'Treatment Success'
+					},
+					subtitle: {
+						text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
+					},
+					xAxis: {
+						title: {
+							text: 'Assessment Number'
+						},
+						tickInterval: 1
+					},
+					yAxis: {
+						title: {
+							text: 'Rating'
+						},
+						tickInterval: 1
+					},
+					series: [{
+						showInLegend: false,
+						data: this.graphData
+					}]
+				}; // required
+				console.log("Chart ", this.chartOptions);
+}
 
 }

@@ -73,7 +73,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   selectedAssessmentResult = [];
 
   //END OF ASSESSMENT TEST RELATED
-
   constructor(private rehabilitationplanService: RehabilitationPlanService,
               private exerciseService: ExerciseService,
               private userAccountListService: UserAccountListService,
@@ -402,7 +401,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //ASSESSMENT TEST STARTS
   //==================================
-
   createAssessmentTest(){
     console.log("NICK YOUR USER:", this.user);
     var assessTest = {
@@ -526,7 +524,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
   //==================================
   //ASSESSMENT TEST ENDS
-
   //RECOMMENDATIONS STARTS
   //==================================
   setActiveIncompleteTest(i){
@@ -655,7 +652,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //
   //   this.openEditRecommendationDialog(recommendation, true);
   // }
-
   // openEditRecommendationDialog(recommendation, newRecommendationFlag: boolean){
   //   this.editRecommendationDialogRef = this.dialog.open(EditRecommendationDialogComponent, {
   //     width: '50vw',
@@ -673,7 +669,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //     }
   //   });
   // }
-
   selectCompleteAssessmentTest(test){
     this.selectedCompleteAssessmentTest = test;
     //this.getRecommendations();
@@ -691,7 +686,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //     }
   //   )
   // }
-
   // addRecommendation(recommendation){
   //   this.recommendationService.addRecommendation(recommendation).subscribe(
   //     res => {
@@ -704,7 +698,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //     }
   //   )
   // }
-
   // getRecommendations(){
   //   this.allRecommendations = [];
   //   this.selectedAssessmentRecommendation = {};
@@ -725,13 +718,10 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   //   console.log(this.allRecommendations);
   //   console.log(this.selectedAssessmentRecommendation);
   // }
-
   //===================================
   //RECOMMENDATIONS ENDS
-
   //TEST RESULTS STARTS
   //===================================
-
   getTestResultsByAssessmentTestID(test){
     this.assessmentTestService.getTestResultsByAssessmentTestID(test).subscribe(
       data => {
