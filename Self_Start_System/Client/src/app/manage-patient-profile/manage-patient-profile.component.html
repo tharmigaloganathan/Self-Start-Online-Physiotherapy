@@ -609,7 +609,7 @@
 						<div class="row">
 							<div class="col-6 form-container">
 								<mat-form-field>
-									<input matInput placeholder="Gender" [(ngModel)]="user.gender" name="user.gender" [readonly]="!isChanged">
+									<input matInput placeholder="Gender" [(ngModel)]="printFormGender" name="printFormGender" [readonly]="!isChanged">
 								</mat-form-field>
 							</div>
 							<div class="col-6 form-container">
@@ -634,7 +634,7 @@
 							</div>
 							<div class="col-2 form-container">
 								<mat-form-field>
-									<input matInput placeholder="Province" [(ngModel)]="user.province" name="user.province" [readonly]="!isChanged">
+									<input matInput placeholder="Province" [(ngModel)]="user.province.name" name="user.province.name" [readonly]="!isChanged">
 								</mat-form-field>
 							</div>
 							<div class="col-2 form-container">
@@ -644,7 +644,7 @@
 							</div>
 							<div class="col-2 form-container">
 								<mat-form-field>
-									<input matInput placeholder="Country" [(ngModel)]="user.country" name="user.country" [readonly]="!isChanged">
+									<input matInput placeholder="Country" [(ngModel)]="user.country.name" name="user.country.name" [readonly]="!isChanged">
 								</mat-form-field>
 							</div>
 						</div>
@@ -699,6 +699,9 @@
 													</mat-list-item>
 													<mat-list-item>
 														<div class="col-12 row">
+															<!--
+															<img class="col-3 image" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="">
+															-->
 															<img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="" height="150">
 														</div>
 													</mat-list-item>

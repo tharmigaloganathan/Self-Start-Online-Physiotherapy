@@ -57,6 +57,7 @@ export class ManagePatientProfileComponent implements OnInit {
   intakeFormQandA=[];
 	assessmentTests = []; //Holds all assesments test - used for the patient history print form
 	graphData = [];
+	printFormGender; //Temporary fix
 
   // Images for front back and sides
   intakeFormImages;
@@ -291,6 +292,15 @@ export class ManagePatientProfileComponent implements OnInit {
 				});
 		}
 
+		//Get printform gender - tempory fix
+		getPrintFormGender() {
+		for(var i=0; i<this.genders.length; i++) {
+			if(this.genders[i]._id == this.user.gender) {
+				this.printFormGender = this.genders[i].name;
+			}
+		}
+	}
+
 		//Get the users account
 		populatePopulatePatient(id) {
 			this.userAccountListService.getPatientProfile(id).subscribe(
@@ -304,6 +314,8 @@ export class ManagePatientProfileComponent implements OnInit {
 					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
 					//this.age = this.age[0] + " years";
 					console.log("This is the patient", this.user);
+					this.getPrintFormGender();
+
 				});
 		 }
 
@@ -490,6 +502,7 @@ export class ManagePatientProfileComponent implements OnInit {
 		//Print a summary of the treatment details
 		printTreatment() {
 		this.showPrintPage = true;
+		this.getPrintFormGender();
 	}
 
 		//Return from the print page
