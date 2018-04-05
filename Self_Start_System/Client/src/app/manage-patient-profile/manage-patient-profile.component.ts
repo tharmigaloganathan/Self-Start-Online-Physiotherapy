@@ -524,9 +524,9 @@ export class ManagePatientProfileComponent implements OnInit {
 		//Populate graph data
 		var length = this.rehabPlanHistory.length;
 		console.log(length);
-		for(var i=0; i<this.rehabPlanHistory[0].assessmentTests.length; i++) {
-			if(this.rehabPlanHistory[0].assessmentTests[i].recommendationEvaluation != null) {
-				this.graphData.push(this.rehabPlanHistory[0].assessmentTests[i].recommendationEvaluation);
+		for(var i=0; i<this.rehabPlanHistory[length-1].assessmentTests.length; i++) {
+			if(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation != null) {
+				this.graphData.push(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation);
 			}
 		}
 		// optional string, defaults to 'chart'
