@@ -57,6 +57,7 @@ export class ManagePatientProfileComponent implements OnInit {
   intakeFormQandA=[];
 	assessmentTests = []; //Holds all assesments test - used for the patient history print form
 	graphData = [];
+	graphDataLabels = [];
 	printFormGender; //Temporary fix
 
   // Images for front back and sides
@@ -78,16 +79,15 @@ export class ManagePatientProfileComponent implements OnInit {
 					text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
 				},
 				xAxis: {
-					title: {
-						text: 'Assessment Number'
-					},
-					tickInterval: 1
+          categories: this.graphDataLabels
 				},
 				yAxis: {
 					title: {
 						text: 'Rating'
 					},
-					tickInterval: 1
+					tickInterval: 1,
+          min: 0,
+          max: 10
 				},
 				series: [{
 					showInLegend: false,
@@ -516,7 +516,12 @@ export class ManagePatientProfileComponent implements OnInit {
 		console.log(length);
 		for(var i=0; i<this.rehabPlanHistory[length-1].assessmentTests.length; i++) {
 			if(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation != null) {
-				this.graphData.push(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation);
+			  console.log("NICK LOOK:", this.rehabPlanHistory[length-1].assessmentTests[i].name);
+			  var y = this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation;
+			  var x = this.rehabPlanHistory[length-1].assessmentTests[i].name;
+        this.graphDataLabels.push(x);
+			  this.graphData.push(y);
+
 			}
 		}
 		// optional string, defaults to 'chart'
@@ -528,16 +533,15 @@ export class ManagePatientProfileComponent implements OnInit {
 						text: 'Effectiveness of the treatment plan at each assessment test, on a scale of 1-10.'
 					},
 					xAxis: {
-						title: {
-							text: 'Assessment Number'
-						},
-						tickInterval: 1
+						categories: this.graphDataLabels
 					},
 					yAxis: {
 						title: {
 							text: 'Rating'
 						},
-						tickInterval: 1
+            tickInterval: 1,
+            min: 0,
+            max: 10
 					},
 					series: [{
 						showInLegend: false,

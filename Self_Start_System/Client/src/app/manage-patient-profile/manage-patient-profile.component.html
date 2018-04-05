@@ -358,7 +358,7 @@
 																Start: {{ plan?.startDate | date : "dd.MM.y" }}
 															</div>
 															<div class="col-4">
-																<div *ngIf="plan.endDate == null" else showEndDate>
+																<div *ngIf="plan.endDate == null else showEndDate">
 																	In progress
 																</div>
 																<ng-template #showEndDate>
@@ -551,7 +551,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="modal-title">
-          <h6 class="text-center"><b>Treatment Success</b></h6>
+          <h6 class="text-center"><b>Visualize Treatment Data</b></h6>
         </div>
         <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
