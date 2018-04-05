@@ -20,6 +20,9 @@ import { CreateFormComponent} from "./create-form/create-form.component";
 
 import { HomePageComponent} from "./home-page/home-page.component";
 import { HomePageAboutComponent} from "./home-page-about/home-page-about.component";
+import { HomePageBelieveComponent} from "./home-page-believe/home-page-believe.component";
+import { HomePageServicesComponent} from "./home-page-services/home-page-services.component";
+import { HomePageHowItWorksComponent} from "./home-page-how-it-works/home-page-how-it-works.component";
 import { DashboardAdminComponent} from "./dashboard-admin/dashboard-admin.component";
 import { DashboardPatientComponent} from "./dashboard-patient/dashboard-patient.component";
 import { ImageUploadTestComponent } from "./image-upload-test/image-upload-test.component";
@@ -60,7 +63,21 @@ const appRoutes: Routes = [
     component: HomePageAboutComponent, // what a general user sees
     canActivate:[NotAuthGuard]
   },
-
+  {
+    path: 'believe',
+    component: HomePageBelieveComponent, // what a general user sees
+    canActivate:[NotAuthGuard]
+  },
+  {
+    path: 'services',
+    component: HomePageServicesComponent, // what a general user sees
+    canActivate:[NotAuthGuard]
+  },
+  {
+    path: 'how-it-works',
+    component: HomePageHowItWorksComponent, // what a general user sees
+    canActivate:[NotAuthGuard]
+  },
   {
     path: 'login',
     component: LoginComponent,

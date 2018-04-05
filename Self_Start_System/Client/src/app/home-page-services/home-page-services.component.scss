@@ -1,0 +1,25 @@
+@import '../../scss/_variables';
+
+.content {
+    text-align: center;
+    align-items: flex-end;
+    font-family: 'Roboto Condensed', sans-serif;
+    background: rgba(255, 255, 255, .8);
+    padding-left: 15%;
+    padding-right: 15%;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+mat-card {
+    height: 60vh;
+    background: linear-gradient(
+    rgba(236,233,230,0.3),
+    rgba(255,255,255,0.6));
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.title {
+    font-size: 70px;
+    font-family: 'Gruppo', cursive !important;
+}
