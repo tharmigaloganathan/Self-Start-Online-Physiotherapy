@@ -17,7 +17,8 @@ var patientProfileSchema = mongoose.Schema(
         province: {type: mongoose.Schema.ObjectId, ref: 'Province'},
         city: String,
         gender: {type: mongoose.Schema.ObjectId, ref: 'Gender'},
-        appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}]
+        appointments: [{type: mongoose.Schema.ObjectId, ref: 'Appointment'}],
+        intakeFormAnswers: [{type: mongoose.Schema.ObjectId, ref: 'TestResult'}],
     }
 );
 
@@ -30,13 +31,17 @@ module.exports = {
     getOne:getOne,
     update:update,
     deleteOne:deleteOne,
-  addAppointment:addAppointment,
-  getAllAppointments:getAllAppointments,
-  deleteAppointment:deleteAppointment
+    addAppointment:addAppointment,
+    getAllAppointments:getAllAppointments,
+    deleteAppointment:deleteAppointment,
+    completeIntakeForm:completeIntakeForm,
+    viewIntakeForm:viewIntakeForm,
+    getAllWithoutPhysio:getAllWithoutPhysio
 };
 
 var Appointments = require("./Appointment");
 var Physiotherapists = require("./Physiotherapist");
+var TestResults = require("./TestResult");
 
 function deleteOne(id){
     return new Promise (function (resolve, reject) {
@@ -141,6 +146,18 @@ function getAll(){
     });
 }
 
+function getAllWithoutPhysio(){
+    return new Promise (function (resolve, reject) {
+        PatientProfiles.find({treatments:null}, function (error, documents) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(documents);
+            }
+        });
+    });
+}
+
 function add(object){
     return new Promise (function (resolve, reject) {
         var document = new PatientProfiles(object);
@@ -217,25 +234,25 @@ function addAppointment(id, body) {
             console.log("Reached pushing appointments", document.appointments);
 
             // Add appointments to Physiotherapist
-          //   Physiotherapists.addAppointment(
-          //     body.physioID,
-          //     appointment._id,
-          //     body.timeslotId,
-          //     appointment.date,
-          //     appointment.endDate,
-          // ).then( result => {
-          //     console.log("Reached Physiotherapists.addAppointment", result);
-          //     // Save the patient profile document
-          //     document.save(function (error) {
-          //       if (error) {
-          //         reject(error);
-          //       } else {
-          //         resolve(document);
-          //       }
-          //     });
-          //   }).catch(err => {
-          //     reject(err);
-          //   });
+            Physiotherapists.addAppointment(
+              body.physioID,
+              appointment._id,
+              body.timeslotId,
+              appointment.date,
+              appointment.endDate
+          ).then( result => {
+              console.log("Reached Physiotherapists.addAppointment", result);
+              // Save the patient profile document
+              document.save(function (error) {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(document);
+                }
+              });
+            }).catch(err => {
+              reject(err);
+            });
           }).catch(function (error) {
             reject(error);
           });
@@ -244,6 +261,7 @@ function addAppointment(id, body) {
     }
   })
 }
+
 
 // Retrieves more appointments
 function getAllAppointments(id) {
@@ -322,13 +340,13 @@ function deleteAppointment(id, body) {
               reject(error);
             } else {
               // Add back the time occupied by appointment
-              // Physiotherapists.addFreeTimeSlot(
-              //   body.physioID,
-              //   {
-              //     startDate: appointment.date,
-              //     endDate: appointment.endDate
-              //   }
-              // );
+              Physiotherapists.addFreeTimeSlot(
+                body.physioID,
+                {
+                  startDate: appointment.date,
+                  endDate: appointment.endDate
+                }
+              );
 
               // Delete time slot
               document.appointments.splice(deleteIndex,1);
@@ -359,5 +377,114 @@ function deleteAppointment(id, body) {
         }
       });
     }
+  })
+}
+
+// Fill in intake form
+function completeIntakeForm(id, body) {
+  return new Promise (function (resolve, reject) {
+    if (!body.testResults){
+      error = "No testResults detected.";
+      reject(error);
+    }else {
+      PatientProfiles.findById(id, function (error, document) {
+        if (error) {
+          reject(error);
+        }
+        else {
+          let intakeFormAnswers = [];
+
+          let testResults = body.testResults;
+
+          // Function for adding test results synchonously
+          let addNewTestResult = testResultsIndex => {
+            return new Promise((resolve, reject) => {
+              // Only run if index is in range
+              if (testResultsIndex < testResults.length){
+                // Add the current test result
+                TestResults.add(testResults[testResultsIndex])
+                  .then(testResult=>{
+                    // Save the testresult ID
+                    intakeFormAnswers.push(testResult._id);
+                    addNewTestResult(testResultsIndex+1).then(result=>{
+                      resolve(testResultsIndex);
+                    }).catch(err=>{
+                      reject(err);
+                    });
+                  }).catch(err=>{
+                  reject(err);
+                });
+              } else { // If no more test results to add, resolve the promise
+                resolve(testResultsIndex);
+              }
+            });
+          };
+
+          // Start adding test results from 0
+          addNewTestResult(0).then(result=>{
+            // Once the adding is done, update the intakeFormAnswers and save
+            document.intakeFormAnswers = intakeFormAnswers;
+            document.save(err=>{
+              if (err){
+                reject(err);
+              } else {
+                resolve(document);
+              }
+            });
+          }).catch(err=>{
+            reject(err);
+          });
+        }
+      });
+    }
+  })
+}
+
+// View All questions and answers for intake form
+function viewIntakeForm(id) {
+  return new Promise (function (resolve, reject) {
+
+      PatientProfiles.findById(id, function (error, document) {
+        if (error) {
+          reject(error);
+        }
+        else {
+          let intakeFormQuestionsAndAnswers = [];
+
+          let intakeFormAnswers = document.intakeFormAnswers;
+
+          // Function for adding test results synchonously
+          let getAllTestResults = testResultsIndex => {
+            return new Promise((resolve, reject) => {
+              // Only run if index is in range
+              if (testResultsIndex < intakeFormAnswers.length){
+                // Add the current test result
+                TestResults.getOne(intakeFormAnswers[testResultsIndex])
+                  .then(testResult=>{
+                    // Save the testresult ID
+                    intakeFormQuestionsAndAnswers.push(testResult);
+                    getAllTestResults(testResultsIndex+1).then(result=>{
+                      resolve(testResultsIndex);
+                    }).catch(err=>{
+                      reject(err);
+                    });
+                  }).catch(err=>{
+                  reject(err);
+                });
+              } else { // If no more test results to add, resolve the promise
+                resolve(testResultsIndex);
+              }
+            });
+          };
+
+          // Start adding test results from 0
+          getAllTestResults(0).then(result=>{
+            resolve(intakeFormQuestionsAndAnswers);
+          }).catch(err=>{
+            reject(err);
+          });
+        }
+      });
+
   })
 }

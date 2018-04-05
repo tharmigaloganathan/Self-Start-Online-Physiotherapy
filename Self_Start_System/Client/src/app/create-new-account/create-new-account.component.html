@@ -1,11 +1,12 @@
 <app-navbar-general></app-navbar-general>
 
-<div class="container top">
+<div *ngIf = "receivedGenders && receivedCountries" class="container top">
 <div class="row">
   <div class="col">
     <!-- Page Header -->
     <mat-card>
-      <h1>Create User Account</h1>
+      <h1 class = "title" >Create User Account</h1>
+      <br/>
       <hr>
 
       <!-- Account Type -->
@@ -56,7 +57,7 @@
                 <div class="row">
                   <div class="col-6 form-group">
                     <mat-form-field>
-                      <input matInput placeholder="address" class = "form-control" formControlName="address" name="address" required>
+                      <input matInput placeholder="Address" class = "form-control" formControlName="address" name="address" required>
                       <mat-error *ngIf="personalInfoForm.controls.address.invalid && (personalInfoForm.controls.address.dirty || personalInfoForm.controls.address.touched)">{{getAddressErrorMessage(personalInfoForm.controls.address)}}</mat-error>
                     </mat-form-field>
                   </div>
@@ -170,15 +171,10 @@
           <ng-template matStepLabel>Completion</ng-template>
           <div class="col">
             <div class="row form-container">
-              <h3>Success!</h3>
+              <h3>Success! Your account has been successfully created!</h3>
               <br/><br/>
-              <p>Your account has been created!</p>
-              <p>Please click below to log in!</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-3 button-container">
-              <button mat-raised-button routerLink="/login" class="login-button" >Login</button>
+              <br/><br/>
+              <p>Please try to login by clicking the login button on the top right of the page!</p>
             </div>
           </div>
         </mat-step>

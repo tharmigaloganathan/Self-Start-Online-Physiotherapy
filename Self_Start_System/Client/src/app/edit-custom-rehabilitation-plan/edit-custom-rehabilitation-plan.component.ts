@@ -10,30 +10,35 @@ import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog
 import { RecommendationService } from "../recommendation.service";
 import { EditExerciseDialogComponent } from "../edit-exercise-dialog/edit-exercise-dialog.component";
 import { Router } from '@angular/router';
+import { FormService } from "../form.service";
+import { EditQuestionDialogComponent } from "../edit-question-dialog/edit-question-dialog.component";
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { UserAccountListService } from '../user-account-list.service';
+
 
 
 @Component({
   selector: 'app-edit-custom-rehabilitation-plan',
   templateUrl: './edit-custom-rehabilitation-plan.component.html',
   styleUrls: ['./edit-custom-rehabilitation-plan.component.scss'],
-  providers: [ UserAccountListService, RehabilitationPlanService, AuthenticationService, AssessmentTestService, ManagePatientProfileService ],
+  providers: [ UserAccountListService, RehabilitationPlanService, AuthenticationService, AssessmentTestService, ManagePatientProfileService, FormService ],
   encapsulation: ViewEncapsulation.None
 })
 export class EditCustomRehabilitationPlanComponent implements OnInit {
   showSidebar = true;
   data: any;
   treatment: any;
+  newTreatment = false;
 
   rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
-  rehabilitationplan = {exerciseOrders:[], assessmentTests:[]}; //Temporary fix
+  rehabilitationplan: any = {exerciseOrders:[], assessmentTests:[]}; //Temporary fix
   allExercises = [];//nullaaaaa
   myExercises = [];//nullasaaaa
-  oldExercises = [];
+  oldExercises = [];//keeps track of the exercises that were here before any changes were made
   exerciseIDs = [];
   selectedExercise;
   newExercises = [];
+  oldRehabPlan: any;
 
   deleteList = [];
   editID = localStorage.getItem('edit_rehabilitation_id');
@@ -53,11 +58,17 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   incompleteAssessmentTests = [];
   completeAssessmentTests = [];
   selectedCompleteAssessmentTest: any;
+  selectedIncompleteIndex = 0;
+  selectedCompleteIndex = 0;
+  form: any;
+  formQuestions = [];
+  allQuestions: any[];
 
+  editQuestionDialogRef: MatDialogRef<EditQuestionDialogComponent>
   editRecommendationDialogRef: MatDialogRef<EditRecommendationDialogComponent>
 
   allRecommendations = [];
-  selectedAssessmentRecommendations = [];
+  selectedAssessmentRecommendation: any;
   allResults = [];
   selectedAssessmentResult = [];
 
@@ -70,6 +81,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
               private dialog: MatDialog,
               private authService: AuthenticationService,
               private recommendationService: RecommendationService,
+              private formService: FormService,
               private managePatientProfileService: ManagePatientProfileService,
               router: Router) {
     console.log("ID", this.editID);
@@ -77,8 +89,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.getPatientProfile();
     this.getRehabilitationPlans();
-    this.getPatientProfile();
     this.authService.getProfile().subscribe(
       res => {
         this.user = res;
@@ -147,81 +159,176 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       }
   }
 
-  saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
-    this.data = {
-      name: name,
-      authorName: authorName,
-      description: description,
-      goal: goal,
-      custom: true,
-      timeFrameToComplete: timeframe,
-      exerciseOrders: []
-    };
+  putRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String){
+      this.data = {
+        name: name,
+        authorName: authorName,
+        description: description,
+        goal: goal,
+        startDate: Date.now(),
+        endDate: null,
+        custom: true,
+        timeFrameToComplete: timeframe,
+        exerciseOrders: []
+      };
 
-    this.rehabilitationplanService.addRehabilitationPlan(this.data).subscribe(res =>
-      {
-        console.log("RESULT",res.rehabilitationPlan._id);
-        let rehabPlanID = res.rehabilitationPlan._id;
-        let rehabPlan = res.rehabilitationPlan;
-        this.treatment.rehabilitationPlan.push(rehabPlan);
-        this.managePatientProfileService.updateTreatment(this.treatment, this.treatment._id).
-        subscribe( data => {
-            console.log("new treatment update", data);
+      //UPDATE THIS CURRENT REHABILITATION PLAN WITH NEW INFORMATION
+      this.rehabilitationplanService.updateRehabilitationPlan(this.rehabilitationplan, this.rehabilitationplan._id).subscribe(res =>
+        {
+            console.log("end date updated: ", res);
         });
-        let completedRequests = 0;
-        for(var i = 0; i < this.myExercises.length; i++) { //create new copy of every exercise, add this new rehab plan as a FK
-            this.myExercises[i] = {
-                name: this.myExercises[i].name,
-        		description: this.myExercises[i].description,
-        		objectives: this.myExercises[i].objectives,
-        		authorName: this.myExercises[i].authorName,
-        		actionSteps: this.myExercises[i].actionSteps,
-        		location: this.myExercises[i].location,
-        		standard: false,
-        		frequency: this.myExercises[i].frequency,
-        		duration: this.myExercises[i].duration,
-        		targetDate: this.myExercises[i].targetDate,
-        		multimediaURL: this.myExercises[i].multimediaURL,
-        		rehabilitationPlan: rehabPlan
-            }
-            let exercise: any;
-            this.exerciseService.registerExercise(this.myExercises[i]).subscribe(resExercise =>
-            {
-                console.log("new exercise",resExercise);
-                exercise = resExercise;
-                exercise = exercise.exercise;
-                this.data.exerciseOrders.push(exercise); //pushes new exercise id as it is created
-                completedRequests++;
-                console.log("I",i,completedRequests);
-                if(this.myExercises.length == completedRequests) { //in last loop, push all exercses to the rehabplan
-                    console.log("REACHED LAST LOOP");
-                    this.rehabilitationplanService.updateRehabilitationPlan(this.data, rehabPlanID).subscribe(res =>
-                    {
-                        console.log("RESULT",res);
-                    });
-                }
-            });
-        }
+
+        //reset to null
+      //Save all the complete AssessmentTests on the save button
+      for(var i = 0; i < this.completeAssessmentTests.length; i++){
+        this.assessmentTestService.editAssessmentTest(this.completeAssessmentTests[i]).subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            console.log(error);
+          }
+        )
       }
-    );
-    let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
-    this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
+
+      //Save all the changes to the incomplete AssessmentTests too
+      for (var i = 0; i < this.incompleteAssessmentTests.length; i++){
+        this.assessmentTestService.editAssessmentTest(this.incompleteAssessmentTests[i]).subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      }
+
+      let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+      this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
+  }
+
+  postRehabilitationPlan(name: String, description: String, authorName: String, goal: String, timeframe: String){
+      this.data = {
+        name: name,
+        authorName: authorName,
+        description: description,
+        goal: goal,
+        startDate: Date.now(),
+        endDate: null,
+        custom: true,
+        timeFrameToComplete: timeframe,
+        exerciseOrders: []
+      };
+
+      //UPDATE OLD REHABILITATION PLAN WITH NEW ENDDATE
+      this.oldRehabPlan.endDate = Date.now();
+      this.rehabilitationplanService.updateRehabilitationPlan(this.oldRehabPlan, this.oldRehabPlan._id).subscribe(res =>
+        {
+            console.log("end date updated: ", res);
+        });
+
+      this.rehabilitationplanService.addRehabilitationPlan(this.data).subscribe(res =>
+        {
+          console.log("RESULT",res.rehabilitationPlan._id);
+          let rehabPlanID = res.rehabilitationPlan._id;
+          let rehabPlan = res.rehabilitationPlan;
+          this.treatment.rehabilitationPlan.push(rehabPlan);
+          this.managePatientProfileService.updateTreatment(this.treatment, this.treatment._id).
+          subscribe( data => {
+              console.log("new treatment update", data);
+          });
+          let completedRequests = 0;
+          for(var i = 0; i < this.myExercises.length; i++) { //create new copy of every exercise, add this new rehab plan as a FK
+              this.myExercises[i] = {
+                  name: this.myExercises[i].name,
+          		description: this.myExercises[i].description,
+          		objectives: this.myExercises[i].objectives,
+          		authorName: this.myExercises[i].authorName,
+          		actionSteps: this.myExercises[i].actionSteps,
+          		location: this.myExercises[i].location,
+          		standard: false,
+          		frequency: this.myExercises[i].frequency,
+          		duration: this.myExercises[i].duration,
+          		targetDate: this.myExercises[i].targetDate,
+          		multimediaURL: this.myExercises[i].multimediaURL,
+          		rehabilitationPlan: rehabPlan
+              }
+              let exercise: any;
+              this.exerciseService.registerExercise(this.myExercises[i]).subscribe(resExercise =>
+              {
+                  console.log("new exercise",resExercise);
+                  exercise = resExercise;
+                  exercise = exercise.exercise;
+                  this.data.exerciseOrders.push(exercise); //pushes new exercise id as it is created
+                  completedRequests++;
+                  console.log("I",i,completedRequests);
+                  if(this.myExercises.length == completedRequests) { //in last loop, push all exercses to the rehabplan
+                      console.log("REACHED LAST LOOP");
+                      this.rehabilitationplanService.updateRehabilitationPlan(this.data, rehabPlanID).subscribe(res =>
+                      {
+                          console.log("RESULT",res);
+                      });
+                  }
+              });
+          }
+        }
+      );
+
+      //Save all the complete AssessmentTests on the save button
+      for(var i = 0; i < this.completeAssessmentTests.length; i++){
+        this.assessmentTestService.editAssessmentTest(this.completeAssessmentTests[i]).subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      }
+
+      //Save all the changes to the incomplete AssessmentTests too
+      for (var i = 0; i < this.incompleteAssessmentTests.length; i++){
+        this.assessmentTestService.editAssessmentTest(this.incompleteAssessmentTests[i]).subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      }
+
+      let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+      this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
+  }
+
+  saveChanges(name: String, description: String, authorName: String, goal: String, timeframe: String) {
+      let myExercises = JSON.stringify(this.myExercises);
+      let oldExercises = JSON.stringify(this.oldExercises);
+      localStorage.removeItem('new_treatment');
+      if(myExercises == oldExercises && this.newTreatment != true) {
+          this.putRehabilitationPlan(name, description, authorName, goal, timeframe);
+      } else {
+          this.postRehabilitationPlan(name, description, authorName, goal, timeframe);
+      }
   }
 
   //gets all rehab plan information and extracts info for this specific rehab plan
   getRehabilitationPlans(){
-    this.rehabilitationplanService.getRehabilitationPlans().subscribe(data => {
-      this.rehabilitationplans = data;
-      for(var i = 0; i < this.rehabilitationplans.rehabilitationPlan.length; i++) { //dadf
-          if(this.rehabilitationplans.rehabilitationPlan[i]._id == localStorage.getItem('edit_rehabilitation_id')) {
-              this.rehabilitationplan = this.rehabilitationplans.rehabilitationPlan[i];
-              console.log("rehabilitation plan",this.rehabilitationplan);
-          }
-      }
-      this.getExercises();
-      this.getAssessmentTests();
-    });
+    if(this.newTreatment != true) {
+        console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
+        this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
+          this.rehabilitationplan = data.rehabilitationPlan;
+          console.log("Nick this is the rehab plan", data);
+          this.getExercises();
+          this.getAssessmentTests();
+        });
+        this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
+          this.oldRehabPlan = data.rehabilitationPlan;
+        });
+    }
   }
+
   //gets exercises of this rehab plan
   getExercises() {
       this.myExercises = [];
@@ -272,10 +379,15 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.userAccountListService.getPatientProfile(id).subscribe(
           data => {
               console.log("data", data);
-              this.treatment = data.treatments[0];
+              if(localStorage.getItem('treatment_id') != null) {
+                  this.treatment = localStorage.getItem('treatment_id');
+              } else {
+                  this.treatment = data.treatments[0];
+              }
+              if(localStorage.getItem('new_treatment') != null) {
+                  this.newTreatment = true;
+              }
               console.log("TREATMENT",this.treatment);
-              //this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-              //this.age = this.age[0] + " years";
           });
   }
 
@@ -298,19 +410,22 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     var assessTest = {
       name: "Name",
       description: "Description",
-      authorName: this.user.physiotherapist.familyName,
-      recommendations: [],
+      authorName: "Default",
       form: null,
       testResults: null,
       openDate: null,
-      dateCompleted: null
+      dateCompleted: null,
+      recommendationDecision: null,
+      recommendationEvaluation: null
     }
     this.openEditAssessmentTestDialog(assessTest, true);
   }
 
   editAssessmentTest(assessmentTest){
+    console.log("Assessment test send to back-end:", assessmentTest)
     this.assessmentTestService.editAssessmentTest(assessmentTest).subscribe(
       res => {
+        console.log("Edit assessment test response", res),
         //Do something for when you edit a new assessment test
         this.getAssessmentTests();
       },
@@ -351,23 +466,30 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     )
   }
 
-  openEditAssessmentTestDialog(assessmentTest, newQuestionFlag: boolean){
+  openEditAssessmentTestDialog(assessmentTest, newTestFlag: boolean){
     this.editAssessmentTestDialogRef = this.dialog.open(EditAssessmentTestDialogComponent, {
       width: '50vw',
       data: {
         assessmentTest,
-        newQuestionFlag
+        newTestFlag
       }
     });
 
     this.editAssessmentTestDialogRef.afterClosed().subscribe(result => {
-      console.log("AssessmentTest: ", result);
-      if (newQuestionFlag) {
-        this.addAssessmentTest(result);
-      } else {
-        this.editAssessmentTest(result);
-        console.log("REHABILITATION PLAN:", this.rehabilitationplan);
-      }
+
+      this.formService.getForm(result.form._id).subscribe(
+        data => {
+          var customForm = data.form;
+          delete customForm._id;
+          if (newTestFlag) {
+            this.addAssessmentTest(result);
+          } else {
+            this.editAssessmentTest(result);
+            console.log("REHABILITATION PLAN:", this.rehabilitationplan);
+          }
+        },
+        error => console.log(error)
+      );
     });
   }
 
@@ -386,6 +508,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
             else { this.completeAssessmentTests.push(allAssessmentTests[i]); }
           }
         }
+        this.getForm();
+        this.selectedCompleteAssessmentTest = this.completeAssessmentTests[this.selectedCompleteIndex];
       }
     )
   }
@@ -394,85 +518,202 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //RECOMMENDATIONS STARTS
   //==================================
-  createRecommendation(){
-    var recommendation = {
-      timeStamp: Date.now(),
-      decision: "The patient should...",
-      assessmentTest: this.selectedCompleteAssessmentTest._id
-    }
-
-    this.openEditRecommendationDialog(recommendation, true);
+  setActiveIncompleteTest(i){
+    this.selectedIncompleteIndex = i;
+    this.getForm();
   }
 
-  openEditRecommendationDialog(recommendation, newRecommendationFlag: boolean){
-    this.editRecommendationDialogRef = this.dialog.open(EditRecommendationDialogComponent, {
-      width: '50vw',
-      data: {
-        recommendation,
-        newRecommendationFlag
-      }
-    });
-
-    this.editRecommendationDialogRef.afterClosed().subscribe( result => {
-      if (newRecommendationFlag) {
-        this.addRecommendation(result);
-      } else {
-        this.editRecommendation(result);
-      }
-    });
+  setActiveCompleteTest(i){
+    this.selectedCompleteIndex = i;
+    this.selectCompleteAssessmentTest(this.completeAssessmentTests[i]);
   }
 
-  selectCompleteAssessmentTest(test){
-    this.selectedCompleteAssessmentTest = test;
-    this.getRecommendations();
-    this.getTestResultsByAssessmentTestID(test);
-  }
-
-  editRecommendation(recommendation){
-    this.recommendationService.editRecommendation(recommendation).subscribe(
-      res => {
-        //Do something for when you edit a recommendation
-        this.getRecommendations();
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
-
-  addRecommendation(recommendation){
-    this.recommendationService.addRecommendation(recommendation).subscribe(
-      res => {
-        this.selectedCompleteAssessmentTest.recommendations.push(res.recommendation._id);
-        this.editAssessmentTest(this.selectedCompleteAssessmentTest);
-        this.getRecommendations();
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
-
-  getRecommendations(){
-    this.allRecommendations = [];
-    this.selectedAssessmentRecommendations = [];
-    this.recommendationService.getAllRecommendations().subscribe(
+  getForm(){
+    this.formService.getForm(this.incompleteAssessmentTests[this.selectedIncompleteIndex].form).subscribe(
       data => {
-        this.allRecommendations = data.recommendation;
-        console.log("ALL RECOS:", this.allRecommendations);
+        console.log("specific form received! ", data);
+        this.form = data.form;
+        this.getAllQuestions();
+      },
+      error => console.log(error)
+    );
+  }
 
-        if(this.selectedCompleteAssessmentTest != null){
-          for(let i = 0; i < this.allRecommendations.length; i++){
-            if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
-              this.selectedAssessmentRecommendations.push(this.allRecommendations[i]);
+  getAllQuestions(){
+    //Set to nothing so that it doesn't get double-populated
+    this.formQuestions = [];
+    this.allQuestions = [];
+    this.formService.getAllQuestions().subscribe(
+      data => {
+        let questions = data.question;
+        this.allQuestions = data.question;
+
+        //Places the formQuestion objects in order, splices it out of rest of questions
+        for (let i = 0; i < this.form.questions.length; i++) {
+          for (let j = 0; j < this.allQuestions.length; j++){
+            if(this.form.questions[i] == questions[j]._id) {
+              this.formQuestions.push(questions[j]);
             }
           }
         }
+      },
+      error => console.log(error)
+    );
+  }
+
+  addQuestion(){
+    var q = {
+      questionText: "Question Text",
+      helpDescription: "Help Description",
+      questionType: "Short Answer",
+      form: [this.form._id],
+      answerChoices: [],
+      range: 0,
+      type: "Custom"
+    }
+
+    this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
+      width: '50vw',
+      data: {
+        question: q
+      }
+    });
+
+    this.editQuestionDialogRef.afterClosed().subscribe(result => {
+      this.formService.addQuestion(result).subscribe(
+        res=> {console.log("new question ID: ", res),
+          this.form.questions.push(res.question._id),
+          this.formQuestions.push(res.question),
+          //reload all questions
+          this.saveForm(),
+          //need to then save form with the new ID in the questions list
+          this.getAllQuestions();},
+        error => {console.log(error)}
+      );
+    });
+  }
+
+  openEditQuestionDialog(q){
+    this.editQuestionDialogRef = this.dialog.open(EditQuestionDialogComponent, {
+      width: '50vw',
+      data: {
+        question: q
+      }
+    });
+
+    this.editQuestionDialogRef.afterClosed().subscribe(result => {
+      this.editQuestion(result);
+    });
+  }
+
+  editQuestion(selectedQuestion) {
+    if(selectedQuestion.type == "Standard"){
+
+    }
+    this.formService.editQuestion(selectedQuestion).subscribe(
+      res => {
+        //First save the form in case there were changes to it
+        this.saveForm(),
+          //reload all questions
+          this.getAllQuestions();
+      },
+      error => {
+        console.log(error)
       }
     )
-    console.log(this.allRecommendations);
-    console.log(this.selectedAssessmentRecommendations);
   }
+
+  saveForm(){
+    this.formService.saveForm(this.form).subscribe(
+      res => {
+        console.log("response received: ", res)
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  // createRecommendation(){
+  //   var recommendation = {
+  //     timeStamp: Date.now(),
+  //     decision: "The patient should...",
+  //     assessmentTest: this.selectedCompleteAssessmentTest._id,
+  //     evaluation: 5
+  //   }
+  //
+  //   this.openEditRecommendationDialog(recommendation, true);
+  // }
+
+  // openEditRecommendationDialog(recommendation, newRecommendationFlag: boolean){
+  //   this.editRecommendationDialogRef = this.dialog.open(EditRecommendationDialogComponent, {
+  //     width: '50vw',
+  //     data: {
+  //       recommendation,
+  //       newRecommendationFlag
+  //     }
+  //   });
+  //
+  //   this.editRecommendationDialogRef.afterClosed().subscribe( result => {
+  //     if (newRecommendationFlag) {
+  //       this.addRecommendation(result);
+  //     } else {
+  //       this.editRecommendation(result);
+  //     }
+  //   });
+  // }
+
+  selectCompleteAssessmentTest(test){
+    this.selectedCompleteAssessmentTest = test;
+    //this.getRecommendations();
+    this.getTestResultsByAssessmentTestID(test);
+  }
+
+  // editRecommendation(recommendation){
+  //   this.recommendationService.editRecommendation(recommendation).subscribe(
+  //     res => {
+  //       //Do something for when you edit a recommendation
+  //       this.getRecommendations();
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   )
+  // }
+
+  // addRecommendation(recommendation){
+  //   this.recommendationService.addRecommendation(recommendation).subscribe(
+  //     res => {
+  //       this.selectedCompleteAssessmentTest.recommendation = res.recommendation._id;
+  //       this.editAssessmentTest(this.selectedCompleteAssessmentTest);
+  //       this.getRecommendations();
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   )
+  // }
+
+  // getRecommendations(){
+  //   this.allRecommendations = [];
+  //   this.selectedAssessmentRecommendation = {};
+  //   this.recommendationService.getAllRecommendations().subscribe(
+  //     data => {
+  //       this.allRecommendations = data.recommendation;
+  //       console.log("ALL RECOS:", this.allRecommendations);
+  //       console.log("selected complete:", this.selectedCompleteAssessmentTest);
+  //       if(this.selectedCompleteAssessmentTest != null){
+  //         for(let i = 0; i < this.allRecommendations.length; i++){
+  //           if(this.selectedCompleteAssessmentTest.recommendations.includes(this.allRecommendations[i]._id)){
+  //             this.selectedAssessmentRecommendation = this.allRecommendations[i];
+  //           }
+  //         }
+  //       }
+  //     }
+  //   )
+  //   console.log(this.allRecommendations);
+  //   console.log(this.selectedAssessmentRecommendation);
+  // }
 
   //===================================
   //RECOMMENDATIONS ENDS

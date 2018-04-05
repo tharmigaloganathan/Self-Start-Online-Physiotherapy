@@ -20,7 +20,8 @@ module.exports = {
     getAll:getAll,
     getOne:getOne,
     update:update,
-    deleteOne:deleteOne
+    deleteOne:deleteOne,
+    getAllByPhysio:getAllByPhysio
 };
 
 function deleteOne(id){
@@ -111,5 +112,17 @@ function add(object){
                 }
             });
         }
+    });
+}
+
+function getAllByPhysio(physioID){
+    return new Promise (function (resolve, reject) {
+        Treatments.find({physiotherapist: physioID}).populate({path:'patientProfile'}).exec(function (error, documents) {
+            if (error){
+                reject(error);
+            }else{
+                resolve(documents);
+            }
+        });
     });
 }

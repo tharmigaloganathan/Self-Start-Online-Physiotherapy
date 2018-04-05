@@ -2,17 +2,23 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from './../environments/environment';
+import { AuthenticationService } from "./authentication.service";
 
 @Injectable()
 export class PatientRehabilitationPlansService {
 
 	domain = environment.apiURL;
+	options;
+	authenticationService;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, authenticationService : AuthenticationService) {
+		this.authenticationService = authenticationService;
+	}
 
 	//Get the specified assessment tests
 	getAssessmentTest(id) {
-		return this.http.get(this.domain+'/AssessmentTests/'+id)
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/AssessmentTests/'+id, this.options)
 		.map((response: Response) => {
 		return response.json().assessmentTest;
     });
@@ -20,7 +26,8 @@ export class PatientRehabilitationPlansService {
 
 	//Get the specific exercise
 	getExercise(id) {
-		return this.http.get(this.domain+'/Exercises/'+id)
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/Exercises/'+id, this.options)
 		.map((response: Response) => {
 		return response.json().exercise;
 		});
@@ -28,7 +35,8 @@ export class PatientRehabilitationPlansService {
 
 	//Get the specific rehab plan
 	getRehabilitationPlan(id) {
-		return this.http.get(this.domain+'/RehabilitationPlans/'+id)
+		this.options = this.authenticationService.createAuthenticationHeaders();
+		return this.http.get(this.domain+'/RehabilitationPlans/'+id, this.options)
 		.map((response: Response) => {
 		return response.json().rehabilitationPlan;
 		});
@@ -39,6 +47,17 @@ export class PatientRehabilitationPlansService {
 		return this.http.get(this.domain+'/Treatments/')
 		.map((response: Response) => {
 		return response.json().treatment;
+		});
+	}
+
+	//Get a single patients profile
+	getPatientProfile(id) {
+			this.options = this.authenticationService.createAuthenticationHeaders();
+			console.log("Options" + JSON.stringify(this.options));
+			return this.http.get(this.domain+'/PatientProfiles/ActiveProfile', this.options)
+			.map((response: Response) => {
+				console.log("Patient profile" + response.json());
+			return response.json().patientProfile;
 		});
 	}
 

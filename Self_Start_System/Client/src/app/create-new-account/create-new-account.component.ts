@@ -39,6 +39,9 @@ export class CreateNewAccountComponent implements OnInit {
   toolTipPosition = "above";
   previousStepsEditable = true;
 
+  receivedGenders = false;
+  receivedCountries = false;
+
 
   //for passing profile ids to useraccount
   patientProfile_id = null;
@@ -86,6 +89,7 @@ export class CreateNewAccountComponent implements OnInit {
       data => {
         this.genders = data;
         console.log("This is what was returned for get all genders" + JSON.stringify(data));
+        this.receivedGenders = true;
       },
       error => {
         console.log("Error");
@@ -95,6 +99,7 @@ export class CreateNewAccountComponent implements OnInit {
       data => {
         this.countries = data;
         console.log("This is what was returned for get all countries" + JSON.stringify(data));
+        this.receivedCountries = true;
       },
       error => {
         console.log("Error");

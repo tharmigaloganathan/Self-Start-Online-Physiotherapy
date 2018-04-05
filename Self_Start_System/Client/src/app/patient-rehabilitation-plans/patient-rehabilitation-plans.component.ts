@@ -11,6 +11,7 @@ import { AuthenticationService } from "../authentication.service";
 })
 export class PatientRehabilitationPlansComponent implements OnInit {
 
+	isDataLoaded;
 	router;
 	authenticationService;
 	rehabilitationPlansService;
@@ -24,40 +25,70 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	rehabilitationPlans = [];
 	exercises = [];
 	assessmentTests = [];
-	selected: any;
+	selected = [];
 	activeExercise;
 	patientProfile;
+	name;
+	activeTreatment;
+	activeRehabPlan;
 
   constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router, authenticationService: AuthenticationService) {
 		this.router = router;
 		this.authenticationService = authenticationService;
 		this.rehabilitationPlansService = rehabilitationPlansService;
+		this.isDataLoaded = true;
 	}
 
   ngOnInit() {
-		this.account = localStorage.getItem("userAccount");
-		console.log(this.account);
-		this.authenticationService.getProfile().subscribe(
+
+		this.authenticationService.getUserAccount().subscribe(
 			data => {
-				this.patientProfile = data;
-				console.log("Patient profile" + this.patientProfile);
-				console.log("Inside" + JSON.stringify(this.patientProfile.patientProfile.treatments));
-				this.treatments = this.patientProfile.patientProfile.treatments;
-				console.log("Treatments length" + this.treatments.length);
-				this.populateRehabPlans();
+				this.account = data;
+				console.log("Account" + JSON.stringify(this.account));
+				this.populatePatientProfile();
 		});
+
+		//this.patientProfile = this.authenticationService.getActiveProfile();
+
   }
+
+	//Get patient profile
+	populatePatientProfile() {
+	this.rehabilitationPlansService.getPatientProfile(this.account.patientProfile).subscribe(
+		data => {
+			this.patientProfile = data;
+			this.treatments = this.patientProfile.treatments;
+			this.activeTreatment = this.treatments[0];
+			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[0];
+			//console.log("Rehab Plan" + JSON.stringify(this.activeTreatment.rehabilitationPlan[0].name));
+			//console.log("Treatments" + JSON.stringify(this.treatments));
+		});
+}
+
+	//Show the treatment and rehab plan details
+	showTreatment(index) {
+		console.log(index);
+		this.activeTreatment = this.treatments[index];
+}
 
 	//Populate Rehab Plan
 	populateRehabPlans() {
+	/*
 		for(var i=0; i<this.treatments.length; i++) {
-			this.rehabilitationPlans.push(this.treatments[i].rehabilitationPlan);
+			for(var j=0; j<this.treatments.rehabilitationPlan.length; j++) {
+				var length = this.treatments.rehabilitationPlan.length;
+				this.rehabilitationPlans.push(this.treatments[i].rehabilitationPlan[length -1]);
+			}
 		}
-		console.log(this.rehabilitationPlans);
+		*/
+
+		//console.log(this.rehabilitationPlans);
 		console.log(JSON.stringify(this.rehabilitationPlans));
+		console.log("Rehab plans length " + this.rehabilitationPlans.length);
 		this.selected = this.rehabilitationPlans[0];
-		this.getExercises();
-		this.getAssessmentTests();
+		//this.getExercises();
+		//this.getAssessmentTests();
+		this.isDataLoaded = true;
 		console.log("Selected" + JSON.stringify(this.selected));
 	}
 
@@ -70,6 +101,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	}
 
 	viewExercises() {
+		this.exercises = [];
+		this.exercises = this.activeRehabPlan.exerciseOrders;
+		console.log("Exercises" + JSON.stringify(this.exercises));
 		this.showAssessmentTests = 0;
 		this.showDetails = 0;
 		this.showExercises = 1;
@@ -77,6 +111,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	}
 
 	viewAssessmentTests() {
+		this.assessmentTests = [];
+		this.assessmentTests = this.activeRehabPlan.assessmentTests;
+		console.log("Assessment Tests" + JSON.stringify(this.assessmentTests));
 		this.showAssessmentTests = 1;
 		this.showDetails = 0;
 		this.showExercises = 0;
@@ -85,6 +122,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	//Get selected rehab plan data
 	getExercises() {
+		/*
 		console.log("Get data executing");
 		for(var i=0; i<this.selected.exerciseOrders.length; i++) {
 			this.rehabilitationPlansService.getExercise(this.selected.exerciseOrders[i]).
@@ -98,10 +136,12 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 					console.log("Error");
 				});
 			}
+		*/
 		}
 
 		//Get the selected rehab plan assessment tests
 		getAssessmentTests() {
+			/*
 			console.log("Get assessments tests executing");
 			for(var i=0; i<this.selected.assessmentTests.length; i++) {
 				this.rehabilitationPlansService.getAssessmentTest(this.selected.assessmentTests[i]).
@@ -118,6 +158,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 						console.log("Error");
 					});
 			}
+			*/
 		}
 
 	//Route to complete assessment test component

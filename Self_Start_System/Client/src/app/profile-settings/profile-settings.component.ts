@@ -39,8 +39,10 @@ export class ProfileSettingsComponent implements OnInit {
   countries;
   appointments;
 
+
   isPatient;
   isPhysio;
+  accountRetrieved = false;
   constructor(private editProfileService: EditProfileService,
               authService: AuthenticationService,
               createUserAccountService: CreateUserAccountService,
@@ -76,6 +78,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.authService.getUserAccount().subscribe(account =>{
         console.log("from subscription to auth service getUserAccount ",account);
         this.account = account;
+        this.accountRetrieved = true;
       });
     }
 

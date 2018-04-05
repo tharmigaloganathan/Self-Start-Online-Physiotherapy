@@ -7,7 +7,7 @@ import {FlashMessagesService} from "angular2-flash-messages";
   selector: 'app-navbar-general',
   templateUrl: './navbar-general.component.html',
   styleUrls: ['./navbar-general.component.scss'],
-  providers: [AuthenticationService, FlashMessagesService]
+  providers: []
 
 })
 export class NavbarGeneralComponent implements OnInit {
@@ -18,6 +18,15 @@ export class NavbarGeneralComponent implements OnInit {
     private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
+  }
+
+  clickedLogin(){
+    this.router.navigate(['login']);
+    this.authService.refreshLogin();
+  }
+
+  logoClicked(){
+    this.router.navigate(['home']);
   }
 
 }

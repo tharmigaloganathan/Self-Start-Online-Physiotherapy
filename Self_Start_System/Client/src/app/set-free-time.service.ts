@@ -118,6 +118,38 @@ export class SetFreeTimeService {
       });
   }
 
+  completeIntakeForm(id, testResults) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    let body = {
+      testResults: testResults
+    };
+    return this.http.put(this.domain+'/PatientProfiles/complete-intake-form/'+id,body,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
 
+  viewIntakeForm(id) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+
+    return this.http.get(this.domain+'/PatientProfiles/complete-intake-form/'+id,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
+
+  submitPayment(patientProfileID, amount, note) {
+    this.options = this.authenticationService.createAuthenticationHeaders();
+    let body = {
+      amount: amount,
+      note: note,
+      patientProfile: patientProfileID
+    };
+
+    return this.http.post(this.domain+'/Payments/',body,this.options)
+      .map((response: Response) => {
+        return response.json();
+      });
+  }
 }
 

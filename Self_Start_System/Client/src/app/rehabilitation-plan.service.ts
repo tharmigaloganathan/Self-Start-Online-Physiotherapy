@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import {AuthenticationService} from './authentication.service';
 
 
 import 'rxjs/add/operator/map';
@@ -9,7 +10,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class RehabilitationPlanService {
     // Resolve HTTP using the constructor
-    constructor(private http: Http) { }
+    constructor(private authenticationService: AuthenticationService, private http: Http) { }
     // private instance variable to hold base url
     private baseUrl = 'http://localhost:3700/RehabilitationPlans';
 
@@ -20,6 +21,12 @@ export class RehabilitationPlanService {
             .map((res:Response) => res.json())
             //...errors if any
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    getOneRehabilitationPlan(_id) {
+      return this.http.get(this.baseUrl + "/" + _id)
+        .map((res:Response) => res.json())
+        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
     addRehabilitationPlan(body: Object) {

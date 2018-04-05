@@ -12,7 +12,7 @@ const config = require('../Config/Database');
 
 router.route('/')
     .post(function (request, response) {
-        console.log ("within the PatientProfile route POST")
+        console.log ("within the PatientProfile route POST");
         PatientProfiles.add(request.body).then(function(patientProfile){
             console.log ("Profile successfully made: ", patientProfile);
             response.json({patientProfile: patientProfile});
@@ -23,6 +23,7 @@ router.route('/')
     })
 router.route('/getEmail/:patientProfile_id')
     .get (function (req, res) {
+        console.log("within patientProfile route, getEmail");
         if (!req.params.patientProfile_id) {
             res.json({success: false, message: 'patient profile ID was not provided'});
         }
@@ -169,6 +170,38 @@ router.route('/get-all-appointments/:patientprofile_id')
       response.json({appointments: appointments});
     }).catch(function(err){
       response.json({success: false, message: err});
+    })
+  });
+
+router.route('/without-physio')
+    .get(function (request, response) {
+        PatientProfiles.getAllWithoutPhysio().then(function(patients){
+            response.json({patientList: patients});
+        }).catch(function(err){
+            response.json({success: false, message: err});
+        })
+    });
+
+
+router.route('/complete-intake-form/:patientprofile_id')
+  .put(function (req, res) {
+    if (!req.params.patientprofile_id) {
+      res.json({success: false, message: 'patient profile ID was not provided'});
+    }
+    PatientProfiles.completeIntakeForm(req.params.patientprofile_id, req.body).then(function(patientProfile){
+      res.json({success: true, patientProfile: patientProfile});
+    }).catch(function(err){
+      res.json({success: false, message: err});
+    })
+  })
+  .get((req, res)=>{
+    if (!req.params.patientprofile_id) {
+      res.json({success: false, message: 'patient profile ID was not provided'});
+    }
+    PatientProfiles.viewIntakeForm(req.params.patientprofile_id).then(function(intakeFormQuestionsAndAnswers){
+      res.json({success: true, intakeFormQuestionsAndAnswers: intakeFormQuestionsAndAnswers});
+    }).catch(function(err){
+      res.json({success: false, message: err});
     })
   });
 

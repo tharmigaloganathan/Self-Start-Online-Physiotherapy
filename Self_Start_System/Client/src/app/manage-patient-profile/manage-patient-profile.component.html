@@ -1,5 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
+<div *ngIf="isDataLoaded">
 <app-navbar-physio></app-navbar-physio>
 
 <div class="container">
@@ -14,7 +15,7 @@
 						</div>
 						<div class="col-md-2 col-md-offset-8">
 							<div class="icon-bar">
-								<mat-icon class="icon" matTooltip="Create Treatment">assignment</mat-icon>
+								<mat-icon class="icon" matTooltip="Create Treatment" (click)="newTreatment()">assignment</mat-icon>
 								<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
 								<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
 							</div>
@@ -128,12 +129,13 @@
 						<mat-tab label="Treatments">
 							<div *ngIf="treatments == 0 else treatmentList" class="empty">
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no treatment history</h6>
+								<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
 							</div>
 							<ng-template #treatmentList>
 								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">
 									<div class="row top">
 										<div class="col">
-											<button mat-raised-button class="crete-treatment-button">Create New Treatment</button>
+											<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
 										</div>
 									</div>
 									<mat-divider></mat-divider>
@@ -203,11 +205,13 @@
 															<input matInput placeholder="Author Name" [(ngModel)]="activeRehabPlan.authorName" name="activeRehabPlan.authorName" readonly>
 														</mat-form-field>
 													</div>
+													<!--
 													<div class="col-4 form-container">
 														<mat-form-field>
 															<input matInput placeholder="Physiotherapist" [value]="physiotherapist.givenName + physiotherapist.familyName" name="physiotherapist.givenName + physiotherapist.familyName">
 														</mat-form-field>
 													</div>
+												-->
 												</div>
 												<div class="row">
 													<div class="col-12 form-container">
@@ -228,6 +232,7 @@
 														</mat-form-field>
 													</div>
 												</div>
+												<!--
 												<div class="row">
 													<div class="col-4 form-container">
 														<mat-form-field>
@@ -240,10 +245,11 @@
 														</mat-form-field>
 													</div>
 												</div>
+											-->
 										</div>
 											<h4><b>Exercises</b></h4>
 											<div class="row">
-												<div *ngIf="activeRehabPlanExercises.length == 0 else exerciseList">
+												<div *ngIf="activeRehabPlan.exerciseOrders.length == 0 else exerciseList">
 													<div class="col-12 empty-rehab-plan">
 														<h6>No exercises currently.</h6>
 													</div>
@@ -252,7 +258,7 @@
 													<div class="col-12 form-container animated fadeIn">
 													<mat-list>
 														<mat-divider></mat-divider>
-															<mat-list-item *ngFor="let exercise of activeRehabPlanExercises; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
+															<mat-list-item *ngFor="let exercise of activeRehabPlan.exerciseOrders; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
 																	<div class="col-4 form-container">
 																		Name: {{ exercise?.name }}
 																	</div>
@@ -268,24 +274,29 @@
 											<h4 class="top"><b>Assesment Tests</b></h4>
 											<hr>
 											<div class="row">
-												<div *ngIf="activeRehabPlanAssessmentTests.length == 0 else asessmentTestList">
+												<div *ngIf="activeRehabPlan.assessmentTests.length == 0 else asessmentTestList">
 													<div class="col-12 empty-rehab-plan">
 														<h6>No asessment tests currently.</h6>
 													</div>
 												</div>
-												<ng-template #assessmentTestList>
+												<ng-template #asessmentTestList>
 													<div class="col-12 form-container animated fadeIn">
 													<mat-list>
-														<mat-divider></mat-divider>
-															<mat-list-item *ngFor="let assessmentTest of activeRehabPlanAssessmentTests; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewAssessmentTestModal">
+															<mat-divider></mat-divider>
+															<mat-list-item *ngFor="let test of activeRehabPlan.assessmentTests; let i = index" [attr.data-index]="i" class="treatment form-container" data-toggle="modal" data-target="#viewAssessmentTestModal">
 																	<div class="col-4 form-container">
-																		Name: {{ assessmentTest?.name }}
+																		Name: {{ test?.name }}
 																	</div>
 																	<div class="col-4 form-container">
-																		Open Date: {{ assessmentTest?.openDate }}
+																		Open Date: {{ test?.openDate | date : "dd.MM.y" }}
 																	</div>
 																	<div class="col-4 form-container">
-																		Completed: {{ assessmentTest?.dateCompleted }}
+																		<div *ngIf="test.dateCompleted == null else showDateCompleted">
+																			Completed: In progress
+																		</div>
+																		<ng-template #showDateCompleted>
+																			Completed: {{ test?.dateCompleted | date : "dd.MM.y" }}
+																		</ng-template>
 																	</div>
 																<mat-divider></mat-divider>
 															</mat-list-item>
@@ -296,7 +307,7 @@
 										</div>
 										<!-- Rehab plan history -->
 										<div class="col-4 form-container">
-											<h4><b> History</b><mat-icon class="icon icon-bar" matTooltip="Visualize History"><i class="material-icons">insert_chart</i></mat-icon></h4>
+											<h4><b> History</b><mat-icon class="icon icon-bar" matTooltip="Visualize History" (click)="openVisualizeTreatmentDialogBox()"><i class="material-icons">insert_chart</i></mat-icon></h4>
 											<hr>
 											<div class="row history">
 												<div class="col history">
@@ -306,7 +317,12 @@
 																{{ plan?.name }}
 															</div>
 															<div class="col-4">
-																End: {{ plan?.endDate | date : "dd.MM.y" }}
+																<div *ngIf="plan.endDate == null" else showEndDate>
+																	End: Active
+																</div>
+																<ng-template #showEndDate>
+																	End: {{ plan?.endDate | date : "dd.MM.y" }}
+																</ng-template>
 															</div>
 															<mat-divider></mat-divider>
 														</mat-list-item>
@@ -319,6 +335,48 @@
 								</form>
 							</ng-template>
 						</mat-tab>
+
+            <!--Intake Form-->
+            <mat-tab label="Intake Form">
+              <div *ngIf="intakeFormQandA.length == 0 else intakeFormList" class="empty">
+                <h6> {{ user?.givenName + " " + user?.familyName }} have not completed an intake form</h6>
+              </div>
+              <ng-template #intakeFormList>
+                <h6 class="top">Intake form for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+                <mat-divider></mat-divider>
+                <mat-list>
+                  <mat-list-item *ngFor="let intakeFormObj of intakeFormQandA let i = index" [attr.data-index]="i">
+                    <div class="col-6">
+                      <b>{{ intakeFormObj.question }}</b>
+                    </div>
+                    <div class="col-6">
+                      {{ intakeFormObj.answer }}
+                    </div>
+                    <mat-divider></mat-divider>
+                  </mat-list-item>
+                </mat-list>
+
+                <!--Display images-->
+                <div *ngIf="intakeFormImages.length > 0">
+                  <mat-list>
+                    <mat-list-item>
+                      <div class="col-6">
+                        <b>Treatment Images</b>
+                      </div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                      <div class="col-12 row">
+                        <img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="">
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+
+                </div>
+              </ng-template>
+            </mat-tab>
+            <!--End of intake Form-->
+
 						<!-- Appointments -->
 						<mat-tab label="Appointments">
 							<div *ngIf="user.appointments.length == 0 else appointmentList" class="empty">
@@ -345,22 +403,22 @@
 						</mat-tab>
 						<!-- Payments -->
 						<mat-tab label="Payments">
-							<div *ngIf="user.payments.length == 0 else paymentList" class="empty">
+							<div *ngIf="payments?.length === 0 else paymentList" class="empty">
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no payment history</h6>
 							</div>
 							<ng-template #paymentList>
-								<h6 class="top">Payment history for <i>{{ user.givenName + " " + user.familyName }}</i></h6>
+								<h6 class="top">Payment history for <i>{{ user?.givenName + " " + user?.familyName }}</i></h6>
 								<mat-divider></mat-divider>
 								<mat-list>
 									<mat-list-item *ngFor="let payment of payments let i = index" [attr.data-index]="i">
 										<div class="col-2">
-											<b>Date: </b> {{ payment.dayTimeStamp | date : "dd.MM.y" }}
+											<b>Date: </b> {{ payment?.dayTimeStamp | date : "dd.MM.y" }}
 										</div>
 										<div class="col-2">
-											<b>Amount: </b> {{ payment.amount }}
+											<b>Amount: </b> {{ payment?.amount }}
 										</div>
 										<div class="col-8">
-											<b>Note: </b> {{ payment.note }}
+											<b>Note: </b> {{ payment?.note }}
 										</div>
 										<mat-divider></mat-divider>
 									</mat-list-item>
@@ -372,6 +430,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <!-- View exercise modal -->
@@ -423,7 +482,7 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<b>URL:</b> <a href="activeExercise.multimediaURL"> {{ activeExercise?.multimediaURL }}</a>
+									<img src="{{activeExercise?.multimediaURL}}" alt="">
 								</div>
 							</div>
 						</div>

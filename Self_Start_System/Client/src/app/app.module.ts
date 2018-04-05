@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 import { DashboardPhysioComponent } from './dashboard-physio/dashboard-physio.component';
 import { AppRoutingModule } from "./app-routing.module";
@@ -32,6 +33,7 @@ import { NewRehabilitationPlanComponent } from './new-rehabilitation-plan/new-re
 import { HttpModule } from '@angular/http';
 import { EditRehabilitationPlanComponent } from './edit-rehabilitation-plan/edit-rehabilitation-plan.component';
 
+import { MatSliderModule } from "@angular/material";
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -116,11 +118,13 @@ import {CreateUserAccountService} from "./create-user-account.service";
 import {UserAccountListService} from "./user-account-list.service";
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PaypalButtonComponent } from './paypal-button/paypal-button.component';
+import { VisualizeTreatmentDialogComponent } from './visualize-treatment-dialog/visualize-treatment-dialog.component';
 import { AdminLocationsComponent } from './admin-locations/admin-locations.component';
 import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
+import { HomePageAboutComponent } from './home-page-about/home-page-about.component';
 
-
+import { RehabilitationPlanService} from "./rehabilitation-plan.service";
 
 @NgModule({
   declarations: [
@@ -172,7 +176,10 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
 		PhysioPatientListComponent,
 		ChangePasswordComponent,
 		PaypalButtonComponent,
+		VisualizeTreatmentDialogComponent,
+    HighchartsChartComponent,
 		AdminLocationsComponent,
+		HomePageAboutComponent
   ],
   imports: [
     HttpModule,
@@ -209,6 +216,7 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSliderModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -223,10 +231,10 @@ import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new
     MatRadioModule,
     ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    MatAutocompleteModule,
+    MatAutocompleteModule
   ],
   providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
-  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService],
+  FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService, RehabilitationPlanService],
   bootstrap: [AppComponent],
   entryComponents: [EditQuestionDialogComponent,
     EditAssessmentTestDialogComponent,

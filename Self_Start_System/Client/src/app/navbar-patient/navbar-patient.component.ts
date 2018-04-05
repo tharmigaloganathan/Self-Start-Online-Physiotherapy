@@ -43,7 +43,6 @@ export class NavbarPatientComponent implements OnInit {
             this.user = (result as any).patientProfile;
             this.authService.setActiveProfile(this.user);
             this.authService.setActiveProfileType("patient");
-            console.log(this.user);
             break;
           }
         }
@@ -63,6 +62,11 @@ export class NavbarPatientComponent implements OnInit {
     this.router.navigate(['settings']);
 
   }
+
+  logoClicked(){
+    this.router.navigate(['home']);
+  }
+
 
 
 
