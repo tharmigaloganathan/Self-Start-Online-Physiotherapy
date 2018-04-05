@@ -25,6 +25,8 @@ import * as moment from 'moment';
 export class ManagePatientProfileComponent implements OnInit {
 
 	showPrintPage = false;
+	printPatientHistory = false;
+	printPatientTreatment = false;
 	isDataLoaded;
 	isRehabPlanLoaded;
 	router;
@@ -502,21 +504,29 @@ export class ManagePatientProfileComponent implements OnInit {
 		//Print a summary of the treatment details
 		printTreatment() {
 		this.showPrintPage = true;
-		this.getPrintFormGender();
+		this.printPatientTreatment = true;
+	}
+
+		//Print a summary of the patients history
+		printHistory() {
+		this.showPrintPage = true;
+		this.printPatientHistory = true;
 	}
 
 		//Return from the print page
 		showProfile() {
 		this.showPrintPage = false;
+		this.printPatientTreatment = false;
+		this.printPatientHistory = false;
 	}
 
 	populateGraphData() {
 		//Populate graph data
 		var length = this.rehabPlanHistory.length;
 		console.log(length);
-		for(var i=0; i<this.rehabPlanHistory[length-1].assessmentTests.length; i++) {
-			if(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation != null) {
-				this.graphData.push(this.rehabPlanHistory[length-1].assessmentTests[i].recommendationEvaluation);
+		for(var i=0; i<this.rehabPlanHistory[0].assessmentTests.length; i++) {
+			if(this.rehabPlanHistory[0].assessmentTests[i].recommendationEvaluation != null) {
+				this.graphData.push(this.rehabPlanHistory[0].assessmentTests[i].recommendationEvaluation);
 			}
 		}
 		// optional string, defaults to 'chart'

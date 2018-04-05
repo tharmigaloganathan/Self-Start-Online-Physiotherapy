@@ -19,7 +19,7 @@
 								<mat-icon class="icon" matTooltip="Create Treatment" (click)="newTreatment()">assignment</mat-icon>
 								<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
 								<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
-								<mat-icon class="icon" matTooltip="Print Summary" (click)="printTreatment()">print</mat-icon>
+								<mat-icon class="icon" matTooltip="Print Summary" (click)="printHistory()">print</mat-icon>
 							</div>
 						</div>
 						<div class="col-md-2 col-md-offset-10">
@@ -212,7 +212,7 @@
 									<div class="row">
 										<div class="col-8 form-container border-right">
 											<!-- Treatment Details -->
-											<h4><b>Treatment Details</b><mat-icon class="icon icon-bar" matTooltip="Print Summary"><i class="material-icons">print</i></mat-icon></h4>
+											<h4><b>Treatment Details</b><mat-icon class="icon icon-bar" matTooltip="Print Summary" (click)="printTreatment()"><i class="material-icons">print</i></mat-icon></h4>
 											<hr>
 											<div class="row">
 												<div class="col-4 form-container">
@@ -358,7 +358,7 @@
 																Start: {{ plan?.startDate | date : "dd.MM.y" }}
 															</div>
 															<div class="col-4">
-																<div *ngIf="plan.endDate == null" else showEndDate>
+																<div *ngIf="plan.endDate == null else showEndDate">
 																	In progress
 																</div>
 																<ng-template #showEndDate>
@@ -575,281 +575,449 @@
   </div>
 </div>
 
-<!----------------------------------------------- Template form to print treatment summary -------------------------------------------->
+<!-- Print forms for patient history and treatment summary -->
 <ng-template #print>
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<div class="card-container top animated fadeIn">
-					<mat-card>
-						<!-- Header -->
-						<div class="row">
-							<div class="col-md-10">
-								<h1>{{ user?.givenName + " " + user?.familyName }} Summary</h1>
-							</div>
-							<div class="col-md-2 col-md-offset-10">
-								<mat-icon class="icon icon-bar" matTooltip="Back to Profile" (click)="showProfile()">account_circle</mat-icon>
-							</div>
-						</div>
-						<!-- Patient Information -->
-						<div class="row">
-							<mat-divider></mat-divider>
-							<div class="col form-container">
-								<mat-form-field>
-									<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col form-container">
-								<mat-form-field>
-									<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-						</div>
-						<!-- Row 2 -->
-						<div class="row">
-							<div class="col-6 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Gender" [(ngModel)]="printFormGender" name="printFormGender" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col-6 form-container">
-								<mat-form-field>
-									<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [(ngModel)]="user.DOB" name="user.DOB" [readonly]="!isChanged">
-									<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-									<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
-								</mat-form-field>
-							</div>
-						</div>
-						<!-- Row 3 -->
-						<div class="row">
-							<div class="col-3 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col-3 form-container">
-								<mat-form-field>
-									<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col-2 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Province" [(ngModel)]="user.province.name" name="user.province.name" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col-2 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col-2 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Country" [(ngModel)]="user.country.name" name="user.country.name" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-						</div>
-						<!-- Row 4 -->
-						<div class="row">
-							<div class="col-6 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-							<div class="col-6 form-container">
-								<mat-form-field>
-									<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [readonly]="!isChanged">
-								</mat-form-field>
-							</div>
-						</div>
-
-						<!-- Intake Form -->
-						<div class="row">
-							<div class="col-md-12">
-								<h2>Intake Form</h2>
-								<mat-divider></mat-divider>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12 form-container">
-								<div *ngIf="intakeFormQandA.length == 0 else intakeFormHistory">
-									<div class="col-12">
-										<h6>No intake form.</h6>
-									</div>
+	<!----------------------------------------------- Template form to print patient history summary -------------------------------------------->
+	<div *ngIf="printPatientHistory; else treatmentForm">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="card-container top animated fadeIn">
+						<mat-card>
+							<!-- Header -->
+							<div class="row">
+								<div class="col-md-10">
+									<h1>{{ user?.givenName + " " + user?.familyName }} Summary</h1>
 								</div>
-								<ng-template #intakeFormHistory>
-									<mat-list>
-										<mat-list-item *ngFor="let intakeFormObj of intakeFormQandA let i = index" [attr.data-index]="i">
-											<div class="col-6">
-												<b>{{ intakeFormObj.question }}</b>
-											</div>
-											<div class="col-6">
-												{{ intakeFormObj.answer }}
-											</div>
-											<mat-divider></mat-divider>
-										</mat-list-item>
-									</mat-list>
-									<div class="row">
-										<div class="col-12 form-container">
-											<div *ngIf="intakeFormImages.length > 0">
-												<mat-list>
-													<mat-list-item>
-														<div class="col-6">
-															<b>Treatment Images</b>
-														</div>
-													</mat-list-item>
-													<mat-list-item>
-														<div class="col-12 row">
-															<!--
-															<img class="col-3 image" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="">
-															-->
-															<img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="" height="150">
-														</div>
-													</mat-list-item>
-												</mat-list>
-											</div>
+								<div class="col-md-2 col-md-offset-10">
+									<mat-icon class="icon icon-bar" matTooltip="Back to Profile" (click)="showProfile()">account_circle</mat-icon>
+								</div>
+							</div>
+							<!-- Patient Information -->
+							<div class="row">
+								<mat-divider></mat-divider>
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col form-container">
+									<mat-form-field>
+										<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 2 -->
+							<div class="row">
+								<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Gender" [(ngModel)]="printFormGender" name="printFormGender" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [(ngModel)]="user.DOB" name="user.DOB" [readonly]="!isChanged">
+										<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+										<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 3 -->
+							<div class="row">
+								<div class="col-3 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col-3 form-container">
+									<mat-form-field>
+										<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Province" [(ngModel)]="user.province.name" name="user.province.name" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col-2 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Country" [(ngModel)]="user.country.name" name="user.country.name" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+							</div>
+							<!-- Row 4 -->
+							<div class="row">
+								<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+								<div class="col-6 form-container">
+									<mat-form-field>
+										<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [readonly]="!isChanged">
+									</mat-form-field>
+								</div>
+							</div>
+
+							<!-- Intake Form -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2>Intake Form</h2>
+									<mat-divider></mat-divider>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 form-container">
+									<div *ngIf="intakeFormQandA.length == 0 else intakeFormHistory">
+										<div class="col-12">
+											<h6>No intake form.</h6>
 										</div>
 									</div>
-								</ng-template>
-							</div>
-						</div>
-
-						<!-- Appointment History -->
-						<div class="row">
-							<div class="col-md-12">
-								<h2>Appointment History</h2>
-								<mat-divider></mat-divider>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12 form-container">
-								<div *ngIf="user.appointments.length == 0 else appointmentHistory">
-									<div class="col-12">
-										<h6> No appointment history</h6>
-									</div>
+									<ng-template #intakeFormHistory>
+										<mat-list>
+											<mat-list-item *ngFor="let intakeFormObj of intakeFormQandA let i = index" [attr.data-index]="i">
+												<div class="col-6">
+													<b>{{ intakeFormObj.question }}</b>
+												</div>
+												<div class="col-6">
+													{{ intakeFormObj.answer }}
+												</div>
+												<mat-divider></mat-divider>
+											</mat-list-item>
+										</mat-list>
+										<div class="row">
+											<div class="col-12 form-container">
+												<div *ngIf="intakeFormImages.length > 0">
+													<mat-list>
+														<mat-list-item>
+															<div class="col-6">
+																<b>Treatment Images</b>
+															</div>
+														</mat-list-item>
+														<mat-list-item>
+															<div class="col-12 row">
+																<!--
+																<img class="col-3 image" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="">
+																-->
+																<img class="col-3" *ngFor="let imageObj of intakeFormImages" src="{{imageObj.answer}}" alt="" height="150">
+															</div>
+														</mat-list-item>
+													</mat-list>
+												</div>
+											</div>
+										</div>
+									</ng-template>
 								</div>
-								<ng-template #appointmentHistory>
-									<mat-list>
-										<mat-list-item *ngFor="let appointment of appointments let i = index" [attr.data-index]="i">
-											<div class="col-4">
-												<b>Date: </b> {{ appointment?.date | date : "dd.MM.y" }}
-											</div>
-											<div class="col-8">
-												<b>Reason: </b> {{ appointment?.reason }}
-											</div>
-											<mat-divider></mat-divider>
-										</mat-list-item>
-									</mat-list>
-								</ng-template>
 							</div>
-						</div>
 
-						<!-- Payment History -->
-						<div class="row">
-							<div class="col-md-12">
-								<h2>Payment History</h2>
-								<mat-divider></mat-divider>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12 form-container">
-								<div *ngIf="payments.length == 0 else paymentHistory">
-									<div class="col-12">
-										<h6> No payment history</h6>
-									</div>
+							<!-- Appointment History -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2>Appointment History</h2>
+									<mat-divider></mat-divider>
 								</div>
-								<ng-template #paymentHistory>
-									<mat-list>
-										<mat-list-item *ngFor="let payment of payments let i = index" [attr.data-index]="i">
-											<div class="col-3">
-												<b>Date: </b> {{ payment.dayTimeStamp | date : "dd.MM.y" }}
-											</div>
-											<div class="col-3">
-												<b>Amount: </b> ${{ payment.amount }}
-											</div>
-											<div class="col-6">
-												<b>Note: </b> {{ payment.note }}
-											</div>
-											<mat-divider></mat-divider>
-										</mat-list-item>
-									</mat-list>
-								</ng-template>
 							</div>
+							<div class="row">
+								<div class="col-12 form-container">
+									<div *ngIf="user.appointments.length == 0 else appointmentHistory">
+										<div class="col-12">
+											<h6> No appointment history</h6>
+										</div>
+									</div>
+									<ng-template #appointmentHistory>
+										<mat-list>
+											<mat-list-item *ngFor="let appointment of appointments let i = index" [attr.data-index]="i">
+												<div class="col-4">
+													<b>Date: </b> {{ appointment?.date | date : "dd.MM.y" }}
+												</div>
+												<div class="col-8">
+													<b>Reason: </b> {{ appointment?.reason }}
+												</div>
+												<mat-divider></mat-divider>
+											</mat-list-item>
+										</mat-list>
+									</ng-template>
+								</div>
+							</div>
+
+							<!-- Payment History -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2>Payment History</h2>
+									<mat-divider></mat-divider>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 form-container">
+									<div *ngIf="payments.length == 0 else paymentHistory">
+										<div class="col-12">
+											<h6> No payment history</h6>
+										</div>
+									</div>
+									<ng-template #paymentHistory>
+										<mat-list>
+											<mat-list-item *ngFor="let payment of payments let i = index" [attr.data-index]="i">
+												<div class="col-3">
+													<b>Date: </b> {{ payment.dayTimeStamp | date : "dd.MM.y" }}
+												</div>
+												<div class="col-3">
+													<b>Amount: </b> ${{ payment.amount }}
+												</div>
+												<div class="col-6">
+													<b>Note: </b> {{ payment.note }}
+												</div>
+												<mat-divider></mat-divider>
+											</mat-list-item>
+										</mat-list>
+									</ng-template>
+								</div>
+							</div>
+
+							<!-- Treatment List -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2>Treatment History</h2>
+									<mat-divider></mat-divider>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 form-container">
+									<div *ngIf="user.treatments.length == 0 else treatmentHistory">
+										<h6>No treatment history</h6>
+								</div>
+							</div>
+							<ng-template #treatmentHistory>
+								<mat-list>
+									<mat-list-item *ngFor="let treatment of user.treatments; let i = index" [attr.data-index]="i">
+										<div class="col-3">
+											<b>Assignment Date: </b> {{ treatment?.dateAssign | date : "dd.MM.y" }}
+										</div>
+										<div class="col-3">
+											<b>Start Date: </b> {{ treatment?.dateStart | date : "dd.MM.y" }}
+										</div>
+										<div class="col-6">
+											<b>Active: </b> {{ treatment?.active }}
+										</div>
+										<mat-divider></mat-divider>
+									</mat-list-item>
+								</mat-list>
+							</ng-template>
 						</div>
 
-						<!-- Treatment List -->
+						<!-- Assessment Tetst History -->
 						<div class="row">
 							<div class="col-md-12">
-								<h2>Treatment History</h2>
+								<h2>Assessment Test History</h2>
 								<mat-divider></mat-divider>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-12 form-container">
-								<div *ngIf="user.treatments.length == 0 else treatmentHistory">
-									<h6>No treatment history</h6>
+								<div *ngIf="assessmentTests.length == 0 else assessmentTestHistory">
+									<h6>No assessment test history</h6>
 							</div>
 						</div>
-						<ng-template #treatmentHistory>
+						<ng-template #assessmentTestHistory>
 							<mat-list>
-								<mat-list-item *ngFor="let treatment of user.treatments; let i = index" [attr.data-index]="i">
+								<mat-list-item *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i">
 									<div class="col-3">
-										<b>Assignment Date: </b> {{ treatment?.dateAssign | date : "dd.MM.y" }}
+										<b>Name: </b> {{ test?.name }}
 									</div>
 									<div class="col-3">
-										<b>Start Date: </b> {{ treatment?.dateStart | date : "dd.MM.y" }}
+										<div *ngIf="test.dateCompleted == null else showDateCompleted">
+											Completed: In progress
+										</div>
+										<ng-template #showDateCompleted>
+											<b>Completed: </b> {{ test?.dateCompleted | date : "dd.MM.y" }}
+										</ng-template>
 									</div>
-									<div class="col-6">
-										<b>Active: </b> {{ treatment?.active }}
+									<div class="col-8">
+										<div *ngIf="test.recommendationDecision == null else showRecommendationDecision">
+											Recommendation: Waiting for patient response
+										</div>
+										<ng-template #showRecommendationDecision>
+											<b>Recommendation: </b> {{ test?.recommendationDecision }}
+										</ng-template>
 									</div>
 									<mat-divider></mat-divider>
 								</mat-list-item>
 							</mat-list>
 						</ng-template>
 					</div>
-
-					<!-- Assessment Tetst History -->
-					<div class="row">
-						<div class="col-md-12">
-							<h2>Assessment Test History</h2>
-							<mat-divider></mat-divider>
-						</div>
+						</mat-card>
 					</div>
-					<div class="row">
-						<div class="col-12 form-container">
-							<div *ngIf="assessmentTests.length == 0 else assessmentTestHistory">
-								<h6>No assessment test history</h6>
-						</div>
-					</div>
-					<ng-template #assessmentTestHistory>
-						<mat-list>
-							<mat-list-item *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i">
-								<div class="col-3">
-									<b>Name: </b> {{ test?.name }}
-								</div>
-								<div class="col-3">
-									<div *ngIf="test.dateCompleted == null else showDateCompleted">
-										Completed: In progress
-									</div>
-									<ng-template #showDateCompleted>
-										<b>Completed: </b> {{ test?.dateCompleted | date : "dd.MM.y" }}
-									</ng-template>
-								</div>
-								<div class="col-8">
-									<div *ngIf="test.recommendationDecision == null else showRecommendationDecision">
-										Recommendation: Waiting for patient response
-									</div>
-									<ng-template #showRecommendationDecision>
-										<b>Recommendation: </b> {{ test?.recommendationDecision }}
-									</ng-template>
-								</div>
-								<mat-divider></mat-divider>
-							</mat-list-item>
-						</mat-list>
-					</ng-template>
-				</div>
-					</mat-card>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!----------------------------------------------- Template form to print treatment summary -------------------------------------------->
+	<ng-template #treatmentForm>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="card-container top animated fadeIn">
+						<mat-card>
+							<!-- Header -->
+							<div class="row">
+								<div class="col-md-10">
+									<h1>Treatment Summary for {{ user?.givenName + " " + user?.familyName }}</h1>
+								</div>
+								<div class="col-md-2 col-md-offset-10">
+									<mat-icon class="icon icon-bar" matTooltip="Back to Profile" (click)="showProfile()">account_circle</mat-icon>
+								</div>
+							</div>
+							<!-- Treatment Details -->
+							<div class="row">
+								<div class="col-md-12">
+									<mat-divider></mat-divider>
+									<mat-list>
+										<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="treatment" (click)="showRehabPlan(i)">
+											<div class="col-4">
+												<b>Assignment Date: </b> {{ treatment?.dateAssign | date : "dd.MM.y" }}
+											</div>
+											<div class="col-4">
+												<b>Start Date: </b> {{ treatment?.dateStart | date : "dd.MM.y" }}
+											</div>
+											<div class="col-4">
+												<b>Active: </b> {{ treatment?.active }}
+											</div>
+											<mat-divider></mat-divider>
+										</mat-list-item>
+										</mat-list>
+									</div>
+								</div>
+								<!-- Rehab Plan Details -->
+								<div class="row print-form-title">
+									<div class="col-md-12">
+										<h2>Rehabilitation Plan</h2>
+										<mat-divider></mat-divider>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Name" [(ngModel)]="activeRehabPlan.name" name="activeRehabPlan.name" readonly>
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Author Name" [(ngModel)]="activeRehabPlan.authorName" name="activeRehabPlan.authorName" readonly>
+												</mat-form-field>
+											</div>
+											<!--
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Physiotherapist" [value]="physiotherapist.givenName + physiotherapist.familyName" name="physiotherapist.givenName + physiotherapist.familyName">
+												</mat-form-field>
+											</div>
+										-->
+										</div>
+										<div class="row">
+											<div class="col-12 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Description" [(ngModel)]="activeRehabPlan.description" name="activeRehabPlan.description" readonly>
+												</mat-form-field>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-8 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Goal" [(ngModel)]="activeRehabPlan.goal" name="activeRehabPlan.goal" readonly>
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Time Frame to Complete" [(ngModel)]="activeRehabPlan.timeFrameToComplete" name="activeRehabPlan.timeFrameToComplete" readonly>
+												</mat-form-field>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Exercies -->
+								<div class="row print-form-title">
+									<div class="col-md-12">
+										<h2>Exercieses</h2>
+										<mat-divider></mat-divider>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<mat-list>
+											<mat-list-item *ngFor="let exercise of activeRehabPlan.exerciseOrders; let i = index" [attr.data-index]="i" class="form-container" data-toggle="modal" data-target="#viewExerciseModal" (click)="setActiveExercise(i)">
+													<div class="col-3">
+														<b>Name:</b> {{ exercise?.name }}
+													</div>
+													<div class="col-3">
+														<b>Location:</b> {{ exercise?.location}}
+													</div>
+													<div class="col-3">
+														<b>Duration:</b> {{ exercise?.duration}}
+													</div>
+													<div class="col-3">
+														<b>Frequency:</b> {{ exercise?.frequency}}
+													</div>
+												<mat-divider></mat-divider>
+											</mat-list-item>
+										</mat-list>
+									</div>
+								</div>
+								<!-- Assesment Tests -->
+								<div class="row print-form-title">
+									<div class="col-md-12">
+										<h2>Assessment Tests</h2>
+										<mat-divider></mat-divider>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<mat-divider></mat-divider>
+											<div *ngFor="let test of activeRehabPlan.assessmentTests; let i = index" [attr.data-index]="i">
+														<div class="row print-form-row">
+															<div class="col-4">
+																<b>Name: </b> {{ test?.name }}
+															</div>
+															<div class="col-4">
+																<div *ngIf="test.dateCompleted == null else showDateCompleted">
+																	Completed: In progress
+																</div>
+																<ng-template #showDateCompleted>
+																	<b>Completed: </b> {{ test?.dateCompleted | date : "dd.MM.y" }}
+																</ng-template>
+															</div>
+															<div class="col-4">
+																<div *ngIf="test.recommendationEvaluation == null else showRecommendationEvaluation">
+																	Recommendation Evaluation: Waiting for patient response
+																</div>
+																<ng-template #showRecommendationEvaluation>
+																	<b>Recommendation Evaluation: </b> {{ test?.recommendationEvaluation }}
+																</ng-template>
+															</div>
+														</div>
+														<div class="row print-form-row">
+															<div class="col">
+																<div *ngIf="test.recommendationDecision == null else showRecommendationDecision">
+																	Recommendation Decision: Waiting for patient response
+																</div>
+																<ng-template #showRecommendationDecision>
+																	<b>Recommendation Decision: </b> {{ test?.recommendationDecision }}
+																</ng-template>
+															</div>
+														</div>
+												<mat-divider></mat-divider>
+											</div>
+									</div>
+								</div>
+						</mat-card>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
 </ng-template>
