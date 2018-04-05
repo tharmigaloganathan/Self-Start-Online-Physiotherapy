@@ -79,7 +79,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 			dateCompleted: this.dateCompleted,
 	 		}
 	 		console.log("This is the data being sent for assessment test: " + JSON.stringify(data));
-	 		this.assessmentTestService.completeAssessmentTest(data).
+			/*
+			this.assessmentTestService.completeAssessmentTest(data).
 	 		subscribe(
 	 			data => {
 	 				console.log("Update Assessment Test: " + JSON.stringify(data));
@@ -90,6 +91,16 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 			error => {
 	 				console.log("Error");
 	 			});
+				*/
+				this.assessmentTestService.updateAssessmentTest(this.assessmentTest._id, data).
+				subscribe(
+					data => {
+						console.log("This was saved", data);
+						
+					},
+					error => {
+						console.log("Error");
+					});
 	 	}
 
 	 	//Popultate the test results object
