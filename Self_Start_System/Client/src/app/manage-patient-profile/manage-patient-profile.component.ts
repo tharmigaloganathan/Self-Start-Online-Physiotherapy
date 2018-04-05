@@ -238,7 +238,7 @@ export class ManagePatientProfileComponent implements OnInit {
 			city:  this.user.city,
 			gender: this.user.gender,
 			appointments: this.user.appointments,
-			intakeFormAnswers: this.intakeFormQandA;
+			intakeFormAnswers: this.intakeFormQandA
 		}
 		console.log(patientProfile);
 		this.userAccountListService.updatePatient(this.user._id, patientProfile).
@@ -348,8 +348,8 @@ export class ManagePatientProfileComponent implements OnInit {
 		//Populate all users assessment tests for the print form
 		populateAllAssessmentTests() {
 		for(var i=0; i<this.user.treatments.length; i++) {
-			for var j=0; j<this.user.treatments[i].rehabilitationPlan.length; j++) {
-				for var k=0; k<this.user.treatments[i].rehabilitationPlan[j].assessmentTests.length; k++) {
+			for (var j=0; j<this.user.treatments[i].rehabilitationPlan.length; j++) {
+				for (var k=0; k<this.user.treatments[i].rehabilitationPlan[j].assessmentTests.length; k++) {
 					this.assessmentTests.push(this.user.treatments[i].rehabilitationPlan[j].assessmentTests[k]);
 				}
 			}
