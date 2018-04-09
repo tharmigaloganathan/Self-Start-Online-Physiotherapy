@@ -10,10 +10,10 @@
             <mat-card class="patient-list-card">
                 <form class="example-form">
                   <mat-form-field class="search-full-width">
-                    <input matInput placeholder="Search" value="">
+                    <input matInput placeholder="Search" value="" #myInput [(ngModel)]="name" (input)="filterItem(myInput.value)">
                   </mat-form-field>
                 </form>
-                <mat-nav-list class="patient-nav-list" *ngFor="let patient of patients; let i = index;" (click)="openMessages(i);" [class.highlight]="i === selectedIndex">
+                <mat-nav-list class="patient-nav-list" *ngFor="let patient of filteredPatients; let i = index;" (click)="openMessages(i);" [class.highlight]="i === selectedIndex">
                     <mat-list-item class="patient-list-item">{{patient.givenName + " " + patient.familyName}}</mat-list-item>
                </mat-nav-list>
             </mat-card>
@@ -25,8 +25,17 @@
             </p>
             <div *ngIf="activePatient">
                 <mat-card class="messages-card mat-elevation-z0">
-                    <div *ngFor="let message of activePatient.messages">
-
+                    <mat-card-content *ngFor="let message of activePatient.messages" >
+                        <mat-card-content *ngIf="message.patientID == message.sender" class="physio-message-div">
+                            {{message.message}}
+                            <mat-card-subtitle>Patient</mat-card-subtitle>
+                        </mat-card-content>
+                        <mat-card-content *ngIf="message.patientID != message.sender" class="patient-message-div">
+                            {{message.message}}
+                            <mat-card-subtitle>You </mat-card-subtitle>
+                        </mat-card-content>
+                    </mat-card-content>
+                    <!-- <div *ngFor="let message of activePatient.messages">
                         <mat-card *ngIf="message.patientID == message.sender" class="physio-message mat-elevation-z3">
                             {{message.message}}
                             <mat-card-subtitle>Patient</mat-card-subtitle>
@@ -35,7 +44,7 @@
                             {{message.message}}
                             <mat-card-subtitle>You</mat-card-subtitle>
                         </mat-card>
-                    </div>
+                    </div> -->
                 </mat-card>
             </div>
 
