@@ -39,6 +39,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   selectedExercise;
   newExercises = [];
   oldRehabPlan: any;
+  selectedPatientName: string;
 
   deleteList = [];
   editID = localStorage.getItem('edit_rehabilitation_id');
@@ -88,6 +89,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   ngOnInit() {
+      let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+      this.selectedPatientName = selectedPatient.givenName + " " + selectedPatient.familyName;
       this.getPatientProfile();
     this.getRehabilitationPlans();
     this.authService.getProfile().subscribe(
@@ -95,6 +98,11 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         this.user = res;
       }
     );
+  }
+
+  backToPatientProfile() {
+      let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+      this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
   }
 
   //delete exercise from plan (move from myExercises to allExercises)
