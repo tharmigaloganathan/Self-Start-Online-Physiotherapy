@@ -12,39 +12,21 @@
 }
 
 .text-box{
-    height: 390px;
-    background: rgba(255, 255, 255, .7);
+    // text-align: left !important;
+    height: 800px;
+    // color: #ffffff;
+    background: rgba(255, 255, 255, .8);
     padding-left: 15%;
     padding-right: 15%;
     padding-top: 5%;
     font-size: 17px !important;
 }
 
-.image-col img {
-    width: 100%;
-}
-
-.text-box-2{
-    height: 600px;
-    background: rgba(255, 255, 255, .7);
-    padding-left: 15%;
-    padding-right: 15%;
-    padding-top: 5%;
-    font-size: 17px !important;
-}
-
-.large-text {
-    padding-top: 5%;
-    padding-bottom: 5%;
-    font-family: 'Gruppo', cursive !important;
-    color: #ffffff;
-    font-size: 40px;
-}
 
 .parallax {
     background-image: linear-gradient(
     rgba(255,255,255,0.9),
-    rgba(0,0,0,0.3)),url("about2.jpg");
+    rgba(0,0,0,0.3)),url("believe.jpg");
 
     height: 100%;
 

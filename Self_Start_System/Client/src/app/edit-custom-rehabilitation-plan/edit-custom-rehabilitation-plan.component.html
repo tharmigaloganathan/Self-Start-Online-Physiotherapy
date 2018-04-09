@@ -8,7 +8,7 @@
                 <p style="font-size:16px">
                     <mat-card-subtitle>Jane Doe</mat-card-subtitle>
                 </p>
-                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges(name.value, description.value, authorName.value, goal.value, timeframe.value)">SAVE CHANGES</button>
+                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges()">SAVE CHANGES</button>
             </h1>
             <br />
             <mat-tab-group>
@@ -18,7 +18,7 @@
                         <b>Plan Details</b>
                     </h1>
                     <br /><br />
-                    <form class="form-container" *ngIf="rehabilitationPlan">
+                    <form class="form-container" *ngIf="rehabilitationplan">
                         <div class="plan-details-tab">
                             <mat-form-field class="name">
                                 <input matInput #name placeholder="Name" name="name" [(ngModel)]="rehabilitationplan.name">
@@ -41,11 +41,11 @@
                             </mat-form-field>
 
                             <mat-form-field class="timeframe">
-                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeFrameToComplete" [(ngModel)]="rehabilitationplan.timeFrameToComplete"></textarea>
+                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeframe" [(ngModel)]="rehabilitationplan.timeFrameToComplete"></textarea>
                             </mat-form-field>
                         </div>
                     </form>
-                    <form class="form-container" *ngIf="!rehabilitationPlan">
+                    <form class="form-container" *ngIf="!rehabilitationplan">
                         <div class="plan-details-tab">
                             <mat-form-field class="name">
                                 <input matInput #name placeholder="Name" name="name" >
@@ -209,7 +209,6 @@
                                         <h3 class="card-title">Available Exercises</h3>
                                         <p>Drag an exercise to the other side to add it to the plan.</p>
                                         <ul class="list-group list-group-exercise" dnd-sortable-container [sortableData]="allExercises">
-
                                             <li *ngFor="let exercise of allExercises; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
                                                 <h6>{{exercise.name}}</h6>
                                             </li>
@@ -217,7 +216,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-6" align="center">
                                 <div class="card exercise-card">
                                     <div class="card-body">
@@ -328,7 +326,8 @@
                         <!-- Row 1: Test Results -->
                         <div class="row">
                           <div class="col-12 form-container">
-                            <h6>Test Results</h6>
+                            <h4>Test Results</h4>
+                            <hr>
                             <ul class="list-group-ans">
                               <li *ngFor="let result of allResults" class="list-group-item">
                                 <p>Question: {{result.question}}</p>
@@ -336,18 +335,20 @@
                               </li>
                             </ul>
                           </div>
+                          <mat-divider></mat-divider>
+                          <br>
                         </div>
-                        <mat-divider></mat-divider>
-                        <br>
+
                         <!-- Row 2: Recommendation -->
                         <div class="row">
                           <div class="col-12 form-container">
-                            <h6>Recommendation</h6>
+                            <h4>Recommendation</h4>
+                            <hr>
                               <mat-form-field style="width: 100%;">
-                                <input matInput placeholder="Decision Description" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationDecision" >
+                                <textarea matInput placeholder="Decision Description" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationDecision" ></textarea>
                               </mat-form-field>
-                            <mat-form-field class = "question">
-                              <input matInput placeholder="Evaluation: On a scale of 1-10, how effective was the current rehabilitation plan (where 10 is extremely effective)?" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationEvaluation" type="number"/>
+                            <mat-form-field style="width: 50%">
+                              <input matInput placeholder="Effectiveness Evaluation" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationEvaluation" type="number"/>
                             </mat-form-field>
                             </div>
                           </div>

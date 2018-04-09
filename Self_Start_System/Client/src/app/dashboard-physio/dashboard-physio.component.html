@@ -24,6 +24,16 @@
                     <span class="navbar-fill-remaining-space"></span>
                     <span matTooltip="Launch Appointment Module"><mat-icon routerLink="/physio/set-free-time">launch</mat-icon></span>
                 </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0" >
+                    <mat-nav-list *ngFor="let appointment of appointments; let i = index;" (click)="selectAppointment(i)">
+                        <!-- <mat-list-item>{{patient.givenName + " " + patient.familyName}}<mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item> -->
+                        <mat-list-item>
+                            {{appointment.patientName}}
+                            <span class="navbar-fill-remaining-space"></span>
+                            {{appointment.date + " - " + appointment.endDate}}
+                        </mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
             </mat-card>
         </div>
         <div class="col-md-6 col-padding-0">

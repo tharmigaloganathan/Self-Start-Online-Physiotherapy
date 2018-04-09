@@ -123,8 +123,11 @@ import { AdminLocationsComponent } from './admin-locations/admin-locations.compo
 import {LocationsService} from "./locations.service";
 import { AddNewExerciseDialogComponent } from './add-new-exercise-dialog/add-new-exercise-dialog.component';
 import { HomePageAboutComponent } from './home-page-about/home-page-about.component';
-
 import { RehabilitationPlanService} from "./rehabilitation-plan.service";
+import { HomePageBelieveComponent } from './home-page-believe/home-page-believe.component';
+import { HomePageHowItWorksComponent } from './home-page-how-it-works/home-page-how-it-works.component';
+import { HomePageServicesComponent } from './home-page-services/home-page-services.component';
+
 
 @NgModule({
   declarations: [
@@ -179,7 +182,10 @@ import { RehabilitationPlanService} from "./rehabilitation-plan.service";
 		VisualizeTreatmentDialogComponent,
     HighchartsChartComponent,
 		AdminLocationsComponent,
-		HomePageAboutComponent
+		HomePageAboutComponent,
+		HomePageBelieveComponent,
+		HomePageHowItWorksComponent,
+		HomePageServicesComponent
   ],
   imports: [
     HttpModule,
