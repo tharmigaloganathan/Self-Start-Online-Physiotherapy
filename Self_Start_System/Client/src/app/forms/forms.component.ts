@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService} from "../form.service";
+import { MatTableDataSource, MatSort } from '@angular/material';
+import {setUpFormContainer} from "@angular/forms/src/directives/shared";
 
 @Component({
   selector: 'app-forms',
@@ -9,6 +11,9 @@ import { FormService} from "../form.service";
 export class FormsComponent implements OnInit {
 
   allForms: any[];
+  allStandardForms = [];
+  displayedColumns = ['formName', 'description', 'actionsColumn'];
+  formDataSource;
 
   constructor(private formService: FormService) { }
 
@@ -20,8 +25,9 @@ export class FormsComponent implements OnInit {
     console.log("getting all forms");
     this.formService.getAllForms().subscribe(
       data => {
-        console.log("forms received! ",data);
-        this.allForms = data.form;
+        console.log("forms received! ",data),
+        this.allForms = data.form,
+        this.filterForStandard()
       },
       error => console.log(error)
     );
@@ -44,5 +50,19 @@ export class FormsComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  setUpDataSource = forms => {
+    this.formDataSource = new MatTableDataSource(forms)
+  };
+
+  filterForStandard(){
+    for(var i = 0; i < this.allForms.length; i++){
+      console.log(i, this.allForms[i]);
+      if(this.allForms[i].type == "Standard"){
+        this.allStandardForms.push(this.allForms[i]);
+      }
+    }
+    this.setUpDataSource(this.allStandardForms);
   }
 }
