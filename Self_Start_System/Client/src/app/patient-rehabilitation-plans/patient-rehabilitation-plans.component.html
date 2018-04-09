@@ -2,18 +2,18 @@
 <div *ngIf="isDataLoaded">
 <app-navbar-patient></app-navbar-patient>
 
-<div class="container top">
+<div class="container top animated fadeIn">
 	<div class="row">
 		<div class="col">
 			<mat-card>
-				<h2>Treatments and Rehabilitation Plans</h2>
+				<h2><b>Treatments and Rehabilitation Plans</b></h2>
 				<hr>
 				<div class="row">
 					<div class="col-md-4 border-right">
 						<mat-list class="plan-list">
-							<h6>Treatments</h6>
+							<h6><b>Treatment History</b></h6>
 							<mat-divider></mat-divider>
-							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)">
+							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)" [class.highlight]="i === selectedIndex">
 								<div class="col-6 form-container">
 									Start: {{ treatment?.dateStart | date : "dd.MM.y" }}
 								</div>
@@ -30,10 +30,10 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div *ngIf="showDetails">
 								<!-- Treatment Details -->
-								<h4>Treatment
-									<mat-icon class="icon" matTooltip="View Exercises" (click)="viewExercises()">list</mat-icon>
+								<h4><b>Treatment
 									<mat-icon class="icon" matTooltip="View Assessment Tests" (click)="viewAssessmentTests()">assignment</mat-icon>
-								</h4>
+									<mat-icon class="icon" matTooltip="View Exercises" (click)="viewExercises()">list</mat-icon>
+								</b></h4>
 								<hr>
 								<div class="row">
 									<div class="col-6 form-container">
@@ -46,7 +46,7 @@
 								</div>
 								<hr>
 								<!-- Rehabilitation Plan Details -->
-								<h4>Rehabilitation Plan</h4>
+								<h4><b>Rehabilitation Plan</b></h4>
 								<hr>
 								<div class="row">
 									<div class="col-6 form-container">
@@ -88,7 +88,10 @@
 						<div *ngIf="showExercises">
 							<div class="row">
 								<div class="col form-container">
-									<h6>Exercises</h6>
+									<h4><b>Exercises
+										<mat-icon class="icon" matTooltip="View Assessment Tests" (click)="viewAssessmentTests()">assignment</mat-icon>
+										<mat-icon class="icon" matTooltip="View Treatment" (click)="viewPlanDetails()">accessibility</mat-icon>
+									</b></h4>
 										<mat-list>
 											<mat-divider></mat-divider>
 											<div *ngIf="exercises.length > 0; else noExercises">
@@ -109,18 +112,23 @@
 										</mat-list>
 								</div>
 							</div>
+							<!--
 							<div class="row">
 								<div class="col">
 									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
 									<button mat-raised-button class="previous-button" (click)="viewAssessmentTests()">View Assessment Tests</button>
 								</div>
 							</div>
+							-->
 						</div>
 						<!-- Show when assessment tests button is clicked -->
 						<div *ngIf="showAssessmentTests">
 							<div class="row">
 								<div class="col form-container">
-									<h6>Assessment Tests</h6>
+									<h4><b>Assessment Tests
+										<mat-icon class="icon" matTooltip="View Exercies" (click)="viewExercises()">list</mat-icon>
+										<mat-icon class="icon" matTooltip="View Treatment" (click)="viewPlanDetails()">accessibility</mat-icon>
+									</b></h4>
 									<mat-list>
 										<mat-divider></mat-divider>
 										<div *ngIf="assessmentTests.length > 0; else noAssessmentTests">
@@ -147,12 +155,14 @@
 									</mat-list>
 								</div>
 							</div>
+							<!--
 							<div class="row">
 								<div class="col">
 									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
 									<button mat-raised-button class="previous-button" (click)="viewExercises()">View Exercises</button>
 								</div>
 							</div>
+							-->
 						</div>
 						<!-- Show then exercises button is clicked -->
 						<div *ngIf="viewExerciseDetails">

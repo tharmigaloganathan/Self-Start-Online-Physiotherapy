@@ -1,5 +1,9 @@
 @import '../../scss/_variables';
 
+* {
+	 font-family: 'Roboto Condensed', sans-serif;
+}
+
 .top {
 	margin-top: 2.5%;
 	margin-bottom: 2.5%;
@@ -81,4 +85,10 @@
 	color: $dark-grey;
 	cursor: pointer;
 	float: right;
+	margin-right: 2.5%;
+}
+
+.highlight {
+	background-color: #DCDCDC !important;
+	cursor: pointer;
 }

@@ -31,6 +31,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	name;
 	activeTreatment;
 	activeRehabPlan;
+	selectedIndex;
 
   constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router, authenticationService: AuthenticationService) {
 		this.router = router;
@@ -55,7 +56,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 			this.patientProfile = data;
 			console.log("This is the patient", this.patientProfile);
 			this.treatments = this.patientProfile.treatments;
-			this.activeTreatment = this.treatments[0];
+			var treatmentsLength = this.treatments.length;
+			this.selectedIndex = treatmentsLength-1;
+			this.activeTreatment = this.treatments[treatmentsLength-1];
 			var length = this.activeTreatment.rehabilitationPlan.length;
 			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length-1];
 		});
@@ -64,6 +67,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	//Show the treatment and rehab plan details
 	showTreatment(index) {
 		console.log(index);
+		this.selectedIndex = index;
 		this.activeTreatment = this.treatments[index];
 }
 
