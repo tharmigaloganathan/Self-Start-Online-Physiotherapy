@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class PatientCompleteAssessmentTestComponent implements OnInit {
 
+	isDataLoaded;
+	loading;
 	router;
 	assessmentTestService;
 	assessmentTest;
@@ -25,6 +27,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
   constructor(assessmentTestService: PatientCompleteAssessmentTestService, router: Router) {
 		this.router = router;
 		this.assessmentTestService = assessmentTestService;
+		this.isDataLoaded = false;
+		this.loading = true;
 	}
 
   ngOnInit() {
@@ -57,6 +61,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 		subscribe(
 	 			data => {
 	 				this.questions.push(data);
+					this.isDataLoaded = true;
+					this.loading = false;
 	 				console.log("This is what was returned for the question" + JSON.stringify(data));
 	 			},
 	 			error => {
@@ -96,7 +102,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 				subscribe(
 					data => {
 						console.log("This was saved", data);
-						
+
 					},
 					error => {
 						console.log("Error");

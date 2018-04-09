@@ -1,5 +1,9 @@
 @import '../../scss/_variables';
 
+* {
+	 font-family: 'Roboto Condensed', sans-serif;
+}
+
 .top {
 	margin-top: 2.5%;
 }
@@ -20,7 +24,8 @@
 }
 
 .button-container {
-	padding: 2%;
+	margin: 2.5%;
+	//padding: 2%;
 	display: flex;
 	flex-direction: column;
 }

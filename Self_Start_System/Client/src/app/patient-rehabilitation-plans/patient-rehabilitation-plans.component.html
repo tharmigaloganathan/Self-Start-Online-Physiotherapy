@@ -1,4 +1,4 @@
-
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 <div *ngIf="isDataLoaded">
 <app-navbar-patient></app-navbar-patient>
 
@@ -10,9 +10,9 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-4 border-right">
+						<h4><b>Treatment History</b></h4>
 						<mat-list class="plan-list">
-							<h6><b>Treatment History</b></h6>
-							<mat-divider></mat-divider>
+					<mat-divider></mat-divider>
 							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)" [class.highlight]="i === selectedIndex">
 								<div class="col-6 form-container">
 									Start: {{ treatment?.dateStart | date : "dd.MM.y" }}
@@ -30,7 +30,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div *ngIf="showDetails">
 								<!-- Treatment Details -->
-								<h4><b>Treatment
+								<h4><b>Treatment Details
 									<mat-icon class="icon" matTooltip="View Assessment Tests" (click)="viewAssessmentTests()">assignment</mat-icon>
 									<mat-icon class="icon" matTooltip="View Exercises" (click)="viewExercises()">list</mat-icon>
 								</b></h4>
@@ -132,16 +132,13 @@
 									<mat-list>
 										<mat-divider></mat-divider>
 										<div *ngIf="assessmentTests.length > 0; else noAssessmentTests">
-											<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list">
+											<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list" (click)="viewAssessmentTest(i)" matTooltip="Complete Assessment Test">
 												<mat-list-item>
 														<div class="col-6">
-															Name: {{ test?.name }}
+															<b>Name:</b> {{ test?.name }}
 														</div>
-														<div class="col-4">
-															Open Date: {{ test?.openDate | date : "dd.MM.y" }}
-														</div>
-														<div class="col-2">
-															<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">Complete</button>
+														<div class="col-6">
+															<b>Open Date:</b> {{ test?.openDate | date : "dd.MM.y" }}
 														</div>
 												</mat-list-item>
 												<mat-divider></mat-divider>
