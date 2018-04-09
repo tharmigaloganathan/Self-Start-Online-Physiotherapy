@@ -52,7 +52,7 @@
 										</div>
 										<div *ngIf="question.questionType == 'Range'" class="form-container">
 											<mat-form-field>
-												<input matInput placeholder="Answer" type="number" required>
+													<input matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" type="number" required>
 											</mat-form-field>
 										</div>
 										<!-- Questions that are a photo -->
