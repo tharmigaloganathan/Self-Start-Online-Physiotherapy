@@ -53,9 +53,11 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	this.rehabilitationPlansService.getPatientProfile(this.account.patientProfile).subscribe(
 		data => {
 			this.patientProfile = data;
+			console.log("This is the patient", this.patientProfile);
 			this.treatments = this.patientProfile.treatments;
 			this.activeTreatment = this.treatments[0];
-			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[0];
+			var length = this.activeTreatment.rehabilitationPlan.length;
+			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length-1];
 		});
 }
 

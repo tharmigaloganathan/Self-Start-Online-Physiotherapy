@@ -6,12 +6,12 @@
 	<div class="row">
 		<div class="col">
 			<mat-card>
-				<h2>My Treatments and Rehabilitation Plans</h2>
+				<h2>Treatments and Rehabilitation Plans</h2>
 				<hr>
 				<div class="row">
 					<div class="col-md-4 border-right">
 						<mat-list class="plan-list">
-							<h6>My Treatments</h6>
+							<h6>Treatments</h6>
 							<mat-divider></mat-divider>
 							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)">
 								<div class="col-6 form-container">
@@ -155,13 +155,12 @@
 						<!-- Show then exercises button is clicked -->
 						<div *ngIf="viewExerciseDetails">
 							<div class="row">
-								<div class="col-10">
-									<h5><b>{{ activeExercise.name }}</b></h5>
+									<div class="col-12">
+											<h5><b>{{ activeExercise.name }}</b><mat-icon class="icon" matTooltip="Exercise List" (click)="viewExercises()">list</mat-icon></h5>
+
+											<hr>
+									</div>
 								</div>
-								<div class="col-2">
-									<button mat-raised-button class="back-button" (click)="viewExercises()">Exercise List</button>
-								</div>
-							</div>
 									<!-- Row 2 -->
 									<div class="row">
 										<div class="col-12">
@@ -171,16 +170,19 @@
 									</div>
 									<!-- Row 3 -->
 									<div class="row">
-										<div class="col-6">
+										<div class="col-12">
 											<b>Objectives: </b> {{ activeExercise?.objectives }}
-											<hr>
-										</div>
-										<div class="col-6">
-											<b>Action Steps: </b> {{ activeExercise?.actionSteps }}
 											<hr>
 										</div>
 									</div>
 									<!-- Row 4 -->
+									<div class="row">
+										<div class="col-12">
+											<b>Action Steps: </b> {{ activeExercise?.actionSteps }}
+											<hr>
+										</div>
+									</div>
+									<!-- Row 5 -->
 									<div class="row">
 										<div class="col-6">
 											<b>Frequency: </b> {{ activeExercise?.frequency }}
@@ -191,18 +193,18 @@
 											<hr>
 										</div>
 									</div>
-									<!-- Row 5 -->
+									<!-- Row 6 -->
 									<div class="row">
-										<div class="col">
-											<b>Link:</b> <a href="activeExercise.multimediaURL">{{ activeExercise?.multimediaURL }}</a>
+										<div class="col-12">
+												<img src="{{activeExercise.multimediaURL}}" class="image-container">
 											<hr>
 										</div>
 									</div>
+								</div>
+							</div>
 						</div>
-					</div>
+					</mat-card>
 				</div>
-			</mat-card>
+			</div>
 		</div>
 	</div>
-</div>
-</div>
