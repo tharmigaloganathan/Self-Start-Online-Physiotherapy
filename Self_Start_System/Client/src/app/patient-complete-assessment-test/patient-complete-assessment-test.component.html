@@ -55,6 +55,16 @@
 												<input matInput placeholder="Answer" type="number" required>
 											</mat-form-field>
 										</div>
+										<!-- Questions that are a photo -->
+										<div *ngIf="question.questionType == 'Photo'" class="form-container">
+											<!-- Insert Photo Uploader here -->
+											<!-- File input for the file-upload plugin, with special ng2-file-upload directive called ng2FileSelect -->
+											<input type="file" name="photo" ng2FileSelect [uploader]="uploader" [(ngModel)]="answers[i]"/>
+											<!-- button to trigger the file upload when submitted -->
+											<button mat-raised-button type="button" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+											  Upload
+											</button>
+										</div>
 									<mat-divider></mat-divider>
 								</div>
 							</mat-list>

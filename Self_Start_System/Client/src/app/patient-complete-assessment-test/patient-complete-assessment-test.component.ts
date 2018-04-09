@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, ViewContainerRef} from '@angular/core';
 import { PatientCompleteAssessmentTestService } from "../patient-complete-assessment-test.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { environment } from '../../environments/environment';
+import {ToastsManager} from "ng2-toastr";
+
+const URL = environment.apiURL + '/Photos';
 
 @Component({
   selector: 'app-patient-complete-assessment-test',
@@ -24,11 +29,20 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	rehabilitationPlan;
 	newAssessmentTest_id;
 
-  constructor(assessmentTestService: PatientCompleteAssessmentTestService, router: Router) {
+	//Brians image uploader
+	public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+	@Output() uploadedURL: EventEmitter<any>;
+
+  constructor(assessmentTestService: PatientCompleteAssessmentTestService,
+							router: Router,
+							public toastr : ToastsManager,
+              public vcr: ViewContainerRef) {
 		this.router = router;
 		this.assessmentTestService = assessmentTestService;
 		this.isDataLoaded = false;
 		this.loading = true;
+		this.uploadedURL = new EventEmitter<any>();
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
   ngOnInit() {
@@ -38,6 +52,26 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 		this.rehabilitationPlan = JSON.parse(localStorage.getItem('rehabPlan'));
 		//console.log(this.rehabilitationPlan);
 		this.getForm();
+
+		//Image Uploader from Brians Component
+		//override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
+		this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+		//overide the onCompleteItem property of the uploader so we are
+		//able to deal with the server response.
+		this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+			let responseObj = JSON.parse(response);
+			if (responseObj.success){
+				// Open toast to show success
+				this.toastr.success("Upload completed!","Success!");
+			} else {
+				// Open toast to show failure
+				this.toastr.error('Image upload failed', 'Failed!');
+			}
+			console.log("ImageUpload:uploaded:", item, status, responseObj);
+			console.log("ImageUpload:uploaded: response", response, responseObj.file);
+			this.uploadedURL.emit(responseObj);
+		};
+
 	}
 
 	// //Get the assessment test form
@@ -102,10 +136,19 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 				subscribe(
 					data => {
 						console.log("This was saved", data);
-
+						this.loading = true;
+						setTimeout(() => {
+							this.toastr.success("Assessment Test Completed!","Success!");
+							this.loading = false;
+						}, 1000);
 					},
 					error => {
 						console.log("Error");
+						this.loading = true;
+						setTimeout(() => {
+							this.toastr.error("Assessment Test Failed!", "Failed!");
+							this.loading = false;
+						}, 1000);
 					});
 	 	}
 
