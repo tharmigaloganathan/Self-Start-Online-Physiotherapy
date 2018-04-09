@@ -294,8 +294,9 @@ export class CreateNewAccountComponent implements OnInit {
       province: this.personalInfoForm.get('province').value,
       city: this.personalInfoForm.get('city').value,
       gender: this.personalInfoForm.get('gender').value,
-      appointments: []
-    }
+      appointments: [],
+      intakeFormAnswers: []
+    };
 
     console.log("in component, registerPatientProfile, here's the tempPatientProfile: ", tempPatientProfile);
     //Send user data to backend
