@@ -127,6 +127,7 @@ import { RehabilitationPlanService} from "./rehabilitation-plan.service";
 import { HomePageBelieveComponent } from './home-page-believe/home-page-believe.component';
 import { HomePageHowItWorksComponent } from './home-page-how-it-works/home-page-how-it-works.component';
 import { HomePageServicesComponent } from './home-page-services/home-page-services.component';
+import { StickyNavModule} from "ng2-sticky-nav/dist";
 
 
 @NgModule({
@@ -237,7 +238,8 @@ import { HomePageServicesComponent } from './home-page-services/home-page-servic
     MatRadioModule,
     ToastModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    StickyNavModule,
   ],
   providers: [UserAccountListService, CreateUserAccountService,EditProfileService,ExerciseService,
   FormService, AuthenticationService, AssessmentTestService, RecommendationService, AuthGuard, NotAuthGuard, AdminGuard, PhysioGuard, PatientGuard, LocationsService, RehabilitationPlanService],
