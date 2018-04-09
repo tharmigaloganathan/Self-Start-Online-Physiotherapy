@@ -134,10 +134,10 @@
 										<div *ngIf="assessmentTests.length > 0; else noAssessmentTests">
 											<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list" (click)="viewAssessmentTest(i)" matTooltip="Complete Assessment Test">
 												<mat-list-item>
-														<div class="col-6">
+														<div class="col-8">
 															<b>Name:</b> {{ test?.name }}
 														</div>
-														<div class="col-6">
+														<div class="col-4">
 															<b>Open Date:</b> {{ test?.openDate | date : "dd.MM.y" }}
 														</div>
 												</mat-list-item>

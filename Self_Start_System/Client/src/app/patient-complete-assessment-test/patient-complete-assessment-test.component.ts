@@ -137,20 +137,26 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 					data => {
 						console.log("This was saved", data);
 						this.loading = true;
-						setTimeout(() => {
-							this.toastr.success("Assessment Test Completed!","Success!");
-							this.loading = false;
-						}, 1000);
+							this.toastr.success("Assessment Test Completed!","Success!")
+							.then((toast: Toast) => {
+									setTimeout(() => {
+											this.toastr.dismissToast(toast);
+											this.loading = false;
+									}, 1000);
+							});
 					},
 					error => {
 						console.log("Error");
 						this.loading = true;
-						setTimeout(() => {
-							this.toastr.error("Assessment Test Failed!", "Failed!");
-							this.loading = false;
-						}, 1000);
-					});
-	 	}
+						this.toastr.error("Opps something went wrong!","Failure!")
+						.then((toast: Toast) => {
+								setTimeout(() => {
+										this.toastr.dismissToast(toast);
+										this.loading = false;
+								}, 1000);
+						});
+	 			}
+			}
 
 	 	//Popultate the test results object
 	 	populateTestResults() {
@@ -160,7 +166,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 				answer: this.answers[i],
 	 				assessmentTest: this.assessmentTest._id
 	 			}
-	 			console.log("This is the data being sent: " + JSON.stringify(result));
+	 			console.log("This is the data being sent: ", result);
 	 			this.assessmentTestService.addTestResult(result).
 	 			subscribe(
 	 				data => {
@@ -169,7 +175,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 						//Only update in after the last test result
 						console.log("Test results "+ this.testResults.length + "questions " + this.questions.length);
 						if(this.testResults.length  == this.questions.length) {
-							this.updateAssessmentTest();
+							//this.updateAssessmentTest();
 						}
 	 				},
 	 				error => {
@@ -181,7 +187,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 	//Submit assessment test
 	 	submit() {
 	 		this.populateTestResults();
-			this.router.navigate(['/patient/rehabilitation-plans']);
+			//this.router.navigate(['/patient/rehabilitation-plans']);
 	 	}
 
 	 	//Route back to the user rehab plans page
