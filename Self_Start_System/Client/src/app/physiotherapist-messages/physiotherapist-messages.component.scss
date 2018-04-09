@@ -6,6 +6,10 @@
 	cursor: pointer;
 }
 
+* {
+	font-family: 'Roboto Condensed', sans-serif !important;
+}
+
 //CSS FOR Search
 .search-full-width {
   width: 100%;
@@ -62,6 +66,28 @@
     width: 50%;
     padding: 0px;
     margin-left: 15%;
+}
+
+.patient-message-div {
+    // height: 5%;
+    box-shadow: 2px 2px 2px 1px #888888;
+	padding: 3px;
+    margin-left: 50%;
+	margin-right: 50px !important;
+	margin-top: 50px !important;
+    width: 50%;
+    text-align: right;
+    background-color: $cobalt;
+    color: #FFFFFF;
+}
+
+.physio-message-div {
+    // max-height: 5%;
+    box-shadow: 2px 2px 2px 1px #888888;
+    padding: 3px;
+	margin-top: 50px !important;
+    width: 50%;
+    text-align: left;
 }
 
 .patient-message{
