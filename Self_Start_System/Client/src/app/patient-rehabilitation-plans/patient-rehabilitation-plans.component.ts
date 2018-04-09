@@ -106,13 +106,23 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	viewAssessmentTests() {
 		this.assessmentTests = [];
-		this.assessmentTests = this.activeRehabPlan.assessmentTests;
+		this.checkAssessmentTests();
+		//this.assessmentTests = this.activeRehabPlan.assessmentTests;
 		console.log("Assessment Tests" + JSON.stringify(this.assessmentTests));
 		this.showAssessmentTests = 1;
 		this.showDetails = 0;
 		this.showExercises = 0;
 		this.viewExerciseDetails = 0;
 	}
+
+	//Only include assesment test that have not been Completed
+	checkAssessmentTests() {
+		for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
+			if(this.activeRehabPlan.assessmentTests[i].dateCompleted == null) {
+				this.assessmentTests.push(this.activeRehabPlan.assessmentTests[i]);
+			}
+		}
+}
 
 	//Get selected rehab plan data
 	getExercises() {
