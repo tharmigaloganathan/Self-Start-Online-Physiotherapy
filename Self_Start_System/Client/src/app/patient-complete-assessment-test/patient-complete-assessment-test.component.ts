@@ -217,4 +217,12 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 		this.updateRehabPlan();
 	 	}
 
+		//Function to get the file
+		onImageUpload(event, i){
+			console.log(event.file);
+			console.log(i);
+			console.log(this.answers);
+			this.answers[i] = environment.apiURLForUploadingPictures + event.file;
+		}
+
 }
