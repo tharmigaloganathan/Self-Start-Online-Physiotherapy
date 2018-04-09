@@ -3,10 +3,14 @@
 <div class="container">
     <div class="card-container">
         <mat-card>
+            <div (click)="backToPatientProfile();" class="back-to-profile">
+                <mat-icon>keyboard_backspace</mat-icon>
+                Go Back to Patient Profile
+            </div>
             <h1 class="title">
                 Edit Custom Rehabilitation Plan
                 <p style="font-size:16px">
-                    <mat-card-subtitle>Jane Doe</mat-card-subtitle>
+                    <mat-card-subtitle>{{selectedPatientName}}</mat-card-subtitle>
                 </p>
                 <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges()">SAVE CHANGES</button>
             </h1>
