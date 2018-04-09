@@ -83,22 +83,28 @@
 						<div *ngIf="showExercises">
 							<div class="row">
 								<div class="col form-container">
-									<h6>My Exercises</h6>
-									<mat-list>
-										<mat-divider></mat-divider>
-										<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
-											<mat-list-item>
-											<div class="col-10">
-												Exercise Name: {{ exercise?.name }}
-											</div>
-											<div class="col-2">
-												<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
-											</div>
-
-											</mat-list-item>
+									<h6>Exercises</h6>
+										<mat-list>
 											<mat-divider></mat-divider>
-										</div>
-									</mat-list>
+											<div *ngIf="exercises.length > 0; else noExercises">
+												<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
+													<mat-list-item>
+													<div class="col-10">
+														Exercise Name: {{ exercise?.name }}
+													</div>
+													<div class="col-2">
+														<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
+													</div>
+													</mat-list-item>
+													<mat-divider></mat-divider>
+												</div>
+											</div>
+											<ng-template #noExercises>
+												<div class="empty">
+													<p>No exercises.</p>
+												</div>
+											</ng-template>
+										</mat-list>
 								</div>
 							</div>
 							<div class="row">
@@ -112,25 +118,30 @@
 						<div *ngIf="showAssessmentTests">
 							<div class="row">
 								<div class="col form-container">
-									<h6>My Assessment Tests</h6>
+									<h6>Assessment Tests</h6>
 									<mat-list>
 										<mat-divider></mat-divider>
-										<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list">
-											<mat-list-item>
-
-													<div class="col-6">
-														Name: {{ test?.name }}
-													</div>
-													<div class="col-4">
-														Open Date: {{ test?.openDate | date : "dd.MM.y" }}
-													</div>
-													<div class="col-2">
-														<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">Complete</button>
-													</div>
-
-											</mat-list-item>
-											<mat-divider></mat-divider>
+										<div *ngIf="assessmentTests.length > 0; else noAssessmentTests">
+											<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list">
+												<mat-list-item>
+														<div class="col-6">
+															Name: {{ test?.name }}
+														</div>
+														<div class="col-4">
+															Open Date: {{ test?.openDate | date : "dd.MM.y" }}
+														</div>
+														<div class="col-2">
+															<button mat-raised-button class="view-button" (click)="viewAssessmentTest(i)">Complete</button>
+														</div>
+												</mat-list-item>
+												<mat-divider></mat-divider>
+											</div>
 										</div>
+										<ng-template #noAssessmentTests>
+											<div class="empty">
+												<p>No assessment test to be completed.</p>
+											</div>
+										</ng-template>
 									</mat-list>
 								</div>
 							</div>
