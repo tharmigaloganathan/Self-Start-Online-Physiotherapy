@@ -52,7 +52,7 @@
                 <div class="row">
                   <div class="col-6 form-container">
                     <mat-form-field>
-                      <mat-select [(value)]="user.gender" placeholder="Gender" [disabled]="!isChanged">
+                      <mat-select [(ngModel)]="user.gender" name = "user.gender" placeholder="Gender" [disabled]="!isChanged">
                         <mat-option value="Male">Male</mat-option>
                         <mat-option value="Female">Female</mat-option>
                         <mat-option value="Other">Other</mat-option>
@@ -90,7 +90,7 @@
                   <div class="col-4 form-container">
                     <mat-form-field>
                       <mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
-                        <mat-option *ngFor="let country of countries" [value]="country._id">{{country.name}}</mat-option>
+                        <mat-option *ngFor="let country of countries" (click)="populateProvinces(country._id)" [value]="country._id">{{country.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
