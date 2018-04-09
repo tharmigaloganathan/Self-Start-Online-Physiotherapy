@@ -30,7 +30,10 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div *ngIf="showDetails">
 								<!-- Treatment Details -->
-								<h4>Treatment</h4>
+								<h4>Treatment
+									<mat-icon class="icon" matTooltip="View Exercises" (click)="viewExercises()">list</mat-icon>
+									<mat-icon class="icon" matTooltip="View Assessment Tests" (click)="viewAssessmentTests()">assignment</mat-icon>
+								</h4>
 								<hr>
 								<div class="row">
 									<div class="col-6 form-container">
@@ -72,12 +75,14 @@
 									</div>
 								</div>
 								<!-- Buttons -->
+								<!--
 								<div class="row">
 									<div class="col">
 										<button mat-raised-button class="next-button" (click)="viewExercises()">View Exercises</button>
 										<button mat-raised-button class="previous-button" (click)="viewAssessmentTests()">View Assessment Tests</button>
 									</div>
 								</div>
+								-->
 						</div>
 						<!-- Show then exercises button is clicked -->
 						<div *ngIf="showExercises">
@@ -87,14 +92,11 @@
 										<mat-list>
 											<mat-divider></mat-divider>
 											<div *ngIf="exercises.length > 0; else noExercises">
-												<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list">
+												<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list" (click)="showExerciseDetails(i)">
 													<mat-list-item>
-													<div class="col-10">
-														Exercise Name: {{ exercise?.name }}
-													</div>
-													<div class="col-2">
-														<button mat-raised-button class="view-button" (click)="showExerciseDetails(i)">Details</button>
-													</div>
+														<div class="col-12">
+															Exercise Name: {{ exercise?.name }}
+														</div>
 													</mat-list-item>
 													<mat-divider></mat-divider>
 												</div>
