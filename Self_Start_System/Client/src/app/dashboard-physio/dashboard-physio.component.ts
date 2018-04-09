@@ -16,8 +16,15 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
     successCounter = 0;
     profileSubscription;
     treatments = [];
-    appointments = [];
+    // appointments: any = [];
     patients: any[] = [];
+    appointments: Array<{
+      patientName: string,
+      patient: any,
+      date: string,
+      endDate: string,
+      patientProfile: string
+    }> = [];
     patientList: Array<{
       patientID: string,
       patientGivenName: string,
@@ -39,6 +46,7 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
       this.profileSubscription = this.authService.profileOb$.subscribe((profile) => {
         this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
         this.getTreatments();
+        this.getAppointments();
         });
     }
 
@@ -57,6 +65,11 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
                 }
             }
         }
+    }
+
+    selectAppointment(index){
+        localStorage.setItem("selectedPatient",JSON.stringify(this.appointments[index].patient));
+        this.router.navigate(['/physio/patients/'+ this.appointments[index].patient.givenName +'-'+this.appointments[index].patient.familyName]);
     }
 
     selectPatient(index) {
@@ -115,9 +128,41 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
             return 0;
           });
           this.appointments = data.appointment;
+          //obtain appointment patient info
+          let completedRequests = 0;
+          for(var i = 0; i < this.appointments.length; i++) {
+              this.appointments[i].date = this.formatDate(new Date(this.appointments[i].date));
+              this.appointments[i].endDate = this.formatTime(new Date(this.appointments[i].endDate));
+              this.userAccountListService.getPatientProfile(this.appointments[i].patientProfile).subscribe(
+  			  data => {
+                  this.appointments[completedRequests].patientName = data.givenName + data.familyName;
+                  this.appointments[completedRequests].patient = data;
+                  completedRequests++;
+  			  });
+          }
         },
         error => console.log(error)
       );
+    }
+
+    formatTime(date){
+        var hour = date.getHours();
+        var time = "AM";
+        if(hour > 12) {
+           hour -= 12;
+           time = "PM";
+        }
+        if(hour < 10){
+            hour = "0"+hour;
+        }
+        var min = date.getMinutes();
+        if(min == 0) {
+            min = "00";
+        } else if (min < 10) {
+            min = "0"+min;
+        }
+
+        return hour + ':' + min + ' ' + time;
     }
 
     formatDate(date) {
@@ -127,12 +172,26 @@ export class DashboardPhysioComponent implements OnInit, OnDestroy {
             "August", "September", "October",
             "November", "December"
         ];
-
         var day = date.getDate();
         var monthIndex = date.getMonth();
         var year = date.getFullYear();
+        var hour = date.getHours();
+        var time = "AM";
+        if(hour > 12) {
+           hour -= 12;
+           time = "PM";
+        }
+        if(hour < 10){
+            hour = "0"+hour;
+        }
+        var min = date.getMinutes();
+        if(min == 0) {
+            min = "00";
+        } else if (min < 10) {
+            min = "0"+min;
+        }
 
-        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+        return day + ' ' + monthNames[monthIndex] + ' ' + hour + ':' + min + ' ' + time;
     }
 
     getMessages() {
