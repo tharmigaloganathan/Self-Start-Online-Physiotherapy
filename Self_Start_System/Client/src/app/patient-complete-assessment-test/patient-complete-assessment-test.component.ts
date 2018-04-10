@@ -212,5 +212,4 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 			console.log(this.answers);
 			this.answers[i] = environment.apiURLForUploadingPictures + event.file;
 		}
-
 }

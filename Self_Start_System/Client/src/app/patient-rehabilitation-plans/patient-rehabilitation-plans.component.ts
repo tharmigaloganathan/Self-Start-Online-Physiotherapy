@@ -127,7 +127,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	//Only include assesment test that have not been Completed
 	checkAssessmentTests() {
 		for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
-			if(this.activeRehabPlan.assessmentTests[i].dateCompleted == null) {
+			//console.log("Time", this.activeRehabPlan.assessmentTests[i].openDate.parse());
+			//console.log("Now", Date.now());
+			if(this.activeRehabPlan.assessmentTests[i].dateCompleted == null /* && this.activeRehabPlan.assessmentTests[i].openDate <= Date.now() */) {
 				this.assessmentTests.push(this.activeRehabPlan.assessmentTests[i]);
 			}
 		}
