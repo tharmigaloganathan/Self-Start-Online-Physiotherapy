@@ -3,12 +3,13 @@ import { AuthenticationService} from "../authentication.service";
 import { MessagesService } from '../messages.service';
 import {Router} from "@angular/router";
 import {NavbarPatientComponent} from "../navbar-patient/navbar-patient.component";
+import { PatientRehabilitationPlansService } from '../patient-rehabilitation-plans.service';
 
 @Component({
   selector: 'app-dashboard-patient',
   templateUrl: './dashboard-patient.component.html',
   styleUrls: ['./dashboard-patient.component.scss'],
-  providers:[MessagesService]
+  providers:[PatientRehabilitationPlansService,MessagesService]
 })
 export class DashboardPatientComponent implements OnInit,OnDestroy {
     messages: any[] = [];
@@ -23,10 +24,18 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
     navbar;
     profileSubscription;
 
+    //rehabilitation Plans
+    patientProfile;
+    treatments: any[];
+    activeTreatment;
+    activeRehabPlan;
+    assessmentTests: any[];
+
   constructor(
     private authService: AuthenticationService,
     private messagesService: MessagesService,
-    private router: Router
+    private router: Router,
+    private rehabilitationPlansService: PatientRehabilitationPlansService
   )
   {
     this.authService = authService;
@@ -61,6 +70,7 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
       this.patientID = this.user._id;
       console.log("Patient id is: ", this.user._id);
       this.getMessages();
+      this.populatePatientProfile();
     });
   }
 
@@ -69,6 +79,44 @@ export class DashboardPatientComponent implements OnInit,OnDestroy {
     this.profileSubscription.unsubscribe();
     console.log("subscription terminated");
   }
+
+  populatePatientProfile() {
+  this.rehabilitationPlansService.getPatientProfile(this.user.patientProfile).subscribe(
+      data => {
+          this.patientProfile = data;
+          console.log("This is the patient", this.patientProfile);
+          this.treatments = this.patientProfile.treatments;
+          var treatmentsLength = this.treatments.length;
+          for(var i = 0; i < this.treatments.length; i++) {
+              var length = this.treatments[i].rehabilitationPlan.length;
+              this.treatments[i].activePlan = this.treatments[i].rehabilitationPlan[length-1]
+          }
+          console.log("DATA treatments", this.treatments);
+          console.log("DATA activeTreat", this.activeTreatment);
+          console.log("DATA activeRehabPlan", this.activeRehabPlan);
+          this.getAssessmentTests();
+      });
+}
+
+    routeToAssessmentTest(index) {
+        console.log(index);
+        console.log(this.assessmentTests[index]);
+        localStorage.setItem("assessmentTest",this.assessmentTests[index]);
+        this.router.navigate(['/patient/assessment-test']);
+    }
+
+    getAssessmentTests() {
+        this.assessmentTests = [];
+        for(var i = 0; i < this.treatments.length; i++) {
+            if(this.treatments[i].activePlan != null && this.treatments[i].activePlan.assessmentTests != null && this.treatments[i].activePlan.assessmentTests.length > 0){
+                for(var j = 0; j < this.treatments[i].activePlan.assessmentTests.length; j++)  {
+                    this.assessmentTests.push(this.treatments[i].activePlan.assessmentTests[j]);
+                }
+            }
+        }
+        console.log(this.assessmentTests);
+    }
+
     setAllMessagesAsSeen() {
         //loop through messages array
         //do a put request with each _id

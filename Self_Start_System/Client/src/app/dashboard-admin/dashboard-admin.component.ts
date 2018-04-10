@@ -3,13 +3,14 @@ import { AuthenticationService} from "../authentication.service";
 import { FormService} from "../form.service";
 import { UserAccountListService } from '../user-account-list.service';
 import { Router} from "@angular/router";
+import { ManagePatientProfileService } from '../manage-patient-profile.service';
 
 
 @Component({
     selector: 'app-dashboard-admin',
     templateUrl: './dashboard-admin.component.html',
     styleUrls: ['./dashboard-admin.component.scss'],
-    providers:[AuthenticationService,FormService, UserAccountListService]
+    providers:[AuthenticationService,FormService, UserAccountListService, ManagePatientProfileService]
 })
 
 export class DashboardAdminComponent implements OnInit,OnDestroy {
@@ -25,6 +26,7 @@ export class DashboardAdminComponent implements OnInit,OnDestroy {
         private authService: AuthenticationService,
         private formService: FormService,
         private userAccountListService: UserAccountListService,
+        private managePatientProfileService: ManagePatientProfileService,
         private router: Router)
     { this.authService = authService; }
 
@@ -33,6 +35,7 @@ export class DashboardAdminComponent implements OnInit,OnDestroy {
         this.user = profile; console.log("subscription to auth service set profile returned: ", this.user);
         this.getAllForms();
         this.getAllPatientAccounts();
+        this.getAllPatientsWithoutPhysiotherapists();
       });
     }
 
@@ -56,6 +59,10 @@ export class DashboardAdminComponent implements OnInit,OnDestroy {
         //compare with treatments (nested for loop)
         //if patient is in an entry in treatments, continue
         //otherwise add to another array and show in the dashboard
+        this.managePatientProfileService.getPatientsWithoutTreatments().
+        subscribe( data2 => {
+            console.log("PATIENT WITHOUT", data2);
+        });
     }
 
     //Get all user patient accounts

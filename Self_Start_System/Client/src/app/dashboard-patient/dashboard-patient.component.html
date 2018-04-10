@@ -40,6 +40,11 @@
                     <span class="navbar-fill-remaining-space"></span>
                     <span matTooltip="Launch Assessment Test Module"><mat-icon routerLink="">launch</mat-icon></span>
                 </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let assessmentTest of assessmentTests">
+                        <mat-list-item (click)="routeToAssessmentTest();">{{assessmentTest.name || ""}} <span class="navbar-fill-remaining-space"></span><mat-icon >keyboard_arrow_right</mat-icon></mat-list-item>
+                   </mat-nav-list>
+                </mat-card>
             </mat-card>
         </div>
         <div class="col-md-6 col-padding-0">
@@ -49,6 +54,11 @@
                     <span class="navbar-fill-remaining-space"></span>
                     <span matTooltip="Complete Exercises"><mat-icon routerLink="/patient/rehabilitation-plans">launch</mat-icon></span>
                 </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let treatment of treatments; let index=i;">
+                        <mat-list-item (click)="routeToPlanDetails(index);">{{treatment.activePlan.name || ""}} <span class="navbar-fill-remaining-space"></span><mat-icon >keyboard_arrow_right</mat-icon></mat-list-item>
+                   </mat-nav-list>
+                </mat-card>
             </mat-card>
         </div>
     </div>
