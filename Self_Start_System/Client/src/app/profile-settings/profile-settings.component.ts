@@ -196,7 +196,7 @@ export class ProfileSettingsComponent implements OnInit {
       // this.toastr.success("Password has been reset to 'password'! Please log in again to change your password!");
 
       this.snackBar.open("Password has been reset to 'password'! Please log in again to change your password!", "", {
-        duration: 3000
+        duration: 9000
       });
       this.authService.logout();
       this.router.navigate(['/home']);
