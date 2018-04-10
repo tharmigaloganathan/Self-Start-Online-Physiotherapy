@@ -4,7 +4,7 @@ import { ExerciseService } from '../services/exercise.service';
 import { AssessmentTestService } from "../assessment-test.service";
 import { ViewEncapsulation } from '@angular/core';
 import {EditAssessmentTestDialogComponent} from "../edit-assessment-test-dialog/edit-assessment-test-dialog.component";
-import { MatDialog, MatDialogRef } from "@angular/material";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { AuthenticationService } from "../authentication.service";
 import { EditRecommendationDialogComponent } from "../edit-recommendation-dialog/edit-recommendation-dialog.component";
 import { RecommendationService } from "../recommendation.service";
@@ -14,7 +14,7 @@ import { FormService } from "../form.service";
 import { EditQuestionDialogComponent } from "../edit-question-dialog/edit-question-dialog.component";
 import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { UserAccountListService } from '../user-account-list.service';
-
+import { ConfirmDeleteDialogBoxComponent } from "../confirm-delete-dialog-box/confirm-delete-dialog-box.component";
 
 
 @Component({
@@ -454,20 +454,29 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   deleteAssessmentTest(assessmentTest){
-    for (let i = 0; i < this.rehabilitationplan.assessmentTests.length; i++){
-      if(this.rehabilitationplan.assessmentTests[i] == assessmentTest._id){
-        this.rehabilitationplan.assessmentTests.splice(i, 1);
+    let dialogRef = this.dialog.open(ConfirmDeleteDialogBoxComponent, {
+      width:'250px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        for (let i = 0; i < this.rehabilitationplan.assessmentTests.length; i++){
+          if(this.rehabilitationplan.assessmentTests[i] == assessmentTest._id){
+            this.rehabilitationplan.assessmentTests.splice(i, 1);
+          }
+        }
+        this.editRehabilitationPlan();
+        this.assessmentTestService.deleteAssessmentTest(assessmentTest).subscribe(
+          res => {
+            this.getAssessmentTests();
+          },
+          error => {
+            console.log(error);
+          }
+        )
       }
-    }
-    this.editRehabilitationPlan();
-    this.assessmentTestService.deleteAssessmentTest(assessmentTest).subscribe(
-      res => {
-        this.getAssessmentTests();
-      },
-      error => {
-        console.log(error);
-      }
-    )
+    });
   }
 
   openEditAssessmentTestDialog(assessmentTest, newTestFlag: boolean){
