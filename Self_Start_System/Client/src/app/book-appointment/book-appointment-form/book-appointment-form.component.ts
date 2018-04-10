@@ -24,7 +24,7 @@ export class BookAppointmentFormComponent implements OnInit {
   questionWithDateInput = 'What was the date of your injury?';
 
   // Temporary client variable for testing
-  patientProfileId = '5a9b3d11e8fb8bbac9887cdd';
+  patientProfileId;
 
   // View items
   startDate;
@@ -154,16 +154,17 @@ export class BookAppointmentFormComponent implements OnInit {
   populateTestResults() {
     let questionAnswerToSend = [];
     for(var i = 0; i<this.questions.length; i++) {
-      questionAnswerToSend.push({
-        question: this.questions[i].questionText,
-        answer: this.answers[i],
-        assessmentTest: null
-      });
+      if (this.answers[i])
+        questionAnswerToSend.push({
+          question: this.questions[i].questionText,
+          answer: this.answers[i],
+          assessmentTest: null
+        });
     }
 
     this.setFreeTimeService.completeIntakeForm(this.patientProfileId, questionAnswerToSend)
       .subscribe(result=>{
-        console.log(result);
+        console.log("After sending intake form", result);
         // Book the appointment after uploading form
         this.onClickBook();
         // this.testViewForm();
