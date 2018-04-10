@@ -19,7 +19,6 @@ export class AdminManageUserAccountsComponent implements OnInit {
 	router;
 	userAccountListService;
 	authenticationService;
-	loading = false;
 	isChanged = false;
 	showPlan = false;
 	user;
@@ -276,8 +275,8 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			data => {
 				this.user = data;
 				localStorage.setItem('selectedPatient', JSON.stringify(data));
-				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-				//this.age = this.age.toFixed(0) + " years";
+				var temp = /* (Date.parse(this.today) */ (Date.now() - Date.parse(this.user.DOB))/(60000 * 525600);
+				this.age = temp.toFixed(0);
 				console.log(this.user);
 				console.log("Patient profile" + JSON.stringify(this.user));
 			});
