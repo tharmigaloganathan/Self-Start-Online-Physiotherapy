@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, ViewContainerRef} from '@angular/core';
 import { PatientCompleteAssessmentTestService } from "../patient-complete-assessment-test.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { environment } from '../../environments/environment';
+import {ToastsManager} from "ng2-toastr";
+
+const URL = environment.apiURL + '/Photos';
 
 @Component({
   selector: 'app-patient-complete-assessment-test',
@@ -11,6 +16,8 @@ import { Router } from '@angular/router';
 })
 export class PatientCompleteAssessmentTestComponent implements OnInit {
 
+	isDataLoaded;
+	loading;
 	router;
 	assessmentTestService;
 	assessmentTest;
@@ -22,9 +29,20 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	rehabilitationPlan;
 	newAssessmentTest_id;
 
-  constructor(assessmentTestService: PatientCompleteAssessmentTestService, router: Router) {
+	//Brians image uploader
+	public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+	@Output() uploadedURL: EventEmitter<any>;
+
+  constructor(assessmentTestService: PatientCompleteAssessmentTestService,
+							router: Router,
+							public toastr : ToastsManager,
+              public vcr: ViewContainerRef) {
 		this.router = router;
 		this.assessmentTestService = assessmentTestService;
+		this.isDataLoaded = false;
+		this.loading = true;
+		this.uploadedURL = new EventEmitter<any>();
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
   ngOnInit() {
@@ -34,6 +52,26 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 		this.rehabilitationPlan = JSON.parse(localStorage.getItem('rehabPlan'));
 		//console.log(this.rehabilitationPlan);
 		this.getForm();
+
+		//Image Uploader from Brians Component
+		//override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
+		this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+		//overide the onCompleteItem property of the uploader so we are
+		//able to deal with the server response.
+		this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+			let responseObj = JSON.parse(response);
+			if (responseObj.success){
+				// Open toast to show success
+				this.toastr.success("Upload completed!","Success!");
+			} else {
+				// Open toast to show failure
+				this.toastr.error('Image upload failed', 'Failed!');
+			}
+			console.log("ImageUpload:uploaded:", item, status, responseObj);
+			console.log("ImageUpload:uploaded: response", response, responseObj.file);
+			this.uploadedURL.emit(responseObj);
+		};
+
 	}
 
 	// //Get the assessment test form
@@ -57,6 +95,8 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 		subscribe(
 	 			data => {
 	 				this.questions.push(data);
+					this.isDataLoaded = true;
+					this.loading = false;
 	 				console.log("This is what was returned for the question" + JSON.stringify(data));
 	 			},
 	 			error => {
@@ -79,29 +119,32 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 			dateCompleted: this.dateCompleted,
 	 		}
 	 		console.log("This is the data being sent for assessment test: " + JSON.stringify(data));
-			/*
-			this.assessmentTestService.completeAssessmentTest(data).
-	 		subscribe(
-	 			data => {
-	 				console.log("Update Assessment Test: " + JSON.stringify(data));
-	 				this.newAssessmentTest_id = data._id;
-	 				console.log("New assessment test id" + this.newAssessmentTest_id);
-	 				this.removeOldTest();
-	 			},
-	 			error => {
-	 				console.log("Error");
+			this.assessmentTestService.updateAssessmentTest(this.assessmentTest._id, data).
+			subscribe(
+				data => {
+					console.log("The rehab plan", this.rehabilitationPlan);
+					console.log("This was saved", data);
+					this.loading = true;
+					this.toastr.success("Assessment Test Completed!","Success!");
+					//	.then((toast: Toast) => {
+								setTimeout(() => {
+										//this.toastr.dismissToast(toast);
+										this.loading = false;
+								}, 1000);
+					//	});
+				},
+				error => {
+					console.log("Error");
+					this.loading = true;
+					this.toastr.error("Opps something went wrong!","Failure!");
+					//.then((toast: Toast) => {
+							setTimeout(() => {
+									//this.toastr.dismissToast(toast);
+									this.loading = false;
+							}, 1000);
+					//});
 	 			});
-				*/
-				this.assessmentTestService.updateAssessmentTest(this.assessmentTest._id, data).
-				subscribe(
-					data => {
-						console.log("This was saved", data);
-						
-					},
-					error => {
-						console.log("Error");
-					});
-	 	}
+			}
 
 	 	//Popultate the test results object
 	 	populateTestResults() {
@@ -111,7 +154,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 				answer: this.answers[i],
 	 				assessmentTest: this.assessmentTest._id
 	 			}
-	 			console.log("This is the data being sent: " + JSON.stringify(result));
+	 			console.log("This is the data being sent: ", result);
 	 			this.assessmentTestService.addTestResult(result).
 	 			subscribe(
 	 				data => {
@@ -162,4 +205,11 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 		this.updateRehabPlan();
 	 	}
 
+		//Function to get the file
+		onImageUpload(event, i){
+			console.log(event.file);
+			console.log(i);
+			console.log(this.answers);
+			this.answers[i] = environment.apiURLForUploadingPictures + event.file;
+		}
 }

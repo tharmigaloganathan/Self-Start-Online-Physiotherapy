@@ -182,6 +182,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	//Edit the selected rehab plan
 	editRehabPlan() {
 	localStorage.setItem('edit_rehabilitation_id', this.activeRehabPlan._id);
+	localStorage.setItem('treatment_id', this.activeTreatment._id);
 	this.router.navigate(['physio/rehabilitation-plans/edit-custom']);
 }
 
