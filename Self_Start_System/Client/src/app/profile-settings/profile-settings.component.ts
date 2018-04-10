@@ -5,6 +5,8 @@ import {CreateUserAccountService} from "../create-user-account.service";
 import {UserAccountListService} from "../user-account-list.service";
 import {MatSnackBar} from "@angular/material";
 import {Router} from "@angular/router";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 declare var require: any;
 const bcrypt = require('bcrypt-nodejs'); // A native JS bcrypt library for NodeJS
 
@@ -54,7 +56,10 @@ export class ProfileSettingsComponent implements OnInit {
               userAccountListService: UserAccountListService,
               private snackBar: MatSnackBar,
               public viewContainerRef :ViewContainerRef,
-              private router: Router) {
+              private router: Router,
+              public toastr: ToastsManager,
+              vcr: ViewContainerRef,) {
+    this.toastr.setRootViewContainerRef(vcr);
     this.authService = authService;
     this.createUserAccountService = createUserAccountService;
     this.userAccountListService = userAccountListService;
@@ -121,9 +126,11 @@ export class ProfileSettingsComponent implements OnInit {
         user => {
           this.user = user;
           console.log("This was returned for the patient" + JSON.stringify(user));
-          this.snackBar.open("Information updated sucessfully!", "", {
-            duration: 1500
-          });
+          this.toastr.success("Information Updated Successfully!");
+
+          // this.snackBar.open("Information updated sucessfully!", "", {
+          //   duration: 1500
+          // });
           this.isChanged = false;
         },
         error => {
@@ -156,9 +163,11 @@ export class ProfileSettingsComponent implements OnInit {
       user => {
         this.user = user;
         console.log("This was returned for the physiotherapist" + JSON.stringify(user));
-        this.snackBar.open("Information updated sucessfully!", "", {
-          duration: 1500
-        });
+        this.toastr.success("Information Updated Successfully!");
+        //
+        // this.snackBar.open("Information updated sucessfully!", "", {
+        //   duration: 1500
+        // });
         this.isChanged = false;
       },
       error => {
@@ -184,8 +193,10 @@ export class ProfileSettingsComponent implements OnInit {
     };
     console.log("in component-updateUserAccount: ", account);
     this.userAccountListService.updateUserPassword(this.account._id, account).subscribe( account => {
+      // this.toastr.success("Password has been reset to 'password'! Please log in again to change your password!");
+
       this.snackBar.open("Password has been reset to 'password'! Please log in again to change your password!", "", {
-        duration: 3000
+        duration: 9000
       });
       this.authService.logout();
       this.router.navigate(['/home']);

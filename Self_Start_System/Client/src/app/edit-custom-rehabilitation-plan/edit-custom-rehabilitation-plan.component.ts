@@ -119,7 +119,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     }
 
   ngOnInit() {
-
       let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
       this.selectedPatientName = selectedPatient.givenName + " " + selectedPatient.familyName;
       this.getPatientProfile();

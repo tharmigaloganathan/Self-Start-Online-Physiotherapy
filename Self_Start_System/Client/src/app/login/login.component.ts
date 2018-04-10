@@ -183,7 +183,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 break;
               }
             }
-           console.log('retrieved profile! ',this.retrievedProfile);
+           console.log('log in component, retrieved profile! ',this.retrievedProfile);
 
 
            if (this.retrievedProfile.patientProfile){
