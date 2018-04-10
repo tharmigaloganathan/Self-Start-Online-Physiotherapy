@@ -69,6 +69,9 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 		console.log(index);
 		this.selectedIndex = index;
 		this.activeTreatment = this.treatments[index];
+		var length = this.activeTreatment.rehabilitationPlan.length;
+		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length-1];
+		console.log("Active Rehab Plan", this.activeRehabPlan);
 }
 
 	//Populate Rehab Plan

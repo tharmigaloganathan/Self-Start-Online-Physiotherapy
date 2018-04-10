@@ -135,6 +135,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 				this.assessmentTestService.updateAssessmentTest(this.assessmentTest._id, data).
 				subscribe(
 					data => {
+						console.log("The rehab plan", this.rehabilitationPlan);
 						console.log("This was saved", data);
 						this.loading = true;
 							this.toastr.success("Assessment Test Completed!","Success!")
@@ -175,7 +176,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 						//Only update in after the last test result
 						console.log("Test results "+ this.testResults.length + "questions " + this.questions.length);
 						if(this.testResults.length  == this.questions.length) {
-							//this.updateAssessmentTest();
+							this.updateAssessmentTest();
 						}
 	 				},
 	 				error => {
