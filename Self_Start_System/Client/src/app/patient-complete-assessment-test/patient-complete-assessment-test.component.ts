@@ -119,43 +119,30 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 			dateCompleted: this.dateCompleted,
 	 		}
 	 		console.log("This is the data being sent for assessment test: " + JSON.stringify(data));
-			/*
-			this.assessmentTestService.completeAssessmentTest(data).
-	 		subscribe(
-	 			data => {
-	 				console.log("Update Assessment Test: " + JSON.stringify(data));
-	 				this.newAssessmentTest_id = data._id;
-	 				console.log("New assessment test id" + this.newAssessmentTest_id);
-	 				this.removeOldTest();
-	 			},
-	 			error => {
-	 				console.log("Error");
-	 			});
-				*/
-				this.assessmentTestService.updateAssessmentTest(this.assessmentTest._id, data).
-				subscribe(
-					data => {
-						console.log("The rehab plan", this.rehabilitationPlan);
-						console.log("This was saved", data);
-						this.loading = true;
-							this.toastr.success("Assessment Test Completed!","Success!")
-							.then((toast: Toast) => {
-									setTimeout(() => {
-											this.toastr.dismissToast(toast);
-											this.loading = false;
-									}, 1000);
-							});
-					},
-					error => {
-						console.log("Error");
-						this.loading = true;
-						this.toastr.error("Opps something went wrong!","Failure!")
+			this.assessmentTestService.updateAssessmentTest(this.assessmentTest._id, data).
+			subscribe(
+				data => {
+					console.log("The rehab plan", this.rehabilitationPlan);
+					console.log("This was saved", data);
+					this.loading = true;
+					this.toastr.success("Assessment Test Completed!","Success!")
 						.then((toast: Toast) => {
 								setTimeout(() => {
 										this.toastr.dismissToast(toast);
 										this.loading = false;
 								}, 1000);
 						});
+				},
+				error => {
+					console.log("Error");
+					this.loading = true;
+					this.toastr.error("Opps something went wrong!","Failure!")
+					.then((toast: Toast) => {
+							setTimeout(() => {
+									this.toastr.dismissToast(toast);
+									this.loading = false;
+							}, 1000);
+					});
 	 			}
 			}
 
@@ -188,7 +175,7 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 	 	//Submit assessment test
 	 	submit() {
 	 		this.populateTestResults();
-			//this.router.navigate(['/patient/rehabilitation-plans']);
+			this.router.navigate(['/patient/rehabilitation-plans']);
 	 	}
 
 	 	//Route back to the user rehab plans page
