@@ -12,6 +12,7 @@ import { ViewEncapsulation } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import * as exporting from 'highcharts/modules/exporting.src';
 import {SetFreeTimeService} from "../set-free-time.service";
+import { MessagesService } from '../messages.service';
 
 import * as moment from 'moment';
 
@@ -19,11 +20,12 @@ import * as moment from 'moment';
   selector: 'app-manage-patient-profile',
   templateUrl: './manage-patient-profile.component.html',
   styleUrls: ['./manage-patient-profile.component.scss'],
-  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService, SetFreeTimeService ],
+  providers: [UserAccountListService, AuthenticationService, ManagePatientProfileService, SetFreeTimeService, MessagesService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ManagePatientProfileComponent implements OnInit {
 
+	messagesService;
 	showPrintPage = false;
 	printPatientHistory = false;
 	printPatientTreatment = false;
@@ -61,6 +63,8 @@ export class ManagePatientProfileComponent implements OnInit {
 	graphData = [];
 	graphDataLabels = [];
 	printFormGender; //Temporary fix
+	message;
+	physio;
 
   // Images for front back and sides
   intakeFormImages;
@@ -102,6 +106,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
 							authenticationService: AuthenticationService,
+							messagesService: MessagesService
 							managePatientProfileService: ManagePatientProfileService,
               private rehabilitationPlanService: RehabilitationPlanService,
 							public setFreeTimeService: SetFreeTimeService,
@@ -110,6 +115,7 @@ export class ManagePatientProfileComponent implements OnInit {
               private dialog: MatDialog) {
 		this.router = router;
 		this.userAccountListService = userAccountListService;
+		this.messagesService = messagesService;
 		this.authenticationService = authenticationService;
 		this.managePatientProfileService = managePatientProfileService;
 		this.toastr.setRootViewContainerRef(vcr);
@@ -119,6 +125,7 @@ export class ManagePatientProfileComponent implements OnInit {
 
   ngOnInit() {
 		this.account = JSON.parse(localStorage.getItem('selectedPatient'));
+		this.getPhysioAccount();
 		this.populatePopulatePatient(this.account._id);
 		this.populateAppointments(this.account._id);
 		this.populateGenders();
@@ -132,6 +139,19 @@ export class ManagePatientProfileComponent implements OnInit {
       this.currentUser = data;
     });
 }
+
+	//Get the physio account
+	getPhysioAccount() {
+		this.authenticationService.getUserAccount().
+		subscribe(
+			user => {
+				this.physio = user;
+				console.log("Physio", this.physio);
+			},
+			error => {
+				console.log("Error");
+			});
+		}
 
 	//Go back to account list
 	viewAccountList() {
@@ -560,6 +580,26 @@ export class ManagePatientProfileComponent implements OnInit {
 					}]
 				}; // required
 				console.log("Chart ", this.chartOptions);
+}
+
+	//Send a message to the patient
+	sendMessage() {
+		console.log("The message is", this.message);
+		const newMessage = {
+			patientID: this.user._id,
+			physioID: this.physio._id,
+			message: this.message,
+			seenByPhysio: true,
+			seenByPatient: false,
+			sender: this.physio._id
+		}
+		console.log("The message", newMessage);
+		//this.user.messages.push(newMessage);
+		this.messagesService.postMessage(newMessage).subscribe(data =>
+		{
+				this.toastr.success("Message Sent!", "Success");
+				console.log(data);
+		});
 }
 
 }

@@ -17,8 +17,8 @@
 						<div class="col-md-2 col-md-offset-8">
 							<div class="icon-bar">
 								<mat-icon class="icon" matTooltip="Create Treatment" (click)="newTreatment()">assignment</mat-icon>
-								<mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon>
-								<mat-icon class="icon" matTooltip="Send Message">mail outline</mat-icon>
+								<!-- <mat-icon class="icon" matTooltip="Add Payment">payment</mat-icon> -->
+								<mat-icon class="icon" matTooltip="Send Message" data-toggle="modal" data-target="#sendMessageModal">mail outline</mat-icon>
 								<mat-icon class="icon" matTooltip="Print Summary" (click)="printHistory()">print</mat-icon>
 							</div>
 						</div>
@@ -170,7 +170,7 @@
 						<mat-tab label="Treatments">
 							<div *ngIf="treatments == 0 else treatmentList" class="empty">
 								<h6> {{ user?.givenName + " " + user?.familyName }} has no treatment history</h6>
-								<button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button>
+								<!-- <button mat-raised-button class="crete-treatment-button" (click)="newTreatment()">Create New Treatment</button> -->
 							</div>
 							<ng-template #treatmentList>
 								<div *ngIf="!showPlan else rehabPlan" class="animated fadeIn">
@@ -429,6 +429,41 @@
 	</div>
 </div>
 </div>
+</div>
+
+<!-- Send Message modal -->
+<div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog"
+		 aria-labelledby="sendMessageModal" aria-hidden="true">
+		 <div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center"><b>Send Message To:</b>{{+ " " + user?.givenName + " " + user?.familyName }}</h6>
+						</div>
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<div class="row">
+								<div class="col-12 form-container">
+									<mat-form-field>
+									  <textarea matInput [(ngModel)]="message" name="message" placeholder="Message..." matAutosizeMinRows="5"
+									            matAutosizeMaxRows="10"></textarea>
+									</mat-form-field>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 form-container">
+									<button mat-raised-button class="edit-button" data-dismiss="modal" (click)="sendMessage()">Send</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 </div>
 
 <!-- View exercise modal -->
