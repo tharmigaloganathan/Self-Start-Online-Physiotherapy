@@ -106,7 +106,7 @@ export class ManagePatientProfileComponent implements OnInit {
 	constructor(router: Router,
 							userAccountListService: UserAccountListService,
 							authenticationService: AuthenticationService,
-							messagesService: MessagesService
+							messagesService: MessagesService,
 							managePatientProfileService: ManagePatientProfileService,
               private rehabilitationPlanService: RehabilitationPlanService,
 							public setFreeTimeService: SetFreeTimeService,
@@ -334,11 +334,11 @@ export class ManagePatientProfileComponent implements OnInit {
           //console.log("TREATMENTS",this.treatments);
 					this.isDataLoaded = true;
 					this.loading = false;
-					//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-					//this.age = this.age[0] + " years";
+					var temp = /* (Date.parse(this.today) */ (Date.now() - Date.parse(this.user.DOB))/(60000 * 525600);
+					this.age = temp.toFixed(0);
+					//this.age = Date.parse(temp);
 					console.log("This is the patient", this.user);
 					this.getPrintFormGender();
-
 				});
 		 }
 
