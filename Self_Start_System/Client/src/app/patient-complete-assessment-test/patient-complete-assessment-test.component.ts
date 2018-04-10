@@ -125,25 +125,25 @@ export class PatientCompleteAssessmentTestComponent implements OnInit {
 					console.log("The rehab plan", this.rehabilitationPlan);
 					console.log("This was saved", data);
 					this.loading = true;
-					this.toastr.success("Assessment Test Completed!","Success!")
-						.then((toast: Toast) => {
+					this.toastr.success("Assessment Test Completed!","Success!");
+					//	.then((toast: Toast) => {
 								setTimeout(() => {
-										this.toastr.dismissToast(toast);
+										//this.toastr.dismissToast(toast);
 										this.loading = false;
 								}, 1000);
-						});
+					//	});
 				},
 				error => {
 					console.log("Error");
 					this.loading = true;
-					this.toastr.error("Opps something went wrong!","Failure!")
-					.then((toast: Toast) => {
+					this.toastr.error("Opps something went wrong!","Failure!");
+					//.then((toast: Toast) => {
 							setTimeout(() => {
-									this.toastr.dismissToast(toast);
+									//this.toastr.dismissToast(toast);
 									this.loading = false;
 							}, 1000);
-					});
-	 			}
+					//});
+	 			});
 			}
 
 	 	//Popultate the test results object
