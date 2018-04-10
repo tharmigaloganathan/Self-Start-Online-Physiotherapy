@@ -76,9 +76,6 @@ function update(id, updatedDocument){
         } else if (!updatedDocument.targetDate){
             error = "No targetDate detected.";
             reject(error);
-        } else if (!updatedDocument.multimediaURL){
-            error = "No multimediaURL detected.";
-            reject(error);
         } else {
             Exercises.findById(id, function (error, document) {
                 if (error) {
@@ -163,9 +160,6 @@ function add(object){
             reject(error);
         } else if (!document.targetDate){
             error = "No targetDate detected.";
-            reject(error);
-        } else if (!document.multimediaURL){
-            error = "No multimediaURL detected.";
             reject(error);
         } else {
             document.save(function (error) {
