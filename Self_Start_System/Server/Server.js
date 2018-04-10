@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 // connect to mongoDB using mongoose driver
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://SE3350Testing:ademidun@ds111648.mlab.com:11648/se3350testing', { useMongoClient: true });
+mongoose.connect('mongodb://localhost:27017/se3350testing', { useMongoClient: true });
 var goose = mongoose;
 var conn = mongoose.connection;
 
