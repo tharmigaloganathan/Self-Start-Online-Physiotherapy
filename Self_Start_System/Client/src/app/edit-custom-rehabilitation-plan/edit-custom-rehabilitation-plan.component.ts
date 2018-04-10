@@ -40,6 +40,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   newExercises = [];
   oldRehabPlan: any;
   selectedPatientName: string;
+  loading = false;
+  isDataAvailable: boolean = false;
 
   deleteList = [];
   editID = localStorage.getItem('edit_rehabilitation_id');
@@ -86,9 +88,37 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
               router: Router) {
     console.log("ID", this.editID);
     this.router = router;
+    this.loading = true;
+
   }
 
+  refresh(): void {
+      // if(this.pageLoaded == false) {
+      //     window.location.reload();
+      //     this.pageLoaded = true;
+      // }
+
+      // var refresh = localStorage.getItem('refresh');
+      //   console.log(refresh);
+      //   if (refresh===null){
+      //       window.location.reload();
+      //       localStorage.setItem('refresh', "1");
+      //   }
+
+      if(location.search.indexOf('r') < 0){
+
+        var hash = window.location.hash;
+        var loc = window.location.href.replace(hash, '');
+
+        loc += (loc.indexOf('?') < 0? '?' : '&') + 'r';
+        // setTimeout(function(){window.location.href = loc + hash;}, 2000);
+        window.location.href = loc + hash;
+      }
+
+    }
+
   ngOnInit() {
+
       let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
       this.selectedPatientName = selectedPatient.givenName + " " + selectedPatient.familyName;
       this.getPatientProfile();
@@ -209,11 +239,13 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   postRehabilitationPlan(){
+      console.log("ASSESSMENTS", this.rehabilitationplan.assessmentTests);
       this.data = {
         name: this.rehabilitationplan.name,
         authorName: this.rehabilitationplan.authorName,
         description: this.rehabilitationplan.description,
         goal: this.rehabilitationplan.goal,
+        assessmentTests: this.rehabilitationplan.assessmentTests,
         startDate: Date.now(),
         endDate: null,
         custom: true,
@@ -327,6 +359,9 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           console.log("Nick this is the rehab plan", data);
           this.getExercises();
           this.getAssessmentTests();
+          this.isDataAvailable = true;
+          this.loading = false;
+          this.refresh();
         });
         this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
           this.oldRehabPlan = data.rehabilitationPlan;
@@ -432,6 +467,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         console.log("Edit assessment test response", res),
         //Do something for when you edit a new assessment test
         this.getAssessmentTests();
+
       },
       error => {
         console.log(error);
@@ -536,6 +572,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         }
         this.getForm();
         this.selectedCompleteAssessmentTest = this.completeAssessmentTests[this.selectedCompleteIndex];
+        return true;
       }
     )
   }
