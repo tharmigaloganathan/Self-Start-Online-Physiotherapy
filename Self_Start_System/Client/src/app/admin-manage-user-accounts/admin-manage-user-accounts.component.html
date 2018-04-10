@@ -1,5 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
+<div *ngIf="isDataLoaded">
 <app-navbar-admin></app-navbar-admin>
 
 <div class="container">
@@ -83,7 +84,7 @@
 										</div>
 										<div class="col-2 form-container">
 											<mat-form-field>
-												<mat-select [(ngModel)]="user.province" name="user.province" placeholder="Province" [disabled]="!isChanged">
+												<mat-select [(ngModel)]="user.province._id" name="user.province" placeholder="Province" [disabled]="!isChanged">
 													 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province?.name}}</mat-option>
 													</mat-select>
 											</mat-form-field>
@@ -95,7 +96,7 @@
 										</div>
 										<div class="col-2 form-container">
 											<mat-form-field>
-												<mat-select [(ngModel)]="user.country" name="user.country" placeholder="Country" [disabled]="!isChanged">
+												<mat-select [(ngModel)]="user.country._id" name="user.country" placeholder="Country" [disabled]="!isChanged">
 													<mat-option *ngFor="let country of countries" [value]="country._id">{{country?.name}}</mat-option>
 													</mat-select>
 											</mat-form-field>
@@ -172,6 +173,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <!-- Reset Password Modal -->

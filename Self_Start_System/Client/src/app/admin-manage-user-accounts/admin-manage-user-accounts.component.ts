@@ -13,6 +13,9 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 	providers: []
 })
 export class AdminManageUserAccountsComponent implements OnInit {
+
+	isDataLoaded;
+	loading;
 	router;
 	userAccountListService;
 	authenticationService;
@@ -34,6 +37,8 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
 		this.toastr.setRootViewContainerRef(vcr);
+		this.isDataLoaded = true;
+		this.loading = true;
 }
 
   ngOnInit() {
@@ -287,12 +292,16 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			this.user =  JSON.parse(localStorage.getItem('selectedPhysio'));
 			//console.log("Patient " + this.isPatient);
 			console.log("Physio" + JSON.stringify(this.user));
+			this.isDataLoaded = true;
+			this.loading = false;
 		} else {
 			this.isPatient = true;
 			this.account = userAccount;
 			this.populatePopulatePatient(this.account.patientProfile);
 			//console.log("Patient " + this.isPatient);
 			console.log("Patient" + JSON.stringify(this.user));
+			this.isDataLoaded = true;
+			this.loading = false;
 		}
 	}
 
