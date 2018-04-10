@@ -31,6 +31,7 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	name;
 	activeTreatment;
 	activeRehabPlan;
+	selectedIndex;
 
   constructor(rehabilitationPlansService: PatientRehabilitationPlansService, router: Router, authenticationService: AuthenticationService) {
 		this.router = router;
@@ -53,16 +54,24 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 	this.rehabilitationPlansService.getPatientProfile(this.account.patientProfile).subscribe(
 		data => {
 			this.patientProfile = data;
+			console.log("This is the patient", this.patientProfile);
 			this.treatments = this.patientProfile.treatments;
-			this.activeTreatment = this.treatments[0];
-			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[0];
+			var treatmentsLength = this.treatments.length;
+			this.selectedIndex = treatmentsLength-1;
+			this.activeTreatment = this.treatments[treatmentsLength-1];
+			var length = this.activeTreatment.rehabilitationPlan.length;
+			this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length-1];
 		});
 }
 
 	//Show the treatment and rehab plan details
 	showTreatment(index) {
 		console.log(index);
+		this.selectedIndex = index;
 		this.activeTreatment = this.treatments[index];
+		var length = this.activeTreatment.rehabilitationPlan.length;
+		this.activeRehabPlan = this.activeTreatment.rehabilitationPlan[length-1];
+		console.log("Active Rehab Plan", this.activeRehabPlan);
 }
 
 	//Populate Rehab Plan
@@ -106,13 +115,25 @@ export class PatientRehabilitationPlansComponent implements OnInit {
 
 	viewAssessmentTests() {
 		this.assessmentTests = [];
-		this.assessmentTests = this.activeRehabPlan.assessmentTests;
+		this.checkAssessmentTests();
+		//this.assessmentTests = this.activeRehabPlan.assessmentTests;
 		console.log("Assessment Tests" + JSON.stringify(this.assessmentTests));
 		this.showAssessmentTests = 1;
 		this.showDetails = 0;
 		this.showExercises = 0;
 		this.viewExerciseDetails = 0;
 	}
+
+	//Only include assesment test that have not been Completed
+	checkAssessmentTests() {
+		for(var i=0; i<this.activeRehabPlan.assessmentTests.length; i++) {
+			//console.log("Time", this.activeRehabPlan.assessmentTests[i].openDate.parse());
+			//console.log("Now", Date.now());
+			if(this.activeRehabPlan.assessmentTests[i].dateCompleted == null /* && this.activeRehabPlan.assessmentTests[i].openDate <= Date.now() */) {
+				this.assessmentTests.push(this.activeRehabPlan.assessmentTests[i]);
+			}
+		}
+}
 
 	//Get selected rehab plan data
 	getExercises() {
