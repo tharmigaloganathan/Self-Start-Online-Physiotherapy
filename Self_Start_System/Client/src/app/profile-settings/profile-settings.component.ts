@@ -43,6 +43,11 @@ export class ProfileSettingsComponent implements OnInit {
   isPatient;
   isPhysio;
   accountRetrieved = false;
+
+  currentGender;
+  currentCountry;
+  currentProvince;
+
   constructor(private editProfileService: EditProfileService,
               authService: AuthenticationService,
               createUserAccountService: CreateUserAccountService,
@@ -67,9 +72,12 @@ export class ProfileSettingsComponent implements OnInit {
         this.user = profile; console.log("subscription to auth service setProfile returned: ", this.user);
         this.originalUser = this.user;
         this.profileType = this.authService.getActiveProfileType();
-        if(type = "patient") {
+
+        if(type == "patient") {
+          this.currentCountry = this.user.country;
+          this.currentGender = this.user.gender;
+          this.currentProvince = this.user.province;
           this.populateCountries();
-          console.log("current country is: ", this.user.country);
           this.populateProvinces(this.user.country._id);
           this.populateGenders();
         }

@@ -93,40 +93,12 @@
                                             <hr>
                                             <div class="row">
 
-                                                <!-- <mat-list> -->
-                                                    <!-- <mat-list-item *ngFor="let exercise of myExercises; let i = index" [attr.data-index]="i" class="treatment" (click)="setActiveRehabPlan(i)" [class.highlight]="i === selectedRow">
-                                                        <div class="col-12">
-                                                            {{ exercise.name }}
-                                                        </div> -->
-
                                                         <ul class="list-group list-group-exercise" dnd-sortable-container [sortableData]="myExercises">
 
                                                             <li *ngFor="let exercise of myExercises; let i = index"  (click)="openExerciseDetails(i)" class="list-group-item" [class.highlight]="i === selectedRow" dnd-sortable [sortableIndex]="i">
                                                                 <h6>{{exercise.name}}</h6>
                                                             </li>
                                                         </ul>
-                                                        <!-- <div class="col-4">
-                                                            End: {{ plan?.endDate | date : "dd.MM.y" }}
-                                                        </div> -->
-                                                        <!-- <mat-divider></mat-divider> -->
-                                                    <!-- </mat-list-item> -->
-                                                <!-- </mat-list> -->
-
-                                                <!-- <div class="col-4 form-container">
-                                                    <mat-form-field>
-                                                        <input matInput placeholder="Assigned" [ngModel]="activeTreatment.dateAssign | date : 'dd.MM.y'"name="activeTreatment.dateAssign" readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4 form-container">
-                                                    <mat-form-field>
-                                                        <input matInput placeholder="Started" [ngModel]="activeTreatment.dateStart | date : 'dd.MM.y'" name="activeTreatment.dateStart" readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4 form-container">
-                                                    <mat-form-field>
-                                                        <input matInput placeholder="Active" [ngModel]="activeTreatment.active" name="activeTreatment.active" readonly>
-                                                    </mat-form-field>
-                                                </div> -->
                                             </div>
                                         </div>
                                         <!-- Rehab plan history -->
@@ -202,41 +174,6 @@
                                         </div>
                                     </div>
                                 </form>
-                                <!-- </form> -->
-                        <!-- <br />
-                        <h1 class="subtitle">
-                            <b>Exercises</b>
-                        </h1>
-                        <br />
-                        <div class="row">
-                            <div class="col-6" align="center">
-                                <div class="card exercise-card">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Available Exercises</h3>
-                                        <p>Drag an exercise to the other side to add it to the plan.</p>
-                                        <ul class="list-group list-group-exercise" dnd-sortable-container [sortableData]="allExercises">
-                                            <li *ngFor="let exercise of allExercises; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-                                                <h6>{{exercise.name}}</h6>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6" align="center">
-                                <div class="card exercise-card">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Exercises in this Plan </h3>
-                                        <p>Drag to re-order or remove exercises from the rehabilitation plan.</p>
-                                        <ul class="list-group list-group-exercise" dnd-sortable-container [sortableData]="myExercises">
-                                            <li *ngFor="let exercise of myExercises; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
-                                                <h6>{{exercise.name}}</h6>
-                                                <button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditExerciseDialog(exercise)">Edit</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </mat-tab>
                 <mat-tab label="Assigned Assessments">
@@ -244,7 +181,7 @@
                     <div class="row">
                       <div class="col-4 form-container border-right">
 
-                        <div class="row">
+                        <div class="row" style="padding-left: 10%">
                           <h4>Assigned Assessments</h4>
                           <button mat-raised-button class="yellowButton" (click)="createAssessmentTest()" style="float: middle">Create New Assessment Test</button>
                         </div>
@@ -321,14 +258,14 @@
                         </div>
                         <hr>
                         <div class="row" *ngIf="completeAssessmentTests.length > 0">
-                          <mat-list-item class="item" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >
+                          <mat-list-item class="completedItem" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >
                             <h6>{{test.name}}</h6>
                             <p>Date Completed: {{test.dateCompleted | date:'shortDate'}}</p>
                           </mat-list-item>
                         </div>
                       </div>
 
-                      <div class="col-8 form-container" *ngIf="completeAssessmentTests.length > 0">
+                      <div class="col-8" *ngIf="completeAssessmentTests.length > 0">
                         <!-- Row 1: Test Results -->
                         <div class="row">
                           <div class="col-12 form-container">
@@ -337,7 +274,8 @@
                             <ul class="list-group-ans">
                               <li *ngFor="let result of allResults" class="list-group-item">
                                 <p>Question: {{result.question}}</p>
-                                <p>Answer: {{result.answer}}</p>
+                                <div *ngIf="!result.answer.includes('http')"> Answer: {{result.answer}} </div>
+                                <p *ngIf="result.answer.includes('http')" >Answer: <img src="{{result.answer}}"> </p>
                               </li>
                             </ul>
                           </div>
@@ -361,126 +299,6 @@
                         </div>
                       </div>
                     </div>
-
-
-
-                  <!--<div class="container top">-->
-                      <!--<div class="row">-->
-                        <!--<div class="col-12">-->
-                          <!--<mat-card style="height: auto; width: auto;">-->
-                            <!--<h2>Completed Tests</h2>-->
-                            <!--<hr>-->
-                            <!--<div class="row" *ngIf="completeAssessmentTests.length < 1">-->
-                              <!--<h6>There are no completed assessment tests available to view.</h6>-->
-                            <!--</div>-->
-                            <!--<div class="row" *ngIf="completeAssessmentTests.length > 0">-->
-                              <!--<div class="col-md-3 border-right" style="padding: 0%;">-->
-                                <!--<mat-list class="test-list">-->
-                                  <!--<h5>Tests</h5>-->
-                                  <!--<mat-divider></mat-divider>-->
-                                  <!--<mat-list-item class="item" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >-->
-                                    <!--<h6>{{test.name}}</h6>-->
-                                    <!--<p>Date Completed: {{test.dateCompleted | date:'shortDate'}}</p>-->
-                                  <!--</mat-list-item>-->
-                                  <!--<mat-divider></mat-divider>-->
-                                <!--</mat-list>-->
-                              <!--</div>-->
-                              <!--<div class="col-md-9 col-md-offset-3">-->
-                                <!--&lt;!&ndash; Row 1: Test Results &ndash;&gt;-->
-                                <!--<div class="row">-->
-                                  <!--<div class="col-12 form-container">-->
-                                    <!--<h6>Test Results</h6>-->
-                                    <!--<ul class="list-group-ans">-->
-                                      <!--<li *ngFor="let result of allResults" class="list-group-item">-->
-                                        <!--<p>Question: {{result.question}}</p>-->
-                                        <!--<p>Answer: {{result.answer}}</p>-->
-                                      <!--</li>-->
-                                    <!--</ul>-->
-                                  <!--</div>-->
-                                <!--</div>-->
-                                <!--<mat-divider></mat-divider>-->
-                                <!--<br>-->
-                                <!--&lt;!&ndash; Row 2: Recommendation &ndash;&gt;-->
-                                <!--<div class="row">-->
-                                  <!--<div class="col-12 form-container">-->
-                                    <!--<h6>Recommendation</h6>-->
-                                    <!--<div class="row" *ngIf="completeAssessmentTests[selectedCompleteIndex].recommendation == null">-->
-                                      <!--<h6>Please add a recommendation.</h6>-->
-                                      <!--<button mat-raised-button class="yellowButton" (click)="createRecommendation()" style="float: right">Create Recommendation</button>-->
-                                    <!--</div>-->
-                                    <!--<div class="row" *ngIf="completeAssessmentTests[  selectedCompleteIndex].recommendation != null">-->
-                                      <!--<mat-form-field style="width: 100%;">-->
-                                        <!--<input matInput placeholder="Decision Description" [(ngModel)]="selectedAssessmentRecommendation.description" readonly>-->
-                                      <!--</mat-form-field>-->
-                                      <!--<h6>Evaluation: {{selectedAssessmentRecommendation.evaluation}}</h6>-->
-                                      <!--<button mat-raised-button class="yellowButton" (click)="openEditRecommendationDialog(selectedAssessmentRecommendation, false)" style="float: right">Edit Recommendation</button>-->
-                                    <!--</div>-->
-                                  <!--</div>-->
-                                <!--</div>-->
-                              <!--</div>-->
-                            <!--</div>-->
-                          <!--</mat-card>-->
-                        <!--</div>-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--<div class="container">-->
-                    <!--<div class="row">-->
-                      <!--<div class="col-4" >-->
-                        <!--<div class="card">-->
-                          <!--<p *ngIf="completeAssessmentTests.length == 0">There are no tests created for this Rehabilitation Plan.</p>-->
-                          <!--<ul class="list-group" >-->
-                            <!--<li *ngFor="let test of completeAssessmentTests" class="selectedTest list-group-item" (click)="selectCompleteAssessmentTest(test)">-->
-                              <!--<p *ngIf="test == selectedCompleteAssessmentTest">VIEWING</p>-->
-                              <!--<h5>{{test.name}}</h5>-->
-                              <!--<p>Date Completed: {{test.dateCompleted | date:'fullDate'}}</p>-->
-                            <!--</li>-->
-                          <!--</ul>-->
-                        <!--</div>-->
-                      <!--</div>-->
-                      <!--<div class="col-8">-->
-                        <!--<div class="row">-->
-                          <!--<div class="col-12">-->
-                            <!--<div class="card">-->
-                              <!--<h1 class="subtitle">-->
-                              <!--<b>Test Results</b>-->
-                              <!--</h1>-->
-                              <!--<br>-->
-                              <!--<div class="">-->
-                                <!--<p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view the responses.</p>-->
-                                <!--<ul class="list-group-ans">-->
-                                  <!--<li *ngFor="let result of allResults" class="list-group-item">-->
-                                    <!--<p>Question: {{result.question}}</p>-->
-                                    <!--<p>Answer: {{result.answer}}</p>-->
-                                  <!--</li>-->
-                                <!--</ul>-->
-                              <!--</div>-->
-                            <!--</div>-->
-                          <!--</div>-->
-                        <!--</div>-->
-                        <!--<br>-->
-                        <!--<div class="row">-->
-                          <!--<div class="col-12">-->
-                            <!--<div class="card">-->
-                              <!--<h1 class="subtitle">-->
-                                <!--<b>Recommendations</b>-->
-                                <!--<br>-->
-                                <!--<button *ngIf="selectedCompleteAssessmentTest" mat-raised-button class="yellowButton" (click)="createRecommendation()">Add New Recommendation</button>-->
-                              <!--</h1>-->
-                              <!--<br>-->
-                              <!--<p *ngIf="!selectedCompleteAssessmentTest">Select an Assessment Test to view or add a recommendation.</p>-->
-                              <!--<ul class="list-group-reco">-->
-                                <!--<li *ngFor="let recommendation of selectedAssessmentRecommendations" class="selectedRecommendation list-group-item" (click)="openEditRecommendationDialog(recommendation)">-->
-                                  <!--<p>{{recommendation.decision}}</p>-->
-                                  <!--<p>Last Edited: {{recommendation.timeStamp | date:'fullDate'}}</p>-->
-                                <!--</li>-->
-                              <!--</ul>-->
-                            <!--</div>-->
-                          <!--</div>-->
-                        <!--</div>-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-
                 </mat-tab>
             </mat-tab-group>
         </mat-card>

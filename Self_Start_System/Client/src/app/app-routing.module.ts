@@ -50,6 +50,7 @@ import {AdminGuard} from "./guards/admin.guard";
 import {PatientGuard} from "./guards/patient.guard";
 import {PhysioGuard} from "./guards/physio.guard";
 import {ProfileSettingsComponent} from "./profile-settings/profile-settings.component";
+import { PatientResourcesComponent } from "./patient-resources/patient-resources.component";
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
 
@@ -191,6 +192,11 @@ const appRoutes: Routes = [
   {
     path: 'patient/book-appointment/form',
     component: BookAppointmentFormComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/resources',
+    component: PatientResourcesComponent,
     canActivate: [PatientGuard]
   },
   {

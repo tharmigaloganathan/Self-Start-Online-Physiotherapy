@@ -20,6 +20,12 @@
   padding-bottom: 5%;
 }
 
+.completedItem {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  height: 75px;
+}
+
 .item:hover {
   background-color: #D3D3D3;
 }
@@ -280,6 +286,7 @@ mat-form-field.selectexercise {
   padding: 0px !important;
   height: 30px !important;
 }
+
 
 mat-list-item{
   width: 100%;
