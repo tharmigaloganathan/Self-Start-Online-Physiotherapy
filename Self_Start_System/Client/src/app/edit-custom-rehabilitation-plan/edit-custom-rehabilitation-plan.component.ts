@@ -28,6 +28,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   showSidebar = true;
   data: any;
   treatment: any;
+  treatmentInfo: any = {rehabilitationPlan:[]};
   newTreatment = false;
 
   rehabilitationplans = {rehabilitationPlan:[]}; //Temporary fix
@@ -122,7 +123,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
       this.selectedPatientName = selectedPatient.givenName + " " + selectedPatient.familyName;
       this.getPatientProfile();
-    this.getRehabilitationPlans();
+
     this.authService.getProfile().subscribe(
       res => {
         this.user = res;
@@ -335,15 +336,121 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
   }
 
+  postForNewTreatment() {
+      console.log("ASSESSMENTS", this.rehabilitationplan.assessmentTests);
+      this.data = {
+        name: this.rehabilitationplan.name,
+        authorName: this.rehabilitationplan.authorName,
+        description: this.rehabilitationplan.description,
+        goal: this.rehabilitationplan.goal,
+        assessmentTests: this.rehabilitationplan.assessmentTests,
+        startDate: Date.now(),
+        endDate: null,
+        custom: true,
+        treatments: [this.treatment._id],
+        timeFrameToComplete: this.rehabilitationplan.timeFrameToComplete,
+        exerciseOrders: []
+      };
+
+      this.rehabilitationplanService.addRehabilitationPlan(this.data).subscribe(res =>
+        {
+          console.log("RESULT",res);
+          console.log("RESULT",res.rehabilitationPlan);
+          let rehabPlanID = res.rehabilitationPlan._id;
+          let rehabPlan = res.rehabilitationPlan;
+          this.managePatientProfileService.getTreatments().
+          subscribe( data2 => {
+              console.log("all treatments", data2);
+              for(var i = 0; i < data2.treatment.length; i++) {
+                  if(data2.treatment[i]._id == this.treatment) {
+                      this.treatmentInfo = data2.treatment[i];
+                      this.treatmentInfo.rehabilitationPlan = [];
+                      this.treatmentInfo.rehabilitationPlan.push(res.rehabilitationPlan);
+                      this.managePatientProfileService.updateTreatment(this.treatmentInfo, this.treatment).
+                      subscribe( data => {
+                          console.log("new treatment update", data);
+                      });
+                  }
+              }
+          });
+
+          let completedRequests = 0;
+          for(var i = 0; i < this.myExercises.length; i++) { //create new copy of every exercise, add this new rehab plan as a FK
+              this.myExercises[i] = {
+                  name: this.myExercises[i].name,
+          		description: this.myExercises[i].description,
+          		objectives: this.myExercises[i].objectives,
+          		authorName: this.myExercises[i].authorName,
+          		actionSteps: this.myExercises[i].actionSteps,
+          		location: this.myExercises[i].location,
+          		standard: false,
+          		frequency: this.myExercises[i].frequency,
+          		duration: this.myExercises[i].duration,
+          		targetDate: this.myExercises[i].targetDate,
+          		multimediaURL: this.myExercises[i].multimediaURL,
+          		rehabilitationPlan: rehabPlan
+              }
+              let exercise: any;
+              this.exerciseService.registerExercise(this.myExercises[i]).subscribe(resExercise =>
+              {
+                  console.log("new exercise",resExercise);
+                  exercise = resExercise;
+                  exercise = exercise.exercise;
+                  this.data.exerciseOrders.push(exercise); //pushes new exercise id as it is created
+                  completedRequests++;
+                  console.log("I",i,completedRequests);
+                  if(this.myExercises.length == completedRequests) { //in last loop, push all exercses to the rehabplan
+                      console.log("REACHED LAST LOOP");
+                      this.rehabilitationplanService.updateRehabilitationPlan(this.data, rehabPlanID).subscribe(res =>
+                      {
+                          console.log("RESULT",res);
+                      });
+                  }
+              });
+          }
+        }
+      );
+
+      //Save all the complete AssessmentTests on the save button
+      for(var i = 0; i < this.completeAssessmentTests.length; i++){
+        this.assessmentTestService.editAssessmentTest(this.completeAssessmentTests[i]).subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      }
+
+      //Save all the changes to the incomplete AssessmentTests too
+      for (var i = 0; i < this.incompleteAssessmentTests.length; i++){
+        this.assessmentTestService.editAssessmentTest(this.incompleteAssessmentTests[i]).subscribe(
+          res => {
+            console.log(res);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      }
+
+      let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+      this.router.navigate(['/physio/patients/'+ selectedPatient.givenName +'-'+selectedPatient.familyName]);
+  }
+
   saveChanges() {
       let myExercises = JSON.stringify(this.myExercises);
       let oldExercises = JSON.stringify(this.oldExercises);
       localStorage.removeItem('new_treatment');
+      localStorage.removeItem('treatment_id');
       console.log("old vs new exercises", myExercises, oldExercises, myExercises == oldExercises );
       console.log("newTreatment", this.newTreatment);
-      if(myExercises == oldExercises) {
+      if(this.newTreatment == false && myExercises == oldExercises) {
           console.log("putting the rehab plan")
           this.putRehabilitationPlan();
+      } else if (this.newTreatment == true){
+          this.postForNewTreatment();
       } else {
           console.log("posting the rehab plan");
           this.postRehabilitationPlan();
@@ -352,6 +459,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
 
   //gets all rehab plan information and extracts info for this specific rehab plan
   getRehabilitationPlans(){
+      console.log("update on data",this.rehabilitationplan, this.newTreatment);
     if(this.newTreatment != true) {
         console.log("key:", localStorage.getItem('edit_rehabilitation_id'));
         this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
@@ -362,10 +470,17 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           this.isDataAvailable = true;
           this.loading = false;
           this.refresh();
+
         });
         this.rehabilitationplanService.getOneRehabilitationPlan(localStorage.getItem('edit_rehabilitation_id')).subscribe( data => {
           this.oldRehabPlan = data.rehabilitationPlan;
         });
+    } else {
+        this.getExercises();
+        this.getAssessmentTests();
+        this.isDataAvailable = true;
+        this.loading = false;
+        this.refresh();
     }
   }
 
@@ -419,14 +534,17 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
       this.userAccountListService.getPatientProfile(id).subscribe(
           data => {
               console.log("data", data);
-              // if(localStorage.getItem('treatment_id') != null) {
-              //     this.treatment = localStorage.getItem('treatment_id');
-              // } else {
+              if(localStorage.getItem('treatment_id') != null) {
+                  this.treatment = localStorage.getItem('treatment_id');
+                  if(localStorage.getItem('new_treatment') != null) {
+                      this.newTreatment = true;
+                  }
+
+              } else {
                   this.treatment = data.treatments[0];
-              // }
-              if(localStorage.getItem('new_treatment') != null) {
-                  this.newTreatment = true;
               }
+              this.getRehabilitationPlans();
+
               console.log("TREATMENT",this.treatment);
           });
   }
