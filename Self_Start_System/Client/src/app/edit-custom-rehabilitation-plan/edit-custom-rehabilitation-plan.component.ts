@@ -40,11 +40,8 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   newExercises = [];
   oldRehabPlan: any;
   selectedPatientName: string;
-<<<<<<< HEAD
-=======
   loading = false;
   isDataAvailable: boolean = false;
->>>>>>> 1845af1f8048bbadf79c8235d4cb616c1bc22ab0
 
   deleteList = [];
   editID = localStorage.getItem('edit_rehabilitation_id');
@@ -121,10 +118,6 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
     }
 
   ngOnInit() {
-<<<<<<< HEAD
-=======
-
->>>>>>> 1845af1f8048bbadf79c8235d4cb616c1bc22ab0
       let selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
       this.selectedPatientName = selectedPatient.givenName + " " + selectedPatient.familyName;
       this.getPatientProfile();
