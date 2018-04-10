@@ -239,11 +239,13 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   }
 
   postRehabilitationPlan(){
+      console.log("ASSESSMENTS", this.rehabilitationplan.assessmentTests);
       this.data = {
         name: this.rehabilitationplan.name,
         authorName: this.rehabilitationplan.authorName,
         description: this.rehabilitationplan.description,
         goal: this.rehabilitationplan.goal,
+        assessmentTests: this.rehabilitationplan.assessmentTests,
         startDate: Date.now(),
         endDate: null,
         custom: true,
