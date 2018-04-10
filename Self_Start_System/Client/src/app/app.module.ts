@@ -127,6 +127,7 @@ import { RehabilitationPlanService} from "./rehabilitation-plan.service";
 import { HomePageBelieveComponent } from './home-page-believe/home-page-believe.component';
 import { HomePageHowItWorksComponent } from './home-page-how-it-works/home-page-how-it-works.component';
 import { HomePageServicesComponent } from './home-page-services/home-page-services.component';
+import { PatientResourcesComponent } from './patient-resources/patient-resources.component';
 
 
 @NgModule({
@@ -185,7 +186,8 @@ import { HomePageServicesComponent } from './home-page-services/home-page-servic
 		HomePageAboutComponent,
 		HomePageBelieveComponent,
 		HomePageHowItWorksComponent,
-		HomePageServicesComponent
+		HomePageServicesComponent,
+		PatientResourcesComponent
   ],
   imports: [
     HttpModule,
