@@ -41,7 +41,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
   newExercises = [];
   oldRehabPlan: any;
   selectedPatientName: string;
-  loading = false;
+  loading = true;
   isDataAvailable: boolean = false;
 
   deleteList = [];
@@ -247,6 +247,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         goal: this.rehabilitationplan.goal,
         assessmentTests: this.rehabilitationplan.assessmentTests,
         startDate: Date.now(),
+        treatments: this.rehabilitationplan.treatments,
         endDate: null,
         custom: true,
         timeFrameToComplete: this.rehabilitationplan.timeFrameToComplete,
@@ -265,10 +266,19 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
           console.log("RESULT",res);
           let rehabPlanID = res.rehabilitationPlan._id;
           let rehabPlan = res.rehabilitationPlan;
-          this.treatment.rehabilitationPlan.push(rehabPlan);
-          this.managePatientProfileService.updateTreatment(this.treatment, this.treatment._id).
-          subscribe( data => {
-              console.log("new treatment update", data);
+          this.managePatientProfileService.getTreatments().
+          subscribe( data2 => {
+              console.log("all treatments", data2);
+              for(var i = 0; i < data2.treatment.length; i++) {
+                  if(data2.treatment[i]._id == this.treatment) {
+                      this.treatmentInfo = data2.treatment[i];
+                      this.treatmentInfo.rehabilitationPlan.push(res.rehabilitationPlan);
+                      this.managePatientProfileService.updateTreatment(this.treatmentInfo, this.treatment).
+                      subscribe( data => {
+                          console.log("new treatment update", data);
+                      });
+                  }
+              }
           });
           let completedRequests = 0;
           for(var i = 0; i < this.myExercises.length; i++) { //create new copy of every exercise, add this new rehab plan as a FK
@@ -346,7 +356,7 @@ export class EditCustomRehabilitationPlanComponent implements OnInit {
         startDate: Date.now(),
         endDate: null,
         custom: true,
-        treatments: [this.treatment._id],
+        treatments: [this.treatment],
         timeFrameToComplete: this.rehabilitationplan.timeFrameToComplete,
         exerciseOrders: []
       };
