@@ -1,5 +1,6 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
 
+<div *ngIf="isDataLoaded">
 <app-navbar-admin></app-navbar-admin>
 
 <div class="container">
@@ -89,4 +90,5 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
