@@ -1,6 +1,8 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
 <app-navbar-physio></app-navbar-physio>
 
-<div class="container">
+<div class="container" *ngIf="isDataAvailable">
     <div class="card-container">
         <mat-card>
             <div (click)="backToPatientProfile();" class="back-to-profile">
