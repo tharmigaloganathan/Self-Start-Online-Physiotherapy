@@ -3,17 +3,19 @@ import { ManagePatientProfileService } from '../manage-patient-profile.service';
 import { UserAccountListService } from '../user-account-list.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
   selector: 'app-physio-patient-list',
   templateUrl: './physio-patient-list.component.html',
   styleUrls: ['./physio-patient-list.component.scss'],
-	providers: [ManagePatientProfileService, UserAccountListService],
+	providers: [ManagePatientProfileService, UserAccountListService, AuthenticationService],
 })
 export class PhysioPatientListComponent implements OnInit {
 
 	isDataLoaded;
 	userAccountListService;
+	authenticationService
 	router;
 	patients = [];
 	myPatients = [];
@@ -24,15 +26,20 @@ export class PhysioPatientListComponent implements OnInit {
 	myPatientsDataSource;
 	loading = false;
 	activeUser;
+	physio;
 
-	constructor(userAccountListService: UserAccountListService, router: Router) {
+	constructor(userAccountListService: UserAccountListService, router: Router, authenticationService: AuthenticationService) {
 		this.userAccountListService = userAccountListService;
+		this.authenticationService = authenticationService;
 		this.router = router;
 		this.isDataLoaded = false;
 		this.loading = true;
 	}
 
   ngOnInit() {
+		//this.physio = this.authenticationService.getActiveProfile();
+		//console.log("Physio", this.physio);
+		this.getPhysioAccount();
 		this.getPatientAccounts();
 		this.isMyPatient = 0;
   }
@@ -42,6 +49,20 @@ export class PhysioPatientListComponent implements OnInit {
 		this.isMyPatient = type;
 		console.log(this.isMyPatient);
 	}
+
+	//Get the physio account
+	getPhysioAccount() {
+		this.authenticationService.getUserAccount().
+		subscribe(
+			user => {
+				this.physio = user;
+				this.getMyPatients();
+				console.log("Physio", this.physio);
+			},
+			error => {
+				console.log("Error");
+			});
+		}
 
 	//Get all user patient accounts
 	getPatientAccounts() {
@@ -60,12 +81,17 @@ export class PhysioPatientListComponent implements OnInit {
 	}
 
 	//Gets all the physios patients
-/*
 	getMyPatients() {
-		for(var i=0; i<this.patients.length; i++) {
-		}
+	this.userAccountListService.getPatientsByPhysio(this.physio._id).
+		subscribe(
+			user => {
+				this.myPatients = user;
+				console.log("Physio Patients", this.myPatients);
+			},
+			error => {
+				console.log("Error");
+			});
 }
-*/
 
 	//Setup the datasource for the patient
 	setUpDataSource = patients => {
