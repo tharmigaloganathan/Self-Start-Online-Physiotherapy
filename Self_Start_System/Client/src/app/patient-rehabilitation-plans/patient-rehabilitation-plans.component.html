@@ -14,10 +14,10 @@
 						<mat-list class="plan-list">
 					<mat-divider></mat-divider>
 							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)" [class.highlight]="i === selectedIndex">
-								<div class="col-6 form-container">
-									Start: {{ treatment?.dateStart | date : "dd.MM.y" }}
+								<div class="col-6">
+									<b>Start:</b> {{ treatment?.dateStart | date : "dd.MM.y" }}
 								</div>
-								<div class="col-6 form-container">
+								<div class="col-6">
 									<div *ngIf="activeTreatment.dateFinished == null; showEndDate">End: In Progress</div>
 									<ng-template #showEndDate>
 										<b>End:</b> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
@@ -37,10 +37,10 @@
 								<hr>
 								<div class="row">
 									<div class="col-6 form-container">
-										<b>Started:</b> {{ activeTreatment?.dateStart | date : "dd.MM.y" }}
+										<h6><b>Started:</b></h6> {{ activeTreatment?.dateStart | date : "dd.MM.y" }}
 									</div>
 									<div class="col-6 form-container">
-										<b>Finished:</b> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
+										<h6><b>Finished:</b></h6> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
 										<div *ngIf="activeTreatment?.dateFinished == null">In Progress</div>
 									</div>
 								</div>
@@ -50,27 +50,27 @@
 								<hr>
 								<div class="row">
 									<div class="col-6 form-container">
-										<b>Name</b> {{ activeRehabPlan?.name }}
+										<h6><b>Name</b></h6> {{ activeRehabPlan?.name }}
 										<hr>
 									</div>
 									<div class="col-6 form-container">
-										<b>Author</b> {{ activeRehabPlan?.authorName }}
+										<h6><b>Author</b></h6> {{ activeRehabPlan?.authorName }}
 										<hr>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col form-container">
-										<b>Description</b> {{ activeRehabPlan?.description }}
+										<h6><b>Description</b></h6> {{ activeRehabPlan?.description }}
 										<hr>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-8 form-container">
-										<b>Goal</b> {{ activeRehabPlan?.goal }}
+										<h6><b>Goal</b></h6> {{ activeRehabPlan?.goal }}
 										<hr>
 									</div>
 									<div class="col-4 form-container">
-										<b>Time Frame to Complete</b> {{ activeRehabPlan?.timeFrameToComplete }}
+										<h6><b>Time Frame to Complete</b></h6> {{ activeRehabPlan?.timeFrameToComplete }}
 										<hr>
 									</div>
 								</div>
@@ -98,7 +98,7 @@
 												<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list" (click)="showExerciseDetails(i)">
 													<mat-list-item>
 														<div class="col-12">
-															Exercise Name: {{ exercise?.name }}
+															<b>Exercise Name:</b> {{ exercise?.name }}
 														</div>
 													</mat-list-item>
 													<mat-divider></mat-divider>

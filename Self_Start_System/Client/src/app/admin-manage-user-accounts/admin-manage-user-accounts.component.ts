@@ -13,10 +13,12 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 	providers: []
 })
 export class AdminManageUserAccountsComponent implements OnInit {
+
+	isDataLoaded;
+	loading;
 	router;
 	userAccountListService;
 	authenticationService;
-	loading = false;
 	isChanged = false;
 	showPlan = false;
 	user;
@@ -34,6 +36,8 @@ export class AdminManageUserAccountsComponent implements OnInit {
 		this.userAccountListService = userAccountListService;
 		this.authenticationService = authenticationService;
 		this.toastr.setRootViewContainerRef(vcr);
+		this.isDataLoaded = true;
+		this.loading = true;
 }
 
   ngOnInit() {
@@ -271,8 +275,8 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			data => {
 				this.user = data;
 				localStorage.setItem('selectedPatient', JSON.stringify(data));
-				//this.age = (Date.parse(this.today) - Date.parse(this.user.DOB))/(60000 * 525600);
-				//this.age = this.age.toFixed(0) + " years";
+				var temp = /* (Date.parse(this.today) */ (Date.now() - Date.parse(this.user.DOB))/(60000 * 525600);
+				this.age = temp.toFixed(0);
 				console.log(this.user);
 				console.log("Patient profile" + JSON.stringify(this.user));
 			});
@@ -287,12 +291,16 @@ export class AdminManageUserAccountsComponent implements OnInit {
 			this.user =  JSON.parse(localStorage.getItem('selectedPhysio'));
 			//console.log("Patient " + this.isPatient);
 			console.log("Physio" + JSON.stringify(this.user));
+			this.isDataLoaded = true;
+			this.loading = false;
 		} else {
 			this.isPatient = true;
 			this.account = userAccount;
 			this.populatePopulatePatient(this.account.patientProfile);
 			//console.log("Patient " + this.isPatient);
 			console.log("Patient" + JSON.stringify(this.user));
+			this.isDataLoaded = true;
+			this.loading = false;
 		}
 	}
 

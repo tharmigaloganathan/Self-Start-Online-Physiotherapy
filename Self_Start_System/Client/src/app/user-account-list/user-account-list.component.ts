@@ -12,6 +12,8 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 	providers: [ManagePatientProfileService, CreateUserAccountService, UserAccountListService],
 })
 export class UserAccountListComponent implements OnInit {
+
+	isDataLoaded;
 	userAccountListService;
 	router;
 	users = {};
@@ -29,6 +31,8 @@ export class UserAccountListComponent implements OnInit {
 	constructor(userAccountListService: UserAccountListService, router: Router) {
 		this.userAccountListService = userAccountListService;
 		this.router = router;
+		this.isDataLoaded = false;
+		this.loading = true;
   }
 
   ngOnInit() {
@@ -50,6 +54,8 @@ export class UserAccountListComponent implements OnInit {
 				this.users = user;
 				//console.log("This is what was returned" + JSON.stringify(user));
 				this.setUpDataSource(user);
+				this.isDataLoaded = true;
+				this.loading = false;
 			},
 			error => {
 				console.log("Error");
