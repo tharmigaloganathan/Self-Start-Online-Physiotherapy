@@ -23,7 +23,7 @@
 }
 
 .forms-card {
-    height:48%;
+    height:96%;
     margin-bottom: 4%;
     font-family: 'Roboto Condensed', sans-serif !important;
 }
@@ -34,7 +34,7 @@
 }
 
 .assessment-test-card{
-    height:48%;
+    height:96%;
     font-family: 'Roboto Condensed', sans-serif !important;
 }
 
@@ -50,8 +50,8 @@
     font-family: 'Roboto Condensed', sans-serif !important;
     overflow-y: scroll;
     padding: 5px;
-    max-height: 130px;
-    min-height: 130px;
+    max-height: 500px;
+    min-height: 500px;
 }
 
 
