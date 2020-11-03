@@ -1,0 +1,42 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container">
+  <!--Title and description-->
+  <h1>Forms</h1>
+  <p>Create, edit, and delete custom forms to be used throughout the site.</p>
+  <br>
+
+  <div>
+    <button mat-raised-button (click)="newForm()" routerLink="/admin/edit-form">Create New Form</button>
+  </div>
+<br>
+  <mat-table #table [dataSource]="formDataSource">
+    <!-- Form Name Column -->
+    <ng-container matColumnDef="formName">
+      <mat-header-cell *matHeaderCellDef>Form Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <!-- Description -->
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+    </ng-container>
+
+    <!--Action Column -->
+    <ng-container matColumnDef="actionsColumn">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button class="editForm" (click)="storeFormID(element._id)" routerLink="/admin/edit-form">Edit</button>
+        <button mat-button class="deleteForm" (click)="deleteForm(element)">Delete</button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" class="row-item animated fadeInDown"></mat-row>
+  </mat-table>
+
+  <br>
+  <br>
+</div>

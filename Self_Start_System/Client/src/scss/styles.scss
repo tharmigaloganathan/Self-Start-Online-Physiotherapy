@@ -1,0 +1,79 @@
+@import "../../node_modules/fullcalendar/dist/fullcalendar.css";
+@import "../../node_modules/ng2-toastr/bundles/ng2-toastr.min.css";
+
+/* You can add global styles to this file, and also import other style files */
+//@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+//@import './self-start-theme';
+@import './variables';
+@import './mixins';
+
+//Set global background color
+html, body, .container{
+  background-color: $global-background-color;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.no-left-right-margin{
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.no-left-right-padding{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+button {
+  border-radius: 0;
+}
+
+button:focus, button:active:focus, button.active:focus {
+  outline: 0 none;
+}
+
+//Title
+.title {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin-top:2%;
+}
+
+
+
+// Set Global Text for side and nav bar
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto Condensed, sans-serif',
+  $headline: mat-typography-level(50px, 48px, 300),
+  $body-1: mat-typography-level(30px, 30px, 300)
+);
+
+@include mat-toolbar-typography($custom-typography);
+@include mat-button-typography($custom-typography);
+@include mat-list-typography($custom-typography);
+@include mat-sidenav-typography($custom-typography);
+
+// Buttons
+input[disabled],textarea[disabled] {
+  color: $dark-grey;
+}
+
+button.save-button, button.create-button, button.view-button, button.edit-button{
+  background-color: $cobalt;
+  color: $white;
+}
+
+button.delete-button {
+  background-color: $dark-red;
+  color: $white;
+}
+
+button.cancel-button {
+  background-color: $rare-turquoise;
+  color: $white;
+}
+
+button.yellow-button {
+  background-color: $electric-glow;
+}

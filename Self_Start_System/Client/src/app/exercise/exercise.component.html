@@ -1,0 +1,289 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class = "container">
+
+  <!--Start of Textboxes-->
+  <div class= "title">
+    <h1>Manage Exercises</h1>
+    <br/>
+    <button mat-raised-button class="create-button" data-toggle="modal" data-target="#createExerciseModal">Create New Exercise</button>
+
+      <br />
+    <form class="search-form">
+        <mat-form-field class="search-field">
+            <input matInput #search placeholder="Search Standard Exercises..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </form>
+  </div>
+
+  <!-- Button trigger modal -->
+
+  <!-- <div *ngFor = "let exercise of allExercises">
+    <div class="col-md-12 no-left-right-margin no-left-right-padding">
+      <mat-card class="dashboard-card no-left-right-margin">
+        <mat-card-title>{{exercise.name}}</mat-card-title>
+        <mat-card-subtitle>{{exercise.authorName}}</mat-card-subtitle>
+        <mat-card-content>
+          {{exercise.description}}
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button class="view-button" data-toggle="modal" data-target="#editExerciseModal" (click)="getOneExercise(exercise._id)">View</button>
+        </mat-card-actions>
+
+      </mat-card>
+    </div>
+  </div> -->
+
+  <div class="exercise-list mat-elevation-z0">
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="authorName">
+        <mat-header-cell *matHeaderCellDef> Author Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.authorName}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"  data-toggle="modal" data-target="#editExerciseModal" (click)="getOneExercise(row._id)"></mat-row>
+    </mat-table>
+  </div>
+
+  <!-- Create New Exercise Modal -->
+  <div class="modal fade" id="createExerciseModal" tabindex="-1" role="dialog"
+       aria-labelledby="createExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="createExerciseModalLabel" >
+            Create New Exercise
+          </h4>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class = "row">
+            <div class="col-md-12">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Exercise Name" [(ngModel)]="exerciseNameValue"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Author Name" [(ngModel)]="authorNameValue"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Location" [(ngModel)]="locationValue"/>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class = "row">
+            <div class ="col-md-4">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Frequency"[(ngModel)]="frequencyValue"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-4">
+              <mat-form-field  class = "question">
+                <input matInput placeholder="Duration"[(ngModel)]="durationValue"/>
+              </mat-form-field>
+            </div>
+
+            <div class = "col-md-4">
+              <mat-form-field class = "question">
+                <input matInput [(ngModel)] = "targetDateValue" [matDatepicker]="picker" placeholder="Target Date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Description" [(ngModel)]="descriptionValue"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Objectives" [(ngModel)]="objectivesValue"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea matInput placeholder="Action Steps" [(ngModel)]="actionStepsValue"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class ="col-md-6">
+            <mat-form-field class = "question">
+              <input matInput placeholder="URL"[(ngModel)]="URLValue" [disabled]="true"/>
+            </mat-form-field>
+          </div>
+
+
+          <app-image-upload-test
+            (uploadedURL)="onImageUpload($event)"
+          ></app-image-upload-test>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button mat-raised-button data-dismiss="modal" class="cancel-button">Close</button>
+          <button mat-raised-button data-dismiss="modal" class="save-button" (click) ="registerExercise()">Register Exercise</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Exercise Modal -->
+  <div *ngIf="openEditModal" class="modal fade" id="editExerciseModal" tabindex="-1" role="dialog"
+       aria-labelledby="EditExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="EditExerciseModalLabel" >
+            Exercise: {{currentExercise.name}}
+          </h4>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+        </div>
+
+        <div class ="modal-header">
+          <div>
+          <button *ngIf="!editEnabled; else edit" mat-raised-button data-dismiss="modal" class="edit-button" (click) ="enableEdit()">Edit</button>
+            <ng-template #edit>
+              <button mat-raised-button data-dismiss="modal" class="save-button" (click) ="editExercise()">Save Exercise</button>
+              <button mat-raised-button data-dismiss="modal" class="cancel-button" (click) ="cancelEdit()">Cancel</button>
+            </ng-template>
+            <button *ngIf="!editEnabled" mat-raised-button data-dismiss="modal" class="delete-button" (click) ="deleteExercise()">Delete</button>
+          </div>
+        </div>
+
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class = "row">
+            <div class="col-md-12">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Exercise Name"[(ngModel)]="currentExercise.name" [disabled]="!editEnabled"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Author Name"[(ngModel)]="currentExercise.authorName" [disabled]="!editEnabled"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-6">
+              <mat-form-field class = "question" >
+                <input matInput placeholder="Location" [(ngModel)]="currentExercise.location" [disabled]="!editEnabled"/>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class = "row">
+            <div class ="col-md-4">
+              <mat-form-field class = "question">
+                <input matInput placeholder="Frequency" [(ngModel)]="currentExercise.frequency" [disabled]="!editEnabled"/>
+              </mat-form-field>
+            </div>
+
+            <div class ="col-md-4">
+              <mat-form-field  class = "question">
+                <input matInput placeholder="Duration" [(ngModel)]="currentExercise.duration" [disabled]="!editEnabled"/>
+              </mat-form-field>
+            </div>
+
+            <div class = "col-md-4">
+              <mat-form-field class = "question">
+                <input [disabled]="!editEnabled" matInput [(ngModel)] = "currentExercise.targetDate" [matDatepicker]="picker" placeholder="Target Date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea [disabled]="!editEnabled" matInput placeholder="Description" [(ngModel)]="currentExercise.description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea [disabled]="!editEnabled" matInput placeholder="Objectives" [(ngModel)]="currentExercise.objectives"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class ="col-md-12">
+              <mat-form-field class = "question">
+                <textarea [disabled]="!editEnabled" matInput placeholder="Action Steps" [(ngModel)]="currentExercise.actionSteps"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!--Image uploader-->
+          <app-image-upload-test *ngIf="editEnabled"
+            (uploadedURL)="onImageUpload($event)"
+          ></app-image-upload-test>
+
+          <!--Displaying picture and picture URL-->
+          <div class ="col-md-12">
+            <mat-form-field class = "question">
+              <input matInput placeholder="URL" [(ngModel)]="currentExercise.multimediaURL" [disabled]="true"/>
+            </mat-form-field>
+            <img src="{{currentExercise.multimediaURL}}" alt="Exercise image">
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <!--<button mat-raised-button data-dismiss="modal" class="closeBox" (click) ="closeEditModal()">Close</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div> <!--  end div for container-->

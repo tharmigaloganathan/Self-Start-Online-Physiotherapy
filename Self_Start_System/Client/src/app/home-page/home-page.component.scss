@@ -1,0 +1,66 @@
+@import '../../scss/_variables';
+
+button.login-button{
+    text-transform:uppercase;
+  background-color: $magic-night;
+  color: $white;
+  border-radius: 1px;
+}
+
+.button{
+  justify-content: center !important;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  position: relative;
+  top:40px;
+}
+
+.content {
+    text-align: center;
+    align-items: flex-end;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.title {
+    font-size: 60px;
+    font-family: 'Gruppo', cursive !important;
+    letter-spacing:8px;
+}
+
+.subtitle{
+  font-family: 'Kanit', sans-serif;
+  font-size:30px;
+  letter-spacing:8px;
+  text-transform:uppercase;
+}
+.subtitle-2{
+  font-family: 'Kanit', sans-serif;
+  font-size:20px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.text-box{
+    height: 1600px;
+    background-color:#3A3C5A;
+    opacity: 0.95;
+    color: #ffffff;
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 5%;
+    font-size: 17px !important;
+}
+
+.parallax {
+    background-image: linear-gradient(
+    rgba(255,255,255,0.9),
+    rgba(0,0,0,0.3)),url("adventure.jpg");
+
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

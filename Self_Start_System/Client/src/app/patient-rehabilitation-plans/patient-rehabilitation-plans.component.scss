@@ -1,0 +1,94 @@
+@import '../../scss/_variables';
+
+* {
+	 font-family: 'Roboto Condensed', sans-serif;
+}
+
+.top {
+	margin-top: 2.5%;
+	margin-bottom: 2.5%;
+}
+
+.plan-list {
+	margin-top: 1.5%;
+}
+
+.header {
+	padding: 2%;
+}
+
+.form-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.form-container > * {
+	width: 100%;
+}
+
+.button-container {
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+}
+
+.next-button {
+	background-color: $magic-night;
+	color: $white;
+}
+
+.previous-button {
+	background-color: $flash-of-orange;
+	color: $white;
+}
+
+.view-button {
+	background-color: $flash-of-orange;
+	color: $white;
+	margin-right: 5%;
+}
+
+.list:hover {
+	background-color: #F5F5F5;
+	cursor: pointer;
+}
+
+.back-button {
+	float: right;
+	background-color: $flash-of-orange;
+	color: $white;
+}
+
+.mat-list-item {
+	margin: 0%;
+	padding: 0%;
+	width: 100%;
+	display: flex;
+}
+
+.empty {
+	margin-left: 30%;
+	margin-top: 20%;
+	margin-bottom: 20%;
+}
+
+.image-container {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.icon {
+	color: $dark-grey;
+	cursor: pointer;
+	float: right;
+	margin-right: 2.5%;
+}
+
+.highlight {
+	background-color: #DCDCDC !important;
+	cursor: pointer;
+}

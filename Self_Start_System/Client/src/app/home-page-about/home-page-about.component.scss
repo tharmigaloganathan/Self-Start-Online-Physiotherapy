@@ -1,0 +1,56 @@
+@import '../../scss/_variables';
+
+.content {
+    text-align: center;
+    align-items: flex-end;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.title {
+    font-size: 70px;
+    font-family: 'Gruppo', cursive !important;
+}
+
+.text-box{
+    height: 390px;
+    background: rgba(255, 255, 255, .7);
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 5%;
+    font-size: 17px !important;
+}
+
+.image-col img {
+    width: 100%;
+}
+
+.text-box-2{
+    height: 600px;
+    background: rgba(255, 255, 255, .7);
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 5%;
+    font-size: 17px !important;
+}
+
+.large-text {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    font-family: 'Gruppo', cursive !important;
+    color: #ffffff;
+    font-size: 40px;
+}
+
+.parallax {
+    background-image: linear-gradient(
+    rgba(255,255,255,0.9),
+    rgba(0,0,0,0.3)),url("about2.jpg");
+
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

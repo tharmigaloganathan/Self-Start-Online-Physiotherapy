@@ -1,0 +1,59 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="content">
+
+</div>
+
+<div class="grid-container content">
+    <div class="row patient-list-row-height">
+        <div class="col-md-3 col-padding-0">
+            <mat-card class="patient-list-card">
+                <form class="example-form">
+                  <mat-form-field class="search-full-width">
+                    <input matInput placeholder="Search" value="" #myInput [(ngModel)]="name" (input)="filterItem(myInput.value)">
+                  </mat-form-field>
+                </form>
+                <mat-nav-list class="patient-nav-list" *ngFor="let patient of filteredPatients; let i = index;" (click)="openMessages(i);" [class.highlight]="i === selectedIndex">
+                    <mat-list-item class="patient-list-item">{{patient.givenName + " " + patient.familyName}}</mat-list-item>
+               </mat-nav-list>
+            </mat-card>
+        </div>
+        <div class="col-md-9 col-padding-0">
+            <p class="no-message-placeholder-text" *ngIf="!activePatient">
+                You have no patient selected! <br/>
+                Please select a patient to start messaging!
+            </p>
+            <div *ngIf="activePatient">
+                <mat-card class="messages-card mat-elevation-z0">
+                    <mat-card-content *ngFor="let message of activePatient.messages" >
+                        <mat-card-content *ngIf="message.patientID == message.sender" class="physio-message-div">
+                            {{message.message}}
+                            <mat-card-subtitle>Patient</mat-card-subtitle>
+                        </mat-card-content>
+                        <mat-card-content *ngIf="message.patientID != message.sender" class="patient-message-div">
+                            {{message.message}}
+                            <mat-card-subtitle>You </mat-card-subtitle>
+                        </mat-card-content>
+                    </mat-card-content>
+                    <!-- <div *ngFor="let message of activePatient.messages">
+                        <mat-card *ngIf="message.patientID == message.sender" class="physio-message mat-elevation-z3">
+                            {{message.message}}
+                            <mat-card-subtitle>Patient</mat-card-subtitle>
+                        </mat-card>
+                        <mat-card *ngIf="message.patientID != message.sender" class="patient-message mat-elevation-z3">
+                            {{message.message}}
+                            <mat-card-subtitle>You</mat-card-subtitle>
+                        </mat-card>
+                    </div> -->
+                </mat-card>
+            </div>
+
+            <form class="new-message">
+              <mat-form-field class="input-form">
+                <input matInput #newMessage placeholder="Type a message">
+              </mat-form-field>
+              <button class="send-button" (click)="sendNewMessage(newMessage.value); newMessage.value=''">SEND</button>
+            </form>
+        </div>
+    </div>
+</div>

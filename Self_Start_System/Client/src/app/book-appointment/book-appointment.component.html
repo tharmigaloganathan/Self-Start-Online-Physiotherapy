@@ -1,0 +1,18 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<app-navbar-patient></app-navbar-patient>
+
+
+<div class="container">
+  <h1 class="title text-center">Book Appointment</h1>
+
+  <mat-card>
+    <div *ngIf="calendarOptions">
+      <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
+                       (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)"
+                       (viewRender)="viewRendered($event.detail)"
+      ></ng-fullcalendar>
+    </div>
+  </mat-card>
+</div>
+

@@ -1,0 +1,38 @@
+@import '../../scss/_variables';
+
+.content {
+    text-align: center;
+    align-items: flex-end;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.title {
+    font-size: 70px;
+    font-family: 'Gruppo', cursive !important;
+}
+
+.text-box{
+    // text-align: left !important;
+    height: 800px;
+    // color: #ffffff;
+    background: rgba(255, 255, 255, .8);
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 5%;
+    font-size: 17px !important;
+}
+
+
+.parallax {
+    background-image: linear-gradient(
+    rgba(255,255,255,0.9),
+    rgba(0,0,0,0.3)),url("believe.jpg");
+
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

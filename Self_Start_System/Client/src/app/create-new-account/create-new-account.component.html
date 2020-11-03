@@ -1,0 +1,223 @@
+<app-navbar-general></app-navbar-general>
+
+<div *ngIf = "receivedGenders && receivedCountries" class="container top">
+<div class="row">
+  <div class="col">
+    <!-- Page Header -->
+    <mat-card>
+      <h1 class = "title" >Create User Account</h1>
+      <br/>
+      <hr>
+
+      <!-- Account Type -->
+      <mat-horizontal-stepper [linear]="isLinear">
+
+        <!-- Personal Information -->
+        <mat-step [stepControl]="personalInfoForm" [editable]="previousStepsEditable">
+          <ng-template matStepLabel>Personal Information</ng-template>
+
+          <div class="col">
+              <form [formGroup]="personalInfoForm"  name="personalInfoForm" (ngSubmit) ="onSubmitPersonalInfo()">
+                <!-- Row 1 -->
+                <div class="row">
+                  <div class="col form-group">
+                    <mat-form-field>
+                      <input class = "form-control" matInput placeholder="First Name" formControlName="givenName" name="givenName" required>
+                      <mat-error *ngIf="personalInfoForm.controls.givenName.invalid && (personalInfoForm.controls.givenName.dirty || personalInfoForm.controls.givenName.touched)">{{getNameErrorMessage(personalInfoForm.controls.givenName)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col form-group">
+                    <mat-form-field>
+                      <input class = "form-control" matInput placeholder="Last Name" formControlName="familyName" name="familyName" required>
+                      <mat-error *ngIf="personalInfoForm.controls.familyName.invalid && (personalInfoForm.controls.familyName.dirty || personalInfoForm.controls.familyName.touched)">{{getNameErrorMessage(personalInfoForm.controls.familyName)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Row 2 -->
+                <div class="row">
+                  <div class="col-6 form-group">
+                    <mat-form-field>
+                      <mat-select class = "form-control" formControlName="gender" name="gender" placeholder="Gender" required>
+                        <mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender.name}}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="personalInfoForm.controls.gender.hasError('required')">You must select a gender!</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput [matDatepicker]="picker" class = "form-control" formControlName="DOB" name="DOB" placeholder="Date of Birth" required>
+                      <mat-error *ngIf="personalInfoForm.controls.DOB.hasError('required')">You must select a date!</mat-error>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-hint align="end">Click here to pick a date^</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Row 3 -->
+                <div class="row">
+                  <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Address" class = "form-control" formControlName="address" name="address" required>
+                      <mat-error *ngIf="personalInfoForm.controls.address.invalid && (personalInfoForm.controls.address.dirty || personalInfoForm.controls.address.touched)">{{getAddressErrorMessage(personalInfoForm.controls.address)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="City" class = "form-control" formControlName="city" name="city" required>
+                      <mat-error *ngIf="personalInfoForm.controls.city.invalid && (personalInfoForm.controls.city.dirty || personalInfoForm.controls.city.touched)">{{getNameErrorMessage(personalInfoForm.controls.city)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class = "row">
+                  <div class="col-4 form-group">
+                    <mat-form-field>
+                      <mat-select  placeholder = "Country" class = "form-control" formControlName="country" name="country" required>
+                        <mat-option  *ngFor="let country of countries" (click)="populateProvinces(country._id)" [value]="country._id">{{country.name}}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="personalInfoForm.controls.country.hasError('required')">You must select a country!</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-4 form-group">
+                    <mat-form-field>
+                      <mat-select [disabled]="!countrySelected" class = "form-control" formControlName="province" name="province"  placeholder="Province" required>
+                        <mat-option *ngFor="let province of provinces" [value]="province._id">{{province.name}}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="personalInfoForm.controls.province.hasError('required')">You must select a province!</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-4 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Postal Code" class = "form-control" formControlName="postalCode" name="postalCode" required>
+                      <mat-error *ngIf="personalInfoForm.controls.postalCode.invalid && (personalInfoForm.controls.postalCode.dirty || personalInfoForm.controls.postalCode.touched)">{{getAddressErrorMessage(personalInfoForm.controls.postalCode)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <!-- Row 4 -->
+                <div class="row">
+                  <div class="col-8 form-group">
+                    <mat-form-field hintLabel="Example: example@email.com">
+                      <input matInput  placeholder="Email" class = "form-control" formControlName="email" name="email" required>
+                      <mat-error *ngIf="personalInfoForm.controls.email.invalid && (personalInfoForm.controls.email.dirty || personalInfoForm.controls.email.touched)">{{getEmailErrorMessage(personalInfoForm.controls.email)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-4 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Phone Number" class = "form-control" formControlName="phone" name="phone" required>
+                      <mat-error *ngIf="personalInfoForm.controls.phone.invalid && (personalInfoForm.controls.phone.dirty || personalInfoForm.controls.phone.touched)">{{getPhoneErrorMessage(personalInfoForm.controls.phone)}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              <div class="row">
+                <div class ="col-3 button-container">
+                  <button mat-raised-button class ="previous-button" (click)="rebuildForm()">Clear</button>
+                </div>
+                <div class="col-3 button-container"  matTooltip="You can only proceed when all fields are properly filled!" [matTooltipPosition]="toolTipPosition">
+                  <button mat-raised-button class="next-button" [disabled]="!personalInfoForm.valid" matStepperNext type ="submit" class="next-button">Next</button>
+                </div>
+              </div>
+              </form>
+          </div>
+        </mat-step>
+
+        <!-- Account Information -->
+        <mat-step [stepControl]="accountInfoForm" [editable]="previousStepsEditable">
+          <ng-template matStepLabel>Account Information</ng-template>
+          <div class="col">
+            <form [formGroup]="accountInfoForm"  name="accountInfoForm">
+              <!-- Row 1 -->
+              <div class="row">
+                <div class="col form-group">
+                  <mat-form-field hintLabel="Must be between 5-10 characters long and contain at least one number and one letter. (Example: LZhang1)">
+                    <input matInput placeholder="User Name" class = "form-control" formControlName="userName" name="userName" required>
+                    <mat-error *ngIf="accountInfoForm.controls.userName.invalid && (accountInfoForm.controls.userName.dirty || accountInfoForm.controls.userName.touched)">{{getUserNameErrorMessage(accountInfoForm.controls.userName)}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- Row 2 -->
+              <div formGroupName="passwords">
+              <div class="row">
+                <div class="col form-group">
+                  <mat-form-field hintLabel="Must be between 6 - 15 characters long and contain one number, one uppercase letter, and one lowercase letter. (Example: MyPassword1)">
+                    <input matInput autocomplete="off" type="password" placeholder="Password" class = "form-control" formControlName="password" name="password" required>
+                    <mat-error *ngIf="accountInfoForm.get('passwords').get('password').invalid && (accountInfoForm.get('passwords').get('password').dirty || accountInfoForm.get('passwords').get('password').touched)">{{getPasswordErrorMessage(accountInfoForm.get('passwords').get('password'))}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- Row 3 -->
+              <div class="row">
+                <div class="col form-group">
+                  <mat-form-field>
+                    <input matInput type="password" placeholder="Confirm Password" class = "form-control" formControlName="passwordVerify" name="passwordVerify" required>
+                    <mat-error *ngIf="accountInfoForm.get('passwords').get('passwordVerify').invalid && (accountInfoForm.get('passwords').get('passwordVerify').dirty ||accountInfoForm.get('passwords').get('passwordVerify').touched)">{{getPasswordVerifyErrorMessage()}}</mat-error>
+                    <!--<mat-error *ngIf="accountInfoForm.get('passwords').get('passwordVerify').errors?.notMatching && accountInfoForm.get('passwords').get('passwordVerify').dirty">Passwords do not match! Please try again</mat-error>-->
+                  </mat-form-field>
+                </div>
+              </div>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-3 button-container">
+                <button mat-button matStepperPrevious class="previous-button">Back</button>
+              </div>
+              <div class="col-3 button-container" matTooltip="You can only proceed when all fields are properly filled!" [matTooltipPosition]="toolTipPosition">
+                <button mat-button matStepperNext [disabled]="!accountInfoForm.valid" class="next-button" type = submit (click)="registerPatient()">Next</button>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+        <!-- Finish Page -->
+        <mat-step>
+          <ng-template matStepLabel>Completion</ng-template>
+          <div class="col">
+            <div class="row form-container">
+              <h3>Success! Your account has been successfully created!</h3>
+              <br/><br/>
+              <br/><br/>
+              <p>Please try to login by clicking the login button on the top right of the page!</p>
+            </div>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </mat-card>
+  </div>
+</div>
+</div>
+
+
+
+<!--<h1 class="subtitle">-->
+    <!--<b>Fill out your information below!</b>-->
+<!--</h1>-->
+<!--<br /><br />-->
+
+<!--<div class = "example-container2">-->
+  <!--<mat-form-field class="familyName">-->
+    <!--<input matInput #name placeholder="Enter your given name/first name, make it unique to distinguish ex: (TestPatient1)" [(ngModel)]="givenName">-->
+  <!--</mat-form-field>-->
+  <!--<br /><br />-->
+  <!--<button *ngIf="!madeAdmin && !madePatient && !madePhysio" color = "primary" mat-raised-button (click)="registerPatientProfile()">Generate a Patient</button>-->
+  <!--<p *ngIf="madePatient">A Patient Profile has been made! Please proceed to enter his/her's user account info</p>-->
+  <!--<button *ngIf="!madeAdmin && !madePatient && !madePhysio" color = "accent" mat-raised-button (click)="registerPhysiotherapistProfile()">Generate a Physiotherapist</button>-->
+  <!--<p *ngIf="madePhysio">A Physiotherapist Profile has been made! Please proceed to enter his/her's user account info</p>-->
+  <!--<button *ngIf="!madeAdmin && !madePatient && !madePhysio"  mat-raised-button (click)="registerAdministratorProfile()">Generate a Administrator</button>-->
+  <!--<p *ngIf="madeAdmin">An Administrator Profile has been made! Please proceed to enter his/her's user account info</p>-->
+<!--</div>-->
+
+<!--<div class="example-container2">-->
+    <!--<mat-form-field class="name">-->
+        <!--<input matInput #name placeholder="Enter your desired username" [(ngModel)]="username">-->
+    <!--</mat-form-field>-->
+
+    <!--<mat-form-field class="authorName">-->
+        <!--<input matInput #authorName placeholder="Enter your desired password "[(ngModel)]="password">-->
+    <!--</mat-form-field>-->
+
+    <!--<mat-form-field class="authorName">-->
+      <!--<input matInput #authorName placeholder="Enter your desired password again "[(ngModel)]="passwordVerify" >-->
+    <!--</mat-form-field>-->
+    <!--<br /><br />-->
+  <!--<button mat-raised-button color="accent"(click)="registerUserAccount()">Create Account!</button>-->
+
+<!--</div>-->
+

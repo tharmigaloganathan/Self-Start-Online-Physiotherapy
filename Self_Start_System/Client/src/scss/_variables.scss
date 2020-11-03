@@ -1,0 +1,89 @@
+@import '~@angular/material/theming';
+
+/******* Colour Scheme ********/
+
+$dark-red: #D6162D;
+$magic-night: #3A3C5A;
+$cobalt: #3D4476;
+$white: #FFFFFF;
+$black: #000000;
+$beautiful-blue: #206EB4;
+$rare-turquoise: #0E748C;
+$electric-glow: #FED030;
+$flash-of-orange: #d16f15;
+$dark-grey: #5b5b64;
+
+$sss-magic-night: (
+  300: #e57373,
+  400: #b0b1bd,
+  500: $magic-night,
+  contrast: (
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+  )
+);
+
+$sss-cobalt: (
+  300: #e57373,
+  400: #3D4476,
+  500: #3D4476,
+  contrast: (
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+  )
+);
+
+$sss-beautiful-blue: (
+  300: #e57373,
+  400: #206EB4,
+  500: #206EB4,
+  contrast: (
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+  )
+);
+
+$sss-rare-turquoise: (
+  300: #e57373,
+  400: #0E748C,
+  500: #0E748C,
+  contrast: (
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+  )
+);
+
+$sss-electric-glow: (
+  300: #e57373,
+  400: #ef5350,
+  500: #FED030,
+  contrast: (
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+  )
+);
+
+$sss-flash-of-orange: (
+  300: #e57373,
+  400: #ef5350,
+  500: #FDA92A,
+  contrast: (
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+  )
+);
+
+/******* Site Colors ********/
+$global-background-color: #f9f9f9;
+$data-table-background-hover-color: $electric-glow;
+
+/******* Sizing ********/
+$dashboard-card-margin: 10px;
+$form-margin: 10px;
+

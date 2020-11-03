@@ -1,0 +1,21 @@
+<mat-toolbar class="z-depth-5">
+  <span class="full-height">
+    <img (click) = "logoClicked()" class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
+  </span>
+
+  <span class="navbar-fill-remaining-space"></span>
+  <span class="full-height">
+    <!--[routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"-->
+    <button mat-button routerLink="/admin/home" class="full-height">Dashboard</button>
+    <button mat-button routerLink="/admin/forms" class="full-height">Manage Forms</button>
+    <button mat-button routerLink="/admin/user-accounts" class="full-height">Manage Accounts</button>
+    <button mat-button routerLink="/admin/locations" class="full-height">Manage Countries/Provinces</button>
+    <button class = "profile-button" mat-raised-button [matMenuTriggerFor]="appMenu">
+      <span>{{this.user?.givenName}}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  </span>
+  <mat-menu #appMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below">
+    <button mat-menu-item (click) ="logout()">Logout</button>
+  </mat-menu>
+</mat-toolbar>

@@ -1,0 +1,219 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+@import '../../../node_modules/ng2-dnd/bundles/style.css';
+
+.exercises-tab {
+    margin-right:20%;
+    margin-left:20%;
+}
+
+.exercise-card {
+    font-family: 'Roboto Condensed', sans-serif;
+    width: 90%;
+    align: center;
+}
+
+.question {
+  width: 100%;
+}
+.list-group-exercise {
+    font-family: 'Roboto Condensed', sans-serif;
+  height: 500px;
+  // width: 10%;
+  overflow-y: scroll;
+}
+
+.list-group-assessment-tests {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+/* Styles for tab labels */
+.mat-tab-label {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: black;
+    font-size: 14px;
+}
+
+.plan-details-tab {
+    font-family: 'Roboto Condensed', sans-serif !important;
+  font-size: 20px;
+  text-align: center;
+  margin-right: 10%;
+  margin-left: 10%;
+  justify-content: center !important;
+  flex-direction: column;
+}
+
+.plan-details-tab > * {
+  width: 100%;
+}
+
+mat-form-field{
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+mat-form-field.name {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.frequency {
+    margin-left: 4%;
+    width: 200px !important;
+}
+
+
+mat-form-field.authorName {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.goal {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.timeframe {
+    margin-left: 4%;
+    width: 425px !important;
+}
+
+mat-form-field.description {
+    margin-left: 4%;
+    width: 900px !important;
+}
+
+.title {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    top:20px;
+}
+
+.subtitle {
+    justify-content: center !important;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    position: relative;
+    font-size: 24px;
+    top:10px;
+}
+
+mat-card {
+    align-items: center;
+    height: 250px;
+    width: 200px;
+}
+
+
+.example-container {
+    width: 100vw;
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    background-color: $white;
+}
+
+.mat-button.mat-small {
+    padding: 0px;
+    min-width: 10px;
+}
+
+
+button.blue {
+    background-color: $beautiful-blue;
+}
+
+.mat-list-option.listofexercises {
+    text-align: center;
+    margin-left: 10%;
+    color: #000000;
+    height: 30px !important;
+    width: 400px;
+    background-color: #eeeeee !important;
+}
+
+mat-form-field.selectexercise {
+    margin-left: 4%;
+    width: 400px !important;
+}
+
+.mat-list-item-content {
+    padding: 0px !important;
+    height: 30px !important;
+}
+
+mat-sidenav {
+    background-color: $magic-night;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 15vw;
+}
+
+mat-sidenav-container {
+    @include mat-elevation(1);
+}
+
+mat-toolbar{
+    background-color:$white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    @include mat-elevation(5);
+}
+
+img.logo{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+button.login-button{
+    background-color: $electric-glow;
+    border-radius: 0px;
+}
+
+.yellowButton{
+  background-color: $electric-glow;
+}
+
+button.move{
+    background-color: #439b42;
+    border-radius: 0px;
+}
+
+button.stickToBottom{
+    z-index: 1;
+    position: fixed;
+    bottom: 0px;
+    background-color: $magic-night;
+    color: #FFFFFF;
+    border-radius: 0px;
+    height: 40px;
+    font-size: 30px;
+    width: 100%;
+}
+
+button.delete-button{
+    background-color: rgba(193, 0, 0, 0.85);
+    border-radius: 0px;
+}
+
+$custom-typography: mat-typography-config(
+$font-family: 'Roboto Condensed, sans-serif',
+$headline: mat-typography-level(50px, 48px, 300),
+$body-1: mat-typography-level(30px, 30px, 300)
+);
+
+@include mat-toolbar-typography($custom-typography);
+@include mat-button-typography($custom-typography);
+@include mat-list-typography($custom-typography);
+@include mat-sidenav-typography($custom-typography);

@@ -1,0 +1,62 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="grid-container">
+    <div class="welcome-card">Welcome to your dashboard {{this.user.givenName}}!</div>
+    <div class="row row-height">
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="forms-card">
+                <mat-toolbar>
+                    <b>Manage Forms</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Forms Module"><mat-icon routerLink="/admin/forms">launch</mat-icon></span>
+                </mat-toolbar>
+                <form>
+                  <mat-form-field class="search-full-width">
+                    <input matInput #search placeholder="Search Forms" [(ngModel)]="name" name="search" (input)="filterForms(search.value)">
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </form>
+                <mat-card class="forms-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let form of filteredforms">
+                        <mat-list-item (click)="storeFormID(form._id)" routerLink="/admin/edit-form">{{form.name}}<span class="navbar-fill-remaining-space"></span><mat-icon>keyboard_arrow_right</mat-icon></mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+
+        </div>
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="assessment-test-card">
+                <mat-toolbar>
+                    <b>Manage Accounts</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Manage Accounts Module"><mat-icon routerLink="/admin/user-accounts">launch</mat-icon></span>
+                </mat-toolbar>
+                <form>
+                  <mat-form-field class="search-full-width">
+                    <input matInput #usersearch placeholder="Search Patients" [(ngModel)]="givenName" name="usersearch" (input)="filterUsers(usersearch.value)">
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </form>
+                <mat-card class="forms-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let user of filteredusers">
+                        <mat-list-item >{{user.name}}<span class="navbar-fill-remaining-space"></span><mat-icon>keyboard_arrow_right</mat-icon></mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+            <!-- <mat-card class="patient-list-card">
+                <mat-toolbar>
+                    <b>Patients Who Need to be Assigned Physiotherapists</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Patient List Module"></span>
+                </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0">
+                    <mat-nav-list>
+                        <mat-list-item>Item 1 <span class="navbar-fill-remaining-space"></span><mat-icon >keyboard_arrow_right</mat-icon></mat-list-item>
+                        <mat-list-item>Item 2 <span class="navbar-fill-remaining-space"></span><mat-icon>keyboard_arrow_right</mat-icon></mat-list-item>
+                        <mat-list-item>Item 3 <span class="navbar-fill-remaining-space"></span><mat-icon>keyboard_arrow_right</mat-icon></mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card> -->
+        </div>
+    </div>
+</div>

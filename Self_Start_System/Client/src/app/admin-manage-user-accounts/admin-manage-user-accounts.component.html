@@ -1,0 +1,217 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<div *ngIf="isDataLoaded">
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="card-container top animated fadeIn">
+				<mat-card>
+					<div class="row">
+						<div class="col-md-8">
+							<h1>{{ user?.givenName + " " + user?.familyName }}</h1>
+						</div>
+						<div class="col-md-4 col-md-offset-9">
+							<button mat-raised-button class="previous-button" (click)="viewAccountList()">Back to Account List</button>
+						</div>
+					</div>
+					<!-- Tabs -->
+					<mat-tab-group>
+						<!-- Personal Information -->
+						<mat-tab label="Personal Information">
+							<form class="form-container">
+								<!-- Buttons -->
+								<div class="row">
+									<div *ngIf="!isChanged; else edit" class="col">
+										<div class="col button-container">
+											<button mat-raised-button class="edit-button" (click)="editPatientInfo()">Edit</button>
+										</div>
+									</div>
+									<ng-template #edit>
+										<div class="col button-container">
+											<button mat-raised-button class="cancel-button" (click)="cancelEdit()">Cancel</button>
+											<button mat-raised-button class="save-button" (click)="savePatientInfo()">Save</button>
+										</div>
+									</ng-template>
+								</div>
+									<!-- Row 1 -->
+									<div class="row">
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="Given Name" [(ngModel)]="user.givenName" name="user.givenName" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col form-container">
+											<mat-form-field>
+												<input matInput placeholder="Family Name" [(ngModel)]="user.familyName" name="user.familyName" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 2 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.gender" name="user.gender" placeholder="Gender" [disabled]="!isChanged">
+													<mat-option *ngFor="let gender of genders" [value]="gender._id">{{gender?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-6 form-container">
+											<mat-form-field>
+												<input matInput [matDatepicker]="picker" placeholder="Date of Birth" [value]="user.DOB" [disabled]="!isChanged">
+												<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+												<mat-datepicker #picker [startAt]="user.DOB"></mat-datepicker>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Current Age" [value]="age" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 3 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-3 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Street" [(ngModel)]="user.address" name="user.address" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-3 form-container">
+											<mat-form-field>
+												<input matInput placeholder="City" [(ngModel)]="user.city" name="user.city" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.province._id" name="user.province" placeholder="Province" [disabled]="!isChanged">
+													 <mat-option *ngFor="let province of provinces" [value]="province._id">{{province?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Postal Code" [(ngModel)]="user.postalCode" name="user.PostalCode" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-2 form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="user.country._id" name="user.country" placeholder="Country" [disabled]="!isChanged">
+													<mat-option *ngFor="let country of countries" [value]="country._id">{{country?.name}}</mat-option>
+													</mat-select>
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Row 4 -->
+									<div class="row" *ngIf="isPatient">
+										<div class="col-8 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+										<div class="col-4 form-container">
+											<mat-form-field>
+												<input matInput placeholder="Phone Number" [(ngModel)]="user.phone" name="user.phone" [disabled]="!isChanged">
+											</mat-form-field>
+										</div>
+									</div>
+									<!-- Roq 5 - only physio information -->
+										<div class="row" *ngIf="!isPatient">
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput placeholder="Email" [(ngModel)]="user.email" name="user.email" [disabled]="!isChanged">
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker1" placeholder="Date Hired" [value]="user.dateHired" [disabled]="!isChanged">
+													<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+													<mat-datepicker #picker1 [startAt]="user.dateHired"></mat-datepicker>
+												</mat-form-field>
+											</div>
+											<div class="col-4 form-container">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker2" placeholder="Date Finished" [value]="user.dateFinished" [disabled]="!isChanged">
+													<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+													<mat-datepicker #picker2 [startAt]="user.dateFinished"></mat-datepicker>
+												</mat-form-field>
+											</div>
+									</div>
+							</form>
+						</mat-tab>
+						<!-- Account -->
+						<mat-tab label="Account Settings">
+							<form class="form-container top">
+								<!-- Row 1 -->
+								<div class="row">
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Usermame" [(ngModel)]="account.userAccountName" name="account.userAccountName" readonly>
+										</mat-form-field>
+									</div>
+									<div class="col-6 form-container">
+										<mat-form-field>
+											<input matInput placeholder="Password" type="password" [(ngModel)]="account.encryptedPassword" name="account.encryptedPassword" readonly>
+										</mat-form-field>
+									</div>
+								</div>
+							</form>
+							<div *ngIf="account.activated == false; else disableTemplate">
+								<div class="col button-container">
+									<button mat-raised-button class="reset-password-button" (click)="enableAccount()">Activate Account</button>
+								</div>
+							</div>
+							<ng-template #disableTemplate>
+								<div class="col button-container">
+									<button mat-raised-button class="reset-password-button" data-toggle="modal" data-target="#resetPasswordModal">Reset Password</button>
+									<button mat-raised-button class="delete-button" data-toggle="modal" data-target="#deleteAccountModal">Disable Account</button>
+								</div>
+							</ng-template>
+							</mat-tab>
+					</mat-tab-group>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog"
+		 aria-labelledby="resetPasswordLabel" aria-hidden="true">
+		 <div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center">Are you sure?</h6>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<button mat-raised-button class="yes-button" data-dismiss="modal" (click)="resetPassword()">Yes</button>
+							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog"
+		 aria-labelledby="deleteAccountLabel" aria-hidden="true">
+		 <div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">
+							<h6 class="text-center">Are you sure you want to disable this account?</h6>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="col modal-container">
+							<button mat-raised-button class="yes-button" data-dismiss="modal" (click)="disableAccount()">Yes</button>
+							<button mat-raised-button class="no-button" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>

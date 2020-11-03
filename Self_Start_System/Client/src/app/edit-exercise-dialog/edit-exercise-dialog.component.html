@@ -1,0 +1,14 @@
+
+<h4>All Exercises</h4>
+
+<form>
+    <mat-form-field>
+        <input matInput #search placeholder="Search..." [(ngModel)]="name" name="search" (input)="filterItem(search.value)">
+    </mat-form-field>
+</form>
+<div class="list">
+    <mat-nav-list *ngFor="let exercise of filteredExercises; let i = index" (click)="exerciseSelected(exercise._id)">
+        <mat-list-item>{{exercise.name}} </mat-list-item>
+    </mat-nav-list>
+</div>
+<!-- <button mat-raised-button [mat-dialog-close] class="close-button">Close</button> -->

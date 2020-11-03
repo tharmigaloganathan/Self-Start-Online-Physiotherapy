@@ -1,0 +1,83 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+<div *ngIf="isDataLoaded">
+<app-navbar-patient></app-navbar-patient>
+
+<div class="container top animated fadeIn">
+	<div class="row">
+		<div class="col">
+			<mat-card>
+				<button mat-raised-button class="previous-button" (click)="back()">Back to My Plans</button>
+				<h2><b>{{ assessmentTest.name }}</b></h2>
+				<hr>
+				<!-- Row 2 -->
+				<div class="row">
+					<div class="col-12 form-container">
+						<mat-form-field>
+							<input matInput placeholder="Description" [(ngModel)]="assessmentTest.description" name="assessmentTest.description" readonly>
+						</mat-form-field>
+					</div>
+				</div>
+				<!-- Row 3 -->
+				<div class="row">
+					<div class="col-12 form-container">
+						<form (ngSubmit)="submit()" #assessmentTestForm="ngForm">
+							<mat-list>
+								<mat-divider></mat-divider>
+								<div *ngFor="let question of questions; let i = index" [attr.data-index]="i" class="animated fadeInTop">
+									<mat-list-item>
+									<b> Question  {{ i+1 }} :	{{ question.questionText }} </b>
+									</mat-list-item>
+									<!-- Dislay the corresponding answer input field -->
+									<div *ngIf="question.questionType == 'Short Answer'" class="form-container">
+										<mat-form-field>
+											<input matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" required>
+										</mat-form-field>
+									</div>
+										<div *ngIf="question.questionType == 'Multiple Choice'" class="form-container">
+											<mat-form-field>
+												<mat-select [(ngModel)]="answers[i]" name="answers[i]" required>
+													<mat-option *ngFor="let choice of question.answerChoices; let n = index" [attr.data-index]="i" [value]="question.answerChoices[n]">
+														{{ question.answerChoices[n] }}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div *ngIf="question.questionType == 'Range'" class="form-container">
+											<mat-form-field>
+													<input matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" type="number" required>
+											</mat-form-field>
+										</div>
+										<!-- Questions that are a photo -->
+										<div *ngIf="question.questionType == 'Image Upload'" class="form-container">
+											<app-image-upload-test
+												(uploadedURL)="onImageUpload($event, i)"
+											></app-image-upload-test>
+											<!-- Insert Photo Uploader here -->
+											<!-- File input for the file-upload plugin, with special ng2-file-upload directive called ng2FileSelect -->
+												<!--
+												<div class="col-12">
+													<input type="file" name="answers[i]" ng2FileSelect [uploader]="uploader" [(ngModel)]="answers[i]"/>
+															<!-- button to trigger the file upload when submitted -->
+													<!--
+													<button mat-raised-button type="previous-button" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+														Upload
+													</button>
+
+												</div>
+											-->
+										</div>
+									<mat-divider></mat-divider>
+								</div>
+							</mat-list>
+							<!-- Submit Button -->
+							<div class="col-2 button-container">
+								<button mat-raised-button class="next-button" type="submit" [disabled]="!assessmentTestForm.form.valid">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,306 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<app-navbar-physio></app-navbar-physio>
+
+<div class="container" *ngIf="isDataAvailable">
+    <div class="card-container">
+        <mat-card>
+            <div (click)="backToPatientProfile();" class="back-to-profile">
+                <mat-icon>keyboard_backspace</mat-icon>
+                Go Back to Patient Profile
+            </div>
+            <h1 class="title">
+                Edit Custom Rehabilitation Plan
+                <p style="font-size:16px">
+                    <mat-card-subtitle>{{selectedPatientName}}</mat-card-subtitle>
+                </p>
+                <button mat-raised-button class="save-changes-button" routerLink="/rehabilitation-plan" (click) = "saveChanges()">SAVE CHANGES</button>
+            </h1>
+            <br />
+            <mat-tab-group>
+                <mat-tab label="Plan Details">
+                    <br />
+                    <h1 class="subtitle">
+                        <b>Plan Details</b>
+                    </h1>
+                    <br /><br />
+                    <form class="form-container" *ngIf="rehabilitationplan">
+                        <div class="plan-details-tab">
+                            <mat-form-field class="name">
+                                <input matInput #name placeholder="Name" name="name" [(ngModel)]="rehabilitationplan.name">
+                            </mat-form-field>
+
+                            <mat-form-field class="authorName">
+                                <input matInput #authorName placeholder="Author Name" name="authorName" [(ngModel)]="rehabilitationplan.authorName">
+                            </mat-form-field>
+
+                            <br /><br />
+
+                            <mat-form-field class="description">
+                                <textarea matInput #description placeholder="Description" name="description" [(ngModel)]="rehabilitationplan.description"></textarea>
+                            </mat-form-field>
+
+                            <br /><br />
+
+                            <mat-form-field class="goal">
+                                <textarea matInput #goal placeholder="Goal" name="goal" [(ngModel)]="rehabilitationplan.goal"></textarea>
+                            </mat-form-field>
+
+                            <mat-form-field class="timeframe">
+                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeframe" [(ngModel)]="rehabilitationplan.timeFrameToComplete"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <form class="form-container" *ngIf="!rehabilitationplan">
+                        <div class="plan-details-tab">
+                            <mat-form-field class="name">
+                                <input matInput #name placeholder="Name" name="name" >
+                            </mat-form-field>
+
+                            <mat-form-field class="authorName">
+                                <input matInput #authorName placeholder="Author Name" name="authorName">
+                            </mat-form-field>
+
+                            <br /><br />
+
+                            <mat-form-field class="description">
+                                <textarea matInput #description placeholder="Description" name="description"></textarea>
+                            </mat-form-field>
+
+                            <br /><br />
+
+                            <mat-form-field class="goal">
+                                <textarea matInput #goal placeholder="Goal" name="goal" ></textarea>
+                            </mat-form-field>
+
+                            <mat-form-field class="timeframe">
+                                <textarea matInput #timeframe placeholder="Time Frame To Complete" name="timeFrameToComplete" ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="Exercises">
+                    <div class="exercises-tab">
+                                <form class="form-container">
+                                    <div class="row">
+                                        <div class="col-4 form-container border-right">
+                                            <div class="row">
+                                                    <h4>Exercises</h4>
+                                                    <button mat-raised-button class="add-new-exercise-button" (click)="openEditExerciseDialog()">Add a New Exercise</button>
+                                            </div>
+
+
+                                            <hr>
+                                            <div class="row">
+
+                                                        <ul class="list-group list-group-exercise" dnd-sortable-container [sortableData]="myExercises">
+
+                                                            <li *ngFor="let exercise of myExercises; let i = index"  (click)="openExerciseDetails(i)" class="list-group-item" [class.highlight]="i === selectedRow" dnd-sortable [sortableIndex]="i">
+                                                                <h6>{{exercise.name}}</h6>
+                                                            </li>
+                                                        </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Rehab plan history -->
+                                        <div class="col-8 form-container">
+                                            <h4>Exercise Details</h4>
+                                            <hr>
+                                            <div *ngIf="activeExercise">
+                                                <div class="row">
+                                                    <div class="col form-container">
+                                                        <mat-form-field>
+                                                            <input matInput #name placeholder="Name" name="name" [(ngModel)]="activeExercise.name">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="Author Name" name="authorName" [(ngModel)]="activeExercise.authorName">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 form-container">
+                                                        <mat-form-field>
+                                                            <input matInput #name placeholder="Location" name="location" [(ngModel)]="activeExercise.location">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-6 form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="URL" name="URL" [(ngModel)]="activeExercise.URL">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4 form-container">
+                                                        <mat-form-field>
+                                                            <input matInput #name placeholder="Frequency" name="frequency" [(ngModel)]="activeExercise.frequency">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-4 form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="Duration" name="duration" [(ngModel)]="activeExercise.duration">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-4 form-container">
+                                                        <mat-form-field  >
+                                                            <input matInput #name placeholder="Target Date" name="targetDate" [(ngModel)]="activeExercise.targetDate">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 form-container">
+                                                        <mat-form-field>
+                                                            <textarea matInput #name placeholder="Description" name="description" [(ngModel)]="activeExercise.description"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 form-container">
+                                                        <mat-form-field>
+                                                            <textarea matInput #name placeholder="Objectives" name="objectives" [(ngModel)]="activeExercise.objectives"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 form-container">
+                                                        <mat-form-field>
+                                                            <textarea matInput #name placeholder="Action Steps" name="actionSteps" [(ngModel)]="activeExercise.actionSteps"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <button mat-raised-button class="delete-exercise-button" (click)="deleteExercise();">Delete Exercise</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Assigned Assessments">
+                  <div class="form-container">
+                    <div class="row">
+                      <div class="col-4 form-container border-right">
+
+                        <div class="row" style="padding-left: 10%">
+                          <h4>Assigned Assessments</h4>
+                          <button mat-raised-button class="yellowButton" (click)="createAssessmentTest()" style="float: middle">Create New Assessment Test</button>
+                        </div>
+
+                        <hr>
+
+                        <div class="row" *ngIf="incompleteAssessmentTests.length > 0">
+                          <mat-list-item *ngFor="let test of incompleteAssessmentTests; let i = index" class="item" [ngClass]="{'selectedIncompleteTest': selectedIncompleteIndex == i}"  [attr.data-index]="i" (click)="setActiveIncompleteTest(i)" >
+                            <h6>
+                              {{test.name}}
+                              <button type="button" class="btn btn-danger btn-sm" style="float: right" (click)="deleteAssessmentTest(test)">x</button>
+                            </h6>
+
+                          </mat-list-item>
+                        </div>
+
+                      </div>
+
+                      <div class="col-8 form-container" *ngIf="incompleteAssessmentTests.length > 0">
+                        <!-- Row 1 -->
+                        <div class="row">
+                          <div class="col-4 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Test Name" [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].name">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-4 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Author" [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].authorName">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-4 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].openDate" [matDatepicker]="picker" placeholder="Open Date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <!-- Row 2 -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Description" [(ngModel)]="incompleteAssessmentTests[selectedIncompleteIndex].description">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <!-- Row 3: Questions -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <h6>Questions: Drag to re-order.</h6>
+                            <button mat-raised-button class="yellowButton" (click)="addQuestion()">Add Question</button>
+                            <br>
+                            <ul class="list-group-questions" dnd-sortable-container [sortableData]="formQuestions">
+                              <!-- Question List -->
+                              <li *ngFor="let question of formQuestions; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">
+                                <h6>{{i+1}}. {{question.questionText}}</h6>
+                                <p>{{question.questionType}}</p>
+                                <!--<button type="button" class="btn btn-light btn-sm" style="position:absolute; top:4px; right:4px;" (click)="openEditQuestionDialog(question)">Edit</button>-->
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Completed Assessments">
+                  <div class="form-container">
+                    <div class="row">
+                      <div class="col-4 form-container border-right">
+                        <div class="row">
+                          <h4>Completed Assessments</h4>
+                        </div>
+                        <hr>
+                        <div class="row" *ngIf="completeAssessmentTests.length > 0">
+                          <mat-list-item class="completedItem" [ngClass]="{'selectedCompleteTest': selectedCompleteIndex == i}" *ngFor="let test of completeAssessmentTests; let i = index" [attr.data-index]="i" (click)="setActiveCompleteTest(i)" >
+                            <h6>{{test.name}}</h6>
+                            <p>Date Completed: {{test.dateCompleted | date:'shortDate'}}</p>
+                          </mat-list-item>
+                        </div>
+                      </div>
+
+                      <div class="col-8" *ngIf="completeAssessmentTests.length > 0">
+                        <!-- Row 1: Test Results -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <h4>Test Results</h4>
+                            <hr>
+                            <ul class="list-group-ans">
+                              <li *ngFor="let result of allResults" class="list-group-item">
+                                <p>Question: {{result.question}}</p>
+                                <div *ngIf="!result.answer.includes('http')"> Answer: {{result.answer}} </div>
+                                <p *ngIf="result.answer.includes('http')" >Answer: <img src="{{result.answer}}"> </p>
+                              </li>
+                            </ul>
+                          </div>
+                          <mat-divider></mat-divider>
+                          <br>
+                        </div>
+
+                        <!-- Row 2: Recommendation -->
+                        <div class="row">
+                          <div class="col-12 form-container">
+                            <h4>Recommendation</h4>
+                            <hr>
+                              <mat-form-field style="width: 100%;">
+                                <textarea matInput placeholder="Decision Description" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationDecision" ></textarea>
+                              </mat-form-field>
+                            <mat-form-field style="width: 50%">
+                              <input matInput placeholder="Effectiveness Evaluation" [(ngModel)]="completeAssessmentTests[selectedCompleteIndex].recommendationEvaluation" type="number"/>
+                            </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>
+    </div>
+</div>

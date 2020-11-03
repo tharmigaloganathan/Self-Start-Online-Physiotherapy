@@ -1,0 +1,78 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+
+.new-message {
+    margin: 1%;
+    position: fixed;
+    bottom: 0px;
+    width: 98%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.mat-card {
+    padding: 10px;
+}
+
+.content{
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.messages-card{
+    background-color:rgba(0, 0, 0, 0);
+    overflow-y: scroll;
+    max-height: 600px;
+    
+}
+
+.physio-message {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    box-shadow: 2px 2px 2px 1px #888888;
+    text-align: left;
+    margin-top: 2%;
+    width: 50%;
+    margin-left: 15%;
+    // align right, different color
+}
+
+.patient-message{
+    font-family: 'Roboto Condensed', sans-serif !important;
+    box-shadow: 2px 2px 2px 1px #888888;
+    text-align: right;
+    background-color: $cobalt;
+    color: #FFFFFF;
+    margin-top: 2%;
+    margin-right: 15%;
+    margin-left: 50%;
+}
+
+.mat-card-subtitle {
+    color: #AAAAAA;
+}
+
+.input-form {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    margin-right: 1%;
+    margin-bottom: 0px;
+    width: 90%;
+}
+
+.send-button {
+  width: 8%;
+  background-color: $cobalt;
+  color: #FFFFFF;
+  border-color: $cobalt;
+  border-radius: 2px;
+  margin-right: 0px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.no-message-placeholder-text {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.unread-messages-text {
+    margin-top: 2%;
+    text-align: center;
+}

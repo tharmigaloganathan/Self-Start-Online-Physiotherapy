@@ -1,0 +1,19 @@
+<mat-toolbar class="z-depth-5">
+  <span class="full-height">
+    <img (click) = "logoClicked()" class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
+  </span>
+
+  <span class="navbar-fill-remaining-space"></span>
+  <span class="full-height">
+      <button mat-button routerLink="/about" class="full-height">About Stephanie</button>
+      <button mat-button routerLink="/believe" class="full-height">What I Believe</button>
+      <button mat-button routerLink="/how-it-works" class="full-height">How Online Therapy Works</button>
+      <button mat-button routerLink="/services" class="full-height">Services</button>
+  </span>
+  <span>
+
+    <button mat-raised-button  class="login-button" (click) = "clickedLogin()" >Login</button>
+    <button mat-raised-button routerLink="/register" class="register-button" >Register</button>
+
+  </span>
+</mat-toolbar>

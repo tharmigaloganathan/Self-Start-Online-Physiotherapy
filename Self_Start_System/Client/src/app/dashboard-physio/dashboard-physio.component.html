@@ -1,0 +1,55 @@
+<app-navbar-physio></app-navbar-physio>
+
+<div class="grid-container">
+    <div class="welcome-card">Welcome to your dashboard {{this.user.givenName}}!</div>
+    <div class="row row-height">
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="messages-card">
+                <mat-toolbar>
+                    <b>Your Unread Messages</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Messages Module"><mat-icon routerLink="/physio/messages">launch</mat-icon></span>
+                </mat-toolbar>
+                <mat-card class="messages-list mat-elevation-z0">
+                    <mat-nav-list *ngFor="let patient of patientsWithMessages; let i = index;" (click)="selectMessage(i)">
+                        <mat-list-item>{{patient.givenName + " " + patient.familyName}}
+                            {{"(" + patient.unreadMessages + ")"}}
+                        </mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+            <mat-card class="assessment-test-card">
+                <mat-toolbar>
+                    <b>Your Upcoming Appointments</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Appointment Module"><mat-icon routerLink="/physio/set-free-time">launch</mat-icon></span>
+                </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0" >
+                    <mat-nav-list *ngFor="let appointment of appointments; let i = index;" (click)="selectAppointment(i)">
+                        <!-- <mat-list-item>{{patient.givenName + " " + patient.familyName}}<mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item> -->
+                        <mat-list-item>
+                            {{appointment.patientName}}
+                            <span class="navbar-fill-remaining-space"></span>
+                            {{appointment.date + " - " + appointment.endDate}}
+                        </mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+        </div>
+        <div class="col-md-6 col-padding-0">
+            <mat-card class="patient-list-card">
+                <mat-toolbar>
+                    <b>Your Patients</b>
+                    <span class="navbar-fill-remaining-space"></span>
+                    <span matTooltip="Launch Patient List Module"><mat-icon routerLink="/patient/rehabilitation-plans">launch</mat-icon></span>
+                </mat-toolbar>
+                <mat-card class="patient-list mat-elevation-z0" >
+                    <mat-nav-list *ngFor="let patient of patients; let i = index;" (click)="selectPatient(i)">
+                        <!-- <mat-list-item>{{patient.givenName + " " + patient.familyName}}<mat-icon class="patient-list-arrow">keyboard_arrow_right</mat-icon></mat-list-item> -->
+                        <mat-list-item>{{patient.givenName + " " + patient.familyName}}</mat-list-item>
+                  </mat-nav-list>
+                </mat-card>
+            </mat-card>
+        </div>
+    </div>
+</div>

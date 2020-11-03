@@ -1,0 +1,21 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<app-navbar-physio></app-navbar-physio>
+
+<!--<button mat-raised-button class="logout-button">Create New</button>-->
+<div class="container">
+  <!--Title-->
+  <h1 class="title text-center">Appointments And Availability</h1>
+
+  <mat-card>
+    <!--Calendar-->
+    <div *ngIf="calendarOptions">
+      <ng-fullcalendar
+        #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
+                       (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)"
+        (viewRender)="viewRendered($event.detail)"
+      ></ng-fullcalendar>
+
+    </div>
+  </mat-card>
+</div>

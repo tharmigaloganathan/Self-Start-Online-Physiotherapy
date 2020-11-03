@@ -1,0 +1,166 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<app-navbar-physio *ngIf="!loading"></app-navbar-physio>
+
+<div *ngIf="!loading" class="container">
+  <h1 class="title text-center">Book Appointment Form</h1>
+
+  <!--Main form card-->
+  <mat-card class="good-width">
+    <form class="create-new-event-form">
+
+      <!--Warning user on what time they can pick-->
+      <mat-card-subtitle>
+        <p>Please choose an start time after
+          {{minStartTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}
+          and an end time before
+          {{maxEndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}.
+        </p>
+      </mat-card-subtitle>
+
+      <!--Choosing type of assessment-->
+      <p>Type of Assessment: </p>
+      <mat-radio-group (change)="onChangeRadioGroup($event)">
+        <mat-radio-button checked value="1">Follow-Up Treatment</mat-radio-button>
+        <br />
+        <mat-radio-button value="2">Initial Assessment</mat-radio-button>
+      </mat-radio-group>
+
+      <br />
+
+      <!--Start Beginning date-->
+      <mat-form-field>
+        <input matInput disabled name="startDateInput" [(ngModel)]="startDate"
+               [matDatepicker]="startDatePicker" placeholder="Start Date">
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput name="startTimeInput" [(ngModel)]="startTime"
+               (change)="onStartTimeChange()"
+               type="time" placeholder="Start Time" value="">
+      </mat-form-field>
+      <!--End Beginning date-->
+
+      <mat-form-field>
+        <input matInput disabled name="endTimeInput" [ngModel]="endTime"
+               (change)="onChangeEndTime()"
+               type="time" placeholder="End Time" value="">
+      </mat-form-field>
+      <!--End End date-->
+
+      <br>
+
+      <!--Communication method-->
+      <!--<mat-form-field>-->
+        <!--<mat-select placeholder="Contact Method" [(ngModel)]="contactMethod" name="contactMethod">-->
+          <!--<mat-option value="phone">Phone</mat-option>-->
+          <!--<mat-option value="videoConference">Video Conference</mat-option>-->
+          <!--<mat-option value="emailConference">Email</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
+      <!--End of Communication method-->
+
+      <!--Warning message-->
+      <p *ngIf="hasError">
+        {{errorMsg}}
+      </p>
+
+      <div class="row no-margin">
+        <button class="cancel-button" mat-raised-button (click)="onClickCancel()">Cancel</button>
+        <button class="save-button book-button" mat-raised-button [disabled]="hasError" (click)="onClickBook()">Book</button>
+        <button *ngIf="assessmentTypeValue == 2" class="save-button" mat-raised-button (click)="onClickOpenForms()"> {{disableForm ? 'Open Form' : 'Close Form' }}</button>
+      </div>
+
+    </form>
+  </mat-card>
+
+  <!--RESERVED SPACE FOR NICK'S FORM-->
+  <mat-card class="good-width appointment-form" *ngIf="!disableForm">
+    <h2>Intake Form</h2>
+    <!-- Form -->
+    <div class="row">
+      <div class="col-12">
+        <form (ngSubmit)="submit()" #assessmentTestForm="ngForm">
+          <mat-list>
+            <mat-divider></mat-divider>
+            <div class="ng-inserted-custom-class" *ngFor="let question of questions; let i = index" [attr.data-index]="i">
+              <!--Question-->
+              <p>Question  {{ i+1 }} :	{{ question.questionText }}</p>
+
+              <!-- Dislay the corresponding answer input field -->
+              <div *ngIf="question.questionType == 'Short Answer'" class="form-container">
+
+                <mat-form-field>
+                  <div *ngIf="question.questionText != questionWithDateInput">
+                    <input  matInput placeholder="Answer" [(ngModel)]="answers[i]" name="answers[i]" required>
+                  </div>
+                  <div *ngIf="question.questionText == questionWithDateInput">
+                    <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="answers[i]" name="answers[i]" required>
+                    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #myDatepicker></mat-datepicker>
+                  </div>
+                </mat-form-field>
+              </div>
+              <div *ngIf="question.questionType == 'Multiple Choice'" class="form-container">
+                <mat-form-field>
+                  <mat-select [(ngModel)]="answers[i]" name="answers[i]" required>
+                    <mat-option *ngFor="let choice of question.answerChoices; let n = index" [attr.data-index]="i" [value]="question.answerChoices[n]">
+                      {{ question.answerChoices[n] }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="question.questionType == 'Range'" class="form-container">
+                <mat-form-field>
+                  <div class="row">
+                    <mat-slider thumbLabel tickInterval="1" [attr.data-index]="i" min="1" max="10" step="1" [(ngModel)]="answers[i]" name="answers[i]Slider" required></mat-slider>
+                    <p>{{ answers[i] }}</p>
+                  </div>
+                  <div style="display:none;">
+                    <input matInput name="answers[i]">
+                  </div>
+                </mat-form-field>
+              </div>
+
+              <div *ngIf="question.questionType == 'Image Upload'" class="form-container">
+                <mat-form-field>
+                  <app-image-upload-test
+                    (uploadedURL)="onImageUpload($event, i)"
+                  ></app-image-upload-test>
+                  <div>
+                    <input disable matInput required>
+                  </div>
+                </mat-form-field>
+              </div>
+
+              <mat-divider></mat-divider>
+            </div>
+          </mat-list>
+
+          <!--<mat-form-field>-->
+            <!--&lt;!&ndash;Include paypal button for transactions&ndash;&gt;-->
+            <!--<app-paypal-button></app-paypal-button>-->
+            <!--<div style="display: none">-->
+              <!--<input matInput name="paypalInput" type="text">-->
+            <!--</div>-->
+          <!--</mat-form-field>-->
+
+          <mat-form-field>
+            <!--Include paypal button for transactions-->
+            <button class="yellow-button" type="button" mat-raised-button (click)="openPaypalDialog($event)">Open Paypal</button>
+            <div style="display: none">
+              <input matInput [(ngModel)]="payment" name="paypalInput" type="text" required>
+            </div>
+          </mat-form-field>
+
+          <!-- Submit Button -->
+          <div class="button-container">
+            <button mat-raised-button class="next-button save-button" type="submit" [disabled]="!assessmentTestForm.form.valid">Submit and Book</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</div>

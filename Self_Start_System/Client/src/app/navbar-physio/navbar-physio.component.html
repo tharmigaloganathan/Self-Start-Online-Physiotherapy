@@ -1,0 +1,25 @@
+<mat-toolbar class="mat-elevation-z0">
+  <span class="full-height">
+    <img (click) = "logoClicked()" class="logo" src="../../assets/images/logo.png" alt="Self Start System logo">
+  </span>
+
+  <span class="navbar-fill-remaining-space"></span>
+  <span class="full-height">
+    <!--[routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"-->
+    <button routerLink="/physio/home" mat-button class="full-height">Dashboard</button>
+    <button routerLink="/physio/messages" mat-button class="full-height">Messages</button>
+    <button routerLink="/physio/exercises" mat-button class="full-height">Standard Exercises</button>
+    <button routerLink="/physio/rehabilitation-plans" mat-button class="full-height">Standard Rehabilitation Plans</button>
+    <button mat-button routerLink="/physio/set-free-time" class="full-height">Appointments</button>
+    <button mat-button routerLink="/physio/patients" class="full-height">Patients</button>
+    <button class = "profile-button" mat-raised-button [matMenuTriggerFor]="appMenu">
+    <span>{{this.user?.givenName}}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  </span>
+  <mat-menu #appMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below">
+    <button mat-menu-item (click) ="editProfile()">Edit Profile</button>
+    <button mat-menu-item (click) ="logout()">Logout</button>
+  </mat-menu>
+
+</mat-toolbar>

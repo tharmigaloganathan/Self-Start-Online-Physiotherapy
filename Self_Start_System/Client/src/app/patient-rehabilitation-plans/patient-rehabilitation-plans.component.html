@@ -1,0 +1,219 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+<div *ngIf="isDataLoaded">
+<app-navbar-patient></app-navbar-patient>
+
+<div class="container top animated fadeIn">
+	<div class="row">
+		<div class="col">
+			<mat-card>
+				<h2><b>Treatments and Rehabilitation Plans</b></h2>
+				<hr>
+				<div class="row">
+					<div class="col-md-4 border-right">
+						<h4><b>Treatment History</b></h4>
+						<mat-list class="plan-list">
+					<mat-divider></mat-divider>
+							<mat-list-item *ngFor="let treatment of treatments; let i = index" [attr.data-index]="i" class="list" (click)="showTreatment(i)" [class.highlight]="i === selectedIndex">
+								<div class="col-6">
+									<b>Start:</b> {{ treatment?.dateStart | date : "dd.MM.y" }}
+								</div>
+								<div class="col-6">
+									<div *ngIf="activeTreatment.dateFinished == null; showEndDate">End: In Progress</div>
+									<ng-template #showEndDate>
+										<b>End:</b> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
+									</ng-template>
+								</div>
+							</mat-list-item>
+							<mat-divider></mat-divider>
+					</mat-list>
+					</div>
+					<div class="col-md-8 col-md-offset-2">
+						<div *ngIf="showDetails">
+								<!-- Treatment Details -->
+								<h4><b>Treatment Details
+									<mat-icon class="icon" matTooltip="View Assessment Tests" (click)="viewAssessmentTests()">assignment</mat-icon>
+									<mat-icon class="icon" matTooltip="View Exercises" (click)="viewExercises()">list</mat-icon>
+								</b></h4>
+								<hr>
+								<div class="row">
+									<div class="col-6 form-container">
+										<h6><b>Started:</b></h6> {{ activeTreatment?.dateStart | date : "dd.MM.y" }}
+									</div>
+									<div class="col-6 form-container">
+										<h6><b>Finished:</b></h6> {{ activeTreatment?.dateFinished | date : "dd.MM.y" }}
+										<div *ngIf="activeTreatment?.dateFinished == null">In Progress</div>
+									</div>
+								</div>
+								<hr>
+								<!-- Rehabilitation Plan Details -->
+								<h4><b>Rehabilitation Plan</b></h4>
+								<hr>
+								<div class="row">
+									<div class="col-6 form-container">
+										<h6><b>Name</b></h6> {{ activeRehabPlan?.name }}
+										<hr>
+									</div>
+									<div class="col-6 form-container">
+										<h6><b>Author</b></h6> {{ activeRehabPlan?.authorName }}
+										<hr>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col form-container">
+										<h6><b>Description</b></h6> {{ activeRehabPlan?.description }}
+										<hr>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-8 form-container">
+										<h6><b>Goal</b></h6> {{ activeRehabPlan?.goal }}
+										<hr>
+									</div>
+									<div class="col-4 form-container">
+										<h6><b>Time Frame to Complete</b></h6> {{ activeRehabPlan?.timeFrameToComplete }}
+										<hr>
+									</div>
+								</div>
+								<!-- Buttons -->
+								<!--
+								<div class="row">
+									<div class="col">
+										<button mat-raised-button class="next-button" (click)="viewExercises()">View Exercises</button>
+										<button mat-raised-button class="previous-button" (click)="viewAssessmentTests()">View Assessment Tests</button>
+									</div>
+								</div>
+								-->
+						</div>
+						<!-- Show then exercises button is clicked -->
+						<div *ngIf="showExercises">
+							<div class="row">
+								<div class="col form-container">
+									<h4><b>Exercises
+										<mat-icon class="icon" matTooltip="View Assessment Tests" (click)="viewAssessmentTests()">assignment</mat-icon>
+										<mat-icon class="icon" matTooltip="View Treatment" (click)="viewPlanDetails()">accessibility</mat-icon>
+									</b></h4>
+										<mat-list>
+											<mat-divider></mat-divider>
+											<div *ngIf="exercises.length > 0; else noExercises">
+												<div *ngFor="let exercise of exercises; let i = index" [attr.data-index]="i" class="list" (click)="showExerciseDetails(i)">
+													<mat-list-item>
+														<div class="col-12">
+															<b>Exercise Name:</b> {{ exercise?.name }}
+														</div>
+													</mat-list-item>
+													<mat-divider></mat-divider>
+												</div>
+											</div>
+											<ng-template #noExercises>
+												<div class="empty">
+													<p>No exercises.</p>
+												</div>
+											</ng-template>
+										</mat-list>
+								</div>
+							</div>
+							<!--
+							<div class="row">
+								<div class="col">
+									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
+									<button mat-raised-button class="previous-button" (click)="viewAssessmentTests()">View Assessment Tests</button>
+								</div>
+							</div>
+							-->
+						</div>
+						<!-- Show when assessment tests button is clicked -->
+						<div *ngIf="showAssessmentTests">
+							<div class="row">
+								<div class="col form-container">
+									<h4><b>Assessment Tests
+										<mat-icon class="icon" matTooltip="View Exercies" (click)="viewExercises()">list</mat-icon>
+										<mat-icon class="icon" matTooltip="View Treatment" (click)="viewPlanDetails()">accessibility</mat-icon>
+									</b></h4>
+									<mat-list>
+										<mat-divider></mat-divider>
+										<div *ngIf="assessmentTests.length > 0; else noAssessmentTests">
+											<div *ngFor="let test of assessmentTests; let i = index" [attr.data-index]="i" class="list" (click)="viewAssessmentTest(i)" matTooltip="Complete Assessment Test">
+												<mat-list-item>
+														<div class="col-8">
+															<b>Name:</b> {{ test?.name }}
+														</div>
+														<div class="col-4">
+															<b>Open Date:</b> {{ test?.openDate | date : "dd.MM.y" }}
+														</div>
+												</mat-list-item>
+												<mat-divider></mat-divider>
+											</div>
+										</div>
+										<ng-template #noAssessmentTests>
+											<div class="empty">
+												<p>No assessment test to be completed.</p>
+											</div>
+										</ng-template>
+									</mat-list>
+								</div>
+							</div>
+							<!--
+							<div class="row">
+								<div class="col">
+									<button mat-raised-button class="next-button" (click)="viewPlanDetails()">View Plan Details</button>
+									<button mat-raised-button class="previous-button" (click)="viewExercises()">View Exercises</button>
+								</div>
+							</div>
+							-->
+						</div>
+						<!-- Show then exercises button is clicked -->
+						<div *ngIf="viewExerciseDetails">
+							<div class="row">
+									<div class="col-12">
+											<h5><b>{{ activeExercise.name }}</b><mat-icon class="icon" matTooltip="Exercise List" (click)="viewExercises()">list</mat-icon></h5>
+
+											<hr>
+									</div>
+								</div>
+									<!-- Row 2 -->
+									<div class="row">
+										<div class="col-12">
+											<b>Description: </b> {{ activeExercise?.description }}
+											<hr>
+										</div>
+									</div>
+									<!-- Row 3 -->
+									<div class="row">
+										<div class="col-12">
+											<b>Objectives: </b> {{ activeExercise?.objectives }}
+											<hr>
+										</div>
+									</div>
+									<!-- Row 4 -->
+									<div class="row">
+										<div class="col-12">
+											<b>Action Steps: </b> {{ activeExercise?.actionSteps }}
+											<hr>
+										</div>
+									</div>
+									<!-- Row 5 -->
+									<div class="row">
+										<div class="col-6">
+											<b>Frequency: </b> {{ activeExercise?.frequency }}
+											<hr>
+										</div>
+										<div class="col-6">
+											<b>Duration: </b> {{ activeExercise?.duration }}
+											<hr>
+										</div>
+									</div>
+									<!-- Row 6 -->
+									<div class="row">
+										<div class="col-12">
+												<img src="{{activeExercise.multimediaURL}}" class="image-container">
+											<hr>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+	</div>

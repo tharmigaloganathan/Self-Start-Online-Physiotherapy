@@ -1,0 +1,52 @@
+@import '../../scss/_variables';
+@import '~@angular/material/theming';
+@import '../../scss/sidebar';
+
+.example-container {
+    margin-left: 12%;
+    margin-right: 12%;
+}
+.mat-header-cell {
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.mat-cell{
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+.input{
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+.search-form {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    margin-left: 12%;
+    margin-right: 12%;
+}
+
+.search-field {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    width: 100%;
+}
+mat-card {
+    align-items: center;
+    align: center;
+    width: 76%;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.rehab-card {
+    margin-top: 5%
+}
+
+.rehab-plan-list {
+    margin-top: 2%;
+}
+
+mat-card:hover {
+    background-color: #d3d3d3;
+}
+
+
+button.blue {
+    background-color: $magic-night;
+    color: #FFFFFF;
+}

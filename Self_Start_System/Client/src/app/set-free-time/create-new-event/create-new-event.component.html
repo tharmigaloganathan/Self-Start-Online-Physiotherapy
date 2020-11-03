@@ -1,0 +1,51 @@
+<ngx-loading [show]="serviceLoading || dateLoading" [config]="{ backdropBorderRadius: '20px', fullScreenBackdrop: true }"></ngx-loading>
+
+<app-navbar-physio *ngIf="!(serviceLoading || dateLoading)"></app-navbar-physio>
+
+<div *ngIf="!(serviceLoading || dateLoading)" class="container">
+  <!--Title-->
+  <h1 class="title text-center">Setting Availability</h1>
+
+  <!--Main card for input-->
+  <mat-card class="main-card">
+    <form class="create-new-event-form">
+      <!--Start Beginning date-->
+      <mat-form-field>
+        <input matInput name="startDateInput" [(ngModel)]="startDate"
+               [matDatepicker]="startDatePicker" placeholder="Date">
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput name="startTimeInput" [(ngModel)]="startTime"
+               type="time" placeholder="Start Time" value="">
+      </mat-form-field>
+      <!--End End time-->
+      <mat-form-field>
+        <input matInput name="endTimeInput" [(ngModel)]="endTime"
+               type="time" placeholder="End Time" value="">
+      </mat-form-field>
+      <!--End End time-->
+
+      <!--Repeat for weeks-->
+      <mat-form-field>
+        <input matInput
+               placeholder="Repeat for"
+               type="number" name="numWeekInput" [(ngModel)]="numWeek"
+               (change)="onChangeWeekNum()"
+               (keypress)="onChangeWeekNum()"
+               (keydown)="onChangeWeekNum()"
+               (keyup)="onChangeWeekNum()"
+        />
+        <span matSuffix>week(s)</span>
+      </mat-form-field>
+      <!--End repeat for weeks-->
+
+      <div class="row no-margin">
+        <button class="cancel-button" mat-raised-button (click)="onClickCancel()">Cancel</button>
+        <button class="save-button book-button" mat-raised-button (click)="onClickSubmit()">Submit</button>
+      </div>
+    </form>
+  </mat-card>
+</div>

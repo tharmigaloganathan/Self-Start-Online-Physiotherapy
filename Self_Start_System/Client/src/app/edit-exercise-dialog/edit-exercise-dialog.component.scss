@@ -1,0 +1,47 @@
+@import '../../scss/_variables';
+
+* {
+    max-height: 50vh;
+    overflow-y: scroll;
+    justify-content: center;
+}
+
+.close-button{
+    float: right;
+    background-color: $magic-night;
+    color:#ffffff;
+}
+
+mat-dialog-container {
+    min-height: 50vh !important;
+}
+
+mat-dialog-container.mat-dialog-container {
+    min-height: 50vh !important;
+}
+
+#cdk-overlay-0{
+    min-height: 50vh;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+h4 {
+    align-content: center;
+    align-self: center;
+    text-align: center;
+}
+
+.mat-list-item {
+    height: auto !important;
+    padding: 5px;
+}
+
+
+
+.list {
+    border: 5px;
+    border-radius: 5px;
+}
